@@ -1,8 +1,6 @@
-import './App.css';
+// import { useUsersID } from './hooks/useID';
 
-import { useUsersID } from './hooks/useID';
-
-function App() {
+const App = () => {
   // const { isFetching, fetchedData, fetchError } = useUsersID();
 
   // console.log(isFetching);
@@ -14,6 +12,6 @@ function App() {
       <p>Ok</p>
     </div>
   );
-}
+};
 
 export default App;
