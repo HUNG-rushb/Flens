@@ -3,11 +3,11 @@ import './App.css';
 import { useUsersID } from './hooks/useID';
 
 function App() {
-  const { isFetching, fetchedData, fetchError } = useUsersID();
+  // const { isFetching, fetchedData, fetchError } = useUsersID();
 
-  console.log(isFetching);
-  console.log(fetchedData);
-  console.log(fetchError);
+  // console.log(isFetching);
+  // console.log(fetchedData);
+  // console.log(fetchError);
 
   return (
     <div>

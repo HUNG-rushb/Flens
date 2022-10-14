@@ -9,10 +9,10 @@ import App from './App';
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   // !This is live hosted server
-  // uri: "https://yju3xdivg6.execute-api.ap-southeast-1.amazonaws.com/dev/",
+  uri: 'https://yju3xdivg6.execute-api.ap-southeast-1.amazonaws.com/dev/',
   // ! This is local server
   // ! Use this URL when developing
-  uri: 'http://localhost:4000/dev/',
+  // uri: 'http://localhost:4000/dev/',
 });
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
