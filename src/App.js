@@ -24,9 +24,8 @@ const App = () => {
     <>
       <BrowserRouter>
         <Header />
+
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/message" element={<MessagePage />} />
           {router.map((route) => (
             <Route
               path={route.path}
