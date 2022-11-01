@@ -1,7 +1,9 @@
-const htmlPlugin = require('html-webpack-plugin');
+import htmlPlugin from 'html-webpack-plugin';
 
-module.exports = {
+const webpackConfig = {
   mode: 'development',
-  devServer: { port: 3030 },
+  devServer: { port: 3031 },
   plugins: [new htmlPlugin({ template: './public/index.html' })],
 };
+
+export default webpackConfig;
