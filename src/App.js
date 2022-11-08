@@ -2,9 +2,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Pages
-import Header from './components/Header/Header.js';
-import HomePage from './page/HomePage.js';
-import MessagePage from './page/MessagePage.js';
+import Header from './components/Header/Header.jsx';
+import HomePage from './page/HomePage.jsx';
+import MessagePage from './page/MessagePage.jsx';
 
 const router = [
   {

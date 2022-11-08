@@ -1,6 +1,8 @@
 // https://dev.to/bitovi/how-to-build-a-micro-frontend-with-webpacks-module-federation-plugin-n41
 // https://stackoverflow.com/questions/32070303/uncaught-referenceerror-react-is-not-defined
 // https://stackoverflow.com/questions/50824024/urierror-failed-to-decode-param-public-url-favicon-ico
+// https://stackoverflow.com/questions/61767538/devtools-failed-to-load-sourcemap-for-webpack-node-modules-js-map-http-e
+// https://www.ryadel.com/en/firefox-this-address-is-restricted-override-fix-port/
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -23,6 +25,13 @@ module.exports = {
     historyApiFallback: true,
   },
   plugins: [
+    new ModuleFederationPlugin({
+      name: 'social',
+      filename: 'remoteEntry.js',
+      remotes: {
+        chatApp: 'chat@http://localhost:6001/remoteEntry.js',
+      },
+    }),
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
       favicon: './public/favicon.ico',
@@ -77,6 +86,11 @@ module.exports = {
         exclude: /node_modules/,
         use: ['file-loader?name=[name].[ext]'],
         // ?name=[name].[ext] is only necessary to preserve the original file name
+      },
+      {
+        test: /\.js$/,
+        enforce: 'pre',
+        use: ['source-map-loader'],
       },
     ],
   },
