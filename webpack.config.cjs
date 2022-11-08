@@ -5,6 +5,7 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const { ModuleFederationPlugin } = require('webpack').container;
 
 module.exports = {
   mode: 'development',
@@ -18,7 +19,7 @@ module.exports = {
       directory: path.resolve(__dirname, 'dist'),
     },
     open: true,
-    port: 6001,
+    port: 6000,
     historyApiFallback: true,
   },
   plugins: [

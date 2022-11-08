@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 // Apollo Client
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
