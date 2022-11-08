@@ -26,8 +26,9 @@ const App = () => {
         <Header />
 
         <Routes>
-          {router.map((route) => (
+          {router.map((route, idx) => (
             <Route
+              key={idx}
               path={route.path}
               element={route.element}
               exact={route.exact}
