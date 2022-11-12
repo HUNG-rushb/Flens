@@ -1,5 +1,6 @@
 // import { useUsersID } from './hooks/useID';
 import Page from '../components/utils/Page.js';
+import UploadImage from '../components/UploadImage/UploadImage.js';
 
 const HomePage = () => {
   // const { isFetching, fetchedData, fetchError } = useUsersID();
@@ -9,8 +10,10 @@ const HomePage = () => {
   // console.log(fetchError);
 
   return (
-    <Page title="BKU">
+    <Page title="Flens">
       <div>HomePage</div>
+
+      <UploadImage />
     </Page>
   );
 };
