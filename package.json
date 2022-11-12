@@ -7,7 +7,6 @@
             "@apollo/client": "^3.7.0",
             "apollo-client": "^2.6.10",
             "aws-sdk": "^2.1253.0",
-            "cuid": "^2.1.8",
             "dotenv": "^16.0.3",
             "graphql": "^15.8.0",
             "history": "^5.3.0",
