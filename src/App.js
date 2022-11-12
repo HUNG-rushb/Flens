@@ -1,16 +1,42 @@
-// import { useUsersID } from './hooks/useID';
+// Router
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+// Pages
+import Header from './components/Header/Header.jsx';
+import HomePage from './page/HomePage.jsx';
+// import MessagePage from './page/MessagePage.jsx';
+
+const router = [
+  {
+    path: '/',
+    element: <HomePage />,
+    exact: true,
+  },
+  // {
+  //   path: '/message',
+  //   element: <MessagePage />,
+  //   exact: true,
+  // },
+];
 
 const App = () => {
-  // const { isFetching, fetchedData, fetchError } = useUsersID();
-
-  // console.log(isFetching);
-  // console.log(fetchedData);
-  // console.log(fetchError);
-
   return (
-    <div>
-      <p>Ok</p>
-    </div>
+    <>
+      <BrowserRouter>
+        <Header />
+
+        <Routes>
+          {router.map((route, idx) => (
+            <Route
+              key={idx}
+              path={route.path}
+              element={route.element}
+              exact={route.exact}
+            />
+          ))}
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 };
 
