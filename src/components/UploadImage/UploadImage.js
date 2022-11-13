@@ -1,28 +1,5 @@
 import React, { useState } from 'react';
-import { uploadFile } from 'react-s3';
 import config from '../../_S3/S3.js';
-
-// const UploadImage = () => {
-//   const [selectedFile, setSelectedFile] = useState(null);
-
-//   const handleFileInput = (e) => {
-//     setSelectedFile(e.target.files[0]);
-//   };
-
-//   const handleUpload = async (file) => {
-//     uploadFile(file, config)
-//       .then((data) => console.log(data))
-//       .catch((err) => console.error(err));
-//   };
-
-//   return (
-//     <div>
-//       <input type="file" onChange={handleFileInput} />
-//       <button onClick={() => handleUpload(selectedFile)}>Upload to S3</button>
-//     </div>
-//   );
-// };
-
 import AWS from 'aws-sdk';
 
 AWS.config.update({
@@ -38,9 +15,11 @@ const myBucket = new AWS.S3({
 const UploadImage = () => {
   const [progress, setProgress] = useState(0);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [filePath, setFilePath] = useState();
 
   const handleFileInput = (e) => {
     setSelectedFile(e.target.files[0]);
+    setFilePath(URL.createObjectURL(e.target.files[0]));
   };
 
   const uploadFile = (file) => {
@@ -68,6 +47,7 @@ const UploadImage = () => {
       <div>Native SDK File Upload Progress is {progress}%</div>
       <input type="file" onChange={handleFileInput} />
       <button onClick={() => uploadFile(selectedFile)}>Upload to S3</button>
+      <img src={filePath} />
     </div>
   );
 };
