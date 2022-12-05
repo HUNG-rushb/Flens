@@ -1,29 +1,59 @@
 // Router
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
-// Pages
-import Header from './components/Header/Header.jsx';
-import HomePage from './page/HomePage.jsx';
-// import MessagePage from './page/MessagePage.jsx';
+import NavBar from './components/NavBar/NavBar.jsx';
+// import HomePage from './page/HomePage.jsx';
+import Login from './page/Login.jsx'
+import Register from './page/Register.jsx'
+import Explore from './page/Explore.jsx'
+import Inbox from './page/Inbox.jsx'
+import Notification from './page/Notification.jsx'
+import Profile from './page/Profile.jsx'
+import Home from './page/Home.jsx'
 
 const router = [
   {
     path: '/',
-    element: <HomePage />,
+    element: <Home />,
     exact: true,
   },
-  // {
-  //   path: '/message',
-  //   element: <MessagePage />,
-  //   exact: true,
-  // },
+  {
+    path: '/login',
+    element: <Login />,
+    exact: true,
+  },
+  {
+    path: '/register',
+    element: <Register />,
+    exact: true,
+  },
+  {
+    path: '/explore',
+    element: <Explore />,
+    exact: true,
+  },
+  {
+    path: '/message',
+    element: <Inbox />,
+    exact: true,
+  },
+  {
+    path: '/notification',
+    element: <Notification />,
+    exact: true,
+  },
+  {
+    path: '/profile',
+    element: <Profile />,
+    exact: true,
+  }
 ];
 
 const App = () => {
+  
   return (
     <>
       <BrowserRouter>
-        <Header />
+        <NavBar />
 
         <Routes>
           {router.map((route, idx) => (
