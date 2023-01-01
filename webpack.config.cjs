@@ -30,6 +30,8 @@ module.exports = {
       filename: 'remoteEntry.js',
       remotes: {
         chatApp: 'chat@http://localhost:6001/remoteEntry.js',
+        // chatApp:
+        //   'chat@https://main.d1tavnpfnfnpjs.amplifyapp.com/remoteEntry.js',
       },
     }),
     new MiniCssExtractPlugin(),
