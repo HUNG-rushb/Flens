@@ -47,7 +47,7 @@ const UploadImage = () => {
       <div>{progress}%</div>
       <input type="file" onChange={handleFileInput} />
       <button onClick={() => uploadFile(selectedFile)}>Upload to S3</button>
-      <img src={filePath} />
+      <img src={filePath} alt="" />
     </div>
   );
 };
