@@ -1,5 +1,6 @@
 // Router
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 import NavBar from './components/NavBar/NavBar.jsx';
 // import HomePage from './page/HomePage.jsx';
 import Login from './page/Login.jsx'
@@ -9,6 +10,11 @@ import Inbox from './page/Inbox.jsx'
 import Notification from './page/Notification.jsx'
 import Profile from './page/Profile.jsx'
 import Home from './page/Home.jsx'
+
+
+
+import MessagePage from './page/MessagePage.jsx';
+
 
 const router = [
   {
@@ -33,7 +39,7 @@ const router = [
   },
   {
     path: '/message',
-    element: <Inbox />,
+    element: <MessagePage />,
     exact: true,
   },
   {
