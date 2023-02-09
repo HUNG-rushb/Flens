@@ -1,7 +1,15 @@
-import React from 'react'
+import React from "react";
+import { Suspense } from "react";
+import Page from "../components/utils/Page";
 
-export default function Explore() {
+const Explore = () => {
   return (
-    <div>Explore</div>
+    <Page title="Flens-Explore">
+      <Suspense fallback={null}>
+        <div>Explore</div>
+      </Suspense>
+    </Page>
   )
 }
+
+export default Explore;

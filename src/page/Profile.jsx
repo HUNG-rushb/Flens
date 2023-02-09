@@ -1,14 +1,10 @@
 import React from 'react';
 import '../components/Proflie/Profile.css';
-import {Tab, Tabs} from 'react-bootstrap' 
+import { Tab, Tabs } from 'react-bootstrap';
 import { PersonCircle } from 'react-bootstrap-icons';
 import CoverImage from '../assets/profileCoverImage.jpg';
-import Activity from '../components/Proflie/ActivityTab.jsx'
-import Portfolio from '../components/Proflie/PortfolioTab.jsx'
-import Bio from '../components/Proflie/BioTab.jsx'
 
 export default function Profile() {
-
   return (
     <div className="profilePage">
       <div className="overlay"></div>
@@ -21,11 +17,13 @@ export default function Profile() {
       </div>
 
       <div className="profile-tabs">
-    
-        <Tabs defaultActiveKey='Activity'>
-          <Tab eventKey='Activity' title='Activity'><Activity/></Tab>
-          <Tab eventKey='Portfolio' title='Portfolio'><Portfolio/></Tab>
-          <Tab eventKey='Bio' title='Bio'><Bio/></Tab>
+        <Tabs defaultActiveKey="Activity">
+          <Tab eventKey="Activity" title="Activity">
+            <div>Activity tab</div>
+          </Tab>
+          <Tab eventKey="Biography" title="Biography">
+            <div>Biography tab</div>
+          </Tab>
         </Tabs>
       </div>
     </div>

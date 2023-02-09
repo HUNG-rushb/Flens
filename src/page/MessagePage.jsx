@@ -1,14 +1,13 @@
 import React, { Suspense } from 'react';
 import Page from '../components/utils/Page.js';
-const ChatApp = React.lazy(() => import('chatApp/ChatApp'));
+// const ChatApp = React.lazy(() => import('chatApp/ChatApp'));
 
 const MessagePage = () => {
-  return (
-    <Page title="BKU-Message">
-      <div>Message</div>
+  return (  
+    <Page title="Flens-Message">
 
-      <Suspense fallback={null}>
-        <ChatApp />
+      <Suspense fallback={null}> 
+        <div>Message</div>
       </Suspense>
     </Page>
   );
