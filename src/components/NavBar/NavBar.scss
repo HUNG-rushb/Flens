@@ -1,8 +1,12 @@
+@import "../../styles/color.scss";
+
 .navbar {
-    background-color: #f08080;
-    color: red;
-    margin: 0;
-    border: 1px solid #F4978E;
+    background-color: $primary_1;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2;
 }
 
 .navbar a {
@@ -26,4 +30,3 @@
 .navbar input{
     height: 30px;
 }
-

@@ -1,8 +1,8 @@
 import React from 'react';
-import '../components/Proflie/Profile.css';
+import './Profile.css';
 import { Tab, Tabs } from 'react-bootstrap';
 import { PersonCircle } from 'react-bootstrap-icons';
-import CoverImage from '../assets/profileCoverImage.jpg';
+import CoverImage from '../../assets/images/profileCoverImage.jpg';
 
 export default function Profile() {
   return (

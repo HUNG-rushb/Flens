@@ -2,13 +2,13 @@ import React from 'react';
 import { Navbar, Container, Nav, Form } from 'react-bootstrap';
 import { Bell, Envelope, PersonCircle } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
-import './NavBar.css';
+import './NavBar.scss';
 
 export default function NavBar() {
   return (
     <Navbar variant="dark" bg="">
       <Container className='navbar-items'>
-        <Navbar.Brand href="/">FLENS</Navbar.Brand>
+        <Navbar.Brand href="/login">FLENS</Navbar.Brand>
         <Form className="d-flex">
           <Form.Control
             type="search"

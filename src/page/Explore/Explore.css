@@ -1,0 +1,41 @@
+
+.options-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100px;
+    position: fixed;
+    border-bottom: 2px solid #f08080;
+    z-index: 2;
+    background-color: #fff;
+}
+
+.options > span{
+    padding: 0px 20px;
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.all-items {
+    top: 100px;
+    left: 0;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 70px 20px;
+}
+
+.all-items > span {
+    font-size: 17px;
+    font-weight: 600;
+    padding: 10px 0px;
+}
+
+.images {
+    display: grid;
+    grid-template-columns: auto auto;
+}

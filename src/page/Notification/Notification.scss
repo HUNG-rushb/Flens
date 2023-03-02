@@ -1,0 +1,19 @@
+@import "../../styles/color.scss";
+
+.first {
+    width: 100%;
+    height: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $primary_4;
+}
+
+.second {
+    width: 100%;
+    height: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $primary_3;
+}
