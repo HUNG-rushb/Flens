@@ -59,3 +59,171 @@
     height: 80px;
     margin: 30px 0px 30px 0px;
 }
+
+.activity-tab {
+    margin:50px 50px;
+    padding-bottom: 100px;
+    padding-left: 63px;
+}
+
+.album > span, .latest-upload > span, .favourites > span {
+    font-size: 20px;
+    font-weight: 600;
+    padding-left: 5px;
+}
+
+.album-images {
+    display: flex;
+    align-items: center;
+    width: 80%;
+    margin: 10px 0px;
+}
+
+.album-images > div > img, .favoutites-images > img{
+    padding: 3px;
+}
+
+.left-album{
+    width: 60%;
+}
+.right-album {
+    display: flex;
+    flex-direction: column;
+}
+
+.latest-upload {
+    margin-top: 40px;
+}
+
+.latest-upload-images {
+    margin: 10px 0px;
+}
+
+.latest-upload-images > img {
+    width: 45%;
+}
+
+.favourites {
+    margin-top: 50px;
+}
+
+.favoutites-images {
+    margin: 10px 0px;
+}
+
+.favoutites-images > img {
+    width: 30%;
+}
+
+.biography-tab {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    padding-bottom: 50px;
+}
+
+.bio-left {
+    width: 65%;
+    border-right: 1px solid #f08080;
+}
+
+.bio-right {
+    width: 35%;
+    height: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.experience-text, .skills-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.experience-text > span, .skills-text > span {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.bio-experience, .bio-skills{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.badge-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    width: 100%;
+}
+
+.badge-container > div  {
+    font-size: 16px;
+    font-weight: 600;
+    border: 2px solid #f08080;
+    color: #f08080;
+    border-radius: 6%;
+    margin: 10px;
+    padding: 10px 20px;
+}
+
+.skill-btn, .exp-btn {
+    align-self: center;
+}
+
+.exp-btn > Button, .skill-btn > Button {
+    font-size: 16px;
+    padding: 10px;
+}
+
+.social-infor {
+    display: flex;
+    flex-direction: row;
+    padding: 30px 0px;
+}
+
+.social-infor > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px 20px;
+    font-weight: 600;
+}
+
+.social-infor > div > span {
+    font-weight: 400;
+}
+
+.personal-infor {
+    margin-bottom: 10px;
+}
+
+.personal-infor > div {
+    padding: 5px 0px;
+}
+
+.personal-infor > div > span{
+    font-weight: 600;
+}
+
+.camera > svg {
+    margin-right: 10px;
+}
+
+.camera {
+    width: 50%;
+}
+
+.camera > span {
+    font-weight: 300;
+    font-size: 16px;
+}
+
+.edit-btn {
+    margin: 20px 0px;
+}
