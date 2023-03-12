@@ -18,7 +18,6 @@ const Register = () => {
     };
 
     localStorage.setItem('user', JSON.stringify(account));
-    alert('signup successful');
   };
 
   return (

@@ -2,14 +2,10 @@ import React from 'react'
 
 import "./Button.scss"
 
-const Button = ({ text, type="", onClick }) => {
-    const handleClick = () => {
-        onClick && onClick();
-    }
-
-    return <div className={`Button button--${type}`} onClick={() => handleClick} >
+const Button = ({ text, type="", ...props }) => {
+    return <button className={`Button button--${type}`} {...props} >
         {text}
-    </div>
+    </button>
 }
 
 export default Button;

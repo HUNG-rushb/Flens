@@ -2,9 +2,10 @@ import React, { Suspense, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Page from '../../components/utils/Page';
 import Button from '../../components/Button/Button';
-import './Login.css'
+import InputCustom from '../../components/Input/Input';
+import './Login.css';
 
- const Login = () => {
+const Login = () => {
   const navigate = useNavigate();
 
   const [password, setPassword] = useState('');
@@ -16,7 +17,6 @@ import './Login.css'
 
   const handleClick = (e) => {
     e.preventDefault();
-    console.log("sdsd")
     let formIsValid = true;
 
     if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
@@ -39,29 +39,32 @@ import './Login.css'
     formIsValid =
       email === user.email && password === user.password ? true : false;
 
-    formIsValid === true ? navigate('/') : alert('wrong email or password');
+    // formIsValid === true ? navigate('/') : alert('wrong email or password');
   };
 
   return (
-    <Page title={"Flens-Login"}>
+    <Page title={'Flens-Login'}>
       <Suspense fallback={null}>
-      <div className='login-page'>
-      <form className="Login-form">
+        <div className="login-page">
+          <form className="Login-form">
             <div className="Login-form-content">
               <h3 className="Login-form-title">Sign In</h3>
               <div className="form-group mt-3">
                 <label>Email</label>
-                <input
-                  type="text"
-                  className="form-control mt-1"
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter email"
-                  value={email}
-                />
+                <InputCustom
+                type="text"
+                className="form-control mt-1"
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter email"
+                value={email}
+              />
+
                 <small id="emailError" className="text-danger form-text">
                   {emailError}
                 </small>
               </div>
+             
+
               <div className="form-group mt-3">
                 <label>Password</label>
                 <input
@@ -79,7 +82,7 @@ import './Login.css'
                 <Button
                   text={'Sign In'}
                   type="default"
-                  onClick={(e)=>handleClick(e)}
+                  onClick={handleClick}
                 ></Button>
               </div>
               <p>
@@ -87,10 +90,10 @@ import './Login.css'
               </p>
             </div>
           </form>
-      </div>
+        </div>
       </Suspense>
     </Page>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
