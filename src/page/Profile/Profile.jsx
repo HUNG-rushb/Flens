@@ -9,19 +9,14 @@ import Favourites1 from '../../assets/images/favourites1.png';
 import Favourites2 from '../../assets/images/favourites2.png';
 import Button from '../../components/Button/Button';
 import { CameraFill } from 'react-bootstrap-icons';
-import Modal from '../../components/Modal/Modal';
-
 import './Profile.css';
-import { useState } from 'react';
+import Page from '../../components/utils/Page';
+import { Suspense } from 'react';
 
 const Profile = () => {
   const handleClick = () => {
     console.log('add experience click');
   };
-
-  const handleAddSkills = (e) => {
-    setKills(e)
-  }
 
   const skills = [
     {
@@ -40,11 +35,6 @@ const Profile = () => {
       value: 'Food',
     },
   ];
-
-  const [skill, setKills] = useState("");
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
 
   const SkillsList = ({ item }) => {
     return <div>{item.value}</div>;
@@ -110,13 +100,11 @@ const Profile = () => {
             </div>
 
             <div className="skill-btn">
-            
               <Button
                 text={'Add Skills'}
                 type="default2"
-                onClick={setShow(true)}
+                onClick={(e) => handleClick(e)}
               ></Button>
-              {/* <Modal show={show} handleClose={handleClose} /> */}
             </div>
           </div>
         </div>
@@ -133,13 +121,13 @@ const Profile = () => {
             </div>
           </div>
           <div className="personal-infor">
-            <div >
+            <div>
               <span>Email:</span> a@gmail.com
             </div>
-            <div >
+            <div>
               <span>Phone number:</span> 0123456789
             </div>
-            <div >
+            <div>
               <span>Birthday:</span> 01/01/2001
             </div>
           </div>
@@ -164,27 +152,31 @@ const Profile = () => {
   };
 
   return (
-    <div className="profilePage">
-      <div className="overlay"></div>
-      <img src={CoverImage} alt="" className="coverImage"></img>
-      <div className="peronalInfor">
-        <div className="coverImageContent">
-          <PersonCircle size="sm" className="profileAvatar" />
-          <div className="profileName">Nguyen Van A</div>
-        </div>
-      </div>
+    <Page title={'Flens-Profile'}>
+      <Suspense fallback={null}>
+        <div className="profilePage">
+          <div className="overlay"></div>
+          <img src={CoverImage} alt="" className="coverImage"></img>
+          <div className="peronalInfor">
+            <div className="coverImageContent">
+              <PersonCircle size="sm" className="profileAvatar" />
+              <div className="profileName">Nguyen Van A</div>
+            </div>
+          </div>
 
-      <div className="profile-tabs">
-        <Tabs defaultActiveKey="Biography">
-          <Tab eventKey="Activity" title="Activity">
-            <Activity />
-          </Tab>
-          <Tab eventKey="Biography" title="Biography">
-            <Biography />
-          </Tab>
-        </Tabs>
-      </div>
-    </div>
+          <div className="profile-tabs">
+            <Tabs defaultActiveKey="Biography">
+              <Tab eventKey="Activity" title="Activity">
+                <Activity />
+              </Tab>
+              <Tab eventKey="Biography" title="Biography">
+                <Biography />
+              </Tab>
+            </Tabs>
+          </div>
+        </div>
+      </Suspense>
+    </Page>
   );
 };
 

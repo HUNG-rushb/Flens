@@ -4,7 +4,7 @@
       "private": true,
       "type": "module",
       "dependencies": {
-            "@apollo/client": "^3.7.0",
+            "@apollo/client": "^3.7.10",
             "apollo-client": "^2.6.10",
             "aws-sdk": "^2.1253.0",
             "bootstrap": "^5.2.3",

@@ -61,7 +61,7 @@ const Register = () => {
               <div className="d-grid gap-2 mt-3">
                 <Button
                   text={'Sign Up'}
-                  type="submit"
+                  type="default"
                   onClick={handleClick}
                 ></Button>
               </div>

@@ -1,5 +1,7 @@
 // Router
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ApolloProvider } from '@apollo/client';
+import {client} from './apollo-client-v2/client.jsx'
 
 import NavBar from './components/NavBar/NavBar.jsx';
 import Login from './page/Authencation/Login.jsx';
@@ -48,9 +50,11 @@ const router = [
   },
 ];
 
+
 const App = () => {
   return (
     <>
+    <ApolloProvider client={client}>
       <BrowserRouter>
         <NavBar />
         <div className="inside">
@@ -66,6 +70,7 @@ const App = () => {
           </Routes>
         </div>
       </BrowserRouter>
+      </ApolloProvider>
     </>
   );
 };
