@@ -5,7 +5,7 @@ import Favourites1 from '../../assets/images/favourites1.png';
 import Favourites2 from '../../assets/images/favourites2.png';
 import LatestUpload from '../../assets/images/latest-upload.png';
 import CoverImage from '../../assets/images/profileCoverImage.jpg';
-import Button from '../../components/Button/Button';
+import ButtonCustom from '../../components/Button/ButtonCustom';
 import Page from '../../components/utils/Page';
 import './Profile.css';
 import { Suspense } from 'react';
@@ -87,11 +87,11 @@ const Profile = () => {
               No experiences to show, consider adding some.
             </div>
             <div className="exp-btn">
-              <Button
+              <ButtonCustom
                 text={'Add Experience'}
                 type="default2"
                 onClick={(e) => handleClick(e)}
-              ></Button>
+              ></ButtonCustom>
             </div>
           </div>
           <div className="bio-skills">
@@ -105,11 +105,11 @@ const Profile = () => {
             </div>
 
             <div className="skill-btn">
-              <Button
+              <ButtonCustom
                 text={'Add Skills'}
                 type="default2"
                 onClick={(e) => handleClick(e)}
-              ></Button>
+              ></ButtonCustom>
             </div>
           </div>
         </div>
@@ -145,11 +145,11 @@ const Profile = () => {
             </span>
           </div>
           <div className="edit-btn">
-            <Button
+            <ButtonCustom
               text={'Edit'}
               type="default2"
               onClick={(e) => handleClick(e)}
-            ></Button>
+            ></ButtonCustom>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React, { Suspense, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Page from '../../components/utils/Page';
-import Button from '../../components/Button/Button';
+import ButtonCustom from '../../components/Button/ButtonCustom';
 import InputCustom from '../../components/Input/Input';
 import './Login.css';
 
@@ -75,11 +75,11 @@ const Login = () => {
                 </small>
               </div>
               <div className="d-grid gap-2 mt-3 mb-4">
-                <Button
+                <ButtonCustom
                   text={'Sign In'}
                   type="default"
                   onClick={handleClick}
-                ></Button>
+                ></ButtonCustom>
               </div>
               <p>
                 Don't have an account yet? <a href="/register">Sign up now</a>

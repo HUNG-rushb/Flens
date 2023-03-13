@@ -1,5 +1,5 @@
 import React, { Suspense, useState } from 'react';
-import Button from '../../components/Button/Button';
+import ButtonCustom from '../../components/Button/ButtonCustom';
 import Page from '../../components/utils/Page';
 import './Login.css';
 
@@ -58,11 +58,11 @@ const Register = () => {
                 />
               </div>
               <div className="d-grid gap-2 mt-3">
-                <Button
+                <ButtonCustom
                   text={'Sign Up'}
                   type="default"
                   onClick={handleClick}
-                ></Button>
+                ></ButtonCustom>
               </div>
               <p className="mt-3 mb-3">
                 Already have an account? <a href="/login">Sign in now</a>

@@ -10,7 +10,7 @@ import Explore from './page/Explore/Explore.jsx';
 import Notification from './page/Notification/Notification.jsx';
 import Profile from './page/Profile/Profile.jsx';
 import Home from './page/Home/Home.jsx';
-import MessagePage from './page/MessagePage.jsx';
+import MessagePage from './page/Message/MessagePage.jsx';
 
 const router = [
   {
