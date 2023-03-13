@@ -9,7 +9,6 @@ const Register = () => {
   const [email, setEmail] = useState('');
 
   const handleClick = (e) => {
-    console.log(typeof e);
     e.preventDefault();
 
     const account = {
@@ -18,6 +17,7 @@ const Register = () => {
     };
 
     localStorage.setItem('user', JSON.stringify(account));
+    console.log("sign up successfull")
   };
 
   return (

@@ -1,6 +1,5 @@
-import React, { Suspense, useState } from 'react';
+import React, { Suspense } from 'react';
 import Page from '../components/utils/Page.js';
-import InputCustom from '../components/Input/Input.jsx';
 
 const MessagePage = () => {
   return (  

@@ -36,10 +36,9 @@ const Login = () => {
       setpasswordError('');
       formIsValid = true;
     }
-    formIsValid =
-      email === user.email && password === user.password ? true : false;
+    formIsValid = email === user.email && password === user.password ? true : false;
 
-    // formIsValid === true ? navigate('/') : alert('wrong email or password');
+    formIsValid === true ? navigate('/') : alert('wrong email or password');
   };
 
   return (
@@ -58,16 +57,13 @@ const Login = () => {
                 placeholder="Enter email"
                 value={email}
               />
-
                 <small id="emailError" className="text-danger form-text">
                   {emailError}
                 </small>
               </div>
-             
-
               <div className="form-group mt-3">
                 <label>Password</label>
-                <input
+                <InputCustom
                   type="password"
                   className="form-control mt-1"
                   value={password}

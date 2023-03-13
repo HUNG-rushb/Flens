@@ -1,17 +1,17 @@
-import { Tab, Tabs } from 'react-bootstrap';
-import { PersonCircle } from 'react-bootstrap-icons';
-import CoverImage from '../../assets/images/profileCoverImage.jpg';
 import Album1 from '../../assets/images/album1.png';
 import Album2 from '../../assets/images/album2.png';
 import Album3 from '../../assets/images/album3.png';
-import LatestUpload from '../../assets/images/latest-upload.png';
 import Favourites1 from '../../assets/images/favourites1.png';
 import Favourites2 from '../../assets/images/favourites2.png';
+import LatestUpload from '../../assets/images/latest-upload.png';
+import CoverImage from '../../assets/images/profileCoverImage.jpg';
 import Button from '../../components/Button/Button';
-import { CameraFill } from 'react-bootstrap-icons';
-import './Profile.css';
 import Page from '../../components/utils/Page';
+import './Profile.css';
 import { Suspense } from 'react';
+import { Tab, Tabs } from 'react-bootstrap';
+import { PersonCircle } from 'react-bootstrap-icons';
+import { CameraFill } from 'react-bootstrap-icons';
 
 const Profile = () => {
   const handleClick = () => {
@@ -20,18 +20,23 @@ const Profile = () => {
 
   const skills = [
     {
+      id: 1,
       value: 'Visual',
     },
     {
+      id: 2,
       value: 'Color',
     },
     {
+      id: 3,
       value: 'Animal',
     },
     {
+      id: 4,
       value: 'Human',
     },
     {
+      id: 5,
       value: 'Food',
     },
   ];
@@ -47,7 +52,7 @@ const Profile = () => {
           <span>Album (3)</span>
           <div className="album-images">
             <div className="left-album">
-              <img src={Album1} alt="album1" style={{ width: '100%' }} />
+              <img src={Album1} alt="album1" style={{ width: '100%' }} width="sm" height="sm" />
             </div>
             <div className="right-album">
               <img src={Album2} alt="album2" style={{ width: '75%' }} />
@@ -79,7 +84,7 @@ const Profile = () => {
           <div className="bio-experience">
             <div className="experience-text">
               <span>Experience:</span>
-              <text>No experiences to show, consider adding some.</text>
+              No experiences to show, consider adding some.
             </div>
             <div className="exp-btn">
               <Button
@@ -94,7 +99,7 @@ const Profile = () => {
               <span>Skills:</span>
               <div className="badge-container">
                 {skills.map((item) => {
-                  return <SkillsList item={item} />;
+                  return <SkillsList item={item} key={item.id} />;
                 })}
               </div>
             </div>
@@ -156,16 +161,16 @@ const Profile = () => {
       <Suspense fallback={null}>
         <div className="profilePage">
           <div className="overlay"></div>
-          <img src={CoverImage} alt="" className="coverImage"></img>
+          <img src={CoverImage} alt="" className="coverImage" width="0" height="0" ></img>
           <div className="peronalInfor">
             <div className="coverImageContent">
-              <PersonCircle size="sm" className="profileAvatar" />
+              <PersonCircle size="sm" className="profileAvatar" width="40%" height="40%"  />
               <div className="profileName">Nguyen Van A</div>
             </div>
           </div>
 
           <div className="profile-tabs">
-            <Tabs defaultActiveKey="Biography">
+            <Tabs defaultActiveKey="Activity">
               <Tab eventKey="Activity" title="Activity">
                 <Activity />
               </Tab>
