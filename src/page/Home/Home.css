@@ -67,6 +67,10 @@
     justify-content: space-around;
 }
 
+.upload-images, .upload-storys{
+    opacity: 1;
+}
+
 .upload-images > svg, .upload-storys > svg{
     font-size: 28px;
     color: #F08080;
@@ -84,7 +88,7 @@
     opacity: 1;
 }
 
-.upload-content > button:hover {
+.upload-content > button:hover, .upload-images:hover, .upload-storys:hover {
     opacity: 0.7;
 }
 
@@ -143,6 +147,8 @@
 
 .hash-tags {
     margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
 }
 
 .hash-tags > span {

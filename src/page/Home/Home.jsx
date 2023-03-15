@@ -13,106 +13,184 @@ import {
   ThreeDots,
 } from 'react-bootstrap-icons';
 
+const posts = [
+  {
+    id: 1,
+    name: 'Nguyen Van A',
+    avatar: Avatar2,
+    time: '1 day ago',
+    image: Post,
+    title: 'Title',
+    content: 'Some information about the picture.',
+    technical: {
+      camera: 'Hasselblad L1D-20C',
+      focalLength: '16mm',
+      shutterSpeed: '1/500 s',
+      iso: 100,
+    },
+    date: 'JAN 19, 2001',
+    hashTag: [
+      {
+        tag: 'HashTag1',
+      },
+      {
+        tag: 'HashTag2',
+      },
+      {
+        tag: 'HashTag3',
+      },
+    ],
+    numberOfLike: 51,
+    comments: [
+      {
+        name: 'John',
+        image: Avatar2,
+        content: 'Really nice.',
+        time: '2 hours ago',
+      },
+      {
+        name: 'Dom',
+        image: Avatar2,
+        content: 'Awesome!',
+        time: '1 hours ago',
+      },
+    ],
+  },
+  {
+    id: 2,
+    name: 'Nguyen Van A',
+    avatar: Avatar2,
+    time: '1 day ago',
+    image: Post,
+    title: 'Title',
+    content: 'Some information about the picture.',
+    technical: {
+      camera: 'Hasselblad L1D-20C',
+      focalLength: '16mm',
+      shutterSpeed: '1/500 s',
+      iso: 100,
+    },
+    date: 'JAN 19, 2001',
+    hashTag: [
+      {
+        tag: 'HashTag1',
+      },
+      {
+        tag: 'HashTag2',
+      },
+      {
+        tag: 'HashTag3',
+      },
+    ],
+    numberOfLike: 51,
+    comments: [
+      {
+        name: 'John',
+        image: Avatar2,
+        content: 'Really nice.',
+        time: '2 hours ago',
+      },
+      {
+        name: 'Dom',
+        image: Avatar2,
+        content: 'Awesome!',
+        time: '1 hours ago',
+      },
+    ],
+  },
+];
+
 function ListPosts() {
   const [comment, setComment] = useState('');
-
-  const comments = [
-    {
-      name: 'John',
-      image: Avatar2,
-      content: 'Really nice.',
-      time: '2 hours ago',
-    },
-    {
-      name: 'Dom',
-      image: Avatar2,
-      content: 'Awesome!',
-      time: '1 hours ago',
-    },
-  ];
-
   return (
-    <div className="posts">
-      <div className="post-header">
-        <img src={Avatar2} alt="post-avatar" />
-        <div>
-          <span>Nguyen Van A</span>
-          uploaded a photo
-          <div>1 day ago</div>
-        </div>
-      </div>
-
-      <div className="post-content">
-        <img src={Post} alt="post" />
-        <div className="post-title">Title</div>
-        <div className="post-detail">Some information about the picture.</div>
-
-        <div className="post-information">
-          <div>
-            <span>Camera:</span> Hasselblad L1D-20C
-          </div>
-          <div>
-            <span>Focal length:</span> 16mm
-          </div>
-          <div>
-            <span>Shutter Speed:</span> 1/500 s
-          </div>
-          <div>
-            <span>ISO:</span> 100
-          </div>
-          <div>
-            <span>Date:</span> JAN 19, 2001
-          </div>
-        </div>
-
-        <div className="hash-tags">
-          <span>#HashTag1</span>
-          <span>#HashTag2</span>
-          <span>#HashTag3</span>
-        </div>
-
-        <div className="post-interaction">
-          <div className="like-icon">
-            <Heart />
-            <span>50</span>
-          </div>
-          <div className="reply-icon">
-            <Reply />
-            <ThreeDots />
-          </div>
-        </div>
-        <hr style={{ border: '1px solid #F08080' }} />
-
-        <div className="post-comments">
-          <div className="post-comment-header">
-            <img src={Avatar2} alt="avatar-comment" width="40" height="40" />
-            <TextAreacustom
-              type={'comment'}
-              placeholder={'Add a comment'}
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-            />
+    <>
+      {posts.map((item) => (
+        <div className="posts" key={item.id}>
+          <div className="post-header">
+            <img src={item.avatar} alt="post-avatar" />
+            <div>
+              <span>{item.name}</span>
+              uploaded a photo
+              <div>{item.time}</div>
+            </div>
           </div>
 
-          <div className="list-reply-comments">
-            {comments.map((item) => (
-              <div className="reply-comment" key={item.name}>
-                <img src={item.image} alt="reply-comment" />
-                <span>{item.name}</span>
-                <div className="reply-comment-content">{item.content}</div>
-                <div className="reply-comment-date">
-                  <span>Reply </span> {item.time}
+          <div className="post-content" key={posts.indexOf(item)}>
+            <img src={item.image} alt="post" />
+            <div className="post-title">{item.title}</div>
+            <div className="post-detail">{item.content}</div>
+
+            <div className="post-information">
+              <div>
+                <span>Camera:</span> {item.technical.camera}
+              </div>
+              <div>
+                <span>Focal length:</span> {item.technical.focalLength}
+              </div>
+              <div>
+                <span>Shutter Speed:</span> {item.technical.shutterSpeed}
+              </div>
+              <div>
+                <span>ISO:</span> {item.technical.iso}
+              </div>
+              <div>
+                <span>Date:</span> {item.date}
+              </div>
+            </div>
+
+            <div className="hash-tags">
+              {item.hashTag.map((i) => (
+                <span key={item.hashTag.indexOf(i)}>#{i.tag}</span>
+              ))}
+            </div>
+
+            <div className="post-interaction">
+              <div className="like-icon">
+                <Heart />
+                <span>{item.numberOfLike}</span>
+              </div>
+              <div className="reply-icon">
+                <Reply />
+                <ThreeDots />
+              </div>
+            </div>
+            <hr style={{ border: '1px solid #F08080' }} />
+
+            <div className="post-comments">
+              <div className="post-comment-header">
+                <img
+                  src={item.avatar}
+                  alt="avatar-comment"
+                  width="40"
+                  height="40"
+                />
+                <TextAreacustom
+                  type={'comment'}
+                  placeholder={'Add a comment'}
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                />
+              </div>
+              <div className="list-reply-comments">
+                {item.comments.map((i) => (
+                  <div className="reply-comment" key={item.comments.indexOf(i)}>
+                    <img src={i.image} alt="reply-comment" />
+                    <span>{i.name}</span>
+                    <div className="reply-comment-content">{i.content}</div>
+                    <div className="reply-comment-date">
+                      <span>Reply </span> {i.time}
+                    </div>
+                  </div>
+                ))}
+                <div className="View-more-comments">
+                  View more {item.comments.length} comments ...
                 </div>
               </div>
-            ))}
-
-            <div className="View-more-comments">
-              View more {comments.length} comments ...
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      ))}
+    </>
   );
 }
 
@@ -139,9 +217,10 @@ const Home = () => {
 
           <div className="right-content">
             <div className="upload-bar">
-              <div className="upload-title">
-                Write something about your day!
-              </div>
+              <TextAreacustom
+                type={'uploadBar'}
+                placeholder="Write something about your day!"
+              />
               <hr style={{ border: '1px solid #F08080' }} />
               <div className="upload-content">
                 <div className="upload-images">
@@ -157,8 +236,6 @@ const Home = () => {
                 </button>
               </div>
             </div>
-
-            <ListPosts />
             <ListPosts />
           </div>
         </div>

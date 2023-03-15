@@ -17,3 +17,13 @@ textarea {
     height: 40px;
     padding: 5px 10px;
 }
+
+.Textarea--uploadBar {
+    margin: 0;
+    background-color: #fff;
+    height: 90px;
+}
+
+.Textarea--uploadBar::placeholder {
+    font-size: large;
+}
