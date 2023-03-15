@@ -1,11 +1,11 @@
 import { Modal } from 'react-bootstrap';
 import ButtonCustom from '../../components/Button/ButtonCustom';
 
-const ModalCustom = ({ show, handleClose, titleText, modalContent, size }) => {
+const ModalCustom = ({ show, handleClose, modalTitle, modalContent, size }) => {
   return (
     <Modal show={show} onHide={handleClose} size={size}>
       <Modal.Header closeButton>
-        <Modal.Title>{titleText}</Modal.Title>
+        <Modal.Title>{modalTitle}</Modal.Title>
       </Modal.Header>
       <Modal.Body>{modalContent}</Modal.Body>
       <Modal.Footer>

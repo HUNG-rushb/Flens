@@ -1,4 +1,10 @@
-import React, { Suspense } from 'react';
+import Avatar2 from '../../assets/images/avatar2.jpg';
+import Avatar from '../../assets/images/avatar.jpg';
+import Post from '../../assets/images/post.jpg';
+import TextAreacustom from '../../components/TextAreaCustom/Textarea';
+import Page from '../../components/utils/Page';
+import './Home.css';
+import React, { Suspense, useState } from 'react';
 import {
   CameraFill,
   PencilSquare,
@@ -6,13 +12,25 @@ import {
   Reply,
   ThreeDots,
 } from 'react-bootstrap-icons';
-import Avatar from '../../assets/images/avatar.jpg';
-import Avatar2 from '../../assets/images/avatar2.jpg';
-import Post from '../../assets/images/post.jpg';
-import Page from '../../components/utils/Page';
-import './Home.css';
 
 function ListPosts() {
+  const [comment, setComment] = useState('');
+
+  const comments = [
+    {
+      name: 'John',
+      image: Avatar2,
+      content: 'Really nice.',
+      time: '2 hours ago',
+    },
+    {
+      name: 'Dom',
+      image: Avatar2,
+      content: 'Awesome!',
+      time: '1 hours ago',
+    },
+  ];
+
   return (
     <div className="posts">
       <div className="post-header">
@@ -67,30 +85,30 @@ function ListPosts() {
 
         <div className="post-comments">
           <div className="post-comment-header">
-            <img src={Avatar2} alt="avatar-comment" />
-            <span>Add a comment</span>
+            <img src={Avatar2} alt="avatar-comment" width="40" height="40" />
+            <TextAreacustom
+              type={'comment'}
+              placeholder={'Add a comment'}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
           </div>
 
           <div className="list-reply-comments">
-            <div className="reply-comment">
-              <img src={Avatar2} alt="reply-comment" />
-              <span>John</span>
-              <div className="reply-comment-content">Really nice.</div>
-              <div className="reply-comment-date">
-                <span>Reply </span> 2 hours ago
+            {comments.map((item) => (
+              <div className="reply-comment" key={item.name}>
+                <img src={item.image} alt="reply-comment" />
+                <span>{item.name}</span>
+                <div className="reply-comment-content">{item.content}</div>
+                <div className="reply-comment-date">
+                  <span>Reply </span> {item.time}
+                </div>
               </div>
-            </div>
+            ))}
 
-            <div className="reply-comment">
-              <img src={Avatar2} alt="reply-comment" />
-              <span>Dom</span>
-              <div className="reply-comment-content">Awesome!</div>
-              <div className="reply-comment-date">
-                <span>Reply </span> 1 hours ago
-              </div>
+            <div className="View-more-comments">
+              View more {comments.length} comments ...
             </div>
-
-            <div className="View-more-comments">View more 3 comments ...</div>
           </div>
         </div>
       </div>
@@ -142,8 +160,6 @@ const Home = () => {
 
             <ListPosts />
             <ListPosts />
-
-            
           </div>
         </div>
       </Suspense>

@@ -173,7 +173,14 @@
     font-size: 25px;
 }
 
-.post-comment-header > img, .reply-comment > img {
+.post-comment-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* justify-content: center; */
+}
+
+.reply-comment > img {
     width: 5%;
 }
 

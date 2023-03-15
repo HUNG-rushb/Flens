@@ -28,7 +28,7 @@ const MessagePage = () => {
             show={show}
             handleclick={handleShow}
             handleClose={handleClose}
-            titleText="Title Modal"
+            modalTitle="Title Modal"
             modalContent={modalContent()}
             size="md"
           />
