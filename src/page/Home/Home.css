@@ -183,11 +183,24 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    /* justify-content: center; */
 }
 
 .reply-comment > img {
     width: 5%;
+}
+
+.btn-submit-cmt > svg {
+    opacity: 1;
+}
+
+.btn-submit-cmt > svg :hover {
+    opacity: 0.5;
+}
+
+.btn-submit-cmt {
+    background: none;
+    padding: 0;
+    border: none;
 }
 
 .post-comment-header > span , .reply-comment > span {

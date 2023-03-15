@@ -12,6 +12,7 @@ import {
   Reply,
   ThreeDots,
 } from 'react-bootstrap-icons';
+import { Send } from 'react-bootstrap-icons';
 
 const posts = [
   {
@@ -157,7 +158,7 @@ function ListPosts() {
             <hr style={{ border: '1px solid #F08080' }} />
 
             <div className="post-comments">
-              <div className="post-comment-header">
+              <form className="post-comment-header">
                 <img
                   src={item.avatar}
                   alt="avatar-comment"
@@ -170,7 +171,10 @@ function ListPosts() {
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                 />
-              </div>
+                <button type="submit" className="btn-submit-cmt">
+                  <Send size={30} />
+                </button>
+              </form>
               <div className="list-reply-comments">
                 {item.comments.map((i) => (
                   <div className="reply-comment" key={item.comments.indexOf(i)}>
@@ -216,7 +220,7 @@ const Home = () => {
           </div>
 
           <div className="right-content">
-            <div className="upload-bar">
+            <form className="upload-bar">
               <TextAreacustom
                 type={'uploadBar'}
                 placeholder="Write something about your day!"
@@ -235,7 +239,7 @@ const Home = () => {
                   Post
                 </button>
               </div>
-            </div>
+            </form>
             <ListPosts />
           </div>
         </div>
