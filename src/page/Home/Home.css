@@ -163,20 +163,25 @@
 }
 
 .like-icon {
-    
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-
 .like-icon > svg, .reply-icon > svg {
     font-size: 30px;
+    opacity: 1;
 }
+
+.like-icon > svg:hover, .reply-icon > svg:hover {
+    opacity: 0.7;
+}
+
 
 .like-icon > span {
     padding-left: 10px;
     font-size: 25px;
+    margin-bottom: 5px;
 }
 
 .post-comment-header {

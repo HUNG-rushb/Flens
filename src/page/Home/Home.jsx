@@ -1,7 +1,7 @@
 import Avatar2 from '../../assets/images/avatar2.jpg';
 import Avatar from '../../assets/images/avatar.jpg';
 import Post from '../../assets/images/post.jpg';
-import TextAreacustom from '../../components/TextAreaCustom/Textarea';
+import TextareaCustom from '../../components/TextAreaCustom/Textarea';
 import Page from '../../components/utils/Page';
 import './Home.css';
 import React, { Suspense, useState } from 'react';
@@ -9,10 +9,11 @@ import {
   CameraFill,
   PencilSquare,
   Heart,
+  HeartFill,
   Reply,
   ThreeDots,
+  Send,
 } from 'react-bootstrap-icons';
-import { Send } from 'react-bootstrap-icons';
 
 const posts = [
   {
@@ -103,6 +104,25 @@ const posts = [
 
 function ListPosts() {
   const [comment, setComment] = useState('');
+  const [countNumberOfLikes, setCountNumberOfLikes] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
+  console.log('islike', isLiked);
+  console.log('count', typeof countNumberOfLikes);
+
+  // useEffect(() => {
+  //   setIsLiked()
+  // }, [isLiked]);
+
+  const handleClickLikePost = () => {
+    setIsLiked(!isLiked);
+    if (isLiked === false) setCountNumberOfLikes(countNumberOfLikes + 1);
+    else setCountNumberOfLikes(countNumberOfLikes - 1);
+  };
+
+  const submitComment = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       {posts.map((item) => (
@@ -146,9 +166,9 @@ function ListPosts() {
             </div>
 
             <div className="post-interaction">
-              <div className="like-icon">
-                <Heart />
-                <span>{item.numberOfLike}</span>
+              <div className="like-icon" onClick={handleClickLikePost}>
+                {isLiked === false? <Heart /> : <HeartFill color='red'/>}
+                <span>{countNumberOfLikes > 0 ? countNumberOfLikes : 0}</span>
               </div>
               <div className="reply-icon">
                 <Reply />
@@ -158,14 +178,17 @@ function ListPosts() {
             <hr style={{ border: '1px solid #F08080' }} />
 
             <div className="post-comments">
-              <form className="post-comment-header">
+              <form
+                className="post-comment-header"
+                onSubmit={(e) => submitComment(e)}
+              >
                 <img
                   src={item.avatar}
                   alt="avatar-comment"
                   width="40"
                   height="40"
                 />
-                <TextAreacustom
+                <TextareaCustom
                   type={'comment'}
                   placeholder={'Add a comment'}
                   value={comment}
@@ -186,6 +209,7 @@ function ListPosts() {
                     </div>
                   </div>
                 ))}
+
                 <div className="View-more-comments">
                   View more {item.comments.length} comments ...
                 </div>
@@ -199,6 +223,11 @@ function ListPosts() {
 }
 
 const Home = () => {
+  const [yourStatus, setYourStatus] = useState('');
+  const handleStatusSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <Page title={'FLens-Home'}>
       <Suspense fallback={null}>
@@ -220,10 +249,15 @@ const Home = () => {
           </div>
 
           <div className="right-content">
-            <form className="upload-bar">
-              <TextAreacustom
+            <form
+              className="upload-bar"
+              onSubmit={(e) => handleStatusSubmit(e)}
+            >
+              <TextareaCustom
                 type={'uploadBar'}
                 placeholder="Write something about your day!"
+                value={yourStatus}
+                onChange={(e) => setYourStatus(e.target.value)}
               />
               <hr style={{ border: '1px solid #F08080' }} />
               <div className="upload-content">
