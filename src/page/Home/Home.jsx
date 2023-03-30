@@ -1,6 +1,7 @@
 import Avatar2 from '../../assets/images/avatar2.jpg';
 import Avatar from '../../assets/images/avatar.jpg';
 import Post from '../../assets/images/post.jpg';
+import ModalCustom from '../../components/Modal/Modal';
 import TextareaCustom from '../../components/TextAreaCustom/Textarea';
 import Page from '../../components/utils/Page';
 import './Home.css';
@@ -106,12 +107,20 @@ function ListPosts() {
   const [comment, setComment] = useState('');
   const [countNumberOfLikes, setCountNumberOfLikes] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
-  console.log('islike', isLiked);
-  console.log('count', typeof countNumberOfLikes);
+  const [showReport, setShowReport] = useState(false);
 
-  // useEffect(() => {
-  //   setIsLiked()
-  // }, [isLiked]);
+  const handleShowReport = () => {
+    setShowReport(true);
+  };
+
+  const handleCloseReport = () => {
+    setShowReport(false);
+  };
+
+  const modalReportContent = () => {
+    return <>Report this photo with reason: 
+    </>;
+  };
 
   const handleClickLikePost = () => {
     setIsLiked(!isLiked);
@@ -167,12 +176,26 @@ function ListPosts() {
 
             <div className="post-interaction">
               <div className="like-icon" onClick={handleClickLikePost}>
-                {isLiked === false? <Heart /> : <HeartFill color='red'/>}
+                {isLiked === false ? (
+                  <Heart size={30} />
+                ) : (
+                  <HeartFill color="red" size={30} />
+                )}
                 <span>{countNumberOfLikes > 0 ? countNumberOfLikes : 0}</span>
               </div>
-              <div className="reply-icon">
-                <Reply />
-                <ThreeDots />
+              <div className="right-action">
+                <Reply size={30} className="reply-icon" />
+                <form className="otherAction">
+                  <ThreeDots size={30} onClick={handleShowReport} />
+                  <ModalCustom
+                    show={showReport}
+                    handleclick={handleShowReport}
+                    handleClose={handleCloseReport}
+                    modalTitle="Report Post"
+                    modalContent={modalReportContent()}
+                    size="md"
+                  />
+                </form>
               </div>
             </div>
             <hr style={{ border: '1px solid #F08080' }} />
@@ -262,11 +285,11 @@ const Home = () => {
               <hr style={{ border: '1px solid #F08080' }} />
               <div className="upload-content">
                 <div className="upload-images">
-                  <CameraFill />
+                  <CameraFill size={28} color="#F08080" />
                   Upload a photo
                 </div>
                 <div className="upload-storys">
-                  <PencilSquare />
+                  <PencilSquare size={28} color="#F08080" />
                   Publish a Story
                 </div>
                 <button className="post-Button" type="submit">

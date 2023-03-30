@@ -6,9 +6,11 @@ import Favourites2 from '../../assets/images/favourites2.png';
 import LatestUpload from '../../assets/images/latest-upload.png';
 import CoverImage from '../../assets/images/profileCoverImage.jpg';
 import ButtonCustom from '../../components/Button/ButtonCustom';
+import InputCustom from '../../components/Input/Input';
+import ModalCustom from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
 import './Profile.css';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import { PersonCircle } from 'react-bootstrap-icons';
 import { CameraFill } from 'react-bootstrap-icons';
@@ -42,7 +44,7 @@ const Profile = () => {
   ];
 
   const SkillsList = ({ item }) => {
-    return <div>{item.value}</div>;
+    return <div >{item.value}</div>;
   };
 
   const Activity = () => {
@@ -52,7 +54,13 @@ const Profile = () => {
           <span>Album (3)</span>
           <div className="album-images">
             <div className="left-album">
-              <img src={Album1} alt="album1" style={{ width: '100%' }} width="sm" height="sm" />
+              <img
+                src={Album1}
+                alt="album1"
+                style={{ width: '100%' }}
+                width="sm"
+                height="sm"
+              />
             </div>
             <div className="right-album">
               <img src={Album2} alt="album2" style={{ width: '75%' }} />
@@ -78,6 +86,32 @@ const Profile = () => {
   };
 
   const Biography = () => {
+    const [showSkill, setShowSkill] = useState(false);
+    const handleShow = () => {
+      setShowSkill(true);
+    };
+
+    const SubmitSkills = (e) => {
+      e.preventdefault();
+      console.log('submitclick', e.target);
+
+    };
+    const handleClose = () => {
+      setShowSkill(false);
+    };
+
+    const modalContent = () => {
+      return (
+        <>
+          <InputCustom type={'text'} value={initialSkill.skill} onChange={(e) => setInitialSkill(e.target.value)} />
+        </>
+      );
+    };
+
+    const [initialSkill, setInitialSkill] = useState({
+      id: 0,
+      skill: '',
+    });
     return (
       <div className="biography-tab">
         <div className="bio-left">
@@ -108,8 +142,19 @@ const Profile = () => {
               <ButtonCustom
                 text={'Add Skills'}
                 type="default2"
-                onClick={(e) => handleClick(e)}
-              ></ButtonCustom>
+                onClick={handleShow}
+              />
+              <form onSubmit={(e)=>SubmitSkills(e)}>
+                <ModalCustom
+                  show={showSkill}
+                  handleclick={handleShow}
+                  handleClose={handleClose}
+                  modalTitle="Input your Skill"
+                  modalContent={modalContent()}
+                  onSubmit={(e) => SubmitSkills(e)}
+                  size="md"
+                />
+              </form>
             </div>
           </div>
         </div>
@@ -161,10 +206,21 @@ const Profile = () => {
       <Suspense fallback={null}>
         <div className="profilePage">
           <div className="overlay"></div>
-          <img src={CoverImage} alt="" className="coverImage" width="0" height="0" ></img>
+          <img
+            src={CoverImage}
+            alt=""
+            className="coverImage"
+            width="0"
+            height="0"
+          ></img>
           <div className="peronalInfor">
             <div className="coverImageContent">
-              <PersonCircle size="sm" className="profileAvatar" width="40%" height="40%"  />
+              <PersonCircle
+                size="sm"
+                className="profileAvatar"
+                width="40%"
+                height="40%"
+              />
               <div className="profileName">Nguyen Van A</div>
             </div>
           </div>

@@ -33,6 +33,9 @@ export default function NavBar() {
           <Nav.Link as={Link} to="/profile" >
             <PersonCircle />
           </Nav.Link>
+          <Nav.Item>
+            
+          </Nav.Item>
         </Nav>
       </Container>
     </Navbar>
