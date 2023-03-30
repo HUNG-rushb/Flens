@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Navbar, Container, Nav, Form } from 'react-bootstrap';
 import { Bell, Envelope, PersonCircle } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
