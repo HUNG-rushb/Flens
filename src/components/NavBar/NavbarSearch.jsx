@@ -13,7 +13,6 @@ import './NavBar.css';
 const NavbarSearch = () => {
   const [isFocus, setIsFocus] = useState(false);
   const [input, setInput] = useState('');
-  console.log(input);
 
   return (
     <Container>
