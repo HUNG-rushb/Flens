@@ -105,7 +105,7 @@ const posts = [
 
 function ListPosts() {
   const [comment, setComment] = useState('');
-  const [countNumberOfLikes, setCountNumberOfLikes] = useState(0);
+  const [countNumberOfLikes, setCountNumberOfLikes] = useState(59);
   const [isLiked, setIsLiked] = useState(false);
   const [showReport, setShowReport] = useState(false);
 
