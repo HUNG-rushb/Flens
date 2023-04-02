@@ -1,0 +1,55 @@
+.navbar {
+  background-color: #f08080;
+  color: red;
+  margin: 0;
+  border: 1px solid #f4978e;
+}
+
+.navbar a {
+  color: #000;
+}
+
+.navbar-brand {
+  font-family: Abhaya Libre;
+  font-size: 30px;
+}
+
+.navbar-logo {
+  /* pointer-events: none; */
+  cursor: pointer;
+  text-decoration: none;
+  color: azure;
+}
+
+.nav-link {
+  font-size: 22px;
+  margin: 0px 5px 0px 5px;
+}
+
+.nav-link > svg {
+  font-size: 28px;
+}
+
+.navbar input {
+  height: 30px;
+}
+
+.navbar-search-row {
+  width: 50%;
+}
+
+/* Result */
+
+.result {
+  width: 100%;
+}
+
+.popover-content {
+  margin-top: 0.5rem;
+  position: absolute;
+  background-color: white;
+  padding: 1.5rem 1rem;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  width: 22.5%;
+  z-index: 9999;
+}

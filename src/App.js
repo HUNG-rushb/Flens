@@ -1,54 +1,11 @@
-// Router
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
 import {client} from './apollo-client-v2/client.jsx'
 
 import NavBar from './components/NavBar/NavBar.jsx';
-import Login from './page/Authencation/Login.jsx';
-import Register from './page/Authencation/Register.jsx';
-import Explore from './page/Explore/Explore.jsx';
-import Notification from './page/Notification/Notification.jsx';
-import Profile from './page/Profile/Profile.jsx';
-import Home from './page/Home/Home.jsx';
-import MessagePage from './page/Message/MessagePage.jsx';
-
-const router = [
-  {
-    path: '/',
-    element: <Home />,
-    exact: true,
-  },
-  {
-    path: '/login',
-    element: <Login />,
-    exact: true,
-  },
-  {
-    path: '/register',
-    element: <Register />,
-    exact: true,
-  },
-  {
-    path: '/explore',
-    element: <Explore />,
-    exact: true,
-  },
-  {
-    path: '/message',
-    element: <MessagePage />,
-    exact: true,
-  },
-  {
-    path: '/notification',
-    element: <Notification />,
-    exact: true,
-  },
-  {
-    path: '/profile',
-    element: <Profile />,
-    exact: true,
-  },
-];
+import routes from './route/route.jsx';
+import { AuthProvider } from './context/AuthContext.js';
+import PrivateRoute from './PrivateRoute.jsx';
 
 
 const App = () => {
@@ -56,19 +13,40 @@ const App = () => {
     <>
     <ApolloProvider client={client}>
       <BrowserRouter>
-        <NavBar />
-        <div className="inside">
+        <AuthProvider>
+          <NavBar />
+
           <Routes>
-            {router.map((route, idx) => (
-              <Route
-                key={idx}
-                path={route.path}
-                element={route.element}
-                exact={route.exact}
-              />
-            ))}
+            {routes.map((route, idx) => {
+              if (route.isPrivate) {
+                return (
+                  <Route
+                    key={idx + 'private'}
+                    path={route.path}
+                    element={<PrivateRoute />}
+                    exact={route.exact}
+                  >
+                    <Route
+                      key={idx}
+                      exact={route.exact}
+                      path={route.path}
+                      element={route.element}
+                    />
+                  </Route>
+                );
+              } else {
+                return (
+                  <Route
+                    key={idx}
+                    path={route.path}
+                    element={route.element}
+                    exact={route.exact}
+                  />
+                );
+              }
+            })}
           </Routes>
-        </div>
+        </AuthProvider>
       </BrowserRouter>
       </ApolloProvider>
     </>
