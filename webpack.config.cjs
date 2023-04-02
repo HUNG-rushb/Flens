@@ -69,6 +69,7 @@ module.exports = {
             },
           },
         ],
+        resolve: { extensions: ['.js', '.jsx'] },
       },
       {
         test: /\.css$/i,
@@ -88,11 +89,6 @@ module.exports = {
         exclude: /node_modules/,
         use: ['file-loader?name=[name].[ext]'],
         // ?name=[name].[ext] is only necessary to preserve the original file name
-      },
-      {
-        test: /\.js$/,
-        enforce: 'pre',
-        use: ['source-map-loader'],
       },
     ],
   },

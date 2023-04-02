@@ -1,6 +1,6 @@
+import NotFoundImage from '../../assets/404.jpg';
 import React from 'react';
 import { Image } from 'react-bootstrap';
-import NotFoundImage from '../assets/404.jpg';
 
 const NotFound = () => {
   return (
