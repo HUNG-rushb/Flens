@@ -8,7 +8,7 @@ import './NavBar.css';
 import { useAuthState } from '../../context/AuthContext.js';
 
 const NavBar = () => {
-  const { userDetails } = useAuthState();
+  const { userDetails, token } = useAuthState();
 
   return (
     <Navbar expand="md">
@@ -22,23 +22,21 @@ const NavBar = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <NavbarSearch />
 
-          {userDetails === '' ? (
+          {userDetails === '' && token === '' ? (
             <Nav>
-              <Nav.Link as={Link} to="/">
-                Home
+              <Nav.Link as={Link} to="/register">
+                Register
               </Nav.Link>
-              <Nav.Link as={Link} to="/Explore">
-                Explore
+              <Nav.Link as={Link} to="/login">
+                Log in
               </Nav.Link>
-
-              {/* <LogOutButton /> */}
             </Nav>
           ) : (
             <Nav>
               <Nav.Link as={Link} to="/">
                 Home
               </Nav.Link>
-              <Nav.Link as={Link} to="/Explore">
+              <Nav.Link as={Link} to="/explore">
                 Explore
               </Nav.Link>
               <Nav.Link as={Link} to="message">
@@ -51,7 +49,7 @@ const NavBar = () => {
                 <PersonCircle />
               </Nav.Link>
 
-              {/* <LogOutButton /> */}
+              <LogOutButton />
             </Nav>
           )}
         </Navbar.Collapse>

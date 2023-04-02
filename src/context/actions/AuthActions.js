@@ -4,7 +4,7 @@ export async function loginUser(dispatch, loginPayload) {
     payload: { user: 'hung', auth_token: '123' },
   });
 
-  localStorage.setItem(
+  window.localStorage.setItem(
     'currentUser',
     JSON.stringify({ user: 'hung', auth_token: '123' })
   );
@@ -14,8 +14,7 @@ export async function loginUser(dispatch, loginPayload) {
 
 export async function logout(dispatch) {
   dispatch({ type: 'LOGOUT' });
-  localStorage.removeItem('currentUser');
-  localStorage.removeItem('token');
+  window.localStorage.removeItem('currentUser');
 }
 
 // const ROOT_URL = 'https://secret-hamlet-03431.herokuapp.com';
