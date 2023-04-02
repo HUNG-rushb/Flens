@@ -57,7 +57,7 @@ const routes = [
     path: '/*',
     element: <NotFound />,
     exact: false,
-    isPrivate: true,
+    isPrivate: false,
   },
 ];
 
