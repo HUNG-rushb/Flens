@@ -1,42 +1,50 @@
 import React, { useState } from 'react';
 import '../components/Account/Login.css';
 import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../context/actions/AuthActions';
+import { useAuthState, useAuthDispatch } from '../context/AuthContext';
 
 export default function Login() {
   const navigate = useNavigate();
+  const dispatch = useAuthDispatch();
+  const { loading, errorMessage } = useAuthState();
 
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [passwordError, setpasswordError] = useState('');
   const [emailError, setemailError] = useState('');
 
-  var user = JSON.parse(localStorage.getItem('user'));
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    let formIsValid = true;
+    // let formIsValid = true;
 
-    if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
-      formIsValid = false;
-      setemailError('Email Not Valid');
-      return false;
-    } else {
-      setemailError('');
-      formIsValid = true;
+    // if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
+    //   formIsValid = false;
+    //   setemailError('Email Not Valid');
+    //   return false;
+    // } else {
+    //   setemailError('');
+    //   formIsValid = true;
+    // }
+
+    // if (!password.match(/^[a-zA-Z]{8,22}$/)) {
+    //   formIsValid = false;
+    //   setpasswordError('Password must in length of 8 to 22 Chracters');
+    //   return false;
+    // } else {
+    //   setpasswordError('');
+    //   formIsValid = true;
+    // }
+
+    try {
+      let response = await loginUser(dispatch, {});
+
+      if (!response.user) return;
+
+      navigate('/');
+    } catch (error) {
+      console.log(error);
     }
-
-    if (!password.match(/^[a-zA-Z]{8,22}$/)) {
-      formIsValid = false;
-      setpasswordError('Password must in length of 8 to 22 Chracters');
-      return false;
-    } else {
-      setpasswordError('');
-      formIsValid = true;
-    }
-    formIsValid =
-      email === user.email && password === user.password ? true : false;
-
-    formIsValid === true ? navigate('/') : alert('wrong email or password');
   };
 
   return (
@@ -84,6 +92,8 @@ export default function Login() {
           </p>
         </div>
       </form>
+
+      {errorMessage ? <p>{errorMessage}</p> : null}
     </div>
   );
 }
