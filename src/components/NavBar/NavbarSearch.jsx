@@ -6,7 +6,6 @@ import {
   Container,
   Row,
   Col,
-  Popover,
 } from 'react-bootstrap';
 import './NavBar.css';
 

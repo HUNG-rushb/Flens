@@ -16,7 +16,7 @@ const LogOutButton = () => {
 
   return (
     <Nav.Link onClick={() => handleLogout()}>
-      <BoxArrowRight />
+      <BoxArrowRight size={28} />
     </Nav.Link>
   );
 };
