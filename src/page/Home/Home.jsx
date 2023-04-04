@@ -2,7 +2,7 @@ import Avatar2 from '../../assets/images/avatar2.jpg';
 import Avatar from '../../assets/images/avatar.jpg';
 import Post from '../../assets/images/post.jpg';
 import ModalCustom from '../../components/Modal/Modal';
-import TextareaCustom from '../../components/TextAreaCustom/Textarea';
+import TextareaCustom from '../../components/TextArea/Textarea';
 import Page from '../../components/utils/Page';
 import './Home.css';
 import React, { Suspense, useState } from 'react';

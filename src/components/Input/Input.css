@@ -8,6 +8,12 @@ input {
     box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
 }
 
-input[type="text"]:focus {
-    border: 0;
+input:focus {
+  transition: none;
+  border: none;
+}
+input:active {
+  color: white;
+  transition: 0.5s linear 0s;
+  border: none;
 }

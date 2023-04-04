@@ -9,6 +9,7 @@ import NotFound from '../page/NotFound/404NotFound.jsx';
 import Notification from '../page/Notification/Notification.jsx';
 import Profile from '../page/Profile/Profile.jsx';
 import Academy from '../page/Academy/Academy.jsx';
+import LeaderBoard from '../page/LeaderBoard/LeaderBoard.jsx'
 
 const routes = [
   {
@@ -62,6 +63,12 @@ const routes = [
   {
     path: '/academy',
     element: <Academy />,
+    exact: true,
+    isPrivate: true,
+  },
+  {
+    path: '/leaderBoard',
+    element: <LeaderBoard />,
     exact: true,
     isPrivate: true,
   },
