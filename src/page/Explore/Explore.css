@@ -1,14 +1,30 @@
 
+.explore-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
 .options-bar {
+    height: 80px;
+    border-bottom: 2px solid #f08080;
+    background-color: #fff;
     width: 100%;
     display: flex;
-    justify-content: space-evenly;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
-    height: 100px;
-    position: fixed;
-    border-bottom: 2px solid #f08080;
-    z-index: 2;
-    background-color: #fff;
+}
+
+.select-part {
+    width: 100%;
+    margin-left: 100px;
+}
+
+.options {
+    width: 100%;
+    text-align: center;
 }
 
 .options > span{
@@ -19,9 +35,6 @@
 }
 
 .all-items {
-    top: 100px;
-    left: 0;
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,6 +46,12 @@
     font-size: 17px;
     font-weight: 600;
     padding: 10px 0px;
+    opacity: 1;
+}
+
+.all-items > span:hover {
+    opacity: 0.7;
+    cursor: pointer;
 }
 
 .images {

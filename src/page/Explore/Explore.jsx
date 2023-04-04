@@ -25,7 +25,7 @@ const Explore = () => {
       <Suspense fallback={null}>
         <div className="explore-page">
           <div className="options-bar">
-            <SelectCustom options={options} />
+            <SelectCustom options={options} type="default2" />
             <div className="options">
               {options.map((item) => (
                 <span key={item.id}>{item.value}</span>
