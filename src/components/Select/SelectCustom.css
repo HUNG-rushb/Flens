@@ -1,0 +1,12 @@
+
+.select-custom {
+    width: 12%;
+    border: 2px solid #f08080;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.select--default2 {
+    width: 10%;
+    margin-left: 250px;
+}

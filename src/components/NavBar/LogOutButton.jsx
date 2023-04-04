@@ -1,9 +1,9 @@
+import { useAuthDispatch } from '../../context/AuthContext';
+import { logout } from '../../context/actions/AuthActions';
 import React from 'react';
 import { Nav } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { logout } from '../../context/actions/AuthActions';
-import { useAuthDispatch } from '../../context/AuthContext';
 import { BoxArrowRight } from 'react-bootstrap-icons';
+import { useNavigate } from 'react-router-dom';
 
 const LogOutButton = () => {
   const dispatch = useAuthDispatch();
@@ -11,12 +11,12 @@ const LogOutButton = () => {
 
   const handleLogout = () => {
     logout(dispatch);
-    navigate('/');
+    // navigate('/');
   };
 
   return (
     <Nav.Link onClick={() => handleLogout()}>
-      <BoxArrowRight />
+      <BoxArrowRight size={28} />
     </Nav.Link>
   );
 };

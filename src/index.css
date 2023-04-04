@@ -12,3 +12,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.inside {
+  position: relative;
+  top: 70px;
+  left: 0;
+}

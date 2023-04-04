@@ -1,0 +1,88 @@
+.academy {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px 0px;
+}
+
+.academy-title-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 75%;
+}
+
+.academy-title-page > span {
+    font-size: 27px;
+    font-weight: 600;
+    padding: 10px 0px;
+}
+
+.academy-title-page > p {
+    font-size: 17px;
+    text-align: center;
+}
+
+.video-courses, .interactive-courses, .work-shop {
+    margin-top: 50px;
+}
+
+.name-part {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0px;
+}
+
+.name-part > span {
+    font-size: medium;
+    font-weight: 600;
+}
+
+.video-courses-body, .interactive-body-part, .workshop-body-part{
+    display: flex;
+    flex-direction: row;
+    margin: 10px 0px;
+}
+
+.video-courses-body > div, .interactive-body-part > div, .workshop-body-part > div{
+    display: flex;
+    flex-direction: column;
+}
+
+.video-courses-body > div:first-child {
+    margin-right: 20px;
+}
+
+.video-courses-body > div > span, .interactive-body-part > div > span, .workshop-body-part > div > span{
+    font-size: large;
+    font-weight: 600;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.interactive-body-part > div, .workshop-body-part > div {
+    margin: 0px 10px;
+}
+
+.interactive-body-part > div:first-child, .workshop-body-part > div:first-child {
+    margin-left: 0px;
+}
+
+.next-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+.name-part > span:last-child, .next-button {
+    opacity: 1;
+}
+
+.name-part > span:last-child:hover, .next-button:hover {
+    opacity: 0.7;
+    cursor: pointer;
+}
