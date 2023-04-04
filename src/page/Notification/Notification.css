@@ -63,6 +63,10 @@
     flex-direction: row;
 }
 
+.upper-content {
+    padding-top: 10px;
+}
+
 .upper-content > img {
     border-radius: 50%;
 }
@@ -76,6 +80,15 @@
 }
 
 .name > span {
+    font-weight: 600;
+}
+
+.name-2{
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.name-2 > span {
     font-weight: 600;
 }
 
