@@ -8,6 +8,7 @@ import NotFound from '../page/NotFound/404NotFound.jsx';
 // import Inbox from '../page/Inbox.jsx';
 import Notification from '../page/Notification/Notification.jsx';
 import Profile from '../page/Profile/Profile.jsx';
+import Academy from '../page/Academy/Academy.jsx';
 
 const routes = [
   {
@@ -57,6 +58,12 @@ const routes = [
     element: <NotFound />,
     exact: false,
     isPrivate: false,
+  },
+  {
+    path: '/academy',
+    element: <Academy />,
+    exact: true,
+    isPrivate: true,
   },
 ];
 
