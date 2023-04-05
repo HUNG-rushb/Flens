@@ -1,15 +1,16 @@
-// import HomePage from './page/HomePage.jsx';
 import Login from '../page/Authentication/Login.jsx';
 import Register from '../page/Authentication/Register.jsx';
 import Explore from '../page/Explore/Explore.jsx';
 import Home from '../page/Home/Home.jsx';
 import MessagePage from '../page/Message/MessagePage.jsx';
 import NotFound from '../page/NotFound/404NotFound.jsx';
-// import Inbox from '../page/Inbox.jsx';
 import Notification from '../page/Notification/Notification.jsx';
 import Profile from '../page/Profile/Profile.jsx';
 import Academy from '../page/Academy/Academy.jsx';
 import LeaderBoard from '../page/LeaderBoard/LeaderBoard.jsx'
+import Report from '../page/Report/Report.jsx';
+import Statistic from '../page/Statistic/Statistic.jsx';
+import Courses from '../page/Courses/Courses.jsx';
 
 const routes = [
   {
@@ -69,6 +70,24 @@ const routes = [
   {
     path: '/leaderBoard',
     element: <LeaderBoard />,
+    exact: true,
+    isPrivate: true,
+  },
+  {
+    path: '/courses',
+    element: <Courses />,
+    exact: true,
+    isPrivate: true,
+  },
+  {
+    path: '/reports',
+    element: <Report />,
+    exact: true,
+    isPrivate: true,
+  },
+  {
+    path: '/statistic',
+    element: <Statistic />,
     exact: true,
     isPrivate: true,
   },
