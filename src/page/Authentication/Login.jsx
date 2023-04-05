@@ -16,9 +16,23 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [passwordError, setpasswordError] = useState('');
   const [emailError, setemailError] = useState('');
+  // const [account, setAccount] = useState({
+  //   email: "",
+  //   password: "",
+  // });
+
+  const account = {
+    email:email,
+    password:password,
+  }
 
   const handleClick = async (e) => {
+    // setAccount({
+    //   email: email,
+    //   password: password,
+    // })
     e.preventDefault();
+
     // let formIsValid = true;
 
     // if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
@@ -44,7 +58,7 @@ const Login = () => {
     // formIsValid === true ? navigate('/') : alert('wrong email or password');
 
     try {
-      let response = await loginUser(dispatch, {});
+      let response = await loginUser(dispatch, account);
 
       if (!response.user) return;
 

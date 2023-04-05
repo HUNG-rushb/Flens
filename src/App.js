@@ -7,12 +7,14 @@ import { ApolloProvider } from '@apollo/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const App = () => {
+
+
   return (
     <>
       <ApolloProvider client={client}>
         <BrowserRouter>
           <AuthProvider>
-            <NavBar />
+            <NavBar/>
             <div className="inside">
               <Routes>
                 {routes.map((route, idx) => {

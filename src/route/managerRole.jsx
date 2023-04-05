@@ -1,17 +1,15 @@
-// import HomePage from './page/HomePage.jsx';
 import Login from '../page/Authentication/Login.jsx';
 import Register from '../page/Authentication/Register.jsx';
 import Explore from '../page/Explore/Explore.jsx';
 import Home from '../page/Home/Home.jsx';
 import MessagePage from '../page/Message/MessagePage.jsx';
 import NotFound from '../page/NotFound/404NotFound.jsx';
-// import Inbox from '../page/Inbox.jsx';
 import Notification from '../page/Notification/Notification.jsx';
 import Profile from '../page/Profile/Profile.jsx';
 import Academy from '../page/Academy/Academy.jsx';
 import LeaderBoard from '../page/LeaderBoard/LeaderBoard.jsx'
 
-const routes = [
+const managerRoutes = [
   {
     path: '/',
     element: <Home />,
@@ -74,4 +72,4 @@ const routes = [
   },
 ];
 
-export default routes;
+export default managerRoutes;
