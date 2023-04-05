@@ -16,7 +16,7 @@ const Register = () => {
       password: password,
     };
 
-    localStorage.setItem('user', JSON.stringify(account));
+    localStorage.setItem('user1', JSON.stringify(account));
     console.log("sign up successfull")
   };
 

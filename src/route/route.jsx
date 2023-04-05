@@ -1,6 +1,6 @@
 // import HomePage from './page/HomePage.jsx';
-import Login from '../page/Authencation/Login.jsx';
-import Register from '../page/Authencation/Register.jsx';
+import Login from '../page/Authentication/Login.jsx';
+import Register from '../page/Authentication/Register.jsx';
 import Explore from '../page/Explore/Explore.jsx';
 import Home from '../page/Home/Home.jsx';
 import MessagePage from '../page/Message/MessagePage.jsx';
