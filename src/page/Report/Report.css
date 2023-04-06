@@ -1,0 +1,39 @@
+.report-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.title-page {
+    font-size: 25px;
+    font-weight: 600;
+    padding-top: 50px;
+}
+
+.body-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+}
+
+thead > tr > td {
+    font-size: 19px;
+}
+
+.buttons > button{
+    padding: 0px 10px;
+    border-radius: 10px;
+    color: white;
+}
+
+.buttons > button:first-child {
+    background-color: blue;
+    margin-right: 5px;
+}
+
+.buttons > button:last-child {
+    background-color: red;
+    margin-left: 5px;
+}

@@ -1,0 +1,21 @@
+.statistic-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.chart-data {
+    width: 90%;
+}
+
+.nav-tabs {
+    --bs-nav-tabs-border-color: white;  
+}
+
+.tab-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0px;
+}
