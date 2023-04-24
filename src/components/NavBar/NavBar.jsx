@@ -23,7 +23,7 @@ const NavBar = () => {
 
   const role =
     user === null ? 'noneUser' : user.user === 'hung' ? 'client' : 'manager';
-  console.log('role', role);
+  // console.log('role', role);
 
   return (
     <Navbar expand="md">
@@ -108,11 +108,11 @@ const NavBar = () => {
                   <Nav.Link as={Link} to="courses">
                     <Journal />
                   </Nav.Link>
-                  <Nav.Link as={Link} to="statistic">
-                    <Clipboard2Data />
-                  </Nav.Link>
                   <Nav.Link as={Link} to="reports">
                     <CardChecklist />
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="statistic">
+                    <Clipboard2Data />
                   </Nav.Link>
                   <Nav.Item>
                     <div>
@@ -124,10 +124,10 @@ const NavBar = () => {
                               <a href="/profile">Profile</a>
                             </li>
                             <li>
-                              <a href="/coursesManagement">Courses</a>
+                              <a href="/courses">Courses</a>
                             </li>
                             <li>
-                              <a href="/reportManagement">Reports</a>
+                              <a href="/reports">Reports</a>
                             </li>
                             <li>
                               <a href="/statistic">Statistic</a>

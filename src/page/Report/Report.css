@@ -1,0 +1,48 @@
+.report-page {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.title-page {
+    font-size: 25px;
+    font-weight: 500;
+    padding-top: 50px;
+    width: 100%;
+}
+
+.body-page {
+    display: flex;
+    width: 90%;
+}
+
+#check-icon, #edit-icon, #remove-icon {
+    opacity: 1;
+    cursor: pointer;
+}
+
+#check-icon:hover, #edit-icon:hover, #remove-icon:hover {
+    opacity: 0.5;
+}
+
+table {
+    width: 100%;
+    text-align: center;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+tr > td {
+   padding: 10px 5px;
+   border-collapse: collapse;
+}
+
+thead > tr{
+    background-color: #F8AD9D;
+    font-size: 19px;
+    font-weight: 600;
+}
+
+tbody tr:nth-child(even){
+    background-color: #FCEBD7;
+
+}

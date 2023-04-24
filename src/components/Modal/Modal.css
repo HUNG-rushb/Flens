@@ -1,0 +1,8 @@
+.bodyContent > div > span {
+    font-weight: 600;
+}
+
+.bodyContent > div {
+    font-size: medium;
+    line-height:1.7rem;
+}
