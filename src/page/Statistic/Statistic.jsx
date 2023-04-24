@@ -10,15 +10,29 @@ const Statistic = () => {
       id: 'user-apexchart',
     },
     xaxis: {
-      categories: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-    }
-  
+      categories: [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ],
+    },
   };
 
   const userSeries = [
     {
       name: 'Number of users',
-      data: [1990, 2580, 2778, 5670, 4495, 6900, 6580, 6496, 7898, 7279, 8900, 8245],
+      data: [
+        1990, 2580, 2778, 5670, 4495, 6900, 6580, 6496, 7898, 7279, 8900, 8245,
+      ],
     },
   ];
 
@@ -27,22 +41,36 @@ const Statistic = () => {
       id: 'post-apexchart',
     },
     xaxis: {
-      categories: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-    }
-  
+      categories: [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ],
+    },
   };
 
   const postSeries = [
     {
       name: 'Number of posts',
-      data: [2400, 2480, 2978, 5170, 4895, 6700, 6880, 6996, 7498, 7679, 8600, 8045],
+      data: [
+        2400, 2480, 2978, 5170, 4895, 6700, 6880, 6996, 7498, 7679, 8600, 8045,
+      ],
     },
   ];
   return (
     <Page title={'Flens-Statistic'}>
       <Suspense fallback={null}>
         <div className="statistic-page">
-          <div className="title-page">Statistic</div>
+          <div className="title">Statistic</div>
           <div className="chart-data">
             <Tabs defaultActiveKey="user">
               <Tab eventKey="user" title="Users">

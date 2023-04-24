@@ -1,39 +1,48 @@
 .report-page {
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
 }
 
 .title-page {
     font-size: 25px;
-    font-weight: 600;
+    font-weight: 500;
     padding-top: 50px;
+    width: 100%;
 }
 
 .body-page {
     display: flex;
-    justify-content: center;
-    align-items: center;
     width: 90%;
 }
 
-thead > tr > td {
+#check-icon, #edit-icon, #remove-icon {
+    opacity: 1;
+    cursor: pointer;
+}
+
+#check-icon:hover, #edit-icon:hover, #remove-icon:hover {
+    opacity: 0.5;
+}
+
+table {
+    width: 100%;
+    text-align: center;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+tr > td {
+   padding: 10px 5px;
+   border-collapse: collapse;
+}
+
+thead > tr{
+    background-color: #F8AD9D;
     font-size: 19px;
+    font-weight: 600;
 }
 
-.buttons > button{
-    padding: 0px 10px;
-    border-radius: 10px;
-    color: white;
-}
+tbody tr:nth-child(even){
+    background-color: #FCEBD7;
 
-.buttons > button:first-child {
-    background-color: blue;
-    margin-right: 5px;
-}
-
-.buttons > button:last-child {
-    background-color: red;
-    margin-left: 5px;
 }

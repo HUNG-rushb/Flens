@@ -70,6 +70,14 @@ const LeaderBoard = () => {
             </div>
             <div className="table-part">
               <table>
+                <thead>
+                  <tr>
+                    <td>STT</td>
+                    <td>Avatar</td>
+                    <td>Location</td>
+                    <td>Follower</td>
+                  </tr>
+                </thead>
                 <tbody>
                   {table_data.map((item) => {
                     return (

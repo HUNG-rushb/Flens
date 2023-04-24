@@ -1,11 +1,21 @@
 import ModalCustom from '../../components/Modal/Modal.jsx';
 import Page from '../../components/utils/Page.js';
 import './Report.css';
+import TableReportData from './TableReportData.jsx';
 import React, { Suspense, useState } from 'react';
-import { Check, X } from 'react-bootstrap-icons';
+import { CheckSquare, XSquare } from 'react-bootstrap-icons';
 
 const Report = () => {
-  const table_report_data = [
+  const table_title = [
+    { value: 'No' },
+    { value: 'Name' },
+    { value: 'Time' },
+    { value: 'Reason' },
+    { value: 'Reporter' },
+    { value: '#' },
+    { value: '#' },
+  ];
+  const [table_report_data, setTable_report_data] = useState([
     {
       id: 1,
       name: 'Nguyen Van A',
@@ -38,81 +48,79 @@ const Report = () => {
       reason: 'Comment with offensive content.',
       reporter: 'Nguyen Van A',
     },
-  ];
+  ]);
 
   const [showAcceptModal, setShowAcceptModal] = useState(false);
-
-  const handleClickAccept = (e) => {
-    e.preventDefault();
-    setShowAcceptModal(true);
-  };
+  const [showRejectModal, setShowRejectModal] = useState(false);
+  const [tempObj, setTempObj] = useState({});
 
   const handleClose = () => {
-    setShowAcceptModal(false);
+    showAcceptModal ? setShowAcceptModal(false) : setShowRejectModal(false);
   };
 
-  const modalAcceptContent = ({ item }) => {
+  const modalAcceptContent = () => {
     return (
-      <div key={item.id}>
+      <div key={tempObj.id} className="bodyContent">
         <div>
-          <span>Link:{item.link}</span>
+          <span>Link: </span>
+          {tempObj.link}
         </div>
         <div>
-          <span>Reason:{item.reason}</span>
+          <span>Reason:</span> {tempObj.reason}
         </div>
         <div>
-          <span>Reporter:{item.reporter}</span>
+          <span>Reporter: </span>
+          {tempObj.reporter}
         </div>
       </div>
     );
+  };
+
+  const handleClickAccept = (item) => {
+    setTempObj(item);
+    setShowAcceptModal(true);
+  };
+
+  const handleClickReject = (item) => {
+    setTempObj(item);
+    setShowRejectModal(true);
+  };
+
+  const handleSubmitModal = () => {
+    setTable_report_data(table_report_data.filter((item) => item !== tempObj));
+    showAcceptModal ? setShowAcceptModal(false) : setShowRejectModal(false);
   };
 
   return (
     <Page title={'Flens-Reports'}>
       <Suspense fallback={null}>
         <div className="report-page">
-          <div className="title-page">Report Management</div>
+          <div className="title">Report Management</div>
           <div className="body-page">
-            <table>
-              <thead>
-                <tr>
-                  <td>No</td>
-                  <td>Name</td>
-                  <td>Time</td>
-                  <td>Reason</td>
-                  <td>Reporter</td>
-                  <td>Actions</td>
-                </tr> 
-              </thead>
-              <tbody>
-                {table_report_data.map((item) => {
-                  return (
-                    <tr key={item.id}>
-                      <td>{item.id}</td>
-                      <td>{item.name}</td>
-                      <td>{item.time}</td>
-                      <td>{item.reason}</td>
-                      <td>{item.reporter}</td>
-                      <td className="buttons">
-                        <button onClick={handleClickAccept} key={item.id}>
-                          <Check color="white" size={25} />
-                        </button>
-                        <ModalCustom
-                          show={showAcceptModal}
-                          handleClose={handleClose}
-                          modalTitle={`ban user "${item.name}" witd id ${item.id}?`}
-                          modalContent={modalAcceptContent((item = { item }))}
-                          size={'md'}
-                        ></ModalCustom>
-                        <button className="x-btn">
-                          <X color="white" size={25} />
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <TableReportData
+              titles={table_title}
+              body={table_report_data}
+              handleClickAccept={handleClickAccept}
+              Check={CheckSquare}
+              handleClickReject={handleClickReject}
+              X={XSquare}
+            />
+            <ModalCustom
+              show={showAcceptModal ? showAcceptModal : showRejectModal}
+              handleClose={handleClose}
+              modalTitle={
+                showAcceptModal
+                  ? `ban user "${tempObj.name}" witd id ${tempObj.id}?`
+                  : `Reject report id ${tempObj.id}`
+              }
+              modalContent={
+                showAcceptModal
+                  ? modalAcceptContent()
+                  : 'This report will be removed, please be carefull with your decision'
+              }
+              handleSavechanges={handleSubmitModal}
+              size={'md'}
+            />
           </div>
         </div>
       </Suspense>
