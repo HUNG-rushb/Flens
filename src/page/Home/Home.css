@@ -75,7 +75,7 @@
     margin: 4px 10px 10px 0px;
 }
 
-.upload-content > button {
+#post-btn {
     border: 2px solid #F08080;
     background-color: white;
     color: #F08080;
@@ -86,7 +86,11 @@
     opacity: 1;
 }
 
-.upload-content > button:hover, .upload-images:hover, .upload-storys:hover {
+#post-btn:hover {
+    opacity: 0.7;
+}
+
+.upload-images:hover, .upload-storys:hover {
     opacity: 0.7;
 }
 
@@ -119,13 +123,13 @@
     padding: 0px 8px;
 }
 
-.post-title {
+#post-title {
     font-size: 30px;
     font-weight: 600;
     padding: 6px 0px;
 }
 
-.post-detail {
+#post-detail {
     padding-bottom: 20px;
 }
 
@@ -194,15 +198,15 @@
     width: 5%;
 }
 
-.btn-submit-cmt > svg {
+#btn-submit-cmt > svg {
     opacity: 1;
 }
 
-.btn-submit-cmt > svg :hover {
+#btn-submit-cmt > svg :hover {
     opacity: 0.5;
 }
 
-.btn-submit-cmt {
+#btn-submit-cmt {
     background: none;
     padding: 0;
     border: none;
