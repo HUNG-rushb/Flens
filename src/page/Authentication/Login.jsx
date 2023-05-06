@@ -22,9 +22,9 @@ const Login = () => {
   // });
 
   const account = {
-    email:email,
-    password:password,
-  }
+    email: email,
+    password: password,
+  };
 
   const handleClick = async (e) => {
     // setAccount({
@@ -66,6 +66,14 @@ const Login = () => {
     } catch (error) {
       console.log(error);
     }
+
+    // localStorage.setItem(
+    //   'currentUser',
+    //   JSON.stringify({
+    //     name,
+    //     email,
+    //   })
+    // );
   };
 
   return (

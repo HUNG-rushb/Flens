@@ -1,5 +1,20 @@
 import { gql } from '@apollo/client';
 
+export const CREATE_USER = gql`
+  mutation CreateUser($data: CreateUserInput!) {
+    createUser(data: $data) {
+      age
+      birthday
+      createdAt
+      email
+      id
+      name
+      phoneNumber
+      profileImageURL
+    }
+  }
+`;
+
 export const GET_USERS_ID = gql`
   query GetUsersID {
     users {
