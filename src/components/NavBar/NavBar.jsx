@@ -23,7 +23,6 @@ const NavBar = () => {
 
   const role =
     user === null ? 'noneUser' : user.user === 'hung' ? 'client' : 'manager';
-  // console.log('role', role);
 
   return (
     <Navbar expand="md">

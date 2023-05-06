@@ -1,5 +1,5 @@
 import ButtonCustom from '../../components/Button/ButtonCustom.jsx';
-import './Modal.css';
+// import './Modal.css';
 import { Modal } from 'react-bootstrap';
 
 const ModalCustom = ({
@@ -9,9 +9,10 @@ const ModalCustom = ({
   modalContent,
   size,
   handleSavechanges,
+  confirmButtonMessage
 }) => {
   return (
-    <Modal show={show} onHide={handleClose} size={size}>
+    <Modal show={show} onHide={handleClose} size={size} centered={true}>
       <Modal.Header closeButton>
         <Modal.Title>{modalTitle}</Modal.Title>
       </Modal.Header>
@@ -23,7 +24,7 @@ const ModalCustom = ({
           onClick={handleClose}
         />
         <ButtonCustom
-          text={'Save changes'}
+          text={confirmButtonMessage}
           type="modal-save-btn submit"
           onClick={handleSavechanges}
         />
