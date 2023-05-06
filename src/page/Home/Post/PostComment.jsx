@@ -2,11 +2,12 @@ import TextareaCustom from '../../../components/TextArea/Textarea';
 import { useState } from 'react';
 import { Send } from 'react-bootstrap-icons';
 
-const PostComment = ({ item }) => {
+const PostComment = ({ item, showImageDetail }) => {
   const [comment, setComment] = useState('');
 
-  const handleSubmitComment = () => {
-  };
+  const handleSubmitComment = () => {};
+
+  const check = showImageDetail ? 1 : 2;
   return (
     <div className="post-comments">
       <div className="post-comment-header">
@@ -20,7 +21,7 @@ const PostComment = ({ item }) => {
         <button
           type="submit"
           id="btn-submit-cmt"
-          onClick={()=>handleSubmitComment(item)}
+          onClick={() => handleSubmitComment(item)}
         >
           <Send size={30} />
         </button>
@@ -28,7 +29,11 @@ const PostComment = ({ item }) => {
       <div className="list-reply-comments">
         {item.comments.map((i) => (
           <div className="reply-comment" key={item.comments.indexOf(i)}>
-            <img src={i.image} alt="reply-comment" />
+            <img
+              src={i.image}
+              alt="reply-comment"
+              width={check === 1 ? '17%' : '5%'}
+            />
             <span>{i.name}</span>
             <div className="reply-comment-content">{i.content}</div>
             <div className="reply-comment-date">

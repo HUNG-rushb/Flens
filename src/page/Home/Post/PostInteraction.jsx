@@ -1,6 +1,7 @@
 import ModalCustom from '../../../components/Modal/Modal';
 import { useState } from 'react';
 import { Heart, HeartFill, Reply, ThreeDots } from 'react-bootstrap-icons';
+import Post from '../../../assets/images/post.jpg'
 
 const PostInteraction = () => {
   const [isLiked, setIsLiked] = useState(false);
@@ -17,7 +18,15 @@ const PostInteraction = () => {
   };
 
   const modalReportContent = () => {
-    return <>Report this photo with reason:</>;
+    return <>
+    <div>
+    <img src={Post} alt='imag' />;
+
+      </div>
+      <div>
+        content
+      </div>
+      Report this photo with reason:</>
   };
 
   const handleSaveReport = () => {
@@ -35,9 +44,9 @@ const PostInteraction = () => {
       <div className="post-interaction">
         <div className="like-icon" onClick={handleClickLikePost}>
           {isLiked === false ? (
-            <Heart size={30} />
+            <Heart size={25} />
           ) : (
-            <HeartFill color="red" size={30} />
+            <HeartFill color="red" size={25} />
           )}
           <span>{countNumberOfLikes > 0 ? countNumberOfLikes : 0}</span>
         </div>
@@ -47,10 +56,11 @@ const PostInteraction = () => {
             <ThreeDots size={30} onClick={handleShowReport} />
             <ModalCustom
               show={showReport}
-              size="md"
-              modalTitle="Report Post"
+              size="lg"
+              modalTitle=""
               modalContent={modalReportContent()}
               handleClose={handleCloseReport}
+              confirmButtonMessage="Submit"
               handleSavechanges={handleSaveReport}
             />
           </div>

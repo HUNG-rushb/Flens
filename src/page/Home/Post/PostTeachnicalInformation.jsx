@@ -1,6 +1,7 @@
-const PostTeachnical = ({ item }) => {
+const PostTeachnical = ({ item, showImageDetail}) => {
+  const check = !showImageDetail? 1:2
   return (
-    <div className="post-information">
+    <div className= {check===1? "post-information" : "post-information-2" }>
       <div>
         <span>Camera:</span> {item.technical.camera}
       </div>
