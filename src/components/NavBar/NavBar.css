@@ -1,13 +1,11 @@
 .navbar {
   background-color: #f08080;
-  color: red;
   margin: 0;
   border: 1px solid #f4978e;
-  position: fixed;
+  position: fixed !important;
   width: 100%;
-  top: 0;
-  left: 0;
   z-index: 9999;
+  height: 70px;
 }
 
 .navbar a {
@@ -25,13 +23,8 @@
   color: azure;
 }
 
-.nav-link {
-  font-size: 22px;
-  margin: 0px 5px 0px 5px;
-}
-
-.nav-link > svg {
-  font-size: 28px;
+a.nav-link {
+  font-size: 20px;
 }
 
 .navbar input {
@@ -58,9 +51,8 @@
 }
 
 .nav-item {
-  padding: 0px 5px;
-  padding-top: 13px;
-  color: #000;
+  padding: 0px 6px;
+  padding-top: 12px;
 }
 
 .popover-avatar {

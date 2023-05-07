@@ -2,7 +2,7 @@ import { useAuthState } from '../../context/AuthContext.js';
 import LogOutButton from './LogOutButton.jsx';
 import './NavBar.css';
 import NavbarSearch from './NavbarSearch.jsx';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import {
   Bell,
@@ -65,15 +65,16 @@ const NavBar = () => {
                       Explore
                     </Nav.Link>
                     <Nav.Link as={Link} to="message">
-                      <Envelope />
+                      <Envelope size={28} />
                     </Nav.Link>
                     <Nav.Link as={Link} to="Notification">
-                      <Bell />
+                      <Bell size={28} />
                     </Nav.Link>
                     <Nav.Item>
                       <div>
+                        
                         <PersonCircle
-                          size={29}
+                          size={28}
                           onClick={() => setShow(!show)}
                         />
                         <div className="popover-avatar">
