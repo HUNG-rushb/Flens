@@ -14,7 +14,7 @@ const Notification = () => {
     {
       id: 1,
       avatar: Avatar,
-      name: 'Thomas',
+      name: 'Tom',
       type: 1,
       time: '2 minutes ago',
     },
@@ -23,13 +23,15 @@ const Notification = () => {
       avatar: Avatar,
       name: 'Thomas',
       type: 2,
+      icon: <HeartFill color="red" size={25} />,
       time: '3 minutes ago',
     },
     {
       id: 3,
       avatar: Avatar,
-      name: 'Thomas',
+      name: 'John',
       type: 3,
+      icon: <ReplyFill color="blue" size={28} className="mb-1" />,
       time: '5 minutes ago',
     },
   ];
@@ -56,18 +58,27 @@ const Notification = () => {
             <div className="title">Notifications</div>
 
             <div className="notifi-content">
-              {notifi_data.map(item => {
-                if (item.type === 1)
-                  return (
-                    <div className="noti-card" key={item.id}>
-                      <div className="upper-content">
-                        <img src={item.avatar} alt="images" width={80} />
-                        <div className="card-content">
+              {notifi_data.map((item) => {
+                return (
+                  <div className="noti-card" key={item.id}>
+                    <div className="upper-content">
+                      <img src={item.avatar} alt="images" width={80} />
+                      <div className="card-content">
+                        {item.type === 1 ? (
                           <div className="name">
-                            <span>{item.name}</span> Followed you
+                            <span>{item.name}</span> Followed you.
                           </div>
-                          <div>{item.time}</div>
-                        </div>
+                        ) : (
+                          <div className="name">
+                            <span>{item.name}</span>{' '}
+                            {item.type === 2 ? 'Liked ' : 'Shared '}
+                            {item.icon} your post.{' '}
+                          </div>
+                        )}
+
+                        <div>{item.time}</div>
+                      </div>
+                      {item.type === 1 ? (
                         <div className="button-follow-back">
                           <ButtonCustom
                             text={'Follow back'}
@@ -75,42 +86,19 @@ const Notification = () => {
                             onClick={handleClick}
                           />
                         </div>
-                      </div>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                    {item.type === 1 ? (
                       <div className="below-content">
                         Both following Jane, Bobs and 35 others
                       </div>
-                    </div>
-                  );
-                else if (item.type === 2)
-                  return (
-                    <div className="noti-card" key={item.id}>
-                      <div className="upper-content">
-                        <img src={item.avatar} alt="images" width={80} />
-                        <div className="card-content">
-                          <div className="name-2">
-                            <span>{item.name}</span> Liked{' '}
-                            {<HeartFill color="red" />} your post.
-                          </div>
-                          <div>{item.time}</div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                else if (item.type === 3)
-                  return (
-                    <div className="noti-card" key={item.id}>
-                      <div className="upper-content">
-                        <img src={item.avatar} alt="images" width={80} />
-                        <div className="card-content">
-                          <div className="name-2">
-                            <span>{item.name}</span> Shared{' '}
-                            {<ReplyFill color="blue" size={28} />} your post.
-                          </div>
-                          <div>{item.time}</div>
-                        </div>
-                      </div>
-                    </div>
-                  );
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                );
               })}
             </div>
           </div>

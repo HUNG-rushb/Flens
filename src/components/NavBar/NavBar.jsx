@@ -36,9 +36,7 @@ const NavBar = () => {
             FLENS
           </Navbar.Brand>
         )}
-
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-
         <Navbar.Collapse className="justify-content-end">
           {isNotAuthenticated ? (
             <Nav>
@@ -72,7 +70,6 @@ const NavBar = () => {
                     </Nav.Link>
                     <Nav.Item>
                       <div>
-                        
                         <PersonCircle
                           size={28}
                           onClick={() => setShow(!show)}
@@ -104,44 +101,50 @@ const NavBar = () => {
                   </Nav>
                 </>
               ) : (
-                <Nav>
-                  <Nav.Link as={Link} to="courses">
-                    <Journal />
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="reports">
-                    <CardChecklist />
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="statistic">
-                    <Clipboard2Data />
-                  </Nav.Link>
-                  <Nav.Item>
-                    <div>
-                      <PersonCircle size={29} onClick={() => setShow(!show)} />
-                      <div className="popover-avatar">
-                        {show ? (
-                          <ul className="popover-avatar-content">
-                            <li>
-                              <a href="/profile">Profile</a>
-                            </li>
-                            <li>
-                              <a href="/courses">Courses</a>
-                            </li>
-                            <li>
-                              <a href="/reports">Reports</a>
-                            </li>
-                            <li>
-                              <a href="/statistic">Statistic</a>
-                            </li>
-                            <li>
-                              <a href="/aboutUs">About Us</a>
-                            </li>
-                          </ul>
-                        ) : null}
+                <>
+                  <NavbarSearch />
+                  <Nav>
+                    <Nav.Link as={Link} to="courses">
+                      <Journal size={28} />
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="reports">
+                      <CardChecklist size={28} />
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="statistic">
+                      <Clipboard2Data size={28} />
+                    </Nav.Link>
+                    <Nav.Item>
+                      <div>
+                        <PersonCircle
+                          size={29}
+                          onClick={() => setShow(!show)}
+                        />
+                        <div className="popover-avatar">
+                          {show ? (
+                            <ul className="popover-avatar-content">
+                              <li>
+                                <a href="/profile">Profile</a>
+                              </li>
+                              <li>
+                                <a href="/courses">Courses</a>
+                              </li>
+                              <li>
+                                <a href="/reports">Reports</a>
+                              </li>
+                              <li>
+                                <a href="/statistic">Statistic</a>
+                              </li>
+                              <li>
+                                <a href="/aboutUs">About Us</a>
+                              </li>
+                            </ul>
+                          ) : null}
+                        </div>
                       </div>
-                    </div>
-                  </Nav.Item>
-                  <LogOutButton />
-                </Nav>
+                    </Nav.Item>
+                    <LogOutButton />
+                  </Nav>
+                </>
               )}
             </>
           )}

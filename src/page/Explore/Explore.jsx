@@ -32,17 +32,18 @@ const Explore = () => {
               ))}
             </div>
           </div>
-
           <div className="all-items">
             <div className="images">
               {images.map((item) => (
-                <img
-                  key={item.id}
-                  src={item.image}
-                  alt="item"
-                  width={500}
-                  height={300}
-                />
+                <div key={item.id}>
+                  <img
+                    key={item.id}
+                    src={item.image}
+                    alt="item"
+                    width={500}
+                    height={300}
+                  />
+                </div>
               ))}
             </div>
             <span>See More ...</span>

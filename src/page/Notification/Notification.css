@@ -26,69 +26,50 @@
 
 .right-content {
     display: flex;
-    justify-content: center;
-    align-items: center;
     width: 72%;
     flex-direction: column;
     position: absolute;
     top: 0;
-    right: 0;
 }
 
 .title {
     font-size: 30px;
-    font-weight: 600;
+    font-weight:normal;
     margin: 30px 0px;
 }
 
 .notifi-content {
     display: flex;
-    justify-content: center;
     align-items: center;
     width: 100%;
     flex-direction: column;
 }
 
 .noti-card {
-    border: 1px solid black;
     width: 60%;
     padding: 30px;
     border-radius: 15px;
     margin: 20px 0px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
 .upper-content {
     display: flex;
-    flex-direction: row;
-}
-
-.upper-content {
-    padding-top: 10px;
 }
 
 .upper-content > img {
     border-radius: 50%;
 }
 
-.name {
-    font-size: 20px;
-}
-
 .card-content {
     margin: 0px 30px;
 }
 
-.name > span {
-    font-weight: 600;
-}
-
-.name-2{
-    margin-top: 10px;
+.name {
     font-size: 20px;
 }
 
-.name-2 > span {
+.name > span {
     font-weight: 600;
 }
 
@@ -98,7 +79,6 @@
 
 .below-content {
     display: flex;
-    margin-top: 10px;
-    font-weight: 600;
+    font-weight: 500;
     padding-left: 110px;
 }
