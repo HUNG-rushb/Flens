@@ -35,17 +35,14 @@
 }
 
 .coverImageContent {
-    position: absolute;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
     align-items: center;
-    left: 0px;
-    bottom: 20px;
+    width: 100%;
+    margin-top: 100px;
 }
 
 .coverImageContent > svg {
-    margin: 20px;
+    margin: 40px;
 }
 
 .profileName {
@@ -60,7 +57,7 @@
 }
 
 .activity-tab {
-    margin:50px 50px;
+    margin:0 50px;
     padding-bottom: 100px;
     padding-left: 63px;
 }
@@ -98,10 +95,6 @@
     margin: 10px 0px;
 }
 
-.latest-upload-images > img {
-    width: 45%;
-}
-
 .favourites {
     margin-top: 50px;
 }
@@ -110,31 +103,22 @@
     margin: 10px 0px;
 }
 
-.favoutites-images > img {
-    width: 30%;
-}
-
 .biography-tab {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-direction: row;
-    padding-bottom: 50px;
+    padding-bottom: 20px;
 }
 
 .bio-left {
-    width: 65%;
+    width: 70%;
     border-right: 1px solid #f08080;
 }
 
 .bio-right {
-    width: 35%;
-    height: 100%;
-    margin-top: 10px;
+    width: 30%;
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
+    padding-left: 20px;
 }
 
 .experience-text, .skills-text {
@@ -166,7 +150,7 @@
     font-weight: 600;
     border: 2px solid #f08080;
     color: #f08080;
-    border-radius: 6%;
+    border-radius: 10px;
     margin: 10px;
     padding: 10px 20px;
 }
@@ -175,14 +159,8 @@
     align-self: center;
 }
 
-.exp-btn > Button, .skill-btn > Button {
-    font-size: 16px;
-    padding: 10px;
-}
-
 .social-infor {
     display: flex;
-    flex-direction: row;
     padding: 30px 0px;
 }
 
@@ -215,7 +193,7 @@
 }
 
 .camera {
-    width: 50%;
+    width: 70%;
 }
 
 .camera > span {
