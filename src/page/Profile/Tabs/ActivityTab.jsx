@@ -11,5 +11,5 @@ const Activity = () => {
       </div>
     );
   };
-
+ 
   export default Activity;
