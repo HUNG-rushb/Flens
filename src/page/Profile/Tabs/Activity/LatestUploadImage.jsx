@@ -1,4 +1,4 @@
-import LatestUpload from '../../../../assets/images/latest-upload.png';
+import LatestUpload from '../../../../assets/images/Profile/latest-upload.png';
 
 const LatestUploadImage = () => {
   return (

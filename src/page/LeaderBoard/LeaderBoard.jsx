@@ -4,23 +4,27 @@ import SelectCustom from '../../components/Select/SelectCustom';
 import Page from '../../components/utils/Page';
 import './LeaderBoard.css';
 import Tittle from './LeaderBoard/Title';
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 
 const LeaderBoard = () => {
-  const options = [ 
+  const options = [
     { id: 1, value: 'All' },
-    { id: 2, value: 'VietNam' },
-    { id: 3, value: 'New York' },
+    { id: 2, value: 'Vietnam' },
+    { id: 3, value: 'USA' },
     { id: 4, value: 'Japan' },
+    { id: 5, value: 'Korea' },
   ];
 
-  const [selected, setSelected] = useState(options[0].value)
-  const handleOnChange = (event) => {
-    setSelected(event.target.value)
-  }
+  const [selected, setSelected] = useState(options[0].value);
+  const handleOnChangeSelected = (event) => {
+    setSelected(event.target.value);
+  };
 
+  const handleOnChangeSearch = (event) => {
+    setSearchValue(event.target.value);
+  };
 
-  const [table_data, setTable_data] = useState([
+  const data = [
     {
       id: 1,
       img: Avatar,
@@ -56,34 +60,64 @@ const LeaderBoard = () => {
       country: 'London, UK',
       numberOfFollowers: 90,
     },
-  ]);
+  ];
 
-  const Filtered = () => {
-    var test_Table
-    if(selected==="VietNam")
-    test_Table =  table_data.filter(item => 
-      item.country.includes("VietNam")
-    )
-    if(selected==="New York")
-    test_Table =  table_data.filter(item => 
-      item.country.includes("New York")
-    )
-    setTable_data(test_Table)
+  const [filteredData, setFilteredData] = useState(data);
+  const [seachValue, setSearchValue] = useState('');
+
+  useEffect(() => {
+    filteredSelected();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected]);
+
+  const filteredSelected = () => {
+    if (selected === 'All') setSelected('');
+    const filteredSelected = data.filter((item) =>
+      item.country.includes(selected)
+    );
+    setFilteredData(filteredSelected);
+  };
+
+  const filteredSearchValue = () => {
+    const filtedSearchValue = data.filter((item) => 
+      item.country.includes(seachValue) ||
+        item.name.includes(seachValue) ||
+        String(item.numberOfFollowers).includes(seachValue)
+        );
+        setFilteredData(filtedSearchValue);
+    
   }
+
+  useEffect(() => {
+
+    filteredSearchValue();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [seachValue]);
+
+ 
 
   return (
     <Page title={'Flens-Leaderboard'}>
       <Suspense fallback={null}>
         <div className="leaderboard">
-          <Tittle/>
+          <Tittle />
           <div className="leaderboard-body-page">
             <div className="filter-and-search-part">
-              <SelectCustom options={options} className="select-bar" selected={selected} handleOnChange={handleOnChange} />
+              <SelectCustom
+                options={options}
+                className="select-bar"
+                selected={selected}
+                handleOnChange={handleOnChangeSelected}
+              />
               <div className="search-bar">
-                <InputCustom type={'Text'} placeholder="Search" />
+                <InputCustom
+                  type={'Text'}
+                  placeholder="Search"
+                  value={seachValue}
+                  onChange={handleOnChangeSearch}
+                />
               </div>
             </div>
-            <button onClick={Filtered}>Test</button>
             <div className="table-part">
               <table>
                 <thead>
@@ -95,7 +129,7 @@ const LeaderBoard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {table_data.map((item) => {
+                  {filteredData.map((item) => {
                     return (
                       <tr key={item.id}>
                         <td>{item.id}</td>

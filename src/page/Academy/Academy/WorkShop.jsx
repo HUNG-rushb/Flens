@@ -32,7 +32,7 @@ const Workshop = () => {
         {workshop_data.map((item) => {
           return (
             <div key={item.id}>
-              <img src={item.image} alt="workshop" height={300}></img>
+              <img src={item.image} alt="workshop" height={300} />
               <span>{item.title}</span>
             </div>
           );

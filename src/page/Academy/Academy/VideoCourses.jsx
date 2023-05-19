@@ -27,7 +27,7 @@ const VideoCourses = () => {
         {video_courses_data.map((item) => {
           return (
             <div key={item.id}>
-              <img src={item.image} alt="videoCourses" width={500}></img>
+              <img src={item.image} alt="videoCourses" width={500} />
               <span>{item.title}</span>
             </div>
           );

@@ -2,7 +2,7 @@ import PrivateRoute from './PrivateRoute.jsx';
 import { client } from './apollo-client-v2/client.jsx';
 import NavBar from './components/NavBar/NavBar.jsx';
 import { AuthProvider } from './context/AuthContext.js';
-import routes from './route/route.jsx';
+import routes from './router/router.jsx';
 import { ApolloProvider } from '@apollo/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 

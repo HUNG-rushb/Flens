@@ -24,7 +24,7 @@ const interactive_courses_data = [
     id: 4,
     image: InteractiveCourses4,
     title: 'Light',
-  },
+  }
 ];
 
 const InteractiveCourses = () => {
@@ -42,7 +42,7 @@ const InteractiveCourses = () => {
                 src={item.image}
                 alt="interactiveCourses4"
                 height={350}
-              ></img>
+              />
               <span>{item.title}</span>
             </div>
           );

@@ -1,4 +1,4 @@
-import CoverImage from '../../assets/images/profileCoverImage.jpg';
+import CoverImage from '../../assets/images/Profile/profileCoverImage.jpg';
 import Page from '../../components/utils/Page';
 import './Profile.css';
 import TabMenu from './Tabs/Tabs';

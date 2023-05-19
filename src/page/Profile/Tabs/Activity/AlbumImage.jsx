@@ -1,6 +1,6 @@
-import Album1 from '../../../../assets/images/album1.png';
-import Album2 from '../../../../assets/images/album2.png';
-import Album3 from '../../../../assets/images/album3.png';
+import Album1 from '../../../../assets/images/Profile/album1.png';
+import Album2 from '../../../../assets/images/Profile/album2.png';
+import Album3 from '../../../../assets/images/Profile/album3.png';
 
 const AlbumImage = () => {
   return (

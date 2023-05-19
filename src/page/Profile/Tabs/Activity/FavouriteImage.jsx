@@ -1,5 +1,5 @@
-import Favourites1 from '../../../../assets/images/favourites1.png';
-import Favourites2 from '../../../../assets/images/favourites2.png';
+import Favourites1 from '../../../../assets/images/Profile/favourites1.png';
+import Favourites2 from '../../../../assets/images/Profile/favourites2.png';
 
 const FavouriteImage = () => {
   return (

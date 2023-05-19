@@ -1,64 +1,62 @@
-        .explore-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+.explore-page {
+  display: flex;
+  flex-direction: column;
 }
 
 .options-bar {
-    height: 80px;
-    border-bottom: 2px solid #f08080;
-    background-color: #fff;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+  height: 80px;
+  border-bottom: 2px solid #f08080;
+  background-color: #fff;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .select-part {
-    width: 100%;
-    margin-left: 100px;
+  width: 100%;
+  margin-left: 100px;
 }
 
 .options {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
-.options > span{
-    padding: 0px 20px;
-    font-size: 18px;
-    font-weight: 600;
-    text-transform: uppercase;
+.options > span {
+  padding: 0px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .all-items {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding: 70px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 70px 20px;
 }
 
 .all-items > span {
-    font-size: 17px;
-    font-weight: 600;
-    padding: 10px 0px;
-    opacity: 1;
+  font-size: 17px;
+  font-weight: 600;
+  padding: 10px 0px;
+  opacity: 1;
 }
 
 .all-items > span:hover {
-    opacity: 0.7;
-    cursor: pointer;
+  opacity: 0.7;
+  cursor: pointer;
 }
 
 .images {
-    display: grid;
-    grid-template-columns: auto auto;
-    gap: 10px;
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 10px;
 }
 
 .images > div {
-    border-radius: 10px;
+  border-radius: 10px;
 }

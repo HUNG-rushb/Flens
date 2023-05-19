@@ -1,5 +1,5 @@
-import Images1 from '../../assets/images/images1.png';
-import Images2 from '../../assets/images/images2.png';
+import Images1 from '../../assets/images/Explore/images1.png';
+import Images2 from '../../assets/images/Explore/images2.png';
 import SelectCustom from '../../components/Select/SelectCustom';
 import Page from '../../components/utils/Page';
 import './Explore.css';
