@@ -3,7 +3,7 @@
   margin: 0;
   border: 1px solid #f4978e;
   position: fixed !important;
-  width: 100%;
+  width: 1536px;
   z-index: 9999;
   height: 70px;
 }
@@ -93,13 +93,17 @@ a.nav-link:hover{
   padding: 3px 10px;
 }
 
-.popover-avatar-content > li > a {
+.popover-avatar-content > li a, li div{
   text-decoration: none;
   font-size: 16px;
   font-weight: 500;
   opacity: 1;
 }
 
-.popover-avatar-content > li > a:hover {
+li div {
+  color: red;
+}
+
+.popover-avatar-content > li a:hover,  li div:hover {
   opacity: 0.5;
 }

@@ -1,5 +1,6 @@
 import { useAuthState } from '../../context/AuthContext.js';
-import LogOutButton from './LogOutButton.jsx';
+import { useAuthDispatch } from '../../context/AuthContext.js';
+import { logout } from '../../context/actions/AuthActions.js';
 import './NavBar.css';
 import NavbarSearch from './NavbarSearch.jsx';
 import { useState } from 'react';
@@ -24,6 +25,12 @@ const NavBar = () => {
   const role =
     user === null ? 'noneUser' : user.user === 'hung' ? 'client' : 'manager';
 
+  const dispatch = useAuthDispatch();
+  const handleLogout = () => {
+    logout(dispatch);
+    // navigate('/');
+  };
+
   return (
     <Navbar expand="md">
       <Container className="navbar-items">
@@ -44,7 +51,7 @@ const NavBar = () => {
                 Explore
               </Nav.Link>
               <Nav.Link as={Link} to="/register">
-                Register
+                Sign up
               </Nav.Link>
               <Nav.Link as={Link} to="/login">
                 Sign in
@@ -92,12 +99,16 @@ const NavBar = () => {
                               <li>
                                 <a href="/aboutUs">About us</a>
                               </li>
+                              <li>
+                                <div onClick={() => handleLogout()}>
+                                  Log out
+                                </div>
+                              </li>
                             </ul>
                           ) : null}
                         </div>
                       </div>
                     </Nav.Item>
-                    <LogOutButton />
                   </Nav>
                 </>
               ) : (
@@ -137,12 +148,16 @@ const NavBar = () => {
                               <li>
                                 <a href="/aboutUs">About Us</a>
                               </li>
+                              <li>
+                                <div onClick={() => handleLogout()}>
+                                  Log out
+                                </div>
+                              </li>
                             </ul>
                           ) : null}
                         </div>
                       </div>
                     </Nav.Item>
-                    <LogOutButton />
                   </Nav>
                 </>
               )}

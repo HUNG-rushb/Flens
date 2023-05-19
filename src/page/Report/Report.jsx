@@ -120,6 +120,7 @@ const Report = () => {
               }
               handleSavechanges={handleSubmitModal}
               size={'md'}
+              confirmButtonMessage="Submit"
             />
           </div>
         </div>
