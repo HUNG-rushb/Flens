@@ -1,16 +1,21 @@
 import ModalCustom from '../../../components/Modal/Modal';
 import { useState } from 'react';
 import { Heart, HeartFill, Reply, ThreeDots } from 'react-bootstrap-icons';
-import Post from '../../../assets/images/post.jpg'
 
-const PostInteraction = () => {
+const PostInteraction = ({ item }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [countNumberOfLikes, setCountNumberOfLikes] = useState(59);
+  const [showListOtherActions, setShowListOtherActions] = useState(true);
 
   const [showReport, setShowReport] = useState(false);
 
   const handleShowReport = () => {
+    setShowListOtherActions(true)
     setShowReport(true);
+  };
+
+  const handleShowListOtherActions = (state) => {
+    setShowListOtherActions(!state);
   };
 
   const handleCloseReport = () => {
@@ -18,15 +23,26 @@ const PostInteraction = () => {
   };
 
   const modalReportContent = () => {
-    return <>
-    <div>
-    <img src={Post} alt='imag' />;
-
-      </div>
-      <div>
-        content
-      </div>
-      Report this photo with reason:</>
+    console.log(item);
+    const image = item.image;
+    console.log('first,', image);
+    return (
+      <>
+        <div className="report-photo-container">
+          <img src={item.image} alt="" width={'50%'} />
+          <div className='left-report-photo'>
+            <span>Report this photo with reason:</span>
+            <ul>
+              <li><input type='checkbox'/> <span>Copyright infringement</span> </li>
+              <li><input type='checkbox'/><span>Offensive content </span></li>
+              <li><input type='checkbox'/><span>Spam</span></li>
+              <li><input type='checkbox'/><span>Mature content</span></li>
+              <li><input type='checkbox'/><span>Hamful content</span></li>
+            </ul>
+          </div>
+        </div>
+      </>
+    );
   };
 
   const handleSaveReport = () => {
@@ -52,19 +68,27 @@ const PostInteraction = () => {
         </div>
         <div className="right-action">
           <Reply size={30} className="reply-icon" />
-          <div className="otherAction">
-            <ThreeDots size={30} onClick={handleShowReport} />
-            <ModalCustom
-              show={showReport}
-              size="lg"
-              modalTitle=""
-              modalContent={modalReportContent()}
-              handleClose={handleCloseReport}
-              confirmButtonMessage="Submit"
-              handleSavechanges={handleSaveReport}
-            />
+          <ThreeDots
+            size={30}
+            onClick={() => handleShowListOtherActions(showListOtherActions)}
+            className="otherAction"
+          />
+
+          <div className="list-other-actions" hidden={showListOtherActions}>
+            <ul>
+              <li onClick={handleShowReport}>Report</li>
+            </ul>
           </div>
         </div>
+        <ModalCustom
+          show={showReport}
+          size="lg"
+          modalTitle="Report Photo"
+          modalContent={modalReportContent()}
+          handleClose={handleCloseReport}
+          confirmButtonMessage="Submit"
+          handleSavechanges={handleSaveReport}
+        />
       </div>
       <hr style={{ border: '1px solid #F08080' }} />
     </>

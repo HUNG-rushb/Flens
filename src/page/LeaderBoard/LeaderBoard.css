@@ -33,3 +33,8 @@
 .search-bar {
     margin-left: 20px;
 }
+
+
+td span {
+    font-weight: 600;
+}

@@ -1,6 +1,7 @@
 import Avatar from '../../assets/images/avatar.jpg';
 import ButtonCustom from '../../components/Button/ButtonCustom';
 import Page from '../../components/utils/Page';
+import LeftContent from './LeftContent.jsx';
 import './Notification.css';
 import React, { Suspense } from 'react';
 import { HeartFill, ReplyFill } from 'react-bootstrap-icons';
@@ -23,7 +24,6 @@ const Notification = () => {
       avatar: Avatar,
       name: 'Thomas',
       type: 2,
-      icon: <HeartFill color="red" size={25} />,
       time: '3 minutes ago',
     },
     {
@@ -31,7 +31,6 @@ const Notification = () => {
       avatar: Avatar,
       name: 'John',
       type: 3,
-      icon: <ReplyFill color="blue" size={28} className="mb-1" />,
       time: '5 minutes ago',
     },
   ];
@@ -39,21 +38,7 @@ const Notification = () => {
     <Page title={'Flens-Notification'}>
       <Suspense fallback={null}>
         <div className="Notifi-page">
-          <div className="left-content">
-            <img src={Avatar} alt="avatar"></img>
-            <div className="name">Nguyen Van A</div>
-            <div className="skill-content">
-              <div>
-                <span>Your Flens link:</span> flens.com/quocthanhh
-              </div>
-              <div>
-                <span>Favourites:</span> Camera, Portrait
-              </div>
-              <div>
-                <span>Skills:</span> Portrait photography
-              </div>
-            </div>
-          </div>
+          <LeftContent />
           <div className="right-content">
             <div className="title">Notifications</div>
 
@@ -71,11 +56,24 @@ const Notification = () => {
                         ) : (
                           <div className="name">
                             <span>{item.name}</span>{' '}
-                            {item.type === 2 ? 'Liked ' : 'Shared '}
-                            {item.icon} your post.{' '}
+                            {item.type === 2 ? (
+                              <>
+                                Liked <HeartFill color="red" size={25} /> your
+                                post.{' '}
+                              </>
+                            ) : (
+                              <>
+                                Shared{' '}
+                                <ReplyFill
+                                  color="blue"
+                                  size={28}
+                                  className="mb-1"
+                                />{' '}
+                                your post.
+                              </>
+                            )}
                           </div>
                         )}
-
                         <div>{item.time}</div>
                       </div>
                       {item.type === 1 ? (

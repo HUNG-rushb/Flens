@@ -28,7 +28,7 @@ const Post = ({ item }) => {
         />
         <PostTeachnical item={item} showImageDetail={showImageDetail} />
         <HashTag item={item} />
-        <PostInteraction />
+        <PostInteraction item={item} />
         <PostComment item={item} showImageDetail={showImageDetail} />
       </div>
       <ImageDetail

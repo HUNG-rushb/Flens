@@ -1,8 +1,9 @@
 import './SelectCustom.css'
 
-const SelectCustom = ({options, type}) => {
+const SelectCustom = ({options, type, selected, handleOnChange}) => {
+  console.log("va",selected)
   return (
-    <select className={`select-custom select--${type}`}>
+    <select className={`select-custom select--${type}`} value={selected} onChange={handleOnChange}>
       {options.map((item) => (
         <option key={item.id}>{item.value}</option>
       ))}

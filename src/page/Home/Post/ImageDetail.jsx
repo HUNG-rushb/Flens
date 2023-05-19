@@ -21,7 +21,7 @@ const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
                 <img src={item.avatar} alt="avatar" width={'50px'} />
                 <span>{item.name}</span>
               </div>
-              <PostInteraction />
+              <PostInteraction item={item}/>
               <PostTeachnicalInformation
                 item={item}
                 showImageDetail={showImageDetail}

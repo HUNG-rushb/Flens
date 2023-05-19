@@ -3,17 +3,24 @@ import InputCustom from '../../components/Input/Input';
 import SelectCustom from '../../components/Select/SelectCustom';
 import Page from '../../components/utils/Page';
 import './LeaderBoard.css';
-import React, { Suspense } from 'react';
+import Tittle from './LeaderBoard/Title';
+import React, { Suspense, useState } from 'react';
 
 const LeaderBoard = () => {
   const options = [ 
-    { id: 1, value: 'Inspiration' },
-    { id: 2, value: 'Hot' },
-    { id: 3, value: 'Newest' },
-    { id: 4, value: 'stories' },
+    { id: 1, value: 'All' },
+    { id: 2, value: 'VietNam' },
+    { id: 3, value: 'New York' },
+    { id: 4, value: 'Japan' },
   ];
 
-  const table_data = [
+  const [selected, setSelected] = useState(options[0].value)
+  const handleOnChange = (event) => {
+    setSelected(event.target.value)
+  }
+
+
+  const [table_data, setTable_data] = useState([
     {
       id: 1,
       img: Avatar,
@@ -47,34 +54,43 @@ const LeaderBoard = () => {
       img: Avatar,
       name: 'Hank',
       country: 'London, UK',
-      numberOfFollowers: 100,
+      numberOfFollowers: 90,
     },
-  ];
+  ]);
+
+  const Filtered = () => {
+    var test_Table
+    if(selected==="VietNam")
+    test_Table =  table_data.filter(item => 
+      item.country.includes("VietNam")
+    )
+    if(selected==="New York")
+    test_Table =  table_data.filter(item => 
+      item.country.includes("New York")
+    )
+    setTable_data(test_Table)
+  }
 
   return (
     <Page title={'Flens-Leaderboard'}>
       <Suspense fallback={null}>
         <div className="leaderboard">
-          <div className="leaderboard-title-page">
-            <span>Flens Leaderboard</span>
-            <p>Find your standings, based on your activity the past 30 days</p>
-            <span>Followers</span>
-            <p>Photographers you are following</p>
-          </div>
+          <Tittle/>
           <div className="leaderboard-body-page">
             <div className="filter-and-search-part">
-              <SelectCustom options={options} className="select-bar" />
+              <SelectCustom options={options} className="select-bar" selected={selected} handleOnChange={handleOnChange} />
               <div className="search-bar">
                 <InputCustom type={'Text'} placeholder="Search" />
               </div>
             </div>
+            <button onClick={Filtered}>Test</button>
             <div className="table-part">
               <table>
                 <thead>
                   <tr>
                     <td>STT</td>
                     <td>Avatar</td>
-                    <td>Location</td>
+                    <td>Name/Location</td>
                     <td>Follower</td>
                   </tr>
                 </thead>
@@ -87,7 +103,7 @@ const LeaderBoard = () => {
                           <img src={item.img} alt="" width={50} />
                         </td>
                         <td>
-                          {item.name} <div>{item.country}</div>
+                          <span>{item.name} </span> <div>{item.country}</div>
                         </td>
                         <td>{item.numberOfFollowers} Followes</td>
                       </tr>

@@ -7,7 +7,7 @@ import './Login.css';
 import React, { Suspense, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Login = () => { 
+const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAuthDispatch();
   const { loading, errorMessage } = useAuthState();
