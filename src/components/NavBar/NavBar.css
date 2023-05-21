@@ -29,7 +29,7 @@ a.nav-link {
   opacity: 1;
 }
 
-a.nav-link:hover{
+a.nav-link:hover {
   opacity: 0.7;
 }
 
@@ -61,12 +61,12 @@ a.nav-link:hover{
   padding-top: 12px;
 }
 
-.nav-item > div >  svg {
+.nav-item > div > svg {
   opacity: 1;
 }
 
 .nav-item > div > svg:hover {
-  opacity: 1;
+  opacity: 0.6;
 }
 
 .popover-avatar {
@@ -93,7 +93,8 @@ a.nav-link:hover{
   padding: 3px 10px;
 }
 
-.popover-avatar-content > li a, li div{
+.popover-avatar-content > li a,
+li div {
   text-decoration: none;
   font-size: 16px;
   font-weight: 500;
@@ -102,8 +103,10 @@ a.nav-link:hover{
 
 li div {
   color: red;
+  cursor: pointer;
 }
 
-.popover-avatar-content > li a:hover,  li div:hover {
+.popover-avatar-content > li a:hover,
+li div:hover {
   opacity: 0.5;
 }
