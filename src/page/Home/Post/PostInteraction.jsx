@@ -23,9 +23,6 @@ const PostInteraction = ({ item }) => {
   };
 
   const modalReportContent = () => {
-    console.log(item);
-    const image = item.image;
-    console.log('first,', image);
     return (
       <>
         <div className="report-photo-container">

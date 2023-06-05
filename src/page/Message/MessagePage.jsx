@@ -1,5 +1,6 @@
 import Page from '../../components/utils/Page.js';
 import React, { Suspense } from 'react';
+import {} from 'react-quill'
 
 const MessagePage = () => {
   return (
