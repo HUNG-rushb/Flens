@@ -110,6 +110,9 @@ const NavBar = () => {
                         </div>
                       </div>
                     </Nav.Item>
+                    <Nav.Link as={Link} to="upload">
+                      <button>Upload</button>
+                    </Nav.Link>
                   </Nav>
                 </>
               ) : (

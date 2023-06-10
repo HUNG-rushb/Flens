@@ -110,3 +110,15 @@ li div {
 li div:hover {
   opacity: 0.5;
 }
+
+.nav-link button {
+  font-size: 14px;
+  border: none;
+  color: #f08080;
+  background-color: #fff;
+  font-weight: 500;
+}
+
+.nav-link button:hover {
+  background-color: none;
+}
