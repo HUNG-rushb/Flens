@@ -114,7 +114,7 @@ const Login = () => {
                   text={'Sign In'}
                   type="default"
                   onClick={handleClick}
-                ></ButtonCustom>
+                />
               </div>
               <p>
                 Don't have an account yet? <a href="/register">Sign up now</a>

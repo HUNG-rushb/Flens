@@ -11,7 +11,7 @@ const PostComment = ({ item, showImageDetail }) => {
   return (
     <div className="post-comments">
       <div className="post-comment-header">
-        <img src={item.avatar} alt="avatar-comment" width="40" height="40" />
+        <img src={item.avatar} alt="avatar-comment" width="40" />
         <TextareaCustom
           type={'comment'}
           placeholder={'Add a comment'}
@@ -23,7 +23,7 @@ const PostComment = ({ item, showImageDetail }) => {
           id="btn-submit-cmt"
           onClick={() => handleSubmitComment(item)}
         >
-          <Send size={30} />
+          <Send size={25} />
         </button>
       </div>
       <div className="list-reply-comments">

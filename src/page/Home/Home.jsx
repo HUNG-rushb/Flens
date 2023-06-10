@@ -1,10 +1,10 @@
+import PostImage from '../../assets/images/Home/Post.svg';
 import Avatar2 from '../../assets/images/avatar2.jpg';
-import PostImage from '../../assets/images/post.jpg';
+import Post2 from '../../assets/images/Home/images1.png';
 import Page from '../../components/utils/Page';
 import './Home.css';
 import LeftContent from './LeftContent';
 import Post from './Post';
-import Post2 from '../../assets/images/images1.png'
 import UploadBar from './UploadBar';
 import { Suspense } from 'react';
 
@@ -107,7 +107,6 @@ const Home = () => {
               return <Post key={item.id} item={item} />;
             })}
           </div>
-          
         </div>
       </Suspense>
     </Page>

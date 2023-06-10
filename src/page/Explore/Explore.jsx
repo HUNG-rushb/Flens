@@ -1,5 +1,5 @@
-import Images1 from '../../assets/images/images1.png';
-import Images2 from '../../assets/images/images2.png';
+import Images1 from '../../assets/images/Explore/images1.png';
+import Images2 from '../../assets/images/Explore/images2.png';
 import SelectCustom from '../../components/Select/SelectCustom';
 import Page from '../../components/utils/Page';
 import './Explore.css';
@@ -32,17 +32,18 @@ const Explore = () => {
               ))}
             </div>
           </div>
-
           <div className="all-items">
             <div className="images">
               {images.map((item) => (
-                <img
-                  key={item.id}
-                  src={item.image}
-                  alt="item"
-                  width={500}
-                  height={300}
-                />
+                <div key={item.id}>
+                  <img
+                    key={item.id}
+                    src={item.image}
+                    alt="item"
+                    width={500}
+                    height={300}
+                  />
+                </div>
               ))}
             </div>
             <span>See More ...</span>

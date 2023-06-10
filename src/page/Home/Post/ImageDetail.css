@@ -4,8 +4,8 @@
     position: fixed;
     top: 40px;
     left: 40px;
-    background-color: #fff;
     z-index: 999999;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .detail-page {
@@ -13,8 +13,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #fff;
     height: 100%;
     width: 100%;
+    border-radius: 10px;
 }
 
 .left-image-detail-page {
@@ -65,4 +67,4 @@
 
 .hash-tags-popup{
     margin: 10px;
-}   
+}

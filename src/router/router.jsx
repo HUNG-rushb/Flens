@@ -11,6 +11,7 @@ import LeaderBoard from '../page/LeaderBoard/LeaderBoard.jsx'
 import Report from '../page/Report/Report.jsx';
 import Statistic from '../page/Statistic/Statistic.jsx';
 import Courses from '../page/Courses/Courses.jsx';
+import UploadImage from '../page/UploadImage/UploadImage.jsx'
 
 const routes = [
   {
@@ -88,6 +89,12 @@ const routes = [
   {
     path: '/statistic',
     element: <Statistic />,
+    exact: true,
+    isPrivate: true,
+  },
+  {
+    path: '/upload',
+    element: <UploadImage />,
     exact: true,
     isPrivate: true,
   },
