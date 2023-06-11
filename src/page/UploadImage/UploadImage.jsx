@@ -1,5 +1,7 @@
 import ButtonCustom from '../../components/Button/ButtonCustom.jsx';
 import Page from '../../components/utils/Page.js';
+import { useCreatePostLazy } from '../../graphql/usePost.js';
+import useUploadImageToAWS from '../../hooks/useUploadImageToAWS.js';
 import './UploadImage.css';
 import { EXIF } from 'exif-js';
 import React, { Suspense, useRef, useState } from 'react';
@@ -7,17 +9,31 @@ import { CloudArrowUp } from 'react-bootstrap-icons';
 
 const UploadImage = () => {
   const fileInputRef = useRef(null);
+
+  const [selectedFile, setSelectedFile] = useState(null);
+  // const [filePath, setFilePath] = useState();
+
   const [previewImage, setPreviewImage] = useState(null);
   const [showModalUpload, setShowModalUpload] = useState(false);
 
-  const [tittle, setTittle] = useState('');
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState('');
+
+  const [title, setTitle] = useState('');
+  const [aperture, setAperture] = useState('');
+  const [lens, setLens] = useState('');
+  const [takenWhen, setTakenWhen] = useState('');
   const [camera, setCamera] = useState('');
   const [focalLength, setFocalLength] = useState('');
   const [shutterSpeed, setShutterSpeed] = useState('');
   const [iso, setIso] = useState('');
   const [copyright, setCopyright] = useState('');
+
+  const { createPost, isFetching, fetchedData, fetchError } =
+    useCreatePostLazy();
+  const uploadImageToAWS = useUploadImageToAWS();
+
+  console.log({ fetchedData });
 
   const handleFileSelect = () => {
     fileInputRef.current.click();
@@ -27,28 +43,89 @@ const UploadImage = () => {
     const file = event.target.files[0];
 
     const reader = new FileReader();
-    reader.onload = (event) => {
+    reader.onload = async (event) => {
       const imageUrl = event.target.result;
 
       const image = new Image();
-      image.onload = function () {
+      // image.onload = () => {
+      //   EXIF.getData(file, () => {
+      //     var exifData = EXIF.pretty(this);
+
+      //     if (exifData) {
+      //       console.log(exifData);
+      //       console.log(EXIF.getTag(this, 'Orientation'));
+      //     } else {
+      //       console.log("No EXIF data found in image '" + file.name + "'.");
+      //     }
+      //   });
+      // };
+      const exifData = await new Promise((resolve) => {
         EXIF.getData(file, function () {
-          const exifData = EXIF.pretty(this);
-          console.log('EXIF Data:', exifData);
+          resolve(EXIF.getAllTags(this));
         });
-      };
+      });
+      console.log({ exifData });
+
+      setTitle(file.name.substring(0, file.name.indexOf('.')));
+      setCamera(exifData.Model ? exifData.Model.toString() : '');
+      setAperture(exifData.FNumber ? exifData.FNumber.toString() : '');
+      setShutterSpeed(
+        exifData.ShutterSpeedValue ? exifData.ShutterSpeedValue.toString() : ''
+      );
+      setFocalLength(
+        exifData.FocalLength ? exifData.FocalLength.toString() : ''
+      );
+      setTakenWhen(
+        exifData.DateTimeOriginal ? exifData.DateTimeOriginal.toString() : ''
+      );
+      setIso(
+        exifData.ISOSpeedRatings ? exifData.ISOSpeedRatings.toString() : ''
+      );
+      setCopyright(exifData.Copyright ? exifData.Copyright.toString() : '');
+
       image.src = imageUrl;
       setPreviewImage(imageUrl);
     };
 
     reader.readAsDataURL(file);
     setShowModalUpload(true);
+
+    setSelectedFile(file);
+    // setFilePath(URL.createObjectURL(file));
   };
 
-  const handleConfirmUpload = (event) => {
+  // Create Post
+  const handleConfirmUpload = async (event) => {
     event.preventDefault();
-    console.log(event.target.value)
-  }
+
+    console.log(selectedFile);
+    const result = await uploadImageToAWS({ selectedFile });
+    console.log('Result OUT', { result });
+    console.log(result.Location);
+
+    try {
+      await createPost({
+        variables: {
+          createPostData: {
+            userId: '6482134d9fa3fbb056c8d2fc',
+            title,
+            aperture,
+            lens,
+            takenWhen,
+            camera,
+            focalLength,
+            shutterSpeed,
+            ISO: iso,
+            copyRight: copyright,
+            imageHash: '',
+            imageURL: result.Location,
+          },
+        },
+      });
+    } catch (e) {
+      throw e;
+    }
+  };
 
   return (
     <Page title="Flens-Upload">
@@ -59,7 +136,9 @@ const UploadImage = () => {
               <CloudArrowUp size={45} color="#f08080" />
               <span>Upload</span>
             </div>
+
             <div className="upload-image-text">Drop a photo here</div>
+
             <div className="upload-image-input">
               <label
                 className="custom-file-input"
@@ -68,6 +147,7 @@ const UploadImage = () => {
               >
                 Upload a photo
               </label>
+
               <input
                 type="file"
                 id="fileInput"
@@ -75,6 +155,7 @@ const UploadImage = () => {
                 onChange={handleFileChange}
               />
             </div>
+
             <div className="modal-upload-overlay" hidden={!showModalUpload}>
               <div className="modal-upload-container">
                 <form className="modal-upload-content">
@@ -84,14 +165,15 @@ const UploadImage = () => {
                   <div className="modal-upload-right">
                     <div className="modal-upload-details">
                       <div>
-                        <label htmlFor="">Tittle</label>
+                        <label htmlFor="">Title</label>
                         <input
                           type="text"
-                          value={tittle}
+                          value={title}
                           placeholder="input tittle for image"
-                          onChange={(event) => setTittle(event.target.value)}
+                          onChange={(event) => setTitle(event.target.value)}
                         />
                       </div>
+
                       <div>
                         <label htmlFor="">Description</label>
                         <textarea
@@ -104,65 +186,102 @@ const UploadImage = () => {
                           }
                         />
                       </div>
-                      <div>
+
+                      {/* <div>
                         <label htmlFor="">Tags</label>
                         <input
                           type="text"
                           value={tags}
                           onChange={(event) => setTags(event.target.value)}
-                          placeholder="input some tags"
+                          placeholder="Input some tags"
                         />
-                      </div>
+                      </div> */}
+
                       <div>
                         <label htmlFor="">Camera</label>
                         <input
                           type="text"
-                          placeholder="input your camera"
+                          placeholder="Input your Camera"
                           value={camera}
                           onChange={(event) => setCamera(event.target.value)}
                         />
                       </div>
+
                       <div>
-                        <label htmlFor="">Focal length</label>
+                        <label htmlFor="">Lens</label>
                         <input
                           type="text"
-                          placeholder="input Focal length"
-                          value={focalLength}
-                          onChange={(event) =>
-                            setFocalLength(event.target.value)
-                          }
+                          placeholder="Input your Lens"
+                          value={lens}
+                          onChange={(event) => setLens(event.target.value)}
                         />
                       </div>
+
+                      <div>
+                        <label htmlFor="">Aperture</label>
+                        <input
+                          type="text"
+                          placeholder="Input your Aperture"
+                          value={aperture !== '' ? 'f/' + aperture : ''}
+                          onChange={(event) => setAperture(event.target.value)}
+                        />
+                      </div>
+
                       <div>
                         <label htmlFor="">Shutter speed</label>
                         <input
                           type="text"
-                          placeholder="input Shutter speed"
+                          placeholder="Input your Shutter speed"
                           value={shutterSpeed}
                           onChange={(event) =>
                             setShutterSpeed(event.target.value)
                           }
                         />
                       </div>
+
+                      <div>
+                        <label htmlFor="">Taken</label>
+                        <input
+                          type="text"
+                          placeholder="Taken when"
+                          value={takenWhen}
+                          onChange={(event) => setTakenWhen(event.target.value)}
+                        />
+                      </div>
+
+                      <div>
+                        <label htmlFor="">Focal length</label>
+                        <input
+                          type="text"
+                          placeholder="Input your Focal length"
+                          value={focalLength !== '' ? focalLength + 'mm' : ''}
+                          onChange={(event) =>
+                            setFocalLength(event.target.value)
+                          }
+                        />
+                      </div>
+
                       <div>
                         <label htmlFor="">ISO</label>
                         <input
                           type="text"
-                          placeholder="input ISO"
+                          placeholder="Input your ISO"
                           value={iso}
                           onChange={(event) => setIso(event.target.value)}
                         />
                       </div>
+
                       <div>
                         <label htmlFor="">CopyRight</label>
                         <input
                           type="text"
-                          placeholder="input CopyRight"
+                          placeholder="Input your CopyRight"
                           value={copyright}
                           onChange={(event) => setCopyright(event.target.value)}
                         />
                       </div>
                     </div>
+
                     <div className="modal-buttons">
                       <div className="button-close">
                         <ButtonCustom
@@ -171,11 +290,12 @@ const UploadImage = () => {
                           onClick={() => setShowModalUpload(false)}
                         />
                       </div>
+
                       <div className="button-confirm">
                         <ButtonCustom
                           text={'Upload'}
                           type="modal-save-btn"
-                          onClick={(event)=>handleConfirmUpload(event)}
+                          onClick={(event) => handleConfirmUpload(event)}
                         />
                       </div>
                     </div>
