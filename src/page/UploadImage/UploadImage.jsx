@@ -33,7 +33,8 @@ const UploadImage = () => {
     useCreatePostLazy();
   const uploadImageToAWS = useUploadImageToAWS();
 
-  console.log({ fetchedData });
+  // console.log({ fetchedData });
+  // console.log({ fetchError });
 
   const handleFileSelect = () => {
     fileInputRef.current.click();
@@ -47,18 +48,9 @@ const UploadImage = () => {
       const imageUrl = event.target.result;
 
       const image = new Image();
-      // image.onload = () => {
-      //   EXIF.getData(file, () => {
-      //     var exifData = EXIF.pretty(this);
+      image.src = imageUrl;
+      setPreviewImage(imageUrl);
 
-      //     if (exifData) {
-      //       console.log(exifData);
-      //       console.log(EXIF.getTag(this, 'Orientation'));
-      //     } else {
-      //       console.log("No EXIF data found in image '" + file.name + "'.");
-      //     }
-      //   });
-      // };
       const exifData = await new Promise((resolve) => {
         EXIF.getData(file, function () {
           resolve(EXIF.getAllTags(this));
@@ -82,9 +74,6 @@ const UploadImage = () => {
         exifData.ISOSpeedRatings ? exifData.ISOSpeedRatings.toString() : ''
       );
       setCopyright(exifData.Copyright ? exifData.Copyright.toString() : '');
-
-      image.src = imageUrl;
-      setPreviewImage(imageUrl);
     };
 
     reader.readAsDataURL(file);
@@ -100,8 +89,7 @@ const UploadImage = () => {
 
     console.log(selectedFile);
     const result = await uploadImageToAWS({ selectedFile });
-    console.log('Result OUT', { result });
-    console.log(result.Location);
+    console.log({ result });
 
     try {
       await createPost({
@@ -124,6 +112,10 @@ const UploadImage = () => {
       });
     } catch (e) {
       throw e;
+    }
+
+    if (!fetchError) {
+      console.log('Redirect here');
     }
   };
 

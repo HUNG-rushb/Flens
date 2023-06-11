@@ -24,12 +24,25 @@ export const CREATE_POST = gql`
   mutation CreatePost($createPostData: CreatePostInput!) {
     createPost(data: $createPostData) {
       id
-      # userId {
-      #   name
-      # }
+      createdAt
+      points
       title
       updatedAt
-      createdAt
+      image {
+        url
+        createdAt
+        id
+        hash
+        imageInfoId {
+          ISO
+          aperture
+          camera
+          focalLength
+          id
+          lens
+          shutterSpeed
+        }
+      }
     }
   }
 `;
