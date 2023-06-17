@@ -46,3 +46,29 @@ export const CREATE_POST = gql`
     }
   }
 `;
+
+export const GET_ALL_USER_POST = gql`
+  query UserInfo($getAllUserPostId: UserInfoInput!) {
+    userInfo(data: $getAllUserPostId) {
+      posts {
+        id
+        points
+        title
+        createdAt
+        image {
+          url
+          imageInfoId {
+            ISO
+            aperture
+            camera
+            copyRight
+            focalLength
+            lens
+            shutterSpeed
+            takenWhen
+          }
+        }
+      }
+    }
+  }
+`;

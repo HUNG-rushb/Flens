@@ -4,10 +4,13 @@ import { useCreatePostLazy } from '../../graphql/usePost.js';
 import useUploadImageToAWS from '../../hooks/useUploadImageToAWS.js';
 import './UploadImage.css';
 import { EXIF } from 'exif-js';
+import Jimp from 'jimp';
 import React, { Suspense, useRef, useState } from 'react';
 import { CloudArrowUp } from 'react-bootstrap-icons';
+import { useNavigate } from 'react-router';
 
 const UploadImage = () => {
+  const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -56,7 +59,7 @@ const UploadImage = () => {
           resolve(EXIF.getAllTags(this));
         });
       });
-      console.log({ exifData });
+      // console.log({ exifData });
 
       setTitle(file.name.substring(0, file.name.indexOf('.')));
       setCamera(exifData.Model ? exifData.Model.toString() : '');
@@ -87,7 +90,7 @@ const UploadImage = () => {
   const handleConfirmUpload = async (event) => {
     event.preventDefault();
 
-    console.log(selectedFile);
+    // console.log(selectedFile);
     const result = await uploadImageToAWS({ selectedFile });
     console.log({ result });
 
@@ -110,12 +113,15 @@ const UploadImage = () => {
           },
         },
       });
+
+      // navigate('/');
     } catch (e) {
       throw e;
     }
 
+    // console.log(fetchError);
     if (!fetchError) {
-      console.log('Redirect here');
+      navigate('/');
     }
   };
 

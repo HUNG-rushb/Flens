@@ -1,11 +1,13 @@
+import unixToDateTime from '../../../utils/unixToDateTime';
+
 const PostHeader = ({ item }) => {
   return (
     <div className="post-header">
-      <img src={item.avatar} alt="post-avatar" />
+      {/* <img src={item.avatar} alt="post-avatar" /> */}
       <div>
-        <span>{item.name}</span>
+        <span>Hung</span>
         uploaded a photo
-        <div>{item.time}</div>
+        <div>{unixToDateTime(item.createdAt)}</div>
       </div>
     </div>
   );

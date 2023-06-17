@@ -1,7 +1,8 @@
 import PostImage from '../../assets/images/Home/Post.svg';
-import Avatar2 from '../../assets/images/avatar2.jpg';
 import Post2 from '../../assets/images/Home/images1.png';
+import Avatar2 from '../../assets/images/avatar2.jpg';
 import Page from '../../components/utils/Page';
+import { useGetAllUserPost } from '../../graphql/usePost';
 import './Home.css';
 import LeftContent from './LeftContent';
 import Post from './Post';
@@ -96,6 +97,11 @@ const posts = [
 ];
 
 const Home = () => {
+  const { isFetching, fetchedData, fetchError } = useGetAllUserPost({
+    getAllUserPostId: { userId: '6482134d9fa3fbb056c8d2fc' },
+  });
+  console.log(fetchedData);
+
   return (
     <Page title={'FLens-Home'}>
       <Suspense fallback={<div>Loading...</div>}>
@@ -103,9 +109,14 @@ const Home = () => {
           <LeftContent />
           <div className="right-content">
             <UploadBar />
-            {posts.map((item) => {
+
+            {fetchedData &&
+              fetchedData.userInfo.posts.map((item) => {
+                return <Post key={item.id} item={item} />;
+              })}
+            {/* {posts.map((item) => {
               return <Post key={item.id} item={item} />;
-            })}
+            })} */}
           </div>
         </div>
       </Suspense>

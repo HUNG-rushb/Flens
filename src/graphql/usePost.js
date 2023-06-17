@@ -1,4 +1,8 @@
-import { CREATE_POST, GET_POST_INFORMATION } from './queries/Post.js';
+import {
+  CREATE_POST,
+  GET_POST_INFORMATION,
+  GET_ALL_USER_POST,
+} from './queries/Post.js';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 
 export const useCreatePostLazy = (cache) => {
@@ -54,6 +58,18 @@ export const usePostInfoLazy = (cache) => {
     usePostInfoLazy: () => {
       getPostInfo();
     },
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
+
+export const useGetAllUserPost = (queryPayload) => {
+  const { data, loading, error } = useQuery(GET_ALL_USER_POST, {
+    variables: queryPayload,
+  });
+
+  return {
     isFetching: loading,
     fetchedData: data,
     fetchError: error,
