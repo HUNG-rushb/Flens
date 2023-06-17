@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
 import config from '../../_S3/S3.js';
 import AWS from 'aws-sdk';
+import React, { useState } from 'react';
 
 AWS.config.update({
   accessKeyId: config.accessKeyId,

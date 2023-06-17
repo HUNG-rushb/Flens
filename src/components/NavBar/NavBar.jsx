@@ -1,8 +1,9 @@
 import { useAuthState } from '../../context/AuthContext.js';
-import LogOutButton from './LogOutButton.jsx';
+import { useAuthDispatch } from '../../context/AuthContext.js';
+import { logout } from '../../context/actions/AuthActions.js';
 import './NavBar.css';
 import NavbarSearch from './NavbarSearch.jsx';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import {
   Bell,
@@ -23,7 +24,13 @@ const NavBar = () => {
 
   const role =
     user === null ? 'noneUser' : user.user === 'hung' ? 'client' : 'manager';
-  // console.log('role', role);
+
+  const dispatch = useAuthDispatch();
+  const handleLogout = () => {
+    setShow(!show);
+    logout(dispatch);
+    // navigate('/');
+  };
 
   return (
     <Navbar expand="md">
@@ -37,9 +44,7 @@ const NavBar = () => {
             FLENS
           </Navbar.Brand>
         )}
-
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-
         <Navbar.Collapse className="justify-content-end">
           {isNotAuthenticated ? (
             <Nav>
@@ -47,7 +52,7 @@ const NavBar = () => {
                 Explore
               </Nav.Link>
               <Nav.Link as={Link} to="/register">
-                Register
+                Sign up
               </Nav.Link>
               <Nav.Link as={Link} to="/login">
                 Sign in
@@ -66,15 +71,15 @@ const NavBar = () => {
                       Explore
                     </Nav.Link>
                     <Nav.Link as={Link} to="message">
-                      <Envelope />
+                      <Envelope size={28} />
                     </Nav.Link>
                     <Nav.Link as={Link} to="Notification">
-                      <Bell />
+                      <Bell size={28} />
                     </Nav.Link>
                     <Nav.Item>
                       <div>
                         <PersonCircle
-                          size={29}
+                          size={28}
                           onClick={() => setShow(!show)}
                         />
                         <div className="popover-avatar">
@@ -95,53 +100,70 @@ const NavBar = () => {
                               <li>
                                 <a href="/aboutUs">About us</a>
                               </li>
+                              <li>
+                                <div onClick={() => handleLogout()}>
+                                  Log out
+                                </div>
+                              </li>
                             </ul>
                           ) : null}
                         </div>
                       </div>
                     </Nav.Item>
-                    <LogOutButton />
+                    <Nav.Link as={Link} to="upload">
+                      <button>Upload</button>
+                    </Nav.Link>
                   </Nav>
                 </>
               ) : (
-                <Nav>
-                  <Nav.Link as={Link} to="courses">
-                    <Journal />
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="reports">
-                    <CardChecklist />
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="statistic">
-                    <Clipboard2Data />
-                  </Nav.Link>
-                  <Nav.Item>
-                    <div>
-                      <PersonCircle size={29} onClick={() => setShow(!show)} />
-                      <div className="popover-avatar">
-                        {show ? (
-                          <ul className="popover-avatar-content">
-                            <li>
-                              <a href="/profile">Profile</a>
-                            </li>
-                            <li>
-                              <a href="/courses">Courses</a>
-                            </li>
-                            <li>
-                              <a href="/reports">Reports</a>
-                            </li>
-                            <li>
-                              <a href="/statistic">Statistic</a>
-                            </li>
-                            <li>
-                              <a href="/aboutUs">About Us</a>
-                            </li>
-                          </ul>
-                        ) : null}
+                <>
+                  <NavbarSearch />
+                  <Nav>
+                    <Nav.Link as={Link} to="courses">
+                      <Journal size={28} />
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="reports">
+                      <CardChecklist size={28} />
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="statistic">
+                      <Clipboard2Data size={28} />
+                    </Nav.Link>
+                    <Nav.Item>
+                      <div>
+                        <PersonCircle
+                          size={29}
+                          onClick={() => setShow(!show)}
+                        />
+                        <div className="popover-avatar">
+                          {show ? (
+                            <ul className="popover-avatar-content">
+                              <li>
+                                <a href="/profile">Profile</a>
+                              </li>
+                              <li>
+                                <a href="/courses">Courses</a>
+                              </li>
+                              <li>
+                                <a href="/reports">Reports</a>
+                              </li>
+                              <li>
+                                <a href="/statistic">Statistic</a>
+                              </li>
+                              <li>
+                                <a href="/aboutUs">About Us</a>
+                              </li>
+                              <li>
+                                <div onClick={() => handleLogout()}>
+                                  Log out
+                                </div>
+                              </li>
+                            </ul>
+                          ) : null}
+                        </div>
                       </div>
-                    </div>
-                  </Nav.Item>
-                  <LogOutButton />
-                </Nav>
+                    </Nav.Item>
+                  </Nav>
+                </>
               )}
             </>
           )}

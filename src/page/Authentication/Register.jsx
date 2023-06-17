@@ -1,32 +1,48 @@
-import React, { Suspense, useState } from 'react';
 import ButtonCustom from '../../components/Button/ButtonCustom';
 import Page from '../../components/utils/Page';
+import Spinner from '../../components/utils/Spinner';
+import { useCreateUserLazy } from '../../graphql/useUser';
 import './Login.css';
+import hash from 'hash-it';
+import React, { Suspense, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const { createUser, isFetching, fetchedData, fetchError } =
+    useCreateUserLazy();
 
-  const handleClick = (e) => {
+  const handleClick = async (e) => {
     e.preventDefault();
 
-    const account = {
-      email: email,
-      password: password,
-    };
+    console.log(hash(password));
 
-    localStorage.setItem('user1', JSON.stringify(account));
-    console.log("sign up successfull")
+    try {
+      await createUser({
+        variables: {
+          data: {
+            name,
+            hashPassword: `${hash(password)}`,
+            email,
+          },
+        },
+      });
+    } catch (e) {
+      throw e;
+    }
   };
 
   return (
     <Page title={'Flens-Register'}>
       <Suspense fallback={null}>
         <div className="login-page">
-          <form className="Login-form">
+          <form className="Login-form" autocomplete="off">
             <div className="Login-form-content">
               <h3 className="Login-form-title">Sign Up</h3>
+
               <div className="form-group mt-3">
                 <label style={{ display: 'flex' }}>Name</label>
                 <input
@@ -37,6 +53,7 @@ const Register = () => {
                   value={name}
                 />
               </div>
+
               <div className="form-group mt-3">
                 <label style={{ display: 'flex' }}>Password</label>
                 <input
@@ -47,6 +64,7 @@ const Register = () => {
                   value={password}
                 />
               </div>
+
               <div className="form-group mt-3">
                 <label style={{ display: 'flex' }}>Email address</label>
                 <input
@@ -57,16 +75,27 @@ const Register = () => {
                   value={email}
                 />
               </div>
-              <div className="d-grid gap-2 mt-3">
-                <ButtonCustom
-                  text={'Sign Up'}
-                  type="default"
-                  onClick={handleClick}
-                ></ButtonCustom>
-              </div>
-              <p className="mt-3 mb-3">
-                Already have an account? <a href="/login">Sign in now</a>
-              </p>
+
+              {isFetching ? (
+                <div className="d-grid gap-2 mt-3">
+                  <Spinner />
+                </div>
+              ) : (
+                <>
+                  <div className="d-grid gap-2 mt-3">
+                    <ButtonCustom
+                      text={'Sign Up'}
+                      type="default"
+                      onClick={handleClick}
+                      disabled={isFetching}
+                    />
+                  </div>
+
+                  <p className="mt-3 mb-3">
+                    Already have an account? <a href="/login">Sign in now</a>
+                  </p>
+                </>
+              )}
             </div>
           </form>
         </div>

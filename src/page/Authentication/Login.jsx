@@ -22,9 +22,9 @@ const Login = () => {
   // });
 
   const account = {
-    email:email,
-    password:password,
-  }
+    email: email,
+    password: password,
+  };
 
   const handleClick = async (e) => {
     // setAccount({
@@ -66,6 +66,14 @@ const Login = () => {
     } catch (error) {
       console.log(error);
     }
+
+    // localStorage.setItem(
+    //   'currentUser',
+    //   JSON.stringify({
+    //     name,
+    //     email,
+    //   })
+    // );
   };
 
   return (
@@ -106,7 +114,7 @@ const Login = () => {
                   text={'Sign In'}
                   type="default"
                   onClick={handleClick}
-                ></ButtonCustom>
+                />
               </div>
               <p>
                 Don't have an account yet? <a href="/register">Sign up now</a>

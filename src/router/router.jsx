@@ -11,6 +11,8 @@ import LeaderBoard from '../page/LeaderBoard/LeaderBoard.jsx'
 import Report from '../page/Report/Report.jsx';
 import Statistic from '../page/Statistic/Statistic.jsx';
 import Courses from '../page/Courses/Courses.jsx';
+import UploadImage from '../page/UploadImage/UploadImage.jsx';
+import EditProfile from '../page/Profile/Tabs/Biography/EditProfile.jsx';
 
 const routes = [
   {
@@ -91,6 +93,18 @@ const routes = [
     exact: true,
     isPrivate: true,
   },
+  {
+    path: '/upload',
+    element: <UploadImage />,
+    exact: true,
+    isPrivate: true,
+  },
+  {
+    path: '/editProfile',
+    element: <EditProfile />,
+    exact: true,
+    isPrivate: true,
+  }
 ];
 
 export default routes;

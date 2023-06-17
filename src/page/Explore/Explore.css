@@ -1,61 +1,45 @@
-
 .explore-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .options-bar {
-    height: 80px;
-    border-bottom: 2px solid #f08080;
-    background-color: #fff;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+  height: 80px;
+  border-bottom: 2px solid #f08080;
+  display: flex;
+  width: 100%;
+  align-items: center;
 }
 
 .select-part {
-    width: 100%;
-    margin-left: 100px;
+  width: 100%;
+  margin-left: 100px;
 }
 
 .options {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
-.options > span{
-    padding: 0px 20px;
-    font-size: 18px;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-.all-items {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding: 70px 20px;
-}
-
-.all-items > span {
-    font-size: 17px;
-    font-weight: 600;
-    padding: 10px 0px;
-    opacity: 1;
-}
-
-.all-items > span:hover {
-    opacity: 0.7;
-    cursor: pointer;
+.options span {
+  padding: 0px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .images {
-    display: grid;
-    grid-template-columns: auto auto;
-    gap: 10px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 0 10px;
+}
+
+.images img {
+  width: 480px;
+  height: auto;
+  object-fit: cover;
+  margin:10px;
 }

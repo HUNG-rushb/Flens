@@ -5,20 +5,41 @@ import SelectCustom from '../../components/Select/SelectCustom';
 import Page from '../../components/utils/Page.js';
 import './Courses.css';
 import TableCoursesDate from './TableCoursesData.jsx';
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { PencilSquare, XSquare } from 'react-bootstrap-icons';
 
 const Courses = () => {
   const category_options = [
-    { id: 1, value: 'video courses' },
-    { id: 2, value: 'interactive courses' },
-    { id: 3, value: 'workshop' },
+    { id: 1, value: 'Video courses' },
+    { id: 2, value: 'Interactive courses' },
+    { id: 3, value: 'Workshop' },
   ];
 
   const status_options = [
-    { id: 1, value: 'active' },
-    { id: 2, value: 'inactive' },
+    { id: 1, value: 'All' },
+    { id: 2, value: 'Active' },
+    { id: 3, value: 'InActive' },
   ];
+
+  const [selectedStatus, setSelectedStatus] = useState(status_options[0].value);
+
+  const handleOnChangeSelectedStatus = (event) => {
+    setSelectedStatus(event.target.value);
+  };
+
+  const filterStatusSelected = () => {
+    const filteredSelected =
+      selectedStatus === 'All'
+        ? filteredData
+        : filteredData.filter((item) => item.status === selectedStatus);
+    setFilteredData(filteredSelected);
+    
+  };
+
+  useEffect(() => {
+    filterStatusSelected();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedStatus]);
 
   const table_title = [
     { value: 'No' },
@@ -30,7 +51,7 @@ const Courses = () => {
     { value: '#' },
   ];
 
-  const [table_courses_data, setTable_courses_data] = useState([
+  const data = [
     {
       id: 1,
       coursesName: 'Helmut Newton MasterClass',
@@ -42,7 +63,7 @@ const Courses = () => {
       id: 2,
       coursesName: 'Jonathan MasterClass',
       createDate: 'July 01, 2022',
-      status: 'inActive',
+      status: 'InActive',
       attendants: 31,
     },
     {
@@ -52,7 +73,10 @@ const Courses = () => {
       status: 'Active',
       attendants: 32,
     },
-  ]);
+  ];
+
+  const [filteredData, setFilteredData] = useState(data);
+  
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
@@ -121,8 +145,7 @@ const Courses = () => {
 
   const handleSubmitEditModal = () => {
     setEditId(tempObj.id);
-    console.log('submit', editId);
-    table_courses_data.splice(editId, 1, {
+    filteredData.splice(editId, 1, {
       id: editId,
       coursesName: editCoursesName,
       createDate: editCreatedDate,
@@ -134,8 +157,8 @@ const Courses = () => {
   };
 
   const handleSubmitRemoveModal = () => {
-    setTable_courses_data(
-      table_courses_data.filter((item) => item !== tempObj)
+    setFilteredData(
+      filteredData.filter((item) => item !== tempObj)
     );
     showEditModal ? setShowEditModal(false) : setShowRemoveModal(false);
   };
@@ -146,17 +169,11 @@ const Courses = () => {
         <div className="courses-page">
           <div className="title">Courses</div>
           <div className="create-courses-btn">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div>
             <ButtonCustom
               text={'Create a courses'}
               type="default2"
               onClick={handleClickCreateCourses()}
             />
-            </div>
           </div>
           <div className="body-page">
             <div className="courses-upcontent">
@@ -177,14 +194,19 @@ const Courses = () => {
               <div>
                 <span>Status</span>
                 <div>
-                  <SelectCustom options={status_options} type="default3" />
+                  <SelectCustom
+                    options={status_options}
+                    type="default3"
+                    selected={selectedStatus}
+                    handleOnChange={handleOnChangeSelectedStatus}
+                  />
                 </div>
               </div>
             </div>
 
             <TableCoursesDate
               titles={table_title}
-              body={table_courses_data}
+              body={filteredData}
               PencilSquare={PencilSquare}
               handleClickEdit={handleClickEdit}
               XSquare={XSquare}
@@ -207,6 +229,7 @@ const Courses = () => {
                 showEditModal ? handleSubmitEditModal : handleSubmitRemoveModal
               }
               size={'md'}
+              confirmButtonMessage="Submit"
             />
           </div>
         </div>
