@@ -26,7 +26,7 @@ const PostInteraction = ({ item }) => {
     return (
       <>
         <div className="report-photo-container">
-          <img src={item.image} alt="" width={'50%'} />
+          <img src={item.image.url} alt="" width={'50%'} />
 
           <div className="left-report-photo">
             <span>Report this photo with reason:</span>
@@ -48,7 +48,7 @@ const PostInteraction = ({ item }) => {
               </li>
               <li>
                 <input type="checkbox" />
-                <span>Hamful content</span>
+                <span>Harmful content</span>
               </li>
             </ul>
           </div>
