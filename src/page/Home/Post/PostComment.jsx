@@ -50,8 +50,9 @@ const PostComment = ({ item, showImageDetail }) => {
   };
 
   const showMoreCmt = () => {
-    setIndexCmt((prev) => prev + 2);}
-    
+    setIndexCmt((prev) => prev + 2);
+  };
+
   const handlePressEnter = async (event) => {
     const textarea = document.getElementById('textarea-comment');
     const { selectionStart, selectionEnd } = textarea;
