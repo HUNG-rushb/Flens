@@ -48,6 +48,12 @@ const PostComment = ({ item, showImageDetail }) => {
     refetch();
   };
 
+  const handlePressEnter = (event) => {
+    if (event.key === "Enter") {
+      handleSubmitComment(comment)
+    }
+  }
+
   return (
     <div className="post-comments">
       <div className="post-comment-header">
@@ -57,6 +63,7 @@ const PostComment = ({ item, showImageDetail }) => {
           placeholder={'Add a comment'}
           value={comment}
           onChange={(e) => setComment(e.target.value)}
+          onKeyDown={(e)=> handlePressEnter}
         />
 
         <button type="submit" id="btn-submit-cmt" onClick={handleSubmitComment}>

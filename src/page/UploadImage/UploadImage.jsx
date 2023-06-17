@@ -184,17 +184,6 @@ const UploadImage = () => {
                           }
                         />
                       </div>
-
-                      {/* <div>
-                        <label htmlFor="">Tags</label>
-                        <input
-                          type="text"
-                          value={tags}
-                          onChange={(event) => setTags(event.target.value)}
-                          placeholder="Input some tags"
-                        />
-                      </div> */}
-
                       <div>
                         <label htmlFor="">Camera</label>
                         <input
