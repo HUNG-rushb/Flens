@@ -16,7 +16,7 @@ const Profile = () => {
           <div className="peronalInfor">
             <div className="coverImageContent">
               <PersonCircle size={200} />
-              <img src={Avatar} alt="" />
+              {/* <img src={Avatar} alt="" /> */}
               <div className="profileName">Nguyen Van A</div>
             </div>
           </div>
