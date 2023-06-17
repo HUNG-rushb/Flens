@@ -1,9 +1,11 @@
 import ButtonCustom from '../../../../components/Button/ButtonCustom';
 import { CameraFill } from 'react-bootstrap-icons';
+import { useNavigate } from 'react-router-dom';
 
 const PersonalInforAndEdit = () => {
+  const navigate = useNavigate()
   const handleEditClick = () => {
-    console.log('edit button click');
+    navigate('/editProfile')
   };
 
   return (
@@ -42,7 +44,7 @@ const PersonalInforAndEdit = () => {
         <ButtonCustom
           text={'Edit'}
           type="default2"
-          onClick={(e) => handleEditClick(e)}
+          onClick={handleEditClick}
         />
       </div>
     </div>

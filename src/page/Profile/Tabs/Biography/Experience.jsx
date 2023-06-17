@@ -17,13 +17,44 @@ const ExperienceComponent = () => {
   const modalContent = () => {
     return (
       <>
-        <InputCustom type={'text'} />
+        <InputCustom
+          type={'text'}
+          value={initialExperience.skill}
+          onChange={(e) =>
+            setInitialExperience({
+              id: experiences[experiences.length - 1].id + 1,
+              value: e.target.value,
+            })
+          }
+        />
       </>
     );
   };
 
+  const [experiences, setExperience] = useState({
+    id: 0,
+    value: 'portrait photography',
+  });
+
+  const [initialExperience, setInitialExperience] = useState({
+    id: 0,
+    value: '',
+  });
+
   const submitExperience = () => {
+    experiences.push(initialExperience);
+    setExperience(experiences);
     setShowExperience(false);
+  };
+
+  const ExperienceList = () => {
+    return (
+      <>
+        {experiences.map((item) => {
+          return <div key={item.id}>{item.value}</div>;
+        })}
+      </>
+    );
   };
 
   return (
@@ -31,6 +62,7 @@ const ExperienceComponent = () => {
       <div className="experience-text">
         <span>Experience:</span>
         No experiences to show, consider adding some.
+        {/* <ExperienceList /> */}
       </div>
       <div className="exp-btn">
         <ButtonCustom

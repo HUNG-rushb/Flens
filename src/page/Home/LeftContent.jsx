@@ -3,7 +3,7 @@ import Avatar from '../../assets/images/avatar.jpg';
 const LeftHomeContent = () => {
   return <div className="container-left-content">
     <div className="left-content">
-      <img src={Avatar} alt="avatar"></img>
+      <img src={Avatar} alt="avatar"/>
       <div className="name">Nguyen Van A</div>
       <div className="skill-content">
         <div>

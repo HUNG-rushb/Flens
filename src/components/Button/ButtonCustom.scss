@@ -36,6 +36,20 @@
   color: white;
 }
 
+.button--default3 {
+  font-size: 14px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button--save-change-edit {
+  font-size: 15px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .Button:after {
   display: block;
   position: absolute;

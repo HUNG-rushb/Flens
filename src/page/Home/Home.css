@@ -17,6 +17,7 @@
 .left-content > img {
     width: 40%;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .left-content > .name {
