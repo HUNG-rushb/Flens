@@ -22,7 +22,6 @@ const Home = () => {
           <LeftContent />
           <div className="right-content">
             <UploadBar />
-
             {isFetching && <Spinner />}
             {fetchedData &&
               fetchedData.userInfo.posts.map((item) => {

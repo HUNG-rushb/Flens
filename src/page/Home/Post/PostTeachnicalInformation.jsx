@@ -1,4 +1,13 @@
+// import moment from 'moment'
+
 const PostTeachnical = ({ item, showImageDetail }) => {
+  // const formatDate = () => {
+  //   const date = item.image.imageInfoId.takenWhen
+  //   const customDate = moment(date.slice(0,10)).format('DD/MM/YYYY')
+  //   const customTime = date.slice(11)
+  //   return customDate + " " +  customTime
+  // }
+
   return (
     <div
       className={!showImageDetail ? 'post-information' : 'post-information-2'}

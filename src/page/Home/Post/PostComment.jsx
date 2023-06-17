@@ -63,6 +63,7 @@ const PostComment = ({ item, showImageDetail }) => {
           placeholder={'Add a comment'}
           value={comment}
           onChange={(e) => setComment(e.target.value)}
+         
         />
 
         <button type="submit" id="btn-submit-cmt" onClick={handleSubmitComment}>

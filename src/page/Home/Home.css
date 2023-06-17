@@ -4,14 +4,13 @@
 }
 
 .container-left-content {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  width: 425px;
-  position: fixed;
-  padding-top: 20px;
-  height: 100%;
-  background-color: #fffaf0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 30%;
+    position: relative;
+    height: 100%;
+    background-color: #FFFAF0;
 }
 
 .left-content > img {
@@ -134,14 +133,24 @@
   padding: 6px 0px;
 }
 
+.post-image-and-tittle {
+    padding: 20px;
+}
+
+#image-post {
+    width: 100%;
+    object-fit: cover;
+}
+
 #post-detail {
   padding-bottom: 20px;
 }
 
 .post-information {
-  display: grid;
-  grid-template-columns: auto auto;
-  margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: auto auto;
+    margin-bottom: 10px;
+    margin:20px;
 }
 
 .post-information > div {
@@ -178,8 +187,9 @@
 }
 
 .post-interaction {
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 20px;
 }
 
 .like-icon {
@@ -236,10 +246,12 @@
   opacity: 0.6;
 }
 
+
 .post-comment-header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 20px;
 }
 
 #btn-submit-cmt > svg {
