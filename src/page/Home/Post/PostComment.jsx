@@ -32,7 +32,6 @@ const PostComment = ({ item, showImageDetail }) => {
 
   const handleSubmitComment = async (e) => {
     e.preventDefault();
-
     try {
       await createComment({
         variables: {
@@ -51,7 +50,42 @@ const PostComment = ({ item, showImageDetail }) => {
   };
 
   const showMoreCmt = () => {
-    setIndexCmt((prev) => prev + 2);
+    setIndexCmt((prev) => prev + 2);}
+    
+  const handlePressEnter = async (event) => {
+    const textarea = document.getElementById('textarea-comment');
+    const { selectionStart, selectionEnd } = textarea;
+    const value = textarea.value;
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      const newValue =
+        value.substring(0, selectionStart) +
+        '\n' +
+        value.substring(selectionEnd);
+      textarea.value = newValue;
+
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+
+      textarea.selectionStart = selectionStart + 1;
+      textarea.selectionEnd = selectionStart + 1;
+    } else if (
+      event.key === 'Backspace' &&
+      selectionStart === selectionEnd &&
+      selectionStart > 0
+    ) {
+      event.preventDefault();
+
+      const newValue =
+        value.substring(0, selectionStart - 1) + value.substring(selectionEnd);
+      textarea.value = newValue;
+
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+
+      textarea.selectionStart = selectionStart - 1;
+      textarea.selectionEnd = selectionStart - 1;
+    }
   };
 
   return (
@@ -61,9 +95,11 @@ const PostComment = ({ item, showImageDetail }) => {
         <TextareaCustom
           type={'comment'}
           placeholder={'Add a comment'}
+          id="textarea-comment"
           value={comment}
+          rows={1}
           onChange={(e) => setComment(e.target.value)}
-         
+          onKeyDown={(e) => handlePressEnter(e)}
         />
 
         <button type="submit" id="btn-submit-cmt" onClick={handleSubmitComment}>
@@ -75,11 +111,6 @@ const PostComment = ({ item, showImageDetail }) => {
         {allComment &&
           allComment.slice(0, indexCmt).map((i, index) => (
             <div className="reply-comment" key={i.id}>
-              {/* <img
-              src={i.image}
-              alt="reply-comment"
-              width={check === 1 ? '17%' : '5%'}
-            /> */}
               <span>{i.name}</span>
               <div className="reply-comment-content">{i.content}</div>
               <div className="reply-comment-date">

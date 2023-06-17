@@ -133,9 +133,14 @@
   padding: 6px 0px;
 }
 
+.post-content {
+    width: 100%;
+}
+
 .post-image-and-tittle {
     padding: 20px;
 }
+
 
 #image-post {
     width: 100%;
