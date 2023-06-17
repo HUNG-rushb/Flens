@@ -1,7 +1,8 @@
 import {
-  CREATE_POST,
-  GET_POST_INFORMATION,
+  CREATE_POST, // GET_POST_INFORMATION,
   GET_ALL_USER_POST,
+  GET_ALL_POST_COMMENT,
+  CREATE_COMMENT,
 } from './queries/Post.js';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 
@@ -36,33 +37,33 @@ export const useCreatePostLazy = (cache) => {
   // }
 };
 
-export const useGetPostInfo = () => {
-  const { data, loading, error } = useQuery(GET_POST_INFORMATION);
+// export const useGetPostInfo = () => {
+//   const { data, loading, error } = useQuery(GET_POST_INFORMATION);
 
-  return {
-    isFetching: loading,
-    fetchedData: data,
-    fetchError: error,
-  };
-};
+//   return {
+//     isFetching: loading,
+//     fetchedData: data,
+//     fetchError: error,
+//   };
+// };
 
-export const usePostInfoLazy = (cache) => {
-  const [getPostInfo, { data, loading, error }] = useLazyQuery(
-    GET_POST_INFORMATION,
-    {
-      fetchPolicy: cache ? undefined : 'no-cache',
-    }
-  );
+// export const usePostInfoLazy = (cache) => {
+//   const [getPostInfo, { data, loading, error }] = useLazyQuery(
+//     GET_POST_INFORMATION,
+//     {
+//       fetchPolicy: cache ? undefined : 'no-cache',
+//     }
+//   );
 
-  return {
-    usePostInfoLazy: () => {
-      getPostInfo();
-    },
-    isFetching: loading,
-    fetchedData: data,
-    fetchError: error,
-  };
-};
+//   return {
+//     usePostInfoLazy: () => {
+//       getPostInfo();
+//     },
+//     isFetching: loading,
+//     fetchedData: data,
+//     fetchError: error,
+//   };
+// };
 
 export const useGetAllUserPost = (queryPayload) => {
   const { data, loading, error } = useQuery(GET_ALL_USER_POST, {
@@ -70,6 +71,66 @@ export const useGetAllUserPost = (queryPayload) => {
   });
 
   return {
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
+
+export const useGetAllPostComment = (queryPayload) => {
+  const { data, loading, error, refetch } = useQuery(GET_ALL_POST_COMMENT, {
+    variables: queryPayload,
+    fetchPolicy: 'no-cache',
+  });
+
+  return {
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+    refetch,
+  };
+};
+
+// export const useGetAllPostCommentLazy = (queryPayload) => {
+//   const { data, loading, error } = useQuery(GET_ALL_POST_COMMENT, {
+//     variables: queryPayload,
+//   });
+
+//   return {
+//     isFetching: loading,
+//     fetchedData: data,
+//     fetchError: error,
+//   };
+// };
+
+export const useGetAllPostCommentLazy = (cache) => {
+  const [getAllComment, { data, loading, error }] = useLazyQuery(
+    GET_ALL_POST_COMMENT,
+    {
+      fetchPolicy: cache ? undefined : 'no-cache',
+    }
+  );
+
+  return {
+    getAllCommentLazy: (queryPayload) => {
+      getAllComment(queryPayload);
+    },
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
+
+export const useCreateCommentLazy = (cache) => {
+  const [createComment, { data, loading, error }] = useMutation(
+    CREATE_COMMENT,
+    {
+      fetchPolicy: cache ? undefined : 'no-cache',
+    }
+  );
+
+  return {
+    createComment,
     isFetching: loading,
     fetchedData: data,
     fetchError: error,

@@ -34,7 +34,7 @@ const Post = ({ item }) => {
 
         <PostInteraction item={item} />
 
-        {/* <PostComment item={item} showImageDetail={showImageDetail} /> */}
+        <PostComment item={item} showImageDetail={showImageDetail} />
       </div>
 
       {/* <ImageDetail
