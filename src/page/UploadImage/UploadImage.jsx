@@ -125,6 +125,11 @@ const UploadImage = () => {
     }
   };
 
+  const handleCancelUpload = (event) => {
+    event.preventDefault();
+    setShowModalUpload(false)
+  }
+
   return (
     <Page title="Flens-Upload">
       <Suspense fallback={<div>Loading...</div>}>
@@ -274,7 +279,7 @@ const UploadImage = () => {
                         <ButtonCustom
                           text={'Cancel'}
                           type="modal-close-btn"
-                          onClick={() => setShowModalUpload(false)}
+                          onClick={(e)=>handleCancelUpload(e)}
                         />
                       </div>
 
