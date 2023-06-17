@@ -127,8 +127,8 @@ const UploadImage = () => {
 
   const handleCancelUpload = (event) => {
     event.preventDefault();
-    setShowModalUpload(false)
-  }
+    setShowModalUpload(false);
+  };
 
   return (
     <Page title="Flens-Upload">
@@ -182,7 +182,7 @@ const UploadImage = () => {
                         <textarea
                           id="text-upload"
                           cols="30"
-                          rows="10"
+                          rows="3"
                           value={description}
                           onChange={(event) =>
                             setDescription(event.target.value)
@@ -279,7 +279,7 @@ const UploadImage = () => {
                         <ButtonCustom
                           text={'Cancel'}
                           type="modal-close-btn"
-                          onClick={(e)=>handleCancelUpload(e)}
+                          onClick={(e) => handleCancelUpload(e)}
                         />
                       </div>
 
