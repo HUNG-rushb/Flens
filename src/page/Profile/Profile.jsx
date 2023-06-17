@@ -4,6 +4,7 @@ import './Profile.css';
 import TabMenu from './Tabs/Tabs';
 import { Suspense } from 'react';
 import { PersonCircle } from 'react-bootstrap-icons';
+import Avatar from '../../assets/images/avatar.jpg'
 
 const Profile = () => {
   return (
@@ -15,6 +16,7 @@ const Profile = () => {
           <div className="peronalInfor">
             <div className="coverImageContent">
               <PersonCircle size={200} />
+              <img src={Avatar} alt="" />
               <div className="profileName">Nguyen Van A</div>
             </div>
           </div>
