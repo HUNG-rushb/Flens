@@ -4,20 +4,20 @@ import {
   useCreateCommentLazy,
   useGetAllPostCommentLazy,
 } from '../../../graphql/usePost';
+import { relativeDays } from '../../../utils/unixToDateTime';
 import { useEffect, useState } from 'react';
 import { Send } from 'react-bootstrap-icons';
 
 const PostComment = ({ item, showImageDetail }) => {
+  const [allComment, setAllComment] = useState(null);
+  const [comment, setComment] = useState('');
+  const [indexCmt, setIndexCmt] = useState(3);
+
   const { isFetching, fetchedData, fetchError, refetch } = useGetAllPostComment(
     {
       postInfo: { postId: item.id },
     }
   );
-  const [allComment, setAllComment] = useState(null);
-
-  useEffect(() => {
-    setAllComment(fetchedData?.postInfo.comments);
-  }, [fetchedData]);
 
   const {
     createComment,
@@ -26,7 +26,9 @@ const PostComment = ({ item, showImageDetail }) => {
     fetchErrorComment,
   } = useCreateCommentLazy();
 
-  const [comment, setComment] = useState('');
+  useEffect(() => {
+    setAllComment(fetchedData?.postInfo.comments);
+  }, [fetchedData]);
 
   const handleSubmitComment = async (e) => {
     e.preventDefault();
@@ -48,6 +50,10 @@ const PostComment = ({ item, showImageDetail }) => {
     refetch();
   };
 
+  const showMoreCmt = () => {
+    setIndexCmt((prev) => prev + 2);
+  };
+
   return (
     <div className="post-comments">
       <div className="post-comment-header">
@@ -66,7 +72,7 @@ const PostComment = ({ item, showImageDetail }) => {
 
       <div className="list-reply-comments">
         {allComment &&
-          allComment.map((i, index) => (
+          allComment.slice(0, indexCmt).map((i, index) => (
             <div className="reply-comment" key={i.id}>
               {/* <img
               src={i.image}
@@ -75,17 +81,19 @@ const PostComment = ({ item, showImageDetail }) => {
             /> */}
               <span>{i.name}</span>
               <div className="reply-comment-content">{i.content}</div>
-              <div className="reply-comment-date">{i.createdAt}</div>
+              <div className="reply-comment-date">
+                {relativeDays(i.createdAt)}
+              </div>
             </div>
           ))}
 
-        {/* {item.comments.length > 1 ? (
-          <div className="View-more-comments">
-            View more {item.comments.length} comments ...
+        {allComment?.length > 3 && allComment?.length > indexCmt ? (
+          <div className="View-more-comments" onClick={showMoreCmt}>
+            View more
           </div>
         ) : (
           <></>
-        )} */}
+        )}
       </div>
     </div>
   );

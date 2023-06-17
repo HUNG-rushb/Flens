@@ -2,7 +2,7 @@ function padTo2Digits(num) {
   return num.toString().padStart(2, '0');
 }
 
-function relativeDays(timestamp) {
+export function relativeDays(timestamp) {
   const rtf = new Intl.RelativeTimeFormat('en', {
     numeric: 'auto',
   });
