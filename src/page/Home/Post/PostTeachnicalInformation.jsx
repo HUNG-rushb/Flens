@@ -1,21 +1,34 @@
-const PostTeachnical = ({ item, showImageDetail}) => {
-  const check = !showImageDetail? 1:2
+const PostTeachnical = ({ item, showImageDetail }) => {
   return (
-    <div className= {check===1? "post-information" : "post-information-2" }>
+    <div
+      className={!showImageDetail ? 'post-information' : 'post-information-2'}
+    >
       <div>
-        <span>Camera:</span> {item.technical.camera}
+        <span>Camera:</span> {item.image.imageInfoId.camera}
       </div>
+
       <div>
-        <span>Focal length:</span> {item.technical.focalLength}
+        <span>Aperture:</span> {item.image.imageInfoId.aperture}
       </div>
+
       <div>
-        <span>Shutter Speed:</span> {item.technical.shutterSpeed}
+        <span>Focal Length:</span> {item.image.imageInfoId.focalLength}
       </div>
+
       <div>
-        <span>ISO:</span> {item.technical.iso}
+        <span>Shutter Speed:</span> {item.image.imageInfoId.shutterSpeed}
       </div>
+
       <div>
-        <span>Date:</span> {item.date}
+        <span>ISO:</span> {item.image.imageInfoId.ISO}
+      </div>
+
+      <div>
+        <span>Date Taken:</span> {item.image.imageInfoId.takenWhen}
+      </div>
+
+      <div>
+        <span>CopyRight:</span> {item.image.imageInfoId.copyRight}
       </div>
     </div>
   );

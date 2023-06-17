@@ -1,4 +1,4 @@
-import HashTag from './Post/HashTag.jsx';
+// import HashTag from './Post/HashTag.jsx';
 import ImageDetail from './Post/ImageDetail.jsx';
 import PostComment from './Post/PostComment.jsx';
 import PostHeader from './Post/PostHeader.jsx';
@@ -21,21 +21,27 @@ const Post = ({ item }) => {
   return (
     <div className="posts">
       <PostHeader item={item} />
+
       <div className="post-content">
         <PostImageAndTitle
           item={item}
           handleShowImageDetail={handleShowImageDetail}
         />
+
         <PostTeachnical item={item} showImageDetail={showImageDetail} />
-        <HashTag item={item} />
+
+        {/* <HashTag item={item} /> */}
+
         <PostInteraction item={item} />
+
         <PostComment item={item} showImageDetail={showImageDetail} />
       </div>
-      <ImageDetail
+
+      {/* <ImageDetail
         item={item}
         showImageDetail={showImageDetail}
         handleCloseImageDetail={handleCloseImageDetail}
-      />
+      /> */}
     </div>
   );
 };

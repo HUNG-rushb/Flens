@@ -10,7 +10,7 @@ const PostInteraction = ({ item }) => {
   const [showReport, setShowReport] = useState(false);
 
   const handleShowReport = () => {
-    setShowListOtherActions(true)
+    setShowListOtherActions(true);
     setShowReport(true);
   };
 
@@ -26,15 +26,30 @@ const PostInteraction = ({ item }) => {
     return (
       <>
         <div className="report-photo-container">
-          <img src={item.image} alt="" width={'50%'} />
-          <div className='left-report-photo'>
+          <img src={item.image.url} alt="" width={'50%'} />
+
+          <div className="left-report-photo">
             <span>Report this photo with reason:</span>
             <ul>
-              <li><input type='checkbox'/> <span>Copyright infringement</span> </li>
-              <li><input type='checkbox'/><span>Offensive content </span></li>
-              <li><input type='checkbox'/><span>Spam</span></li>
-              <li><input type='checkbox'/><span>Mature content</span></li>
-              <li><input type='checkbox'/><span>Hamful content</span></li>
+              <li>
+                <input type="checkbox" /> <span>Copyright infringement</span>{' '}
+              </li>
+              <li>
+                <input type="checkbox" />
+                <span>Offensive content </span>
+              </li>
+              <li>
+                <input type="checkbox" />
+                <span>Spam</span>
+              </li>
+              <li>
+                <input type="checkbox" />
+                <span>Mature content</span>
+              </li>
+              <li>
+                <input type="checkbox" />
+                <span>Harmful content</span>
+              </li>
             </ul>
           </div>
         </div>
@@ -61,7 +76,7 @@ const PostInteraction = ({ item }) => {
           ) : (
             <HeartFill color="red" size={25} />
           )}
-          <span>{countNumberOfLikes > 0 ? countNumberOfLikes : 0}</span>
+          <span>{item.points}</span>
         </div>
         <div className="right-action">
           <Reply size={30} className="reply-icon" />
