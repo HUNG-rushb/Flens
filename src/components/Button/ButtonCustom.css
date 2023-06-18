@@ -1,5 +1,3 @@
-@import "../../styles/color.scss";
-
 .button--default {
     width: 100%;
     padding: 14px 30px;
@@ -9,7 +7,7 @@
     line-height: 26px;
     border-radius: 10px;
     text-align: center;
-    background-color: $primary_2;
+    background-color: #f4978e;
     opacity: 1;
     transition-duration: 0.4s;
     text-decoration: none;
@@ -28,7 +26,7 @@
   line-height: 26px;
   border-radius: 10px;
   text-align: center;
-  background-color: $primary_2;
+  background-color: #f4978e;
   opacity: 1;
   transition-duration: 0.4s;
   text-decoration: none;

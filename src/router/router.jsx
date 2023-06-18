@@ -13,6 +13,8 @@ import Statistic from '../page/Statistic/Statistic.jsx';
 import Courses from '../page/Courses/Courses.jsx';
 import UploadImage from '../page/UploadImage/UploadImage.jsx';
 import EditProfile from '../page/Profile/Tabs/Biography/EditProfile.jsx';
+import UploadStory from '../page/UploadStory/UploadStory.jsx'
+import StoryPage from '../page/Stories/StoryPage.jsx'
 
 const routes = [
   {
@@ -100,8 +102,20 @@ const routes = [
     isPrivate: true,
   },
   {
+    path: '/uploadStory',
+    element: <UploadStory />,
+    exact: true,
+    isPrivate: true,
+  },
+  {
     path: '/editProfile',
     element: <EditProfile />,
+    exact: true,
+    isPrivate: true,
+  },
+  {
+    path: '/stories',
+    element: <StoryPage />,
     exact: true,
     isPrivate: true,
   }

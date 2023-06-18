@@ -27,12 +27,27 @@
   padding: 0px 20px;
   font-size: 18px;
   font-weight: 600;
-  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+}
+
+.options span::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #f08080;
+  transition: width 0.3s ease-in-out;
+}
+
+.options span:hover::before {
+  width: 100%;
 }
 
 .images {
   display: flex;
-  flex-direction: row;
   width: 100%;
   padding: 0 10px;
 }
@@ -41,5 +56,5 @@
   width: 480px;
   height: auto;
   object-fit: cover;
-  margin:10px;
+  margin: 10px;
 }

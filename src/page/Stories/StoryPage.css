@@ -1,0 +1,52 @@
+.stories-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} 
+
+.stories {
+    margin: 40px 0;
+    width: 50%;
+}
+
+.story {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 20px;
+    margin-bottom: 40px;
+}
+
+.description-story span {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.header-story img {
+    width: 45px;
+    border-radius: 50%;
+}
+
+.header-story span {
+    margin-left: 10px;
+}
+
+.image-story img{
+    width: 100%;
+}
+
+.story-interaction {
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.story-interaction span {
+    font-size: 20px;
+}
+
+@media only screen and (max-width: 960px) {
+    .tittle-story {
+        font-size: 20px;
+      
+    }
+}

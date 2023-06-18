@@ -3,7 +3,6 @@ import Page from '../../components/utils/Page';
 import './Profile.css';
 import TabMenu from './Tabs/Tabs';
 import { Suspense } from 'react';
-import { PersonCircle } from 'react-bootstrap-icons';
 import Avatar from '../../assets/images/avatar.jpg'
 
 const Profile = () => {
@@ -15,8 +14,7 @@ const Profile = () => {
           <img src={CoverImage} alt="" className="coverImage" />
           <div className="peronalInfor">
             <div className="coverImageContent">
-              <PersonCircle size={200} />
-              {/* <img src={Avatar} alt="" /> */}
+              <img src={Avatar} alt="" />
               <div className="profileName">Nguyen Van A</div>
             </div>
           </div>

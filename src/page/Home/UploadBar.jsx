@@ -15,6 +15,10 @@ const UploadBar = () => {
     navigate('/upload')
   }
 
+  const handleClickUploadStory = () => {
+    navigate('/uploadStory')
+  }
+
   return (
     <div className="upload-bar">
       <TextAreacustom
@@ -29,7 +33,7 @@ const UploadBar = () => {
           <CameraFill size={28} color="#F08080" />
           Upload a photo
         </div>
-        <div className="upload-storys">
+        <div className="upload-storys" onClick={handleClickUploadStory}>
           <PencilSquare size={28} color="#F08080" />
           Publish a Story
         </div>

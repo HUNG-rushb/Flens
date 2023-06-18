@@ -2,6 +2,7 @@ import SelectCustom from '../../components/Select/SelectCustom';
 import Page from '../../components/utils/Page';
 import './Explore.css';
 import React, { Suspense, useEffect, useState } from 'react';
+import {useNavigate} from 'react-router-dom'
 
 const options = [
   { id: 1, value: 'Inspiration', isChecked: false },
@@ -75,6 +76,12 @@ const images = [
 
 const Explore = () => {
   const [countNumberColumn, setCountNumberColumn] = useState(images.length / 3);
+
+  const navigate = useNavigate()
+
+  const handleStoriesClick = () => {
+    navigate('/stories')
+  }
   
   const firstColum = images
     .slice(0, countNumberColumn)
@@ -121,9 +128,10 @@ const Explore = () => {
           <div className="options-bar">
             <SelectCustom options={options} type="default2" />
             <div className="options">
-              {options.map((item) => (
-                <span key={item.id}>{item.value}</span>
-              ))}
+              <span>INSPIRATION</span>
+              <span>HOT</span>
+              <span>NEWEST</span> 
+              <span onClick={handleStoriesClick}>STORIES</span>
             </div>
           </div>
 
