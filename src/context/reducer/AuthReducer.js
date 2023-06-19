@@ -1,14 +1,19 @@
-let user = window.localStorage.getItem('currentUser')
-  ? JSON.parse(localStorage.getItem('currentUser')).user
+let id = window.localStorage.getItem('currentUser')
+  ? JSON.parse(localStorage.getItem('currentUser')).id
   : '';
 
-let token = window.localStorage.getItem('currentUser')
-  ? JSON.parse(localStorage.getItem('currentUser')).auth_token
+let isAdmin = window.localStorage.getItem('currentUser')
+  ? JSON.parse(localStorage.getItem('currentUser')).isAdmin
+  : '';
+
+let profileImageURL = window.localStorage.getItem('currentUser')
+  ? JSON.parse(localStorage.getItem('currentUser')).profileImageURL
   : '';
 
 export const initialState = {
-  userDetails: '' || user,
-  token: '' || token,
+  id: '' || id,
+  isAdmin: '' || isAdmin,
+  profileImageURL: '' || profileImageURL,
   loading: false,
   errorMessage: null,
 };
@@ -23,15 +28,17 @@ export const AuthReducer = (initialState, action) => {
     case 'LOGIN_SUCCESS':
       return {
         ...initialState,
-        user: action.payload.user,
-        token: action.payload.auth_token,
+        id: action.payload.id,
+        isAdmin: action.payload.isAdmin,
+        profileImageURL: action.payload.profileImageURL,
         loading: false,
       };
     case 'LOGOUT':
       return {
         ...initialState,
-        user: '',
-        token: '',
+        isAdmin: '',
+        id: '',
+        profileImageURL: '',
       };
 
     case 'LOGIN_ERROR':

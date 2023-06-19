@@ -1,19 +1,17 @@
 export async function loginUser(dispatch, account) {
   dispatch({
     type: 'LOGIN_SUCCESS',
-    payload: { user: account.email , auth_token: account.password },
+    payload: account,
   });
 
-  window.localStorage.setItem(
-    'currentUser',
-    JSON.stringify({ user: account.email, auth_token: account.password })
-  );
+  window.localStorage.setItem('currentUser', JSON.stringify(account));
 
-  return { user: account.email, auth_token: account.password };
+  return account;
 }
 
 export async function logout(dispatch) {
   dispatch({ type: 'LOGOUT' });
+
   window.localStorage.removeItem('currentUser');
 }
 
