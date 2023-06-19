@@ -17,24 +17,6 @@ export const useCreatePostLazy = (cache) => {
     fetchedData: data,
     fetchError: error,
   };
-
-  // input CreatePostInput {
-  //   userId: ID!
-
-  //   title: String!
-
-  //   imageURL: String!
-  //   imageHash: String!
-
-  //   camera: String
-  //   lens: String
-  //   aperture: String
-  //   focalLength: String
-  //   shutterSpeed: String
-  //   ISO: String
-  //   takenWhen: String
-  //   copyRight: String
-  // }
 };
 
 // export const useGetPostInfo = () => {
@@ -103,6 +85,9 @@ export const useGetAllPostComment = (queryPayload) => {
 //   };
 // };
 
+// !!!!!!!!!!!!
+// !!!!!!!!!!!!
+// !!!!!!!!!!!!
 export const useGetAllPostCommentLazy = (cache) => {
   const [getAllComment, { data, loading, error }] = useLazyQuery(
     GET_ALL_POST_COMMENT,
