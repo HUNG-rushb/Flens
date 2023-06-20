@@ -1,7 +1,17 @@
 .upload-story-page {
-    padding: 20px;
+  padding: 20px;
 }
 
 .btn-upload-story {
-    margin-top: 20px;
+  margin-top: 20px;
+}
+
+.my-editing-area {
+  height: 50vh;
+}
+
+.ql-editor {
+  min-height: 18em;
+  overflow-y: scroll;
+  resize: vertical;
 }
