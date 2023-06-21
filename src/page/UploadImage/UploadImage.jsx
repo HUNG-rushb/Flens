@@ -1,5 +1,6 @@
 import ButtonCustom from '../../components/Button/ButtonCustom.jsx';
 import Page from '../../components/utils/Page.js';
+import { useAuthState } from '../../context/AuthContext.js';
 import { useCreatePostLazy } from '../../graphql/usePost.js';
 import useUploadImageToAWS from '../../hooks/useUploadImageToAWS.js';
 import './UploadImage.css';
@@ -11,10 +12,10 @@ import { useNavigate } from 'react-router';
 
 const UploadImage = () => {
   const navigate = useNavigate();
+  const { id: userId } = useAuthState();
   const fileInputRef = useRef(null);
 
   const [selectedFile, setSelectedFile] = useState(null);
-  // const [filePath, setFilePath] = useState();
 
   const [previewImage, setPreviewImage] = useState(null);
   const [showModalUpload, setShowModalUpload] = useState(false);
@@ -83,14 +84,12 @@ const UploadImage = () => {
     setShowModalUpload(true);
 
     setSelectedFile(file);
-    // setFilePath(URL.createObjectURL(file));
   };
 
   // Create Post
   const handleConfirmUpload = async (event) => {
     event.preventDefault();
 
-    // console.log(selectedFile);
     const result = await uploadImageToAWS({ selectedFile });
     console.log({ result });
 
@@ -98,7 +97,7 @@ const UploadImage = () => {
       await createPost({
         variables: {
           createPostData: {
-            userId: '6482134d9fa3fbb056c8d2fc',
+            userId,
             title,
             aperture,
             lens,
