@@ -48,19 +48,6 @@
   cursor: pointer;
 }
 
-.Button:after {
-  display: block;
-  position: absolute;
-  content: "";
-  background: #f1f1f1;
-  padding-top: 4%;
-  padding-left: 19%;
-  margin-left: -30px !important;
-  margin-top: -3%;
-  opacity: 0;
-  transition: all 0.5s
-}
-
 .button--modal-close-btn, .button--modal-save-btn{
   border: 0;
   color: white;

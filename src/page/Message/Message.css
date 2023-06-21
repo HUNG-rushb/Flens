@@ -1,9 +1,24 @@
-#myTextarea {
-  resize: both; /* Allows both vertical and horizontal resizing */
-  /* overflow: auto; */
-  width: 300px; /* Initial width */
-  /* height: 50px; Initial  */
-  max-height: 200px;
-  overflow-y: hidden;
-  border: 1px solid black;
+.message-page {
+  position: relative;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

@@ -1,6 +1,10 @@
 import VideoCourses1 from '../../../assets/images/academy/videoCourses1.png';
 import VideoCourses2 from '../../../assets/images/academy/videoCourses2.png';
-import { ArrowRightCircle } from 'react-bootstrap-icons';
+import React from 'react';
+import 'swiper/css/free-mode';
+import 'swiper/css/pagination';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper.min.css';
 
 const video_courses_data = [
   {
@@ -13,33 +17,54 @@ const video_courses_data = [
     image: VideoCourses2,
     title: 'Willy Ronis MasterClass',
   },
+  {
+    id: 3,
+    image: VideoCourses1,
+    title: 'Helmut Newton MasterClass',
+  },
+  {
+    id: 4,
+    image: VideoCourses2,
+    title: 'Willy Ronis MasterClass',
+  },
+  {
+    id: 5,
+    image: VideoCourses1,
+    title: 'Helmut Newton MasterClass',
+  },
+  {
+    id: 6,
+    image: VideoCourses2,
+    title: 'Willy Ronis MasterClass',
+  },
+  {
+    id: 7,
+    image: VideoCourses1,
+    title: 'Helmut Newton MasterClass',
+  },
+  {
+    id: 8,
+    image: VideoCourses2,
+    title: 'Willy Ronis MasterClass',
+  },
 ];
 
 const VideoCourses = () => {
   return (
-    <div className="video-courses">
-      <div className="name-part">
-        <span>Video Courses</span>
-        <span>Show all</span>
-      </div>
-
-      <div className="video-courses-body">
-        {video_courses_data.map((item) => {
-          return (
-            <div key={item.id}>
-              <img src={item.image} alt="videoCourses" width={500} />
-              <span>{item.title}</span>
-            </div>
-          );
-        })}
-        {video_courses_data.length > 1 ? (
-          <div className="next-button">
-            <ArrowRightCircle size={30} />
-          </div>
-        ) : (
-          <></>
-        )}
-      </div>
+    <div className="video-courses-component">
+      <span className="academy-section-tittle">Video Courses</span>
+      <Swiper
+        slidesPerView={3}
+        spaceBetween={30}
+        className="video-courses-list"
+      >
+        {video_courses_data.map((item) => (
+          <SwiperSlide key={item.id} className="video-courses-item">
+            <img src={item.image} alt={item.title} />
+            <span>{item.title}</span>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 };
