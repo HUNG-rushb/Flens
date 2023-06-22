@@ -13,6 +13,7 @@ const QuillEditorWithImage = () => {
   const { id: userId } = useAuthState();
   const navigate = useNavigate();
   const [editorContent, setEditorContent] = useState('');
+  const [storyImages, setStoryImages] = useState([]);
   const editorRef = useRef(null);
   const { createStory, isFetching, fetchedData, fetchError } =
     useCreateStoryLazy();
@@ -51,7 +52,7 @@ const QuillEditorWithImage = () => {
 
       console.log(result);
 
-      if (result !== undefined)
+      if (result !== undefined) {
         editorRef.current
           .getEditor()
           .insertEmbed(
@@ -59,6 +60,9 @@ const QuillEditorWithImage = () => {
             'image',
             result.Location
           );
+
+        setStoryImages((prevState) => [...prevState, result.Location]);
+      }
     };
   }, []);
 
@@ -72,6 +76,7 @@ const QuillEditorWithImage = () => {
             userId: userId,
             title: 'test',
             content: editorContent,
+            images: storyImages,
           },
         },
       });

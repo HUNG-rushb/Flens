@@ -4,9 +4,12 @@ export const CREATE_STORY = gql`
   mutation CreateStory($createStoryData: CreateStoryInput!) {
     createStory(data: $createStoryData) {
       id
-      content
-      points
       title
+      points
+
+      content
+      images
+      cmts
     }
   }
 `;
