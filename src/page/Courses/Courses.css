@@ -1,44 +1,36 @@
-.courses-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-}
-
-.create-courses-btn {
+.courses-detail {
     display: flex;
-    align-self: end;
-    margin: 0 80px 20px 0;
-} 
-
-.courses-title {
-  margin-top: 20px;
-  display: flex;
-  font-size: 30px;
-  justify-content: space-around;
-  padding: 20px 0px;
-  width: 100%;
+    justify-content: center;
+    width: 100%;
+    padding: 30px;
 }
 
-.body-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+.react-quiz-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100% !important;
+    max-width: 1000px;
+    padding: 30px;
 }
 
-.courses-upcontent {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: space-between;
-  padding-top: 10px;
-  margin-bottom: 50px;
+.answerBtn img {
+    max-width: 500px
 }
 
-.courses-upcontent > div > span {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 10px 5px;
+.card-body {
+    max-width: 800px;
+}
+
+.back-btn {
+    font-size: 20px;
+    color: #f08080;
+    position: absolute;
+    left: 10%;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    opacity: 0.6;
 }

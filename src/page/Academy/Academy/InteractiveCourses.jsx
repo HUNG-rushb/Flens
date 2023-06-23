@@ -3,6 +3,7 @@ import InteractiveCourses2 from '../../../assets/images/academy/interCourses2.pn
 import InteractiveCourses3 from '../../../assets/images/academy/interCourses3.png';
 import InteractiveCourses4 from '../../../assets/images/academy/interCourses4.png';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -48,10 +49,15 @@ const interactive_courses_data = [
     id: 8,
     image: InteractiveCourses4,
     title: 'Light',
-  }
+  },
 ];
 
 const InteractiveCourses = () => {
+  const navigate = useNavigate();
+
+  const handleCLickOpenCourses = () => {
+    navigate('/courses');
+  };
   return (
     <div className="interactive-courses-component">
       <span className="academy-section-tittle">interactive video Courses</span>
@@ -61,13 +67,17 @@ const InteractiveCourses = () => {
         className="interactive-courses-list"
       >
         {interactive_courses_data.map((item) => (
-          <SwiperSlide key={item.id} className='interactive-courses-item'>
+          <SwiperSlide
+            key={item.id}
+            className="interactive-courses-item"
+            onClick={handleCLickOpenCourses}
+          >
             <img src={item.image} alt={item.title} />
             <span>{item.title}</span>
           </SwiperSlide>
         ))}
       </Swiper>
-      </div>
+    </div>
   );
 };
 

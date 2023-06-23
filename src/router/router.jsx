@@ -10,11 +10,13 @@ import Academy from '../page/Academy/Academy.jsx';
 import LeaderBoard from '../page/LeaderBoard/LeaderBoard.jsx'
 import Report from '../page/Report/Report.jsx';
 import Statistic from '../page/Statistic/Statistic.jsx';
-import Courses from '../page/Courses/Courses.jsx';
+import CoursesManagement from '../page/CoursesManagement/CoursesManagement.jsx';
 import UploadImage from '../page/UploadImage/UploadImage.jsx';
 import EditProfile from '../page/Profile/Tabs/Biography/EditProfile.jsx';
 import UploadStory from '../page/UploadStory/UploadStory.jsx'
 import StoryPage from '../page/Stories/StoryPage.jsx'
+import Courses from '../page/Courses/Courses.jsx';
+import UploadCourses from '../page/CoursesManagement/UploadCourses/UploadCourses.jsx'
 
 const routes = [
   {
@@ -96,6 +98,12 @@ const routes = [
     isPrivate: true,
   },
   {
+    path: '/coursesManagement',
+    element: <CoursesManagement />,
+    exact: true,
+    isPrivate: true,
+  },
+  {
     path: '/upload',
     element: <UploadImage />,
     exact: true,
@@ -118,7 +126,14 @@ const routes = [
     element: <StoryPage />,
     exact: true,
     isPrivate: true,
-  }
+  },
+  {
+    path: '/uploadCourses',
+    element: <UploadCourses />,
+    exact: true,
+    isPrivate: true,
+  },
+  
 ];
 
 export default routes;
