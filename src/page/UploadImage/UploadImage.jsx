@@ -1,4 +1,5 @@
 import ButtonCustom from '../../components/Button/ButtonCustom.jsx';
+import InputCustom from '../../components/Input/Input.jsx';
 import Page from '../../components/utils/Page.js';
 import { useAuthState } from '../../context/AuthContext.js';
 import { useCreatePostLazy } from '../../graphql/usePost.js';
@@ -19,8 +20,6 @@ const UploadImage = () => {
 
   const [previewImage, setPreviewImage] = useState(null);
   const [showModalUpload, setShowModalUpload] = useState(false);
-
-  const [description, setDescription] = useState('');
 
   const [title, setTitle] = useState('');
   const [aperture, setAperture] = useState('');
@@ -130,37 +129,32 @@ const UploadImage = () => {
   };
 
   const [tags, setTags] = useState([
-    {
-      id: 1,
-      value: 'aa',
-    },
-    {
-      id: 2,
-      value: 'bb',
-    },
+    { id: 1, value: 'aa' },
+    { id: 2, value: 'bb' },
   ]);
 
-  const [initTag, setInitTag] = useState({
+  const [initialTag, setInitialTag] = useState({
     id: 0,
     value: '',
   });
 
-  const hanlePressEnter = (event) => {
-    event.preventDefault()
+  const handleOnchangeAddTag = (event) => {
+    event.preventDefault();
+    setInitialTag({
+      id: tags[tags.length - 1].id +1,
+      value: event.target.value
+    })
     if (event.key === 'Enter') {
-      console.log("press enter")
-      console.log(initTag)
-      // tags.push(initTag);
-      // setTags(tags);
-      // setInitTag({
-      //   id: 0,
-      //   value: '',
-      // });
+      tags.push(initialTag);
+      setTags(tags);
+      setInitialTag({
+        id: 0,
+        value: '',
+      });
+      console.log(tags)
     }
+  };
 
-  }
-
-  const [a, setA] = useState('')
 
   return (
     <Page title="Flens-Upload">
@@ -208,7 +202,6 @@ const UploadImage = () => {
                           onChange={(event) => setTitle(event.target.value)}
                         />
                       </div>
-
                       <div>
                         <label htmlFor="">Camera</label>
                         <input
@@ -283,19 +276,22 @@ const UploadImage = () => {
                         />
                       </div>
 
-                      <div className="all-tags">
+                      {/* <div className="all-tags">
                         {tags.map((item) => {
-                          return <div key={item.id}>{item.value}</div>;
+                          return <div key={item.value}>{item.value}</div>;
                         })}
                       </div>
-                      <input
-                        type="text"
-                        placeholder="Input a tag and press enter"
-                        value={a}
-                        onChange={(e)=>setA(e.target.value)}
-                        onKeyDown={(e)=>hanlePressEnter(e)}
-                      />
-
+                      <div>
+                        <label>Tags</label>
+                        <input
+                          type="text"
+                          placeholder="Add a tag and press enter"
+                          value={initialTag.value}
+                          onChange={(e) => 
+                            handleOnchangeAddTag(e)
+                          }
+                        />
+                      </div> */}
                       <div>
                         <label htmlFor="">CopyRight</label>
                         <input

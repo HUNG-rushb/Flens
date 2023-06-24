@@ -148,10 +148,16 @@
     padding: 20px;
 }
 
+.image-post {
+  display: flex;
+  justify-content: center;
+}
 
-#image-post {
+.image-post img {
     width: 100%;
     object-fit: cover;
+    max-width: 800px;
+    max-height: 1000px;
 }
 
 #post-detail {
