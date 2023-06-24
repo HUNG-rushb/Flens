@@ -21,8 +21,6 @@ const UploadImage = () => {
   const [previewImage, setPreviewImage] = useState(null);
   const [showModalUpload, setShowModalUpload] = useState(false);
 
-  const [description, setDescription] = useState('');
-
   const [title, setTitle] = useState('');
   const [aperture, setAperture] = useState('');
   const [lens, setLens] = useState('');

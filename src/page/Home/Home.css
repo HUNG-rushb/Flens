@@ -127,8 +127,8 @@
   padding: 0px 8px;
 }
 
-#post-title {
-  font-size: 30px;
+.post-title {
+  font-size: 25px;
   font-weight: 600;
   padding: 6px 0px;
 }
@@ -141,10 +141,16 @@
     padding: 20px;
 }
 
+.image-post {
+  display: flex;
+  justify-content: center;
+}
 
-#image-post {
+.image-post img {
     width: 100%;
     object-fit: cover;
+    max-width: 800px;
+    max-height: 1000px;
 }
 
 #post-detail {
