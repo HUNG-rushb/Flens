@@ -1,4 +1,5 @@
 import ButtonCustom from '../../components/Button/ButtonCustom.jsx';
+import InputCustom from '../../components/Input/Input.jsx';
 import Page from '../../components/utils/Page.js';
 import { useCreatePostLazy } from '../../graphql/usePost.js';
 import useUploadImageToAWS from '../../hooks/useUploadImageToAWS.js';
@@ -20,7 +21,6 @@ const UploadImage = () => {
   const [showModalUpload, setShowModalUpload] = useState(false);
 
   const [description, setDescription] = useState('');
-  const [tags, setTags] = useState('');
 
   const [title, setTitle] = useState('');
   const [aperture, setAperture] = useState('');
@@ -130,6 +130,33 @@ const UploadImage = () => {
     setShowModalUpload(false);
   };
 
+  const [tags, setTags] = useState([
+    { id: 1, value: 'aa' },
+    { id: 2, value: 'bb' },
+  ]);
+
+  const [initialTag, setInitialTag] = useState({
+    id: 0,
+    value: '',
+  });
+
+  const handleOnchangeAddTag = (event) => {
+    event.preventDefault();
+    setInitialTag({
+      id: tags[tags.length - 1].id +1,
+      value: event.target.value
+    })
+    if (event.key === 'Enter') {
+      tags.push(initialTag);
+      setTags(tags);
+      setInitialTag({
+        id: 0,
+        value: '',
+      });
+      console.log(tags)
+    }
+  };
+
   return (
     <Page title="Flens-Upload">
       <Suspense fallback={<div>Loading...</div>}>
@@ -174,19 +201,6 @@ const UploadImage = () => {
                           value={title}
                           placeholder="input tittle for image"
                           onChange={(event) => setTitle(event.target.value)}
-                        />
-                      </div>
-
-                      <div>
-                        <label htmlFor="">Description</label>
-                        <textarea
-                          id="text-upload"
-                          cols="30"
-                          rows="3"
-                          value={description}
-                          onChange={(event) =>
-                            setDescription(event.target.value)
-                          }
                         />
                       </div>
                       <div>
@@ -263,6 +277,22 @@ const UploadImage = () => {
                         />
                       </div>
 
+                      {/* <div className="all-tags">
+                        {tags.map((item) => {
+                          return <div key={item.value}>{item.value}</div>;
+                        })}
+                      </div>
+                      <div>
+                        <label>Tags</label>
+                        <input
+                          type="text"
+                          placeholder="Add a tag and press enter"
+                          value={initialTag.value}
+                          onChange={(e) => 
+                            handleOnchangeAddTag(e)
+                          }
+                        />
+                      </div> */}
                       <div>
                         <label htmlFor="">CopyRight</label>
                         <input
