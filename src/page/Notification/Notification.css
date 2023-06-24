@@ -32,9 +32,8 @@
     top: 0;
 }
 
-.title {
-    font-size: 30px;
-    font-weight:normal;
+.notify-title {
+    font-size: 20px;
     margin: 30px 0px;
 }
 
@@ -55,14 +54,12 @@
 
 .upper-content {
     display: flex;
+    justify-content: space-between;
 }
 
-.upper-content > img {
+.upper-content img {
+    max-width: 80px;
     border-radius: 50%;
-}
-
-.card-content {
-    margin: 0px 30px;
 }
 
 .name {

@@ -40,14 +40,14 @@ const Notification = () => {
         <div className="Notifi-page">
           <LeftContent />
           <div className="right-content">
-            <div className="title">Notifications</div>
+            <div className="notify-title">Notifications</div>
 
             <div className="notifi-content">
               {notifi_data.map((item) => {
                 return (
                   <div className="noti-card" key={item.id}>
                     <div className="upper-content">
-                      <img src={item.avatar} alt="images" width={80} />
+                      <img src={item.avatar} alt='' />
                       <div className="card-content">
                         {item.type === 1 ? (
                           <div className="name">
@@ -55,11 +55,11 @@ const Notification = () => {
                           </div>
                         ) : (
                           <div className="name">
-                            <span>{item.name}</span>{' '}
+                            <span>{item.name}</span>
                             {item.type === 2 ? (
                               <>
                                 Liked <HeartFill color="red" size={25} /> your
-                                post.{' '}
+                                post.
                               </>
                             ) : (
                               <>
@@ -71,22 +71,31 @@ const Notification = () => {
                                 />{' '}
                                 your post.
                               </>
+        
                             )}
                           </div>
+                          
                         )}
                         <div>{item.time}</div>
+                        <div></div>
                       </div>
                       {item.type === 1 ? (
                         <div className="button-follow-back">
                           <ButtonCustom
                             text={'Follow back'}
-                            type="default2"
+                            type="default3"
                             onClick={handleClick}
                           />
                         </div>
                       ) : (
                         <></>
                       )}
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
                     </div>
                     {item.type === 1 ? (
                       <div className="below-content">
