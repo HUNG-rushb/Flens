@@ -12,9 +12,13 @@ import Profile from '../page/Profile/Profile.jsx';
 import EditProfile from '../page/Profile/Tabs/Biography/EditProfile.jsx';
 import Report from '../page/Report/Report.jsx';
 import Statistic from '../page/Statistic/Statistic.jsx';
-import StoryPage from '../page/Stories/StoryPage.jsx';
+import CoursesManagement from '../page/CoursesManagement/CoursesManagement.jsx';
 import UploadImage from '../page/UploadImage/UploadImage.jsx';
-import UploadStory from '../page/UploadStory/UploadStory.jsx';
+import EditProfile from '../page/Profile/Tabs/Biography/EditProfile.jsx';
+import UploadStory from '../page/UploadStory/UploadStory.jsx'
+import StoryPage from '../page/Stories/StoryPage.jsx'
+import Courses from '../page/Courses/Courses.jsx';
+import UploadCourses from '../page/CoursesManagement/UploadCourses/UploadCourses.jsx'
 
 const routes = [
   {
@@ -96,6 +100,12 @@ const routes = [
     isPrivate: true,
   },
   {
+    path: '/coursesManagement',
+    element: <CoursesManagement />,
+    exact: true,
+    isPrivate: true,
+  },
+  {
     path: '/upload',
     element: <UploadImage />,
     exact: true,
@@ -119,6 +129,13 @@ const routes = [
     exact: true,
     isPrivate: true,
   },
+  {
+    path: '/uploadCourses',
+    element: <UploadCourses />,
+    exact: true,
+    isPrivate: true,
+  },
+  
 ];
 
 export default routes;
