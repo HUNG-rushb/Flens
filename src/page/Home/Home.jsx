@@ -1,7 +1,6 @@
-import PostImage from '../../assets/images/Home/Post.svg';
-import Avatar2 from '../../assets/images/avatar2.jpg';
 import Page from '../../components/utils/Page';
 import Spinner from '../../components/utils/Spinner';
+import { useAuthState } from '../../context/AuthContext';
 import { useGetAllUserPost } from '../../graphql/usePost';
 import './Home.css';
 import LeftContent from './LeftContent';
@@ -10,8 +9,10 @@ import UploadBar from './UploadBar';
 import { Suspense } from 'react';
 
 const Home = () => {
+  const { id: userId } = useAuthState();
+
   const { isFetching, fetchedData, fetchError } = useGetAllUserPost({
-    getAllUserPostId: { userId: '6482134d9fa3fbb056c8d2fc' },
+    getAllUserPostId: { userId },
   });
   console.log(fetchedData);
 

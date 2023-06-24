@@ -1,8 +1,7 @@
 import TextareaCustom from '../../../components/TextArea/Textarea';
 import {
   useGetAllPostComment,
-  useCreateCommentLazy,
-  useGetAllPostCommentLazy,
+  useCreateCommentLazy, // useGetAllPostCommentLazy,
 } from '../../../graphql/usePost';
 import { relativeDays } from '../../../utils/unixToDateTime';
 import { useEffect, useState } from 'react';

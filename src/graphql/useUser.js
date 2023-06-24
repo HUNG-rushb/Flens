@@ -1,13 +1,24 @@
-import { GET_USERS_ID, CREATE_USER } from './queries/User.js';
+import { GET_USERS_ID, CREATE_USER, VERIFY_USER } from './queries/User.js';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 
 export const useCreateUserLazy = (cache) => {
-  const [createUser, { data, loading, error }] = useMutation(CREATE_USER, {
+  const [createUser, { data, loading, error }] = useMutation(CREATE_USER);
+
+  return {
+    createUser,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
+
+export const useVerifyUserLazy = (cache) => {
+  const [verifyUser, { data, loading, error }] = useLazyQuery(VERIFY_USER, {
     fetchPolicy: cache ? undefined : 'no-cache',
   });
 
   return {
-    createUser,
+    verifyUser,
     isFetching: loading,
     fetchedData: data,
     fetchError: error,

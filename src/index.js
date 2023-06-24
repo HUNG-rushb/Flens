@@ -5,10 +5,11 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import '@babel/polyfill';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+// import * as dotenv from 'dotenv';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-// import * as dotenv from 'dotenv'; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+// see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 // dotenv.config();
 
 const client = new ApolloClient({

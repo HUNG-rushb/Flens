@@ -18,8 +18,6 @@ const Register = () => {
   const handleClick = async (e) => {
     e.preventDefault();
 
-    console.log(hash(password));
-
     try {
       await createUser({
         variables: {
@@ -30,6 +28,8 @@ const Register = () => {
           },
         },
       });
+
+      navigate('/login');
     } catch (e) {
       throw e;
     }
@@ -39,7 +39,7 @@ const Register = () => {
     <Page title={'Flens-Register'}>
       <Suspense fallback={null}>
         <div className="login-page">
-          <form className="Login-form" autocomplete="off">
+          <form className="Login-form" autoComplete="off">
             <div className="Login-form-content">
               <h3 className="Login-form-title">Sign Up</h3>
 
@@ -55,17 +55,6 @@ const Register = () => {
               </div>
 
               <div className="form-group mt-3">
-                <label style={{ display: 'flex' }}>Password</label>
-                <input
-                  type="password"
-                  className="form-control mt-1"
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter password"
-                  value={password}
-                />
-              </div>
-
-              <div className="form-group mt-3">
                 <label style={{ display: 'flex' }}>Email address</label>
                 <input
                   type="email"
@@ -73,6 +62,17 @@ const Register = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter email"
                   value={email}
+                />
+              </div>
+
+              <div className="form-group mt-3">
+                <label style={{ display: 'flex' }}>Password</label>
+                <input
+                  type="password"
+                  className="form-control mt-1"
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter password"
+                  value={password}
                 />
               </div>
 

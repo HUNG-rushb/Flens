@@ -16,16 +16,11 @@ import {
 import { Link } from 'react-router-dom';
 
 const NavBar = () => {
-  const { userDetails, token } = useAuthState();
-  const isNotAuthenticated = userDetails === '' && token === '';
+  const dispatch = useAuthDispatch();
+  const { id, isAdmin } = useAuthState();
+  const isNotAuthenticated = id === '' && isAdmin === '';
   const [show, setShow] = useState(false);
 
-  var user = JSON.parse(localStorage.getItem('currentUser'));
-
-  const role =
-    user === null ? 'noneUser' : user.user === 'hung' ? 'client' : 'manager';
-
-  const dispatch = useAuthDispatch();
   const handleLogout = () => {
     setShow(!show);
     logout(dispatch);
@@ -60,7 +55,7 @@ const NavBar = () => {
             </Nav>
           ) : (
             <>
-              {role === 'client' ? (
+              {!isAdmin ? (
                 <>
                   <NavbarSearch />
                   <Nav>

@@ -1,17 +1,13 @@
+import { useAuthState } from './context/AuthContext';
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuthState } from './context/AuthContext';
 
 const PrivateRoute = () => {
-  const { userDetails, token } = useAuthState(); // determine if authorized, from context or however you're doing it
+  const { id, isAdmin } = useAuthState(); // determine if authorized, from context or however you're doing it
 
   // If authorized, return an outlet that will render child elements
   // If not, return element that will navigate to login page
-  return userDetails !== '' || token !== '' ? (
-    <Outlet />
-  ) : (
-    <Navigate to="/login" />
-  );
+  return id !== '' || isAdmin !== '' ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;
