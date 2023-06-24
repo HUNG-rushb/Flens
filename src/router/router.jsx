@@ -14,10 +14,8 @@ import Report from '../page/Report/Report.jsx';
 import Statistic from '../page/Statistic/Statistic.jsx';
 import CoursesManagement from '../page/CoursesManagement/CoursesManagement.jsx';
 import UploadImage from '../page/UploadImage/UploadImage.jsx';
-import EditProfile from '../page/Profile/Tabs/Biography/EditProfile.jsx';
 import UploadStory from '../page/UploadStory/UploadStory.jsx'
 import StoryPage from '../page/Stories/StoryPage.jsx'
-import Courses from '../page/Courses/Courses.jsx';
 import UploadCourses from '../page/CoursesManagement/UploadCourses/UploadCourses.jsx'
 
 const routes = [
