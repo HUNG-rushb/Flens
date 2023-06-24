@@ -15,7 +15,7 @@
   gap: 30px;
 }
 
-.change-avatar,
+.change-avatar-img,
 .change-cover-image {
   display: flex;
   flex-direction: column;
@@ -23,12 +23,16 @@
   align-items: center;
 }
 
-.change-avatar img {
+.change-avatar-img img {
   border-radius: 50%;
   object-fit: cover;
   height: 200px;
   width: 200px;
   margin-bottom: 10px;
+}
+
+.change-cover-image img {
+    max-width: 400px;
 }
 
 .change-cover-image img {
@@ -70,7 +74,7 @@ button {
 .custom-file-input {
   background-color: #f08080;
   color: #fff;
-  padding: 10px 16px;
+  padding: 5px 10px;
   border-radius: 4px;
   cursor: pointer;
 }

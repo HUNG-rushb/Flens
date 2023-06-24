@@ -2,22 +2,24 @@ import CoverImage from '../../../../assets/images/Profile/profileCoverImage.jpg'
 import Avatar from '../../../../assets/images/avatar.jpg';
 import Button from '../../../../components/Button/ButtonCustom';
 import './EditProfile.css';
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 
 const EditProfile = () => {
-  const handleSaveEdit = (event) => {
-    event.preventDefault();
+  const fileInputAvatarRef = useRef(null);
+  const fileInputCoverRef = useRef(null);
+
+  const [name, setName] = useState('');
+  const [birthday, setBirthday] = useState('');
+
+  const [previewImageAvatar, setPreviewAvatarImage] = useState(null);
+  const [previewImageCover, setPreviewCoverImage] = useState(null);
+
+  const handleFileAvatarSelect = () => {
+    fileInputAvatarRef.current.click();
   };
 
-  const fileInputRef = useRef(null);
-
-  const [selectedAvatarFile, setSelectedAvatarFile] = useState(null);
-  const [selectedCoverFile, setSelectedCoverFile] = useState(null);
-
-  const [previewImageAvatar, setPreviewImage] = useState(null);
-
-  const handleFileSelect = () => {
-    fileInputRef.current.click();
+  const handleFileCoverSelect = () => {
+    fileInputCoverRef.current.click();
   };
 
   const handleFileChangeAvatar = (event) => {
@@ -29,10 +31,9 @@ const EditProfile = () => {
 
       const image = new Image();
       image.src = imageUrl;
-      setPreviewImage(imageUrl);
+      setPreviewAvatarImage(imageUrl);
     };
     reader.readAsDataURL(file);
-    setSelectedAvatarFile(file);
   };
 
   const handleFileChangeCover = (event) => {
@@ -44,23 +45,28 @@ const EditProfile = () => {
 
       const image = new Image();
       image.src = imageUrl;
-      setPreviewImage(imageUrl);
+      setPreviewCoverImage(imageUrl);
     };
     reader.readAsDataURL(file);
-    setSelectedCoverFile(file);
+  };
+
+  const handleSaveEdit = (event) => {
+    event.preventDefault();
   };
 
   return (
     <div className="edit-profile-page">
       <div className="above-content">
-        <div className="change-avatar">
-          <img src={Avatar} alt="edit-avatar" />
-          {<img src={previewImageAvatar} alt='img' /> }
+        <div className="change-avatar-img">
+          <img
+            src={previewImageAvatar ? previewImageAvatar : Avatar}
+            alt="edit-avatar"
+          />
           <div className="edit-avatar-image">
             <label
               className="custom-file-input"
               type="button"
-              onClick={handleFileSelect}  
+              onClick={handleFileAvatarSelect}
             >
               Change avatar image
             </label>
@@ -68,26 +74,29 @@ const EditProfile = () => {
             <input
               type="file"
               id="fileInput"
-              ref={fileInputRef}
+              ref={fileInputAvatarRef}
               onChange={handleFileChangeAvatar}
             />
           </div>
         </div>
         <div className="change-cover-image">
-          <img src={CoverImage} alt="edit-cover" width={'400px'} />
+          <img
+            src={previewImageCover ? previewImageCover : CoverImage}
+            alt="edit-cover"
+            width={'400px'}
+          />
           <div className="edit-cover-image">
             <label
               className="custom-file-input"
               type="button"
-              onClick={handleFileSelect}
+              onClick={handleFileCoverSelect}
             >
               Change cover image
             </label>
-
             <input
               type="file"
               id="fileInput"
-              ref={fileInputRef}
+              ref={fileInputCoverRef}
               onChange={handleFileChangeCover}
             />
           </div>
@@ -97,33 +106,24 @@ const EditProfile = () => {
         <div>
           <label>Name</label>
           <div>
-            <input type="text" name="" />
-          </div>
-        </div>
-        <div>
-          <label>Email</label>
-          <div>
-            <input type="text" name="" />
-          </div>
-        </div>
-        <div>
-          <label>Phone Number</label>
-          <div>
-            <input type="text" name="" />
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
         </div>
         <div>
           <label>Birthday</label>
           <div>
-            <input type="text" name="" />
+            <input
+              type="text"
+              value={birthday}
+              onChange={(e) => setBirthday(e.target.value)}
+            />
           </div>
         </div>
-        <div>
-          <label>Camera</label>
-          <div>
-            <input type="text" name="" />
-          </div>
-        </div>
+
         <div>
           <Button
             text={'Save changes'}
