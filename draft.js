@@ -53,3 +53,13 @@ const UploadImage = () => {
 };
 
 export default UploadImage;
+
+// D:\Github\Images-Social\node_modules\react-scripts\config\webpack.config.js
+// 333
+
+// fallback: {
+//   path: require.resolve("path-browserify"),
+//   crypto: require.resolve("crypto-browserify"),
+//   os: require.resolve("os-browserify/browser"),
+//   stream: require.resolve("stream-browserify")
+// }

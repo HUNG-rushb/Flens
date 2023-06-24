@@ -19,8 +19,9 @@ export const useCreatePostLazy = (cache) => {
   };
 };
 
-export const useGetAllUserPost = (queryPayload) => {
+export const useGetAllUserPost = (queryPayload, cache) => {
   const { data, loading, error } = useQuery(GET_ALL_USER_POST, {
+    fetchPolicy: cache ? undefined : 'no-cache',
     variables: queryPayload,
   });
 

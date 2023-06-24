@@ -28,6 +28,11 @@ export const CREATE_POST = gql`
       points
       title
       updatedAt
+
+      categoryId {
+        name
+      }
+
       image {
         url
         createdAt

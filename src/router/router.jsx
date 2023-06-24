@@ -1,20 +1,20 @@
+import Academy from '../page/Academy/Academy.jsx';
 import Login from '../page/Authentication/Login.jsx';
 import Register from '../page/Authentication/Register.jsx';
+import Courses from '../page/Courses/Courses.jsx';
 import Explore from '../page/Explore/Explore.jsx';
 import Home from '../page/Home/Home.jsx';
+import LeaderBoard from '../page/LeaderBoard/LeaderBoard.jsx';
 import MessagePage from '../page/Message/MessagePage.jsx';
 import NotFound from '../page/NotFound/404NotFound.jsx';
 import Notification from '../page/Notification/Notification.jsx';
 import Profile from '../page/Profile/Profile.jsx';
-import Academy from '../page/Academy/Academy.jsx';
-import LeaderBoard from '../page/LeaderBoard/LeaderBoard.jsx'
+import EditProfile from '../page/Profile/Tabs/Biography/EditProfile.jsx';
 import Report from '../page/Report/Report.jsx';
 import Statistic from '../page/Statistic/Statistic.jsx';
-import Courses from '../page/Courses/Courses.jsx';
+import StoryPage from '../page/Stories/StoryPage.jsx';
 import UploadImage from '../page/UploadImage/UploadImage.jsx';
-import EditProfile from '../page/Profile/Tabs/Biography/EditProfile.jsx';
-import UploadStory from '../page/UploadStory/UploadStory.jsx'
-import StoryPage from '../page/Stories/StoryPage.jsx'
+import UploadStory from '../page/UploadStory/UploadStory.jsx';
 
 const routes = [
   {
@@ -118,7 +118,7 @@ const routes = [
     element: <StoryPage />,
     exact: true,
     isPrivate: true,
-  }
+  },
 ];
 
 export default routes;
