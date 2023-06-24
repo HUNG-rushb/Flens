@@ -1,5 +1,6 @@
 import ButtonCustom from '../../components/Button/ButtonCustom.jsx';
 import Page from '../../components/utils/Page.js';
+import { useAuthState } from '../../context/AuthContext.js';
 import { useCreatePostLazy } from '../../graphql/usePost.js';
 import useUploadImageToAWS from '../../hooks/useUploadImageToAWS.js';
 import './UploadImage.css';
@@ -11,16 +12,15 @@ import { useNavigate } from 'react-router';
 
 const UploadImage = () => {
   const navigate = useNavigate();
+  const { id: userId } = useAuthState();
   const fileInputRef = useRef(null);
 
   const [selectedFile, setSelectedFile] = useState(null);
-  // const [filePath, setFilePath] = useState();
 
   const [previewImage, setPreviewImage] = useState(null);
   const [showModalUpload, setShowModalUpload] = useState(false);
 
   const [description, setDescription] = useState('');
-  const [tags, setTags] = useState('');
 
   const [title, setTitle] = useState('');
   const [aperture, setAperture] = useState('');
@@ -83,14 +83,12 @@ const UploadImage = () => {
     setShowModalUpload(true);
 
     setSelectedFile(file);
-    // setFilePath(URL.createObjectURL(file));
   };
 
   // Create Post
   const handleConfirmUpload = async (event) => {
     event.preventDefault();
 
-    // console.log(selectedFile);
     const result = await uploadImageToAWS({ selectedFile });
     console.log({ result });
 
@@ -98,7 +96,8 @@ const UploadImage = () => {
       await createPost({
         variables: {
           createPostData: {
-            userId: '6482134d9fa3fbb056c8d2fc',
+            categoryId: '649693993ace6fb861402cfc',
+            userId,
             title,
             aperture,
             lens,
@@ -129,6 +128,39 @@ const UploadImage = () => {
     event.preventDefault();
     setShowModalUpload(false);
   };
+
+  const [tags, setTags] = useState([
+    {
+      id: 1,
+      value: 'aa',
+    },
+    {
+      id: 2,
+      value: 'bb',
+    },
+  ]);
+
+  const [initTag, setInitTag] = useState({
+    id: 0,
+    value: '',
+  });
+
+  const hanlePressEnter = (event) => {
+    event.preventDefault()
+    if (event.key === 'Enter') {
+      console.log("press enter")
+      console.log(initTag)
+      // tags.push(initTag);
+      // setTags(tags);
+      // setInitTag({
+      //   id: 0,
+      //   value: '',
+      // });
+    }
+
+  }
+
+  const [a, setA] = useState('')
 
   return (
     <Page title="Flens-Upload">
@@ -161,7 +193,7 @@ const UploadImage = () => {
 
             <div className="modal-upload-overlay" hidden={!showModalUpload}>
               <div className="modal-upload-container">
-                <form className="modal-upload-content">
+                <div className="modal-upload-content">
                   <div className="modal-upload-left">
                     <img src={previewImage} alt="" />
                   </div>
@@ -177,18 +209,6 @@ const UploadImage = () => {
                         />
                       </div>
 
-                      <div>
-                        <label htmlFor="">Description</label>
-                        <textarea
-                          id="text-upload"
-                          cols="30"
-                          rows="3"
-                          value={description}
-                          onChange={(event) =>
-                            setDescription(event.target.value)
-                          }
-                        />
-                      </div>
                       <div>
                         <label htmlFor="">Camera</label>
                         <input
@@ -263,6 +283,19 @@ const UploadImage = () => {
                         />
                       </div>
 
+                      <div className="all-tags">
+                        {tags.map((item) => {
+                          return <div key={item.id}>{item.value}</div>;
+                        })}
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Input a tag and press enter"
+                        value={a}
+                        onChange={(e)=>setA(e.target.value)}
+                        onKeyDown={(e)=>hanlePressEnter(e)}
+                      />
+
                       <div>
                         <label htmlFor="">CopyRight</label>
                         <input
@@ -292,7 +325,7 @@ const UploadImage = () => {
                       </div>
                     </div>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>

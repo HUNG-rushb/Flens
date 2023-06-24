@@ -70,6 +70,11 @@
 .upload-images,
 .upload-storys {
   opacity: 1;
+  cursor: pointer;
+}
+
+.upload-images:hover, .upload-storys:hover {
+  opacity: 0.6;
 }
 
 .upload-images > svg,
@@ -127,10 +132,12 @@
   padding: 0px 8px;
 }
 
-#post-title {
-  font-size: 30px;
+.post-title {
+  font-size: 25px;
   font-weight: 600;
   padding: 6px 0px;
+  max-width: 300px;
+  
 }
 
 .post-content {

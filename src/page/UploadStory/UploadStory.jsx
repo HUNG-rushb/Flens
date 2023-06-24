@@ -1,8 +1,10 @@
 import Button from '../../components/Button/ButtonCustom.jsx';
 import { useAuthState } from '../../context/AuthContext.js';
 import { useCreateStoryLazy } from '../../graphql/useStory.js';
+import { uploadImageToAWS } from '../../hooks/useUploadImageToAWS.js';
+// import imageStoryHandler from '../../utils/imageStoryHandler.js';
 import './UploadStory.css';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useNavigate } from 'react-router';
@@ -11,6 +13,7 @@ const QuillEditorWithImage = () => {
   const { id: userId } = useAuthState();
   const navigate = useNavigate();
   const [editorContent, setEditorContent] = useState('');
+  const [storyImages, setStoryImages] = useState([]);
   const editorRef = useRef(null);
   const { createStory, isFetching, fetchedData, fetchError } =
     useCreateStoryLazy();
@@ -23,32 +26,45 @@ const QuillEditorWithImage = () => {
     };
   }, []);
 
-  //   const handleImageInsert = () => {
-  //     const input = document.createElement('input');
-  //     input.setAttribute('type', 'file');
-  //     input.setAttribute('accept', 'image/*');
-  //     input.click();
-
-  //     input.onchange = () => {
-  //       const file = input.files[0];
-  //       if (file) {
-  //         const reader = new FileReader();
-  //         reader.onload = () => {
-  //           const dataURL = reader.result;
-  //           const quill = editorRef.current.getEditor();
-  //           const selection = quill.getSelection();
-  //           quill.insertEmbed(selection.index, 'image', dataURL);
-  //         };
-  //         reader.readAsDataURL(file);
-  //       }
-  //     };
-  //   };
-  console.log(editorContent);
-
   const handleInput = () => {
     const quill = editorRef.current.getEditor();
     setEditorContent(quill.root.innerHTML);
   };
+
+  // https://abdullahcanakci.org/en/posts/reactquill-imageupload/
+  // https://stackoverflow.com/questions/68997364/how-to-upload-image-inside-react-quill-content
+  const imageStoryHandler = useCallback(() => {
+    const input = document.createElement('input');
+
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    input.click();
+
+    input.onchange = async () => {
+      let file = input.files[0];
+
+      let result;
+      if (/^image\//.test(file.type)) {
+        result = await uploadImageToAWS(file);
+      } else {
+        console.warn('You could only upload images.');
+      }
+
+      console.log(result);
+
+      if (result !== undefined) {
+        editorRef.current
+          .getEditor()
+          .insertEmbed(
+            editorRef.current.getEditor().getSelection(),
+            'image',
+            result.Location
+          );
+
+        setStoryImages((prevState) => [...prevState, result.Location]);
+      }
+    };
+  }, []);
 
   const handleUploadStory = async (e) => {
     e.preventDefault();
@@ -60,6 +76,7 @@ const QuillEditorWithImage = () => {
             userId: userId,
             title: 'test',
             content: editorContent,
+            images: storyImages,
           },
         },
       });
@@ -74,6 +91,8 @@ const QuillEditorWithImage = () => {
       navigate('/stories');
     }
   };
+
+  console.log(editorContent);
 
   return (
     <div className="upload-story-page">
@@ -91,6 +110,9 @@ const QuillEditorWithImage = () => {
               ['link', 'image'],
               ['clean'],
             ],
+            handlers: {
+              image: imageStoryHandler,
+            },
           },
         }}
         placeholder={'Write your story'}
