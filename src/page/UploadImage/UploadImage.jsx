@@ -141,9 +141,9 @@ const UploadImage = () => {
   const handleOnchangeAddTag = (event) => {
     event.preventDefault();
     setInitialTag({
-      id: tags[tags.length - 1].id +1,
-      value: event.target.value
-    })
+      id: tags[tags.length - 1].id + 1,
+      value: event.target.value,
+    });
     if (event.key === 'Enter') {
       tags.push(initialTag);
       setTags(tags);
@@ -151,10 +151,9 @@ const UploadImage = () => {
         id: 0,
         value: '',
       });
-      console.log(tags)
+      console.log(tags);
     }
   };
-
 
   return (
     <Page title="Flens-Upload">
@@ -167,7 +166,6 @@ const UploadImage = () => {
             </div>
 
             <div className="upload-image-text">Drop a photo here</div>
-
             <div className="upload-image-input">
               <label
                 className="custom-file-input"

@@ -1,67 +1,84 @@
 .edit-profile-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
 }
 
-.above-content, .below-edit-content {
-    display: flex;  
+.above-content,
+.below-edit-content {
+  display: flex;
 }
 
 .above-content {
-    gap: 30px;
+  gap: 30px;
 }
 
-.change-avatar , .change-cover-image {
-    display: flex;
-    flex-direction: column;
-justify-content: center;
-align-items: center;
+.change-avatar,
+.change-cover-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-
 
 .change-avatar img {
-    border-radius: 50%;
-    object-fit: cover;
-    height: auto;
-    width: 200px;
-    margin-bottom: 10px;
+  border-radius: 50%;
+  object-fit: cover;
+  height: 200px;
+  width: 200px;
+  margin-bottom: 10px;
 }
 
 .change-cover-image img {
-    object-fit: cover;
-    max-height: 200px;
-    margin-bottom: 10px;
+  object-fit: cover;
+  max-height: 200px;
+  margin-bottom: 10px;
 }
 
 .below-edit-content {
-    flex-direction: column;
-    margin:40px 0 30px;
-    justify-content: left;
-    width: 60%;
+  flex-direction: column;
+  margin: 40px 0 30px;
+  justify-content: left;
+  width: 60%;
 }
 
 .below-edit-content div {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-left: 0;
-    padding-bottom:5px;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 0;
+  padding-bottom: 5px;
+  align-items: center;
 }
 
 .below-edit-content div div {
-    width: 80%;
+  width: 80%;
 }
 
-.below-edit-content div button{
-    margin-top: 20px;
+.below-edit-content div button {
+  margin-top: 20px;
 }
 
-button{
-    padding: 5px 10px;
-    border: none;
-    background-color: #f08080;
+button {
+  padding: 5px 10px;
+  border: none;
+  background-color: #f08080;
+}
+
+.custom-file-input {
+  background-color: #f08080;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-avatar-image input {
+  display: none;
+}
+
+.edit-cover-image input {
+  display: none;
 }
