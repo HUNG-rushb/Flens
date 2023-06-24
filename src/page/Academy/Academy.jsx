@@ -1,6 +1,6 @@
 import Page from '../../components/utils/Page';
 import './Academy.css';
-import InteractiveCourses from './Academy/InteractiveCourses';
+import InteractiveCourses from './Academy/InteractiveCourses.jsx';
 import AcademyTitle from './Academy/Tittle.jsx';
 import VideoCourses from './Academy/VideoCourses.jsx';
 import Workshop from './Academy/WorkShop.jsx';

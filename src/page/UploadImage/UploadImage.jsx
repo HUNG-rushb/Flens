@@ -95,7 +95,7 @@ const UploadImage = () => {
       await createPost({
         variables: {
           createPostData: {
-            categoryId: '649693993ace6fb861402cfc',
+            categoryId: '6496c183518d8caaf82fcaca',
             userId,
             title,
             aperture,

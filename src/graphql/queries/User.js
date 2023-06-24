@@ -25,18 +25,31 @@ export const VERIFY_USER = gql`
   }
 `;
 
-export const GET_USERS_ID = gql`
-  query GetUsersID {
+export const UPDATE_IMAGE = gql`
+  mutation UpdateImage {
     users {
       id
     }
   }
 `;
 
-export const UPDATE_IMAGE = gql`
-  mutation UpdateImage {
-    users {
+export const UPDATE_PROFILE = gql`
+  mutation UpdateUser($updateUserData: UpdateUserInput!) {
+    updateUser(data: $updateUserData) {
+      profileImageURL
+      backgroundImageURL
       id
+      name
+    }
+  }
+`;
+
+export const GET_PROFILE_IMAGE = gql`
+  query UserInfo($userInfoData: UserInfoInput!) {
+    userInfo(data: $userInfoData) {
+      backgroundImageURL
+      profileImageURL
+      name
     }
   }
 `;

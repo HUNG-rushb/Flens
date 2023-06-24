@@ -1,4 +1,9 @@
-import { GET_USERS_ID, CREATE_USER, VERIFY_USER } from './queries/User.js';
+import {
+  CREATE_USER,
+  VERIFY_USER,
+  UPDATE_PROFILE,
+  GET_PROFILE_IMAGE,
+} from './queries/User.js';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 
 export const useCreateUserLazy = (cache) => {
@@ -25,25 +30,29 @@ export const useVerifyUserLazy = (cache) => {
   };
 };
 
-export const useUsersID = () => {
-  const { data, loading, error } = useQuery(GET_USERS_ID);
+export const useUpdateProfileLazy = (cache) => {
+  const [updateProfile, { data, loading, error }] = useMutation(
+    UPDATE_PROFILE,
+    {
+      fetchPolicy: cache ? undefined : 'no-cache',
+    }
+  );
 
   return {
+    updateProfile,
     isFetching: loading,
     fetchedData: data,
     fetchError: error,
   };
 };
 
-export const useUsersIDLazy = (cache) => {
-  const [getUsersID, { data, loading, error }] = useLazyQuery(GET_USERS_ID, {
+export const useUserProfileImage = (queryPayload, cache) => {
+  const { data, loading, error } = useQuery(GET_PROFILE_IMAGE, {
     fetchPolicy: cache ? undefined : 'no-cache',
+    variables: queryPayload,
   });
 
   return {
-    getUsersIDLazy: () => {
-      getUsersID();
-    },
     isFetching: loading,
     fetchedData: data,
     fetchError: error,
