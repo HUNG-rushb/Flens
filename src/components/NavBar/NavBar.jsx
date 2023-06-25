@@ -76,6 +76,7 @@ const NavBar = () => {
                         <PersonCircle
                           size={28}
                           onClick={() => setShow(!show)}
+                          id='avtar-nav-bar'
                         />
                         <div className="popover-avatar">
                           {show ? (

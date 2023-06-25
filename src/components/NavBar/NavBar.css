@@ -61,11 +61,12 @@ a.nav-link:hover {
   padding-top: 12px;
 }
 
-.nav-item > div > svg {
+#avtar-nav-bar {
   opacity: 1;
+  cursor: pointer;
 }
 
-.nav-item > div > svg:hover {
+#avtar-nav-bar:hover {
   opacity: 0.6;
 }
 
