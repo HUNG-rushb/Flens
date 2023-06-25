@@ -29,6 +29,11 @@ const UploadImage = () => {
   const [focalLength, setFocalLength] = useState('');
   const [shutterSpeed, setShutterSpeed] = useState('');
   const [iso, setIso] = useState('');
+  const [tags, setTags] = useState([]);
+  const [tag, setTag] = useState({
+    id: 0,
+    value: '',
+  });
   const [copyright, setCopyright] = useState('');
 
   const { createPost, isFetching, fetchedData, fetchError } =
@@ -37,6 +42,22 @@ const UploadImage = () => {
 
   // console.log({ fetchedData });
   // console.log({ fetchError });
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      tags.push(tag);
+      setTags(tags);
+      setTag({
+        id: 0,
+        value: '',
+      });
+    }
+  };
+
+  const removeTag = (id) => {
+    const removeTag = tags.filter((item) => item.id !==id);
+    setTags(removeTag)
+  };
 
   const handleFileSelect = () => {
     fileInputRef.current.click();
@@ -85,74 +106,51 @@ const UploadImage = () => {
   };
 
   // Create Post
-  const handleConfirmUpload = async (event) => {
-    event.preventDefault();
+  // const handleConfirmUpload = async (event) => {
+  //   event.preventDefault();
 
-    const result = await uploadImageToAWS({ selectedFile });
-    console.log({ result });
+  //   const result = await uploadImageToAWS({ selectedFile });
+  //   console.log({ result });
 
-    try {
-      await createPost({
-        variables: {
-          createPostData: {
-            categoryId: '6496c183518d8caaf82fcaca',
-            userId,
-            title,
-            aperture,
-            lens,
-            takenWhen,
-            camera,
-            focalLength,
-            shutterSpeed,
-            ISO: iso,
-            copyRight: copyright,
-            imageHash: '',
-            imageURL: result.Location,
-          },
-        },
-      });
+  //   try {
+  //     await createPost({
+  //       variables: {
+  //         createPostData: {
+  //           categoryId: '6496c183518d8caaf82fcaca',
+  //           userId,
+  //           title,
+  //           aperture,
+  //           lens,
+  //           takenWhen,
+  //           camera,
+  //           focalLength,
+  //           shutterSpeed,
+  //           ISO: iso,
+  //           copyRight: copyright,
+  //           imageHash: '',
+  //           imageURL: result.Location,
+  //         },
+  //       },
+  //     });
 
-      // navigate('/');
-    } catch (e) {
-      throw e;
-    }
+  //     // navigate('/');
+  //   } catch (e) {
+  //     throw e;
+  //   }
 
-    // console.log(fetchError);
-    if (!fetchError) {
-      navigate('/');
-    }
+  //   // console.log(fetchError);
+  //   if (!fetchError) {
+  //     navigate('/');
+  //   }
+  // };
+
+  const handleConfirmUpload = () => {
+    console.log('upload');
   };
 
   const handleCancelUpload = (event) => {
     event.preventDefault();
     setShowModalUpload(false);
-  };
-
-  const [tags, setTags] = useState([
-    { id: 1, value: 'aa' },
-    { id: 2, value: 'bb' },
-  ]);
-
-  const [initialTag, setInitialTag] = useState({
-    id: 0,
-    value: '',
-  });
-
-  const handleOnchangeAddTag = (event) => {
-    event.preventDefault();
-    setInitialTag({
-      id: tags[tags.length - 1].id + 1,
-      value: event.target.value,
-    });
-    if (event.key === 'Enter') {
-      tags.push(initialTag);
-      setTags(tags);
-      setInitialTag({
-        id: 0,
-        value: '',
-      });
-      console.log(tags);
-    }
   };
 
   return (
@@ -274,22 +272,34 @@ const UploadImage = () => {
                         />
                       </div>
 
-                      {/* <div className="all-tags">
-                        {tags.map((item) => {
-                          return <div key={item.value}>{item.value}</div>;
-                        })}
-                      </div>
                       <div>
                         <label>Tags</label>
+                        {tags.length > 0 && <div className="all-tags">
+                          {tags.map((item) => {
+                            return (
+                              <div
+                                key={item.id}
+                                onClick={() => removeTag(item.id)}
+                              >
+                                <span id="remove-tag">X</span>
+                                {item.value}
+                              </div>
+                            );
+                          })}
+                        </div>}
                         <input
                           type="text"
                           placeholder="Add a tag and press enter"
-                          value={initialTag.value}
-                          onChange={(e) => 
-                            handleOnchangeAddTag(e)
+                          onChange={(e) =>
+                            setTag({
+                              id: tags.length===0? 1 : tags[tags.length -1].id +1,
+                              value: e.target.value,
+                            })
                           }
+                          onKeyDown={(e) => handleKeyDown(e)}
+                          value={tag.value}
                         />
-                      </div> */}
+                      </div>
                       <div>
                         <label htmlFor="">CopyRight</label>
                         <input
