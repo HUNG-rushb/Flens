@@ -1,10 +1,20 @@
-import CoverImage from '../../../../assets/images/Profile/profileCoverImage.jpg';
-import Avatar from '../../../../assets/images/avatar.jpg';
 import Button from '../../../../components/Button/ButtonCustom';
+import { useAuthState } from '../../../../context/AuthContext';
+import { useUpdateProfileLazy } from '../../../../graphql/useUser';
+import { useUserProfileImage } from '../../../../graphql/useUser';
+import { uploadAvatarToAWS } from '../../../../hooks/useUploadImageToAWS';
 import './EditProfile.css';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 const EditProfile = () => {
+  const navigate = useNavigate();
+  const { id: userId } = useAuthState();
+
+  const { fetchedData: fetchedImage } = useUserProfileImage({
+    userInfoData: { userId },
+  });
+
   const fileInputAvatarRef = useRef(null);
   const fileInputCoverRef = useRef(null);
 
@@ -13,6 +23,15 @@ const EditProfile = () => {
 
   const [previewImageAvatar, setPreviewAvatarImage] = useState(null);
   const [previewImageCover, setPreviewCoverImage] = useState(null);
+  const [selectedAvatar, setSelectedAvatar] = useState(null);
+  const [selectedCover, setSelectedCover] = useState(null);
+
+  const { updateProfile, isFetching, fetchError } = useUpdateProfileLazy();
+
+  useEffect(() => {
+    setPreviewAvatarImage(fetchedImage?.userInfo.profileImageURL);
+    setPreviewCoverImage(fetchedImage?.userInfo.backgroundImageURL);
+  }, [fetchedImage]);
 
   const handleFileAvatarSelect = () => {
     fileInputAvatarRef.current.click();
@@ -34,6 +53,7 @@ const EditProfile = () => {
       setPreviewAvatarImage(imageUrl);
     };
     reader.readAsDataURL(file);
+    setSelectedAvatar(file);
   };
 
   const handleFileChangeCover = (event) => {
@@ -48,20 +68,39 @@ const EditProfile = () => {
       setPreviewCoverImage(imageUrl);
     };
     reader.readAsDataURL(file);
+    setSelectedCover(file);
   };
 
-  const handleSaveEdit = (event) => {
+  const handleSaveEdit = async (event) => {
     event.preventDefault();
+
+    const avatar = await uploadAvatarToAWS(selectedAvatar);
+    const background = await uploadAvatarToAWS(selectedCover);
+
+    try {
+      await updateProfile({
+        variables: {
+          updateUserData: {
+            userId,
+            profileImageURL: avatar.Location,
+            backgroundImageURL: background.Location,
+          },
+        },
+      });
+    } catch (e) {
+      throw e;
+    }
+
+    if (!fetchError) {
+      navigate('/profile');
+    }
   };
 
   return (
     <div className="edit-profile-page">
       <div className="above-content">
         <div className="change-avatar-img">
-          <img
-            src={previewImageAvatar ? previewImageAvatar : Avatar}
-            alt="edit-avatar"
-          />
+          <img src={previewImageAvatar} alt="edit-avatar" />
           <div className="edit-avatar-image">
             <label
               className="custom-file-input"
@@ -80,11 +119,7 @@ const EditProfile = () => {
           </div>
         </div>
         <div className="change-cover-image">
-          <img
-            src={previewImageCover ? previewImageCover : CoverImage}
-            alt="edit-cover"
-            width={'400px'}
-          />
+          <img src={previewImageCover} alt="edit-cover" width={'400px'} />
           <div className="edit-cover-image">
             <label
               className="custom-file-input"
@@ -129,6 +164,11 @@ const EditProfile = () => {
             text={'Save changes'}
             type="save-change-edit"
             onClick={(e) => handleSaveEdit(e)}
+            // disable={
+            //   previewImageAvatar === null || previewImageCover === null
+            //     ? 'true'
+            //     : 'false'
+            // }
           />
         </div>
       </form>
