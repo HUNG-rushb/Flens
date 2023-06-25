@@ -12,26 +12,56 @@ const Register = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [errors, setErrors] = useState([]);
+
   const { createUser, isFetching, fetchedData, fetchError } =
     useCreateUserLazy();
 
+  const checkValidate = () => {
+    const validationErrors = {};
+
+    if (name === '') {
+      validationErrors.name = 'Name is required.';
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email === '') {
+      validationErrors.email = 'Email is required.';
+    }
+    if (!emailRegex.test(email)) {
+      validationErrors.email = 'Invalid email address.';
+    }
+    if (password === '') {
+      validationErrors.password = 'Password is required.';
+    }
+    if (password.length < 6) {
+      validationErrors.password = 'Password must be at least 6 characters.';
+    }
+    return validationErrors;
+  };
+
   const handleClick = async (e) => {
     e.preventDefault();
+    const validationErrors = checkValidate();
 
-    try {
-      await createUser({
-        variables: {
-          data: {
-            name,
-            hashPassword: `${hash(password)}`,
-            email,
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+    } else {
+      setErrors({});
+      try {
+        await createUser({
+          variables: {
+            data: {
+              name,
+              hashPassword: `${hash(password)}`,
+              email,
+            },
           },
-        },
-      });
-
-      navigate('/login');
-    } catch (e) {
-      throw e;
+        });
+        navigate('/login');
+      } catch (e) {
+        throw e;
+      }
     }
   };
 
@@ -52,6 +82,7 @@ const Register = () => {
                   placeholder="Enter name"
                   value={name}
                 />
+                {errors.name && <span className="errors">{errors.name}</span>}
               </div>
 
               <div className="form-group mt-3">
@@ -63,6 +94,7 @@ const Register = () => {
                   placeholder="Enter email"
                   value={email}
                 />
+                {errors.email && <span className="errors">{errors.email}</span>}
               </div>
 
               <div className="form-group mt-3">
@@ -74,6 +106,9 @@ const Register = () => {
                   placeholder="Enter password"
                   value={password}
                 />
+                {errors.password && (
+                  <span className="errors">{errors.password}</span>
+                )}
               </div>
 
               {isFetching ? (
