@@ -12,6 +12,9 @@ const PostComment = ({ item, showImageDetail }) => {
   const [comment, setComment] = useState('');
   const [indexCmt, setIndexCmt] = useState(3);
 
+  const commentid = item.id
+  // console.log(commentid)
+
   const { isFetching, fetchedData, fetchError, refetch } = useGetAllPostComment(
     {
       postInfo: { postId: item.id },
@@ -53,7 +56,7 @@ const PostComment = ({ item, showImageDetail }) => {
   };
 
   const handlePressEnter = async (event) => {
-    const textarea = document.getElementById('textarea-comment');
+    const textarea = document.getElementById(`textarea-comment-${commentid}`);
     const { selectionStart, selectionEnd } = textarea;
     const value = textarea.value;
     if (event.key === 'Enter') {
@@ -91,11 +94,11 @@ const PostComment = ({ item, showImageDetail }) => {
   return (
     <div className="post-comments">
       <div className="post-comment-header">
-        <img src={item.avatar} alt="avatar-comment" width="40" />
+        <img src={item.avatar} alt="avatar" width="40" />
         <TextareaCustom
           type={'comment'}
           placeholder={'Add a comment'}
-          id="textarea-comment"
+          id={`textarea-comment-${commentid}`}
           value={comment}
           rows={1}
           onChange={(e) => setComment(e.target.value)}
