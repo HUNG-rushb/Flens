@@ -8,11 +8,11 @@ const AlbumImage = () => {
       <span>Album (3)</span>
       <div className="album-images">
         <div className="left-album">
-          <img src={Album1} alt="album1" width={'100%'} />
+          <img src={Album1} alt="album1" />
         </div>
         <div className="right-album">
-          <img src={Album2} alt="album2" style={{ width: '75%' }} />
-          <img src={Album3} alt="album3" style={{ width: '75%' }} />
+          <img src={Album2} alt="album2" />
+          <img src={Album3} alt="album3" />
         </div>
       </div>
     </div>
