@@ -289,7 +289,7 @@ const UploadImage = () => {
                         </div>}
                         <input
                           type="text"
-                          placeholder="Add a tag and press enter"
+                          placeholder="Input a tag and press enter"
                           onChange={(e) =>
                             setTag({
                               id: tags.length===0? 1 : tags[tags.length -1].id +1,
