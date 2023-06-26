@@ -14,16 +14,22 @@ const Home = () => {
   const { isFetching, fetchedData, fetchError } = useGetAllUserPost({
     getAllUserPostId: { userId },
   });
-  console.log(fetchedData);
+  console.log({ fetchedData });
+
+  if (fetchError) {
+    return <p>Error</p>;
+  }
 
   return (
     <Page title={'FLens-Home'}>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <div className="home-page">
           <LeftContent />
+
           <div className="right-content">
             <UploadBar />
             {isFetching && <Spinner />}
+
             {fetchedData &&
               fetchedData.userInfo.posts.map((item) => {
                 return <Post key={item.id} item={item} />;

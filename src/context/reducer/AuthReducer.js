@@ -1,13 +1,13 @@
 let id = window.localStorage.getItem('currentUser')
-  ? JSON.parse(localStorage.getItem('currentUser')).id
+  ? JSON.parse(window.localStorage.getItem('currentUser')).id
   : '';
 
 let isAdmin = window.localStorage.getItem('currentUser')
-  ? JSON.parse(localStorage.getItem('currentUser')).isAdmin
+  ? JSON.parse(window.localStorage.getItem('currentUser')).isAdmin
   : '';
 
 let profileImageURL = window.localStorage.getItem('currentUser')
-  ? JSON.parse(localStorage.getItem('currentUser')).profileImageURL
+  ? JSON.parse(window.localStorage.getItem('currentUser')).profileImageURL
   : '';
 
 export const initialState = {
@@ -40,12 +40,16 @@ export const AuthReducer = (initialState, action) => {
         id: '',
         profileImageURL: '',
       };
-
     case 'LOGIN_ERROR':
       return {
         ...initialState,
         loading: false,
         errorMessage: action.error,
+      };
+    case 'UPDATE_PROFILE':
+      return {
+        ...initialState,
+        profileImageURL: action.payload,
       };
 
     default:

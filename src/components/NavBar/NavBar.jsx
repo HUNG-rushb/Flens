@@ -76,27 +76,28 @@ const NavBar = () => {
                         <PersonCircle
                           size={28}
                           onClick={() => setShow(!show)}
-                          id='avtar-nav-bar'
+                          id="avtar-nav-bar"
                         />
+
                         <div className="popover-avatar">
                           {show ? (
                             <ul className="popover-avatar-content">
-                              <li>
+                              <li onClick={() => setShow(!show)}>
                                 <Link to={`/profile/${id}`}>Profile</Link>
                               </li>
-                              <li>
+                              <li onClick={() => setShow(!show)}>
                                 <a href="/academy">Academy</a>
                               </li>
-                              <li>
+                              <li onClick={() => setShow(!show)}>
                                 <a href="/leaderBoard">Leader Board</a>
                               </li>
-                              <li>
+                              <li onClick={() => setShow(!show)}>
                                 <a href="/contest">Contest</a>
                               </li>
-                              <li>
+                              <li onClick={() => setShow(!show)}>
                                 <a href="/aboutUs">About us</a>
                               </li>
-                              <li>
+                              <li onClick={() => setShow(!show)}>
                                 <div onClick={() => handleLogout()}>
                                   Log out
                                 </div>

@@ -1,7 +1,7 @@
 import ButtonCustom from '../../components/Button/ButtonCustom';
 import InputCustom from '../../components/Input/Input';
 import Page from '../../components/utils/Page';
-import { useAuthState, useAuthDispatch } from '../../context/AuthContext';
+import { useAuthDispatch } from '../../context/AuthContext';
 import { loginUser } from '../../context/actions/AuthActions';
 import { useVerifyUserLazy } from '../../graphql/useUser';
 import './Login.css';

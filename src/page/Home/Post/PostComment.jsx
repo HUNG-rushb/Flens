@@ -1,13 +1,15 @@
 import TextareaCustom from '../../../components/TextArea/Textarea';
+import { useAuthState } from '../../../context/AuthContext';
 import {
   useGetAllPostComment,
   useCreateCommentLazy, // useGetAllPostCommentLazy,
 } from '../../../graphql/usePost';
 import { relativeDays } from '../../../utils/unixToDateTime';
 import { useEffect, useState } from 'react';
-import { Send, PersonCircle } from 'react-bootstrap-icons';
+import { Send } from 'react-bootstrap-icons';
 
 const PostComment = ({ item, showImageDetail }) => {
+  const { profileImageURL } = useAuthState();
   const [allComment, setAllComment] = useState(null);
   const [comment, setComment] = useState('');
   const [indexCmt, setIndexCmt] = useState(3);
@@ -93,11 +95,7 @@ const PostComment = ({ item, showImageDetail }) => {
   return (
     <div className="post-comments">
       <div className="post-comment-header">
-        {item.avatar ? (
-          <img src={item.avatar} alt="avatar" />
-        ) : (
-          <PersonCircle size={40} color="#f08080" />
-        )}
+        <img src={profileImageURL} />
 
         <TextareaCustom
           type={'comment'}

@@ -1,32 +1,25 @@
 import unixToDateTime from '../../../utils/unixToDateTime';
-import { PersonCircle } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 
 const PostHeader = ({ item }) => {
   const navigate = useNavigate();
-  
-  const anotherUserId = 1;
+
   const handleClickToProfile = () => {
-    navigate(`/profile/${anotherUserId}`);
+    navigate(`/profile/${item.userId.id}`);
   };
 
   return (
     <div className="post-header">
-      {item.avatar ? (
-        <img
-          src={item.avatar}
-          alt="post-avatar"
-          onClick={handleClickToProfile}
-        />
-      ) : (
-        <PersonCircle
-          size={50}
-          color="#f08080"
-          onClick={handleClickToProfile}
-        />
-      )}
+      <img
+        className="post-header"
+        // style cho nay lai
+        src={item.userId.profileImageURL}
+        alt="post-avatar"
+        onClick={handleClickToProfile}
+      />
+
       <div>
-        <span>Hung</span>
+        <span>{item.userId.name}</span>
         uploaded a photo
         <div>{unixToDateTime(item.createdAt)}</div>
       </div>

@@ -1,5 +1,6 @@
 import CoverImage from '../../assets/images/Profile/profileCoverImage.jpg';
 import Page from '../../components/utils/Page';
+import Spinner from '../../components/utils/Spinner';
 import { useAuthState } from '../../context/AuthContext';
 import { useUserProfileImage } from '../../graphql/useUser';
 import './Profile.css';
@@ -16,35 +17,35 @@ const Profile = () => {
 
   return (
     <Page title={'Flens-Profile'}>
-      <Suspense fallback={null}>
-        <div className="profilePage">
-          <div className="overlay"></div>
-          <img
-            src={
-              fetchedData?.userInfo.backgroundImageURL
-                ? fetchedData?.userInfo.backgroundImageURL
-                : CoverImage
-            }
-            alt=""
-            className="coverImage"
-          />
-          <div className="peronalInfor">
-            <div className="coverImageContent">
-              {fetchedData?.userInfo.profileImageURL ? (
+      <Suspense>
+        {isFetching ? (
+          <Spinner />
+        ) : (
+          <div className="profilePage">
+            <div className="overlay"></div>
+            <img
+              src={
+                fetchedData?.userInfo.backgroundImageURL
+                  ? fetchedData?.userInfo.backgroundImageURL
+                  : CoverImage
+              }
+              alt=""
+              className="coverImage"
+            />
+            <div className="peronalInfor">
+              <div className="coverImageContent">
                 <img src={fetchedData?.userInfo.profileImageURL} alt="" />
-              ) : (
-                <PersonCircle size={200} id="default-avatar" />
-              )}
 
-              <div className="profileName">
-                {fetchedData?.userInfo.name
-                  ? fetchedData?.userInfo.name
-                  : 'Username'}
+                <div className="profileName">
+                  {fetchedData?.userInfo.name
+                    ? fetchedData?.userInfo.name
+                    : 'Username'}
+                </div>
               </div>
             </div>
+            <TabMenu />
           </div>
-          <TabMenu />
-        </div>
+        )}
       </Suspense>
     </Page>
   );
