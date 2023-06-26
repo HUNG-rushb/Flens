@@ -133,6 +133,14 @@
   padding: 0px 8px;
 }
 
+.post-header img, .post-header svg {
+  opacity: 1;
+}
+
+.post-header img:hover, .post-header svg:hover {
+  opacity: 0.6;
+}
+
 .post-title {
   font-size: 25px;
   font-weight: 600;
