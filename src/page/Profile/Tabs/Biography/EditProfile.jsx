@@ -5,7 +5,9 @@ import { useUserProfileImage } from '../../../../graphql/useUser';
 import { uploadAvatarToAWS } from '../../../../hooks/useUploadImageToAWS';
 import './EditProfile.css';
 import React, { useEffect, useRef, useState } from 'react';
+import { PersonCircle } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
+import CoverImage from '../../../../assets/images/Profile/profileCoverImage.jpg'
 
 const EditProfile = () => {
   const navigate = useNavigate();
@@ -100,7 +102,12 @@ const EditProfile = () => {
     <div className="edit-profile-page">
       <div className="above-content">
         <div className="change-avatar-img">
-          <img src={previewImageAvatar} alt="edit-avatar" />
+          {previewImageAvatar ? (
+            <img src={previewImageAvatar} alt="edit-avatar" />
+          ) : (
+            <PersonCircle size={200} color='#f08080' id='default-edit-avatar' />
+          )}
+
           <div className="edit-avatar-image">
             <label
               className="custom-file-input"
@@ -119,7 +126,8 @@ const EditProfile = () => {
           </div>
         </div>
         <div className="change-cover-image">
-          <img src={previewImageCover} alt="edit-cover" width={'400px'} />
+          
+          <img src={previewImageCover? previewImageCover : CoverImage} alt="edit-cover" width={'400px'} />
           <div className="edit-cover-image">
             <label
               className="custom-file-input"

@@ -56,7 +56,7 @@ const routes = [
     isPrivate: true,
   },
   {
-    path: '/profile',
+    path: '/profile/:userId',
     element: <Profile />,
     exact: true,
     isPrivate: true,

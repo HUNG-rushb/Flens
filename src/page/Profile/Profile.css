@@ -45,7 +45,10 @@
     width: 200px;
     border-radius: 50%;
     margin: 0 20px;
+}
 
+#default-avatar {
+    margin: 0 20px;
 }
 
 .profileName {

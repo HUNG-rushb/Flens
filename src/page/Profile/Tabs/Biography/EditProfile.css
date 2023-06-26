@@ -86,3 +86,7 @@ button {
 .edit-cover-image input {
   display: none;
 }
+
+#default-edit-avatar {
+  margin-bottom: 10px;
+}
