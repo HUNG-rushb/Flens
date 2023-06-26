@@ -5,7 +5,7 @@ import {
 } from '../../../graphql/usePost';
 import { relativeDays } from '../../../utils/unixToDateTime';
 import { useEffect, useState } from 'react';
-import { Send } from 'react-bootstrap-icons';
+import { Send, PersonCircle } from 'react-bootstrap-icons';
 
 const PostComment = ({ item, showImageDetail }) => {
   const [allComment, setAllComment] = useState(null);
@@ -13,7 +13,6 @@ const PostComment = ({ item, showImageDetail }) => {
   const [indexCmt, setIndexCmt] = useState(3);
 
   const commentid = item.id
-  // console.log(commentid)
 
   const { isFetching, fetchedData, fetchError, refetch } = useGetAllPostComment(
     {
@@ -94,7 +93,8 @@ const PostComment = ({ item, showImageDetail }) => {
   return (
     <div className="post-comments">
       <div className="post-comment-header">
-        <img src={item.avatar} alt="avatar" width="40" />
+        {item.avatar? <img src={item.avatar} alt="avatar" /> : <PersonCircle size={40} color='#f08080' />}
+        
         <TextareaCustom
           type={'comment'}
           placeholder={'Add a comment'}
