@@ -15,6 +15,15 @@ export async function logout(dispatch) {
   window.localStorage.removeItem('currentUser');
 }
 
+export async function updateProfileUser(dispatch, newUrl) {
+  dispatch({ type: 'UPDATE_PROFILE', payload: newUrl });
+
+  let a = JSON.parse(window.localStorage.getItem('currentUser'));
+  a.profileImageURL = newUrl;
+
+  window.localStorage.setItem('currentUser', JSON.stringify(a));
+}
+
 // const ROOT_URL = 'https://secret-hamlet-03431.herokuapp.com';
 
 // export async function loginUser(dispatch, loginPayload) {

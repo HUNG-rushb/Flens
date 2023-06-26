@@ -60,6 +60,13 @@ export const GET_ALL_USER_POST = gql`
         points
         title
         createdAt
+
+        userId {
+          id
+          profileImageURL
+          name
+        }
+
         image {
           url
           imageInfoId {
@@ -101,6 +108,14 @@ export const CREATE_COMMENT = gql`
       # postId {
       #   title
       # }
+    }
+  }
+`;
+
+export const INTERACT_POST = gql`
+  mutation InteractPost($interactPostData: InteractPostInput!) {
+    interactPost(data: $interactPostData) {
+      points
     }
   }
 `;

@@ -1,23 +1,36 @@
-import Avatar from '../../assets/images/avatar.jpg';
+import { useAuthState } from '../../context/AuthContext';
+import { useUserProfileImage } from '../../graphql/useUser';
 
 const LeftHomeContent = () => {
-  return <div className="container-left-content">
-    <div className="left-content">
-      <img src={Avatar} alt="avatar"/>
-      <div className="name">Nguyen Van A</div>
-      <div className="skill-content">
-        <div>
-          <span>Your Flens link:</span> flens.com/quocthanhh
-        </div>
-        <div>
-          <span>Favourites:</span> Camera, Portrait
-        </div>
-        <div>
-          <span>Skills:</span> Portrait photography
-        </div>
+  const { id: userId } = useAuthState();
+
+  const { fetchedData: fetchedImage } = useUserProfileImage({
+    userInfoData: { userId },
+  });
+
+  return (
+    <div className="container-left-content">
+      <div className="left-content">
+        <img src={fetchedImage?.userInfo.profileImageURL} alt="avatar" />
+
+        <div className="name">{fetchedImage?.userInfo.name}</div>
+
+        {/* <div className="skill-content">
+          <div>
+            <span>Your Flens link:</span> flens.com/quocthanhh
+          </div>
+
+          <div>
+            <span>Favourites:</span> Camera, Portrait
+          </div>
+
+          <div>
+            <span>Skills:</span> Portrait photography
+          </div>
+        </div> */}
       </div>
     </div>
-  </div>;
+  );
 };
 
 export default LeftHomeContent;

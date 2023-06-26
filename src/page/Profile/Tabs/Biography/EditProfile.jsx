@@ -1,5 +1,8 @@
+import CoverImage from '../../../../assets/images/Profile/profileCoverImage.jpg';
 import Button from '../../../../components/Button/ButtonCustom';
 import { useAuthState } from '../../../../context/AuthContext';
+import { useAuthDispatch } from '../../../../context/AuthContext';
+import { updateProfileUser } from '../../../../context/actions/AuthActions';
 import { useUpdateProfileLazy } from '../../../../graphql/useUser';
 import { useUserProfileImage } from '../../../../graphql/useUser';
 import { uploadAvatarToAWS } from '../../../../hooks/useUploadImageToAWS';
@@ -7,10 +10,10 @@ import './EditProfile.css';
 import React, { useEffect, useRef, useState } from 'react';
 import { PersonCircle } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
-import CoverImage from '../../../../assets/images/Profile/profileCoverImage.jpg'
 
 const EditProfile = () => {
   const navigate = useNavigate();
+  const dispatch = useAuthDispatch();
   const { id: userId } = useAuthState();
 
   const { fetchedData: fetchedImage } = useUserProfileImage({
@@ -76,25 +79,33 @@ const EditProfile = () => {
   const handleSaveEdit = async (event) => {
     event.preventDefault();
 
-    const avatar = await uploadAvatarToAWS(selectedAvatar);
-    const background = await uploadAvatarToAWS(selectedCover);
+    const avatar = selectedAvatar
+      ? await uploadAvatarToAWS(selectedAvatar)
+      : null;
+    const background = selectedCover
+      ? await uploadAvatarToAWS(selectedCover)
+      : null;
 
     try {
-      await updateProfile({
+      const result = await updateProfile({
         variables: {
           updateUserData: {
             userId,
-            profileImageURL: avatar.Location,
-            backgroundImageURL: background.Location,
+            profileImageURL: avatar ? avatar.Location : previewImageAvatar,
+            backgroundImageURL: background
+              ? background.Location
+              : previewImageCover,
           },
         },
       });
+
+      updateProfileUser(dispatch, result.data.updateUser.profileImageURL);
     } catch (e) {
       throw e;
     }
 
     if (!fetchError) {
-      navigate('/profile');
+      navigate(`/profile/${userId}`);
     }
   };
 
@@ -105,7 +116,7 @@ const EditProfile = () => {
           {previewImageAvatar ? (
             <img src={previewImageAvatar} alt="edit-avatar" />
           ) : (
-            <PersonCircle size={200} color='#f08080' id='default-edit-avatar' />
+            <PersonCircle size={200} color="#f08080" id="default-edit-avatar" />
           )}
 
           <div className="edit-avatar-image">
@@ -126,8 +137,11 @@ const EditProfile = () => {
           </div>
         </div>
         <div className="change-cover-image">
-          
-          <img src={previewImageCover? previewImageCover : CoverImage} alt="edit-cover" width={'400px'} />
+          <img
+            src={previewImageCover ? previewImageCover : CoverImage}
+            alt="edit-cover"
+            width={'400px'}
+          />
           <div className="edit-cover-image">
             <label
               className="custom-file-input"
