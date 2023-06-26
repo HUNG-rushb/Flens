@@ -9,8 +9,6 @@ import { PersonCircle } from 'react-bootstrap-icons';
 
 const Profile = () => {
   const { id: userId } = useAuthState();
-  console.log("user id: ", userId)
-
   const { isFetching, fetchedData, fetchError } = useUserProfileImage({
     userInfoData: { userId },
   });
