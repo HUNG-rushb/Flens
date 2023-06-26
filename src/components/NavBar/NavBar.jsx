@@ -82,7 +82,7 @@ const NavBar = () => {
                           {show ? (
                             <ul className="popover-avatar-content">
                               <li>
-                                <a href={`profile/${id}`}>Profile</a>
+                                <Link to={`/profile/${id}`}>Profile</Link>
                               </li>
                               <li>
                                 <a href="/academy">Academy</a>

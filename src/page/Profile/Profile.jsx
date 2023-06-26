@@ -34,7 +34,7 @@ const Profile = () => {
               {fetchedData?.userInfo.profileImageURL ? (
                 <img src={fetchedData?.userInfo.profileImageURL} alt="" />
               ) : (
-                <PersonCircle size={200} id='default-avatar' />
+                <PersonCircle size={200} id="default-avatar" />
               )}
 
               <div className="profileName">

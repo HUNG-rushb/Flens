@@ -12,7 +12,7 @@ const PostComment = ({ item, showImageDetail }) => {
   const [comment, setComment] = useState('');
   const [indexCmt, setIndexCmt] = useState(3);
 
-  const commentid = item.id
+  const commentid = item.id;
 
   const { isFetching, fetchedData, fetchError, refetch } = useGetAllPostComment(
     {
@@ -93,8 +93,12 @@ const PostComment = ({ item, showImageDetail }) => {
   return (
     <div className="post-comments">
       <div className="post-comment-header">
-        {item.avatar? <img src={item.avatar} alt="avatar" /> : <PersonCircle size={40} color='#f08080' />}
-        
+        {item.avatar ? (
+          <img src={item.avatar} alt="avatar" />
+        ) : (
+          <PersonCircle size={40} color="#f08080" />
+        )}
+
         <TextareaCustom
           type={'comment'}
           placeholder={'Add a comment'}
