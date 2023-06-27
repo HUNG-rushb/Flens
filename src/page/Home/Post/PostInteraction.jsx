@@ -1,4 +1,4 @@
-import ModalCustom from '../../../components/Modal/Modal';
+import ModalReportImage from '../../../components/Modal/ModalReportImage';
 import { useState } from 'react';
 import { Heart, HeartFill, Reply, ThreeDots } from 'react-bootstrap-icons';
 
@@ -20,41 +20,6 @@ const PostInteraction = ({ item }) => {
 
   const handleCloseReport = () => {
     setShowReport(false);
-  };
-
-  const modalReportContent = () => {
-    return (
-      <>
-        <div className="report-photo-container">
-          <img src={item.image.url} alt="" width={'50%'} />
-
-          <div className="left-report-photo">
-            <span>Report this photo with reason:</span>
-            <ul>
-              <li>
-                <input type="checkbox" /> <span>Copyright infringement</span>{' '}
-              </li>
-              <li>
-                <input type="checkbox" />
-                <span>Offensive content </span>
-              </li>
-              <li>
-                <input type="checkbox" />
-                <span>Spam</span>
-              </li>
-              <li>
-                <input type="checkbox" />
-                <span>Mature content</span>
-              </li>
-              <li>
-                <input type="checkbox" />
-                <span>Harmful content</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </>
-    );
   };
 
   const handleSaveReport = () => {
@@ -92,13 +57,10 @@ const PostInteraction = ({ item }) => {
             </ul>
           </div>
         </div>
-        <ModalCustom
+        <ModalReportImage
+          item={item}
           show={showReport}
-          size="lg"
-          modalTitle="Report Photo"
-          modalContent={modalReportContent()}
           handleClose={handleCloseReport}
-          confirmButtonMessage="Submit"
           handleSavechanges={handleSaveReport}
         />
       </div>
