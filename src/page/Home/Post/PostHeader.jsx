@@ -11,10 +11,8 @@ const PostHeader = ({ item }) => {
   return (
     <div className="post-header">
       <img
-        className="post-header"
-        // style cho nay lai
         src={item.userId.profileImageURL}
-        alt="post-avatar"
+        alt=""
         onClick={handleClickToProfile}
       />
 

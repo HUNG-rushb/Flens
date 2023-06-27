@@ -95,8 +95,7 @@ const PostComment = ({ item, showImageDetail }) => {
   return (
     <div className="post-comments">
       <div className="post-comment-header">
-        <img src={profileImageURL} />
-
+        <img src={profileImageURL} alt=''/>
         <TextareaCustom
           type={'comment'}
           placeholder={'Add a comment'}

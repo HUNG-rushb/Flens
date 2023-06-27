@@ -141,19 +141,27 @@
   opacity: 0.6;
 }
 
+.post-header img {
+  max-width: 60px;
+  border-radius: 50%;
+  height: 60px;
+}
+
 .post-title {
   font-size: 25px;
   font-weight: 600;
-  padding: 6px 0px;
-  max-width: 300px;
+  padding: 10px 0;
+  max-width: 800px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .post-content {
-  width: 100%;
+  width: 90%;
 }
 
 .post-image-and-tittle {
-  padding: 20px;
+  padding: 20px 20px 0 20px;
 }
 
 .image-post {
@@ -281,6 +289,7 @@
 
 .post-comment-header img {
   max-width: 40px;
+  border-radius: 50%;
 }
 
 #btn-submit-cmt > svg {
