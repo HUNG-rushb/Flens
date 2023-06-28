@@ -37,11 +37,11 @@ const Post = ({ item }) => {
         <PostComment item={item} showImageDetail={showImageDetail} />
       </div>
 
-      {/* <ImageDetail
+      <ImageDetail
         item={item}
         showImageDetail={showImageDetail}
         handleCloseImageDetail={handleCloseImageDetail}
-      /> */}
+      />
     </div>
   );
 };

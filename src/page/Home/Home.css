@@ -145,6 +145,7 @@
   max-width: 60px;
   border-radius: 50%;
   height: 60px;
+  cursor: pointer;
 }
 
 .post-title {
@@ -226,6 +227,12 @@
   margin: 0 20px;
 }
 
+.post-interaction-2 {
+  display: flex;
+  justify-content: space-between;
+}
+
+
 .like-icon {
   display: flex;
   align-items: center;
@@ -289,6 +296,7 @@
 
 .post-comment-header img {
   max-width: 40px;
+  height: 40px;
   border-radius: 50%;
 }
 

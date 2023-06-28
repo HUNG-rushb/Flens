@@ -8,7 +8,7 @@ import { relativeDays } from '../../../utils/unixToDateTime';
 import { useEffect, useState } from 'react';
 import { Send } from 'react-bootstrap-icons';
 
-const PostComment = ({ item, showImageDetail }) => {
+const PostComment = ({ item }) => {
   const { profileImageURL } = useAuthState();
   const [allComment, setAllComment] = useState(null);
   const [comment, setComment] = useState('');
@@ -95,7 +95,7 @@ const PostComment = ({ item, showImageDetail }) => {
   return (
     <div className="post-comments">
       <div className="post-comment-header">
-        <img src={profileImageURL} alt=''/>
+        <img src={item.userId.profileImageURL} alt=''/>
         <TextareaCustom
           type={'comment'}
           placeholder={'Add a comment'}

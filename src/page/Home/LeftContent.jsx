@@ -8,6 +8,8 @@ const LeftHomeContent = () => {
     userInfoData: { userId },
   });
 
+  console.log("image",fetchedImage)
+
   return (
     <div className="container-left-content">
       <div className="left-content">
