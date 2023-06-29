@@ -2,7 +2,7 @@ import ModalReportImage from '../../../components/Modal/ModalReportImage';
 import { useState } from 'react';
 import { Heart, HeartFill, Reply, ThreeDots } from 'react-bootstrap-icons';
 
-const PostInteraction = ({ item, showImageDetail}) => {
+const PostInteraction = ({ item, showImageDetail }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [countNumberOfLikes, setCountNumberOfLikes] = useState(59);
   const [showListOtherActions, setShowListOtherActions] = useState(true);
@@ -34,7 +34,9 @@ const PostInteraction = ({ item, showImageDetail}) => {
 
   return (
     <>
-      <div className={!showImageDetail ? "post-interaction" : "post-interaction-2"}>
+      <div
+        className={!showImageDetail ? 'post-interaction' : 'post-interaction-2'}
+      >
         <div className="like-icon" onClick={handleClickLikePost}>
           {isLiked === false ? (
             <Heart size={25} />
@@ -58,6 +60,7 @@ const PostInteraction = ({ item, showImageDetail}) => {
             </ul>
           </div>
         </div>
+
         <ModalReportImage
           item={item}
           show={showReport}

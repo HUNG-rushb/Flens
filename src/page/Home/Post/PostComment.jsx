@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { Send } from 'react-bootstrap-icons';
 
 const PostComment = ({ item }) => {
-  const { profileImageURL } = useAuthState();
+  const { id: userId } = useAuthState();
   const [allComment, setAllComment] = useState(null);
   const [comment, setComment] = useState('');
   const [indexCmt, setIndexCmt] = useState(3);
@@ -39,8 +39,9 @@ const PostComment = ({ item }) => {
       await createComment({
         variables: {
           createCommentData: {
-            userId: '6482134d9fa3fbb056c8d2fc',
+            userId,
             postId: item.id,
+            storyId: '000000000000000000000000',
             content: comment,
           },
         },
@@ -92,10 +93,11 @@ const PostComment = ({ item }) => {
     }
   };
 
+  // console.log({ allComment });
   return (
     <div className="post-comments">
       <div className="post-comment-header">
-        <img src={item.userId.profileImageURL} alt=''/>
+        <img src={item.userId.profileImageURL} alt="" />
         <TextareaCustom
           type={'comment'}
           placeholder={'Add a comment'}
@@ -115,7 +117,12 @@ const PostComment = ({ item }) => {
         {allComment &&
           allComment.slice(0, indexCmt).map((i, index) => (
             <div className="reply-comment" key={i.id}>
-              <span>{i.name}</span>
+              <img
+                src={i.userId.profileImageURL}
+                alt="reply-comment"
+                width={'5%'}
+              />
+              <span>{i.userId.name}</span>
               <div className="reply-comment-content">{i.content}</div>
               <div className="reply-comment-date">
                 {relativeDays(i.createdAt)}
