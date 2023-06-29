@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import { Heart, Reply, ThreeDots } from 'react-bootstrap-icons';
 
 const ActivityPosts = () => {
-  const { id: userId } = useAuthState();
+  const { id: userId, profileImageURL } = useAuthState();
 
   const { isFetching, fetchedData, fetchError } = useGetAllUserPost({
     getAllUserPostId: { userId },
@@ -70,6 +70,7 @@ const ActivityPosts = () => {
       </>
     );
   };
+
   return (
     <div className="profile-activity-container">
       <div className="activity-posts">
@@ -77,7 +78,7 @@ const ActivityPosts = () => {
           return (
             <div className="activity-post" key={item.id}>
               <div className="activity-post-header">
-                <img src={Avatar} alt="" />
+                <img src={profileImageURL} alt="" />
                 <div>
                   <div>
                     <span id="activity-post-name">Name</span>
@@ -98,13 +99,15 @@ const ActivityPosts = () => {
                   </div>
                   <div className="activity-post-more-options">
                     <Reply size={30} />
+
                     <ThreeDots
                       size={30}
                       onClick={() =>
-                        handleShowListOtherActions(()=>showListOtherActions)
+                        handleShowListOtherActions(() => showListOtherActions)
                       }
                       className="otherAction"
                     />
+
                     <div
                       className="activity-list-options"
                       hidden={showListOtherActions}
@@ -122,6 +125,7 @@ const ActivityPosts = () => {
           );
         })}
       </div>
+
       <ModalCustom
         show={showReport}
         size="lg"
