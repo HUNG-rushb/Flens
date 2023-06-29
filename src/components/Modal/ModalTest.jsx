@@ -2,21 +2,21 @@ import ButtonCustom from '../../components/Button/ButtonCustom.jsx';
 import './Modal.css';
 import { Modal } from 'react-bootstrap';
 
-const ModalReportImage = ({ item, show, handleClose, handleSavechanges }) => {
+const ModalReportImage = ({ item, isShowing, toggle }) => {
   return (
-    <Modal show={show} onHide={handleClose} centered={true} size='lg'>
+    <Modal show={isShowing} onHide={toggle} centered={true}>
       <Modal.Header closeButton>
         <Modal.Title>Report Photo</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="report-photo-container">
-          <img src={item.image.url} alt="" />
+          <img src='https://images.pexels.com/photos/17040834/pexels-photo-17040834/free-photo-of-anh-sang-th-gian-t-i-mua-dong.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load' alt="" width={'50%'} />
 
-          <div className="right-report-photo">
+          <div className="left-report-photo">
             <span>Report this photo with reason:</span>
             <ul>
               <li>
-                <input type="checkbox" /> <span>Copyright infringement</span>{' '}
+                <input type="checkbox" /> <span>Copyright infringement</span>
               </li>
               <li>
                 <input type="checkbox" />
@@ -42,12 +42,12 @@ const ModalReportImage = ({ item, show, handleClose, handleSavechanges }) => {
         <ButtonCustom
           text={'Close'}
           type="modal-close-btn"
-          onClick={handleClose}
+          onClick={toggle}
         />
         <ButtonCustom
           text="Submit"
           type="modal-save-btn submit"
-          onClick={handleSavechanges}
+          onClick={toggle}
         />
       </Modal.Footer>
     </Modal>

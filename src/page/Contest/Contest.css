@@ -1,0 +1,19 @@
+.contest-page {
+    display: flex;
+    justify-content: center;
+}
+
+.contest-page-title {
+    font-size: 35px;
+    font-weight: 600;
+    padding-top: 20px;
+}
+
+.contest-page-slogan {
+    font-size: 20px;
+}
+
+.contest-tabs {
+    width: 100%;
+    background-color: red;
+}

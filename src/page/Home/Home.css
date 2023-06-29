@@ -280,11 +280,14 @@
 }
 
 .list-other-actions ul li {
+  padding-bottom: 5px;
   opacity: 1;
 }
 
 .list-other-actions ul li:hover {
   opacity: 0.6;
+  background-color: #ccc;
+  color: white;
 }
 
 .post-comment-header {

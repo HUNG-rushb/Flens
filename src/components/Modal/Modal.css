@@ -7,7 +7,13 @@
   flex-direction: row;
 }
 
-.left-report-photo {
+.report-photo-container img {
+  width: 50%;
+  max-height: 400px;
+  max-width: 400px;
+}
+
+.right-report-photo {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,18 +22,18 @@
     padding-bottom: 10px;
   }
   
-  .left-report-photo span {
+  .right-report-photo span {
     font-weight: 600;
     padding-bottom: 15px;
   }
   
-  .left-report-photo ul {
+  .right-report-photo ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
   }
   
-  .left-report-photo ul li {
+  .right-report-photo ul li {
     display: flex;
     width: 100%;
     align-items: center;

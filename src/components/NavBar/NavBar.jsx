@@ -1,5 +1,6 @@
 import { useAuthState } from '../../context/AuthContext.js';
 import { useAuthDispatch } from '../../context/AuthContext.js';
+import { useUserProfileImage } from '../../graphql/useUser.js';
 import { logout } from '../../context/actions/AuthActions.js';
 import './NavBar.css';
 import NavbarSearch from './NavbarSearch.jsx';
@@ -20,6 +21,13 @@ const NavBar = () => {
   const { id, isAdmin } = useAuthState();
   const isNotAuthenticated = id === '' && isAdmin === '';
   const [show, setShow] = useState(false);
+
+  const { id: userId } = useAuthState();
+  const { isFetching, fetchedData, fetchError } = useUserProfileImage({
+    userInfoData: { userId },
+  });
+
+  console.log("navbar", fetchedData)
 
   const handleLogout = () => {
     setShow(!show);

@@ -54,6 +54,7 @@ const PostInteraction = ({ item, showImageDetail}) => {
           <div className="list-other-actions" hidden={showListOtherActions}>
             <ul>
               <li onClick={handleShowReport}>Report</li>
+              <li >Delete photo</li>
             </ul>
           </div>
         </div>
