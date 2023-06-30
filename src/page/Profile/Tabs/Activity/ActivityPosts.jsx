@@ -1,16 +1,12 @@
 import Post from '../../../../assets/images/Home/Post.svg';
-import Avatar from '../../../../assets/images/avatar.jpg';
 import ModalCustom from '../../../../components/Modal/Modal';
-import { useAuthState } from '../../../../context/AuthContext';
 import { useGetAllUserPost } from '../../../../graphql/usePost';
 import PostComment from '../../../Home/Post/PostComment';
 import './ActivityPosts.css';
 import React, { useState } from 'react';
 import { Heart, Reply, ThreeDots } from 'react-bootstrap-icons';
 
-const ActivityPosts = () => {
-  const { id: userId, profileImageURL } = useAuthState();
-
+const ActivityPosts = ({ userId }) => {
   const { isFetching, fetchedData, fetchError } = useGetAllUserPost({
     getAllUserPostId: { userId },
   });
@@ -78,10 +74,10 @@ const ActivityPosts = () => {
           return (
             <div className="activity-post" key={item.id}>
               <div className="activity-post-header">
-                <img src={profileImageURL} alt="" />
+                <img src={item.userId.profileImageURL} alt="" />
                 <div>
                   <div>
-                    <span id="activity-post-name">Name</span>
+                    <span id="activity-post-name">{item.userId.name}</span>
                     <span>Uploaded a photo</span>
                   </div>
                   <div id="activity-post-time">1 day ago</div>

@@ -62,7 +62,6 @@ export const GET_ALL_USER_POST = gql`
         createdAt
 
         userId {
-          id
           profileImageURL
           name
         }

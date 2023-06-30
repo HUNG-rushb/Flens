@@ -1,9 +1,9 @@
-import ActivityPosts from "./Activity/ActivityPosts";
+import ActivityPosts from './Activity/ActivityPosts';
 
-const Activity = () => {
+const Activity = ({ userId }) => {
   return (
     <div className="activity-tab">
-      <ActivityPosts/>
+      <ActivityPosts userId={userId} />
     </div>
   );
 };

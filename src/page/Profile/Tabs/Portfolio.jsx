@@ -1,15 +1,17 @@
-import AlbumImage from './Portfolio/AlbumImage'
-import LatestUploadImage from './Portfolio/LatestUploadImage'
+import AlbumImage from './Portfolio/AlbumImage';
 import FavouriteImage from './Portfolio/FavouriteImage';
+import LatestUploadImage from './Portfolio/LatestUploadImage';
 
-const Portfoio = () => {
-    return (
-      <div className="portfolio-tab">
-        <AlbumImage/>
-        <LatestUploadImage/>
-        <FavouriteImage/>
-      </div>
-    );
-  };
- 
-  export default Portfoio;
+const Portfoio = ({ userId }) => {
+  return (
+    <div className="portfolio-tab">
+      <AlbumImage userId={userId} />
+
+      <LatestUploadImage userId={userId} />
+
+      <FavouriteImage userId={userId} />
+    </div>
+  );
+};
+
+export default Portfoio;
