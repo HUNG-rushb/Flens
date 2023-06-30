@@ -8,10 +8,10 @@ import { Tab, Tabs } from 'react-bootstrap';
 import { ThreeDots } from 'react-bootstrap-icons';
 import { useLocation } from 'react-router-dom';
 
-const TabMenu = () => {
+const TabMenu = ({ userId }) => {
   const [isFollow, setIsFollow] = useState(false);
 
-  const { id: userId } = useAuthState();
+  // const { id: userId } = useAuthState();
   const location = useLocation();
 
   const checkPath = location.pathname.split('/');
@@ -30,13 +30,13 @@ const TabMenu = () => {
       <div className="profile-tabs">
         <Tabs defaultActiveKey="Portfolio">
           <Tab eventKey="Activity" title="Activity">
-            <Activity />
+            <Activity userId={userId} />
           </Tab>
           <Tab eventKey="Portfolio" title="Portfolio">
-            <Portfoio />
+            <Portfoio userId={userId} />
           </Tab>
           <Tab eventKey="Biography" title="Biography">
-            <Biography />
+            <Biography userId={userId} />
           </Tab>
         </Tabs>
       </div>

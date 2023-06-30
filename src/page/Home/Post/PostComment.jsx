@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { Send } from 'react-bootstrap-icons';
 
 const PostComment = ({ item }) => {
-  const { id: userId } = useAuthState();
+  const { id: userId, profileImageURL } = useAuthState();
   const [allComment, setAllComment] = useState(null);
   const [comment, setComment] = useState('');
   const [indexCmt, setIndexCmt] = useState(3);
@@ -61,7 +61,25 @@ const PostComment = ({ item }) => {
     const textarea = document.getElementById(`textarea-comment-${commentid}`);
     const { selectionStart, selectionEnd } = textarea;
     const value = textarea.value;
-    if (event.key === 'Enter') {
+
+    if (event.key === 'Enter' && !event.shiftKey) {
+      try {
+        await createComment({
+          variables: {
+            createCommentData: {
+              userId,
+              postId: item.id,
+              storyId: '000000000000000000000000',
+              content: comment,
+            },
+          },
+        });
+      } catch (e) {
+        throw e;
+      }
+      setComment('');
+      refetch();
+    } else if (event.key === 'Enter' && event.shiftKey) {
       event.preventDefault();
       const newValue =
         value.substring(0, selectionStart) +
@@ -97,7 +115,7 @@ const PostComment = ({ item }) => {
   return (
     <div className="post-comments">
       <div className="post-comment-header">
-        <img src={item.userId.profileImageURL} alt="" />
+        <img src={profileImageURL} alt="" />
         <TextareaCustom
           type={'comment'}
           placeholder={'Add a comment'}

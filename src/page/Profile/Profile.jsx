@@ -7,9 +7,11 @@ import './Profile.css';
 import TabMenu from './Tabs/Tabs';
 import { Suspense } from 'react';
 import { PersonCircle } from 'react-bootstrap-icons';
+import { useParams } from 'react-router-dom';
 
 const Profile = () => {
-  const { id: userId } = useAuthState();
+  const { userId } = useParams();
+  // const { id: userId } = useAuthState();
   const { isFetching, fetchedData, fetchError } = useUserProfileImage({
     userInfoData: { userId },
   });
@@ -43,7 +45,7 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-            <TabMenu />
+            <TabMenu userId={userId} />
           </div>
         )}
       </Suspense>
