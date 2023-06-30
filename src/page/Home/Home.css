@@ -286,8 +286,12 @@
 
 .list-other-actions ul li:hover {
   opacity: 0.6;
-  background-color: #ccc;
+  background-color: #000; 
   color: white;
+}
+
+.list-other-actions ul li svg {
+  margin-right: 10px;
 }
 
 .post-comment-header {

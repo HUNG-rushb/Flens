@@ -1,10 +1,10 @@
 import { useAuthState } from '../../context/AuthContext.js';
 import { useAuthDispatch } from '../../context/AuthContext.js';
-import { useUserProfileImage } from '../../graphql/useUser.js';
 import { logout } from '../../context/actions/AuthActions.js';
+import { useUserProfileImage } from '../../graphql/useUser.js';
 import './NavBar.css';
 import NavbarSearch from './NavbarSearch.jsx';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import {
   Bell,
@@ -20,20 +20,37 @@ const NavBar = () => {
   const dispatch = useAuthDispatch();
   const { id, isAdmin } = useAuthState();
   const isNotAuthenticated = id === '' && isAdmin === '';
-  const [show, setShow] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const { id: userId } = useAuthState();
   const { isFetching, fetchedData, fetchError } = useUserProfileImage({
     userInfoData: { userId },
   });
 
-  console.log("navbar", fetchedData)
-
   const handleLogout = () => {
-    setShow(!show);
+    setShowDropdown(!showDropdown);
     logout(dispatch);
     // navigate('/');
   };
+
+  const clickOutsideRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        clickOutsideRef.current &&
+        !clickOutsideRef.current.contains(event.target)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <Navbar expand="md">
@@ -80,32 +97,44 @@ const NavBar = () => {
                       <Bell size={28} />
                     </Nav.Link>
                     <Nav.Item>
-                      <div>
+                      <div ref={clickOutsideRef}>
                         <PersonCircle
                           size={28}
-                          onClick={() => setShow(!show)}
+                          onClick={() => setShowDropdown(!showDropdown)}
                           id="avtar-nav-bar"
                         />
 
                         <div className="popover-avatar">
-                          {show ? (
+                          {showDropdown ? (
                             <ul className="popover-avatar-content">
-                              <li onClick={() => setShow(!show)}>
+                              <li
+                                onClick={() => setShowDropdown(!showDropdown)}
+                              >
                                 <Link to={`/profile/${id}`}>Profile</Link>
                               </li>
-                              <li onClick={() => setShow(!show)}>
+                              <li
+                                onClick={() => setShowDropdown(!showDropdown)}
+                              >
                                 <a href="/academy">Academy</a>
                               </li>
-                              <li onClick={() => setShow(!show)}>
+                              <li
+                                onClick={() => setShowDropdown(!showDropdown)}
+                              >
                                 <a href="/leaderBoard">Leader Board</a>
                               </li>
-                              <li onClick={() => setShow(!show)}>
+                              <li
+                                onClick={() => setShowDropdown(!showDropdown)}
+                              >
                                 <a href="/contest">Contest</a>
                               </li>
-                              <li onClick={() => setShow(!show)}>
+                              <li
+                                onClick={() => setShowDropdown(!showDropdown)}
+                              >
                                 <a href="/aboutUs">About us</a>
                               </li>
-                              <li onClick={() => setShow(!show)}>
+                              <li
+                                onClick={() => setShowDropdown(!showDropdown)}
+                              >
                                 <div onClick={() => handleLogout()}>
                                   Log out
                                 </div>
@@ -134,13 +163,13 @@ const NavBar = () => {
                       <Clipboard2Data size={28} />
                     </Nav.Link>
                     <Nav.Item>
-                      <div>
+                      <div ref={clickOutsideRef}>
                         <PersonCircle
                           size={29}
-                          onClick={() => setShow(!show)}
+                          onClick={() => setShowDropdown(!showDropdown)}
                         />
                         <div className="popover-avatar">
-                          {show ? (
+                          {showDropdown ? (
                             <ul className="popover-avatar-content">
                               <li>
                                 <a href="/profile">Profile</a>

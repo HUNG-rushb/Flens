@@ -2,15 +2,15 @@ import ButtonCustom from '../../components/Button/ButtonCustom.jsx';
 import './Modal.css';
 import { Modal } from 'react-bootstrap';
 
-const ModalReportImage = ({ item, show, handleClose, handleSavechanges }) => {
+const ModalReportImage = ({ image, show, handleClose, handleSavechanges }) => {
   return (
-    <Modal show={show} onHide={handleClose} centered={true} size='lg'>
+    <Modal show={show} onHide={handleClose} centered={true} size="lg">
       <Modal.Header closeButton>
         <Modal.Title>Report Photo</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="report-photo-container">
-          <img src={item.image.url} alt="" />
+          <img src={image} alt="" />
 
           <div className="right-report-photo">
             <span>Report this photo with reason:</span>
