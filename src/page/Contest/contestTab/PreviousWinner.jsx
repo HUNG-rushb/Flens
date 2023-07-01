@@ -19,33 +19,47 @@ const PreviousWinner = () => {
       <div className="previous-winner-posts">
         <div className="previous-winner-post">
           <div className="previous-winner-post-image">
-            <img id='winner-post-image' src={previousWinner[0].image} alt="" />
-            <div >
-              <img id='winner-post-avatar' src={previousWinner[0].avatar} alt="" />
-              <span id="winner-name">{previousWinner[0].name}</span>
-            </div>
+            <img id="winner-post-image" src={previousWinner[0].image} alt="" />
           </div>
           <div className="previous-winner-post-content">
-            <div className="winner-post-title">{previousWinner[0].contestTitle} contest winner</div>
-            <p>
-              {previousWinner[0].comment}
-            </p>
+            <div className="winner-post-user-info">
+              <img
+                id="winner-post-avatar"
+                src={previousWinner[0].avatar}
+                alt=""
+              />
+            </div>
+            <div className="winner-post-detail">
+              <span id="winner-name">{previousWinner[0].name}</span>
+
+              <div className="winner-post-title">
+                {previousWinner[0].contestTitle} contest winner
+              </div>
+              <p id="winner-post-comment">{previousWinner[0].comment}</p>
+            </div>
           </div>
         </div>
-        
+
         <div className="previous-winner-post">
           <div className="previous-winner-post-image">
-            <img src={previousWinner[0].image} alt="" />
-            <div >
-              <img src={previousWinner[0].avatar} alt="" />
-              <span id="winner-name">{previousWinner[0].name}</span>
-            </div>
+            <img id="winner-post-image" src={previousWinner[0].image} alt="" />
           </div>
           <div className="previous-winner-post-content">
-            <div className="winner-post-title">{previousWinner[0].contestTitle} contest winner</div>
-            <p>
-              {previousWinner[0].comment}
-            </p>
+            <div className="winner-post-user-info">
+              <img
+                id="winner-post-avatar"
+                src={previousWinner[0].avatar}
+                alt=""
+              />
+            </div>
+            <div className="winner-post-detail">
+              <span id="winner-name">{previousWinner[0].name}</span>
+
+              <div className="winner-post-title">
+                {previousWinner[0].contestTitle} contest winner
+              </div>
+              <p id="winner-post-comment">{previousWinner[0].comment}</p>
+            </div>
           </div>
         </div>
       </div>
