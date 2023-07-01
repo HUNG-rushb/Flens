@@ -8,6 +8,12 @@
   height: 70px;
 }
 
+.nabar-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .navbar a {
   color: #000;
 }
@@ -27,6 +33,7 @@ a.nav-link {
   font-size: 20px;
   font-weight: 400;
   opacity: 1;
+  margin-top: 5px;
 }
 
 a.nav-link:hover {
@@ -122,4 +129,17 @@ li div:hover {
 
 .nav-link button:hover {
   background-color: none;
+}
+
+#navbar-avatar {
+  max-width: 35px;
+  height: 35px;
+  object-fit: cover;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 1;
+}
+
+#navbar-avatar:hover{
+  opacity: 0.7;
 }

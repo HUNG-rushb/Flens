@@ -29,7 +29,7 @@ const PostInteraction = ({
 
   const handleClickReport = () => {
     setShowListOtherActions(true);
-    setImageToReport(item.image.url);
+    setImageToReport(item?.image.url);
     toggleShowReport(showReport);
   };
   useEffect(() => {
@@ -61,7 +61,7 @@ const PostInteraction = ({
           ) : (
             <HeartFill color="red" size={25} />
           )}
-          <span>{item.points}</span>
+          <span>{item?.points}</span>
         </div>
         <div className="right-action">
           <Reply size={30} className="reply-icon" />

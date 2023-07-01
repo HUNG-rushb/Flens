@@ -6,9 +6,7 @@ const Portfoio = ({ userId }) => {
   return (
     <div className="portfolio-tab">
       <AlbumImage userId={userId} />
-
       <LatestUploadImage userId={userId} />
-
       <FavouriteImage userId={userId} />
     </div>
   );

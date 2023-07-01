@@ -5,7 +5,7 @@ import Album3 from '../../../../assets/images/Profile/album3.png';
 const AlbumImage = () => {
   return (
     <div className="album">
-      <span>Album (3)</span>
+      <span  id='portfolio-title'>Album (3)</span>
       <div className="album-images">
         <div className="left-album">
           <img src={Album1} alt="album1" />

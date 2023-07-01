@@ -3,35 +3,51 @@
   position: relative;
 }
 
-.container-left-content {
+.homepage-left-container {
   display: flex;
   align-items: center;
   flex-direction: column;
   width: 30%;
-  position: relative;
+  position: fixed;
   height: 100%;
   background-color: #fffaf0;
+  padding-top: 20px;
 }
 
-.left-content > img {
-  width: 40%;
+.homepage-left-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.homepage-left-content img {
+  width: 100%;
+  max-width: 150px;
+  height: 150px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.left-content > .name {
+#homepage-left-content-name {
   font-weight: 500;
   margin: 20px 0px;
+  font-size: 25px;
 }
 
-.skill-content > div {
+.skill-content div {
   padding: 5px;
   font-weight: 400;
 }
 
-.skill-content > div > span {
+.skill-content div span {
   font-weight: 500;
   font-size: 16px;
+}
+
+#userLink {
+  max-width: 250px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .right-content {
@@ -146,6 +162,7 @@
   border-radius: 50%;
   height: 60px;
   cursor: pointer;
+  object-fit: cover;
 }
 
 .post-title {
@@ -305,6 +322,7 @@
   max-width: 40px;
   height: 40px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 #btn-submit-cmt > svg {
@@ -347,6 +365,7 @@
   width: 35px;
   height: 35px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .View-more-comments {

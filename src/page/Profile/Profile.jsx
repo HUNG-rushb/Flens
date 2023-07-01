@@ -1,7 +1,6 @@
 import CoverImage from '../../assets/images/Profile/profileCoverImage.jpg';
 import Page from '../../components/utils/Page';
 import Spinner from '../../components/utils/Spinner';
-import { useAuthState } from '../../context/AuthContext';
 import { useUserProfileImage } from '../../graphql/useUser';
 import './Profile.css';
 import TabMenu from './Tabs/Tabs';
@@ -11,12 +10,10 @@ import { useParams } from 'react-router-dom';
 
 const Profile = () => {
   const { userId } = useParams();
-  // const { id: userId } = useAuthState();
-  console.log("userid: ",userId)
   const { isFetching, fetchedData, fetchError } = useUserProfileImage({
     userInfoData: { userId },
   });
-  console.log('fetch profile data:',{ fetchedData });
+  console.log({ fetchedData });
 
   return (
     <Page title={'Flens-Profile'}>

@@ -2,7 +2,7 @@ import Avatar from '../../assets/images/avatar.jpg';
 
 const LeftContent = () => {
   return (
-    <div className="left-content">
+    <div className="notifi-left-content">
       <img src={Avatar} alt="avatar"></img>
       <div className="name">Nguyen Van A</div>
       <div className="skill-content">

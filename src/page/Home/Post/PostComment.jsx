@@ -14,11 +14,11 @@ const PostComment = ({ item }) => {
   const [comment, setComment] = useState('');
   const [indexCmt, setIndexCmt] = useState(3);
 
-  const commentid = item.id;
+  const commentid = item?.id;
 
   const { isFetching, fetchedData, fetchError, refetch } = useGetAllPostComment(
     {
-      postInfo: { postId: item.id },
+      postInfo: { postId: item?.id },
     }
   );
 
@@ -40,7 +40,7 @@ const PostComment = ({ item }) => {
         variables: {
           createCommentData: {
             userId,
-            postId: item.id,
+            postId: item?.id,
             storyId: '000000000000000000000000',
             content: comment,
           },

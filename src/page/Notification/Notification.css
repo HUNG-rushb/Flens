@@ -3,7 +3,7 @@
     position: relative;
 }
 
-.left-content {
+.notifi-left-content {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -14,12 +14,12 @@
     background-color: #FFFAF0;
 }
 
-.left-content > img {
+.notifi-left-content > img {
     width: 40%;
     border-radius: 50%;
 }
 
-.left-content > .name {
+.notifi-left-content > .name {
     font-weight: 500;
     margin: 20px 0px;
 }

@@ -9,25 +9,25 @@ const LeftHomeContent = () => {
   });
 
   return (
-    <div className="container-left-content">
-      <div className="left-content">
+    <div className="homepage-left-container">
+      <div className="homepage-left-content">
         <img src={fetchedImage?.userInfo.profileImageURL} alt="avatar" />
 
-        <div className="name">{fetchedImage?.userInfo.name}</div>
+        <div id="homepage-left-content-name">{fetchedImage?.userInfo.name}</div>
 
-        {/* <div className="skill-content">
-          <div>
-            <span>Your Flens link:</span> flens.com/quocthanhh
+        <div className="skill-content">
+          <div id='userLink'>
+            <span>Your Flens link:</span> flens.com/{userId}
           </div>
 
-          <div>
+          {/* <div>
             <span>Favourites:</span> Camera, Portrait
           </div>
 
           <div>
             <span>Skills:</span> Portrait photography
-          </div>
-        </div> */}
+          </div> */}
+        </div>
       </div>
     </div>
   );

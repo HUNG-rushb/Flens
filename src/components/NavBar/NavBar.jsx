@@ -98,12 +98,20 @@ const NavBar = () => {
                     </Nav.Link>
                     <Nav.Item>
                       <div ref={clickOutsideRef}>
-                        <PersonCircle
-                          size={28}
-                          onClick={() => setShowDropdown(!showDropdown)}
-                          id="avtar-nav-bar"
-                        />
-
+                        {fetchedData ? (
+                          <img
+                            id="navbar-avatar"
+                            src={fetchedData.userInfo.profileImageURL}
+                            alt=""
+                            onClick={() => setShowDropdown(!showDropdown)}
+                          />
+                        ) : (
+                          <PersonCircle
+                            size={28}
+                            onClick={() => setShowDropdown(!showDropdown)}
+                            id="avtar-nav-bar"
+                          />
+                        )}
                         <div className="popover-avatar">
                           {showDropdown ? (
                             <ul className="popover-avatar-content">

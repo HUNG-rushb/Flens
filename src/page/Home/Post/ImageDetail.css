@@ -17,6 +17,7 @@
 .modal-detail-image-overlay {
   position: fixed;
   height: 100%;
+  width: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
@@ -28,7 +29,8 @@
   background-color: #fff;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  width: 95%;
+  width: 90%;
+  height: 90%;
 }
 
 .modal-detail-image-content {
@@ -43,7 +45,7 @@
   display: flex;
   justify-content: center;
   width: 70%;
-  max-height: 650px;
+  max-height: 700px;
   background-color: #ccc;
 }
 
@@ -56,6 +58,13 @@
 .modal-detail-image-right {
   padding: 40px;
   position: relative;
+}
+
+.image-detail-right-container {
+  height: 580px;
+  overflow: scroll;
+  padding: 0 10px;
+  overflow-x: hidden;
 }
 
 .close-overlay {

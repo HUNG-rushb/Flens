@@ -8,11 +8,10 @@ const LatestUploadImage = ({ userId }) => {
 
   return (
     <div className="latest-upload">
-      <span>Latest upload</span>
-
+      <span  id='portfolio-title'>Latest upload ({fetchedData?.userInfo.posts.length})</span>
       <div className="latest-upload-images">
-        {fetchedData?.userInfo.posts.map((item) => (
-          <img key={item.id} src={item.image.url} width={'45%'} />
+        {fetchedData?.userInfo.posts.slice(0, 3).map((item) => (
+          <img key={item.id} src={item.image.url} alt="" />
         ))}
       </div>
     </div>
