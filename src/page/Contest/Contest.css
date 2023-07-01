@@ -1,19 +1,74 @@
-.contest-page {
-    display: flex;
-    justify-content: center;
+.contest-header {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .contest-page-title {
-    font-size: 35px;
-    font-weight: 600;
-    padding-top: 20px;
+  font-size: 45px;
+  font-weight: 600;
+  padding-top: 20px;
 }
 
 .contest-page-slogan {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .contest-tabs {
-    width: 100%;
-    background-color: red;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding: 20px 0;
+  font-size: 20px;
+  font-weight: 600;
+  border-bottom: 2px solid #f08080;
+}
+
+.contest-tabs span {
+  padding: 3px 15px;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.contest-tabs span:hover{
+    opacity: 0.6;
+}
+
+.contest-banner {
+  position: relative;
+  height: 450px;
+  background: #000;
+}
+
+.contest-banner img {
+  width: 100%;
+  max-height: 450px;
+  object-fit:contain;
+}
+
+.contest-banner .contest-header {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.tab--active {
+    background-color: #f08080;
+    color: white;
+    border-radius: 5px;
+}
+
+.contest-content {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
