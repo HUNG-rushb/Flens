@@ -1,46 +1,47 @@
+import ContestBanner from '../../assets/images/Contest/contestBanner.jpeg';
 import './Contest.css';
-import React, { useEffect, useState } from 'react';
+import ContestInfo from './contestTab/ContestInfo.jsx';
+import PhotoEntries from './contestTab/PhotoEntries.jsx';
+import PreviousWinner from './contestTab/PreviousWinner.jsx';
+import React, { useState } from 'react';
 
-const fakeContestData = {
-  submissionGuidelines:
-    'Submit your best original photos in JPG format. Maximum file size: 5MB.',
-  prizes: [
-    { id: 1, title: 'First Place - $500' },
-    { id: 2, title: 'Second Place - $300' },
-    { id: 3, title: 'Third Place - $200' },
-  ],
-};
+const tabs = ['Contest Info', 'Photo Entries', 'Previous Winners'];
 
 const Contest = () => {
+  const [activeTab, setActiveTab] = useState(0);
+  const handleChangeTab = (index) => {
+    setActiveTab(index);
+  };
+
   return (
     <div className="contest-page">
       <div className="contest-page-container">
-        <div className="contest-page-title">Flens Photography Contest</div>
-        <div className="contest-page-slogan">
-          Join our photography contests and showcase your skills!
+        <div className="contest-banner">
+          <img src={ContestBanner} alt="" />
+          <div className="contest-header">
+            <div className="contest-page-title">Flens Photography Contest</div>
+            <div className="contest-page-slogan">
+              Join our photography contests and showcase your skills!
+            </div>
+          </div>
         </div>
-
         <div className="contest-tabs">
-            <div>Contest info</div>
-            <div>All contest</div>
-            <div>Previous winners</div>
+          {tabs.map((tab, index) => (
+            <span
+              key={index}
+              className={`tab--${activeTab === index ? 'active' : 'inActive'}`}
+              onClick={() => handleChangeTab(index)}
+            >
+              {tab}
+            </span>
+          ))}
         </div>
 
         <div className="contest-content">
-            <div className="contests">
-                <div className="contest">
-                    <div className="contest-cover-image">
-                        <img src="" alt="CoverImage" />
-                    </div>
-                </div>
-            </div>
+          {activeTab === 0 && <ContestInfo />}
+          {activeTab === 1 && <PhotoEntries />}
+          {activeTab === 2 && <PreviousWinner />}
         </div>
-
-        {/* <ul>
-          {fakeContestData.prizes.map((prize) => (
-            <li key={prize.id}>{prize.title}</li>
-          ))}
-        </ul> */}
       </div>
     </div>
   );

@@ -13,7 +13,6 @@ const ActivityPosts = ({ userId }) => {
 
   const [showReport, setShowReport] = useState(false);
   const [showListOtherActions, setShowListOtherActions] = useState(true);
-  const [tmpItem, setTmpItem] = useState({});
 
   const handleShowReport = (item) => {
     setShowListOtherActions(true);

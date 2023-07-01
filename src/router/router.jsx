@@ -18,6 +18,7 @@ import UploadStory from '../page/UploadStory/UploadStory.jsx'
 import StoryPage from '../page/Stories/StoryPage.jsx'
 import UploadCourses from '../page/CoursesManagement/UploadCourses/UploadCourses.jsx'
 import Contest from '../page/Contest/Contest.jsx';
+import ContestDetail from '../page/Contest/contestTab/ContestDetail.jsx'
 
 const routes = [
   {
@@ -135,11 +136,17 @@ const routes = [
     isPrivate: true,
   },
   {
-    path: '/contest',
+    path: '/contest/',
     element: <Contest />,
     exact: true,
     isPrivate: true,
   },
+  {
+    path: '/contest/:title',
+    element: <ContestDetail />,
+    exact: true,
+    isPrivate: true,
+  }
   
 ];
 
