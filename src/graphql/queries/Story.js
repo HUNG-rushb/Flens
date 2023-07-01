@@ -9,60 +9,47 @@ export const CREATE_STORY = gql`
 
       content
       images
-      cmts
     }
   }
 `;
 
-// export const GET_ALL_USER_POST = gql`
-//   query UserInfo($getAllUserPostId: UserInfoInput!) {
-//     userInfo(data: $getAllUserPostId) {
-//       posts {
-//         id
-//         points
-//         title
-//         createdAt
-//         image {
-//           url
-//           imageInfoId {
-//             ISO
-//             aperture
-//             camera
-//             copyRight
-//             focalLength
-//             lens
-//             shutterSpeed
-//             takenWhen
-//           }
-//         }
-//       }
-//     }
-//   }
-// `;
+export const GET_ALL_STORIES = gql`
+  query AllStories {
+    allStories {
+      id
+      images
+      points
+      title
+      createdAt
 
-// export const GET_ALL_POST_COMMENT = gql`
-//   query PostInfo($postInfo: PostInfoInput!) {
-//     postInfo(data: $postInfo) {
-//       comments {
-//         id
-//         content
-//         createdAt
-//       }
-//     }
-//   }
-// `;
+      userId {
+        name
+        profileImageURL
+      }
+    }
+  }
+`;
 
-// export const CREATE_COMMENT = gql`
-//   mutation CreateComment($createCommentData: CreateCommentInput!) {
-//     createComment(data: $createCommentData) {
-//       id
-//       content
-//       # userId {
-//       #   name
-//       # }
-//       # postId {
-//       #   title
-//       # }
-//     }
-//   }
-// `;
+export const GET_STORY_INFO = gql`
+  query StoryInfo($storyInfoData2: StoryInfoInput!) {
+    storyInfo(data: $storyInfoData2) {
+      comments {
+        userId {
+          name
+          profileImageURL
+        }
+        content
+        createdAt
+      }
+      content
+      createdAt
+      images
+      points
+      title
+      userId {
+        backgroundImageURL
+        name
+      }
+    }
+  }
+`;

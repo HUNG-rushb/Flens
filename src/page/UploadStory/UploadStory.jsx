@@ -12,9 +12,11 @@ import { useNavigate } from 'react-router';
 const QuillEditorWithImage = () => {
   const { id: userId } = useAuthState();
   const navigate = useNavigate();
+
   const [editorContent, setEditorContent] = useState('');
   const [storyImages, setStoryImages] = useState([]);
   const editorRef = useRef(null);
+
   const { createStory, isFetching, fetchedData, fetchError } =
     useCreateStoryLazy();
 

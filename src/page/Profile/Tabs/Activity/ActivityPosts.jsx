@@ -69,56 +69,54 @@ const ActivityPosts = ({ userId }) => {
   return (
     <div className="profile-activity-container">
       <div className="activity-posts">
-        {fetchedData?.userInfo.posts.map((item) => {
-          return (
-            <div className="activity-post" key={item.id}>
-              <div className="activity-post-header">
-                <img src={item.userId.profileImageURL} alt="" />
+        {fetchedData?.userInfo.posts.map((item) => (
+          <div className="activity-post" key={item.id}>
+            <div className="activity-post-header">
+              <img src={item.userId.profileImageURL} alt="" />
+              <div>
                 <div>
-                  <div>
-                    <span id="activity-post-name">{item.userId.name}</span>
-                    <span>Uploaded a photo</span>
-                  </div>
-                  <div id="activity-post-time">1 day ago</div>
+                  <span id="activity-post-name">{item.userId.name}</span>
+                  <span>Uploaded a photo</span>
                 </div>
-              </div>
-              <div className="activity-post-image">
-                <img src={item.image.url} alt="" />
-              </div>
-
-              <div className="activity-post-description">
-                <span>Tittle</span>
-                <div className="activity-post-interaction">
-                  <div className="activity-post-like-icon">
-                    <Heart size={25} /> <span>45</span>
-                  </div>
-                  <div className="activity-post-more-options">
-                    <Reply size={30} />
-
-                    <ThreeDots
-                      size={30}
-                      onClick={() =>
-                        handleShowListOtherActions(() => showListOtherActions)
-                      }
-                      className="otherAction"
-                    />
-
-                    <div
-                      className="activity-list-options"
-                      hidden={showListOtherActions}
-                    >
-                      <ul>
-                        <li onClick={handleShowReport}>Report</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <hr />
-                <PostComment item={item} />
+                <div id="activity-post-time">1 day ago</div>
               </div>
             </div>
-          );
-        })}
+            <div className="activity-post-image">
+              <img src={item.image.url} alt="" />
+            </div>
+
+            <div className="activity-post-description">
+              <span>Tittle</span>
+              <div className="activity-post-interaction">
+                <div className="activity-post-like-icon">
+                  <Heart size={25} /> <span>45</span>
+                </div>
+                <div className="activity-post-more-options">
+                  <Reply size={30} />
+
+                  <ThreeDots
+                    size={30}
+                    onClick={() =>
+                      handleShowListOtherActions(() => showListOtherActions)
+                    }
+                    className="otherAction"
+                  />
+
+                  <div
+                    className="activity-list-options"
+                    hidden={showListOtherActions}
+                  >
+                    <ul>
+                      <li onClick={handleShowReport}>Report</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <hr />
+              <PostComment item={item} />
+            </div>
+          </div>
+        ))}
       </div>
 
       <ModalCustom
