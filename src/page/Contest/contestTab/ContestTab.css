@@ -52,3 +52,23 @@
   transform: translate(-50%, -50%);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
+
+.previous-winner-post {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.previous-winner-post-image img {
+  object-fit: cover;
+  max-height: 500px;
+  width: 100%;
+}
+
+#winner-post-avatar {
+  height: 100px;
+}

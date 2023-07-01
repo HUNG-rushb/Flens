@@ -13,7 +13,7 @@ const birthdayContest = {
     { rank: '2nd', prize: '$300 gift card + Personalized birthday cake.' },
     { rank: '3rd', prize: '$200 gift card + Birthday surprise box.' },
   ],
-  uploader: 'John',
+  uploader: 'John wick',
 };
 
 const ContestDetail = () => {
@@ -54,8 +54,12 @@ const ContestDetail = () => {
             ))}
           </ul>
         </div>
+        <div className="contest-detail-uploader">
+          <span id='contest-subtitle'>Uploader</span>
+          <p>Mr/Ms. {birthdayContest.uploader}</p>
+        </div>
         <div className="contest-detail-submit">
-          <span id="contest-subtitle">Submit</span>
+          <span id="contest-subtitle">Submition</span>
           <div>
             <div className="contest-submit-box">
               <div className="contest-submit-content">
@@ -80,6 +84,7 @@ const ContestDetail = () => {
             </div>
           </div>
         </div>
+        
       </div>
     </div>
   );
