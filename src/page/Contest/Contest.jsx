@@ -9,7 +9,7 @@ const tabs = ['Contest Info', 'Photo Entries', 'Previous Winners'];
 
 const Contest = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const handleChangeTab = (index) => {
+  const handleChangeTab = (index) => { 
     setActiveTab(index);
   };
 
