@@ -1,0 +1,102 @@
+.contest-detail-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.contest-detail-header {
+    position: relative;
+    background-color: #FBC4AB;
+    width: 100%;
+}
+
+.contest-detail-banner img {
+    width: 100%;
+    max-height: 450px;
+    object-fit: contain;
+    opacity: 0.8;
+}
+
+.contest-detail-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+}
+
+.contest-detail-content {
+    margin: 20px;
+    padding: 10px;
+}
+
+#contest-subtitle {
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.contest-detail-prizes {
+    margin-top: 18px;
+}
+
+.contest-detail-date span {
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+.contest-detail-date div {
+    margin-top: 5px;
+}
+
+.contest-detail-submit div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.contest-submit-box {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 30px;
+    border-radius: 10px;
+    margin-top: 10px;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+.contest-submit-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.contest-submit-content div {
+    display: flex;
+    flex-direction: column;
+}
+
+.contest-submit-content label {
+    margin-bottom: 3px;
+}
+
+.contest-submit-content div {
+    margin-bottom: 10px;
+}
+
+.contest-submit-warning {
+    width: 100%;
+    padding-left:30px;
+    font-size: 18px;
+    margin-top: 5px;
+}
+
+.contest-submit-warning span {
+    color: red;
+    font-size: 18px;
+    margin-right: 5px;
+}
