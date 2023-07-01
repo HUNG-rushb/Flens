@@ -4,7 +4,7 @@
     position: relative;
 }
 
-.coverImage {
+#coverImage {
   height: 450px;
   width: 100%;
   object-fit: cover;
@@ -34,14 +34,14 @@
     color: white;
 }
 
-.coverImageContent {
+.profileAvatar {
     display: flex;
     align-items: center;
     width: 100%;
     margin-top: 100px;
 }
 
-.coverImageContent img {
+.profileAvatar img {
     width: 200px;
     border-radius: 50%;
     margin: 0 20px;

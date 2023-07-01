@@ -138,7 +138,6 @@ const PostComment = ({ item }) => {
               <img
                 src={i.userId.profileImageURL}
                 alt="reply-comment"
-                width={'5%'}
               />
               <span>{i.userId.name}</span>
               <div className="reply-comment-content">{i.content}</div>

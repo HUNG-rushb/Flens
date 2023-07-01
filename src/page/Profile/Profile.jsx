@@ -12,10 +12,11 @@ import { useParams } from 'react-router-dom';
 const Profile = () => {
   const { userId } = useParams();
   // const { id: userId } = useAuthState();
+  console.log("userid: ",userId)
   const { isFetching, fetchedData, fetchError } = useUserProfileImage({
     userInfoData: { userId },
   });
-  console.log({ fetchedData });
+  console.log('fetch profile data:',{ fetchedData });
 
   return (
     <Page title={'Flens-Profile'}>
@@ -26,16 +27,16 @@ const Profile = () => {
           <div className="profilePage">
             <div className="overlay"></div>
             <img
+              id="coverImage"
               src={
                 fetchedData?.userInfo.backgroundImageURL
                   ? fetchedData?.userInfo.backgroundImageURL
                   : CoverImage
               }
               alt=""
-              className="coverImage"
             />
             <div className="peronalInfor">
-              <div className="coverImageContent">
+              <div className="profileAvatar">
                 <img src={fetchedData?.userInfo.profileImageURL} alt="" />
 
                 <div className="profileName">

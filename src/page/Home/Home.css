@@ -286,7 +286,7 @@
 
 .list-other-actions ul li:hover {
   opacity: 0.6;
-  background-color: #000; 
+  background-color: #ccc; 
   color: white;
 }
 
@@ -341,6 +341,12 @@
 .reply-comment > span,
 .reply-comment > div > span {
   font-weight: 600;
+}
+
+.reply-comment img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
 }
 
 .View-more-comments {
