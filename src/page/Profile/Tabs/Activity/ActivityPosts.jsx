@@ -1,134 +1,51 @@
-import Post from '../../../../assets/images/Home/Post.svg';
-import ModalCustom from '../../../../components/Modal/Modal';
-import { useGetAllUserPost } from '../../../../graphql/usePost';
-import PostComment from '../../../Home/Post/PostComment';
 import './ActivityPosts.css';
+import Post from '../../../Home/Post';
 import React, { useState } from 'react';
-import { Heart, Reply, ThreeDots } from 'react-bootstrap-icons';
+import ImageDetail from '../../../Home/Post/ImageDetail';
+import useModal from '../../../../components/Modal/useModal';
+import { useGetAllUserPost } from '../../../../graphql/usePost';
+import ModalReportImage from '../../../../components/Modal/ModalReportImage';
 
 const ActivityPosts = ({ userId }) => {
   const { isFetching, fetchedData, fetchError } = useGetAllUserPost({
     getAllUserPostId: { userId },
   });
 
-  const [showReport, setShowReport] = useState(false);
-  const [showListOtherActions, setShowListOtherActions] = useState(true);
+  const { isShowing: showReport, toggle: toggleShowReport } = useModal();
+  const { isShowing: showImageDetail, toggle: toggleImageDetail } = useModal();
 
-  const handleShowReport = (item) => {
-    setShowListOtherActions(true);
-    setShowReport(true);
-  };
-
-  const handleShowListOtherActions = (state) => {
-    setShowListOtherActions(!state);
-  };
-
-  const handleCloseReport = () => {
-    setShowReport(false);
-  };
-
-  const handleSaveReport = () => {
-    setShowReport(false);
-  };
-
-  const modalReportContent = () => {
-    return (
-      <>
-        <div className="report-photo-container">
-          <img src={Post} alt="" width={'50%'} />
-
-          <div className="left-report-photo">
-            <span>Report this photo with reason:</span>
-            <ul>
-              <li>
-                <input type="checkbox" /> <span>Copyright infringement</span>{' '}
-              </li>
-              <li>
-                <input type="checkbox" />
-                <span>Offensive content </span>
-              </li>
-              <li>
-                <input type="checkbox" />
-                <span>Spam</span>
-              </li>
-              <li>
-                <input type="checkbox" />
-                <span>Mature content</span>
-              </li>
-              <li>
-                <input type="checkbox" />
-                <span>Harmful content</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </>
-    );
-  };
+  const [imageToReport, setImageToReport] = useState('');
+  const [itemShowDetail, setItemShowDetail] = useState(null);
 
   return (
     <div className="profile-activity-container">
       <div className="activity-posts">
-        {fetchedData?.userInfo.posts.map((item) => {
-          return (
-            <div className="activity-post" key={item.id}>
-              <div className="activity-post-header">
-                <img src={item.userId.profileImageURL} alt="" />
-                <div>
-                  <div>
-                    <span id="activity-post-name">{item.userId.name}</span>
-                    <span>Uploaded a photo</span>
-                  </div>
-                  <div id="activity-post-time">1 day ago</div>
-                </div>
-              </div>
-              <div className="activity-post-image">
-                <img src={item.image.url} alt="" />
-              </div>
-
-              <div className="activity-post-description">
-                <span>Tittle</span>
-                <div className="activity-post-interaction">
-                  <div className="activity-post-like-icon">
-                    <Heart size={25} /> <span>45</span>
-                  </div>
-                  <div className="activity-post-more-options">
-                    <Reply size={30} />
-
-                    <ThreeDots
-                      size={30}
-                      onClick={() =>
-                        handleShowListOtherActions(() => showListOtherActions)
-                      }
-                      className="otherAction"
-                    />
-
-                    <div
-                      className="activity-list-options"
-                      hidden={showListOtherActions}
-                    >
-                      <ul>
-                        <li onClick={handleShowReport}>Report</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <hr />
-                <PostComment item={item} />
-              </div>
-            </div>
-          );
-        })}
+        {fetchedData &&
+          fetchedData.userInfo.posts.map((item) => {
+            return (
+              <Post
+                key={item.id}
+                item={item}
+                showReport={showReport}
+                showImageDetail={showImageDetail}
+                toggleShowReport={toggleShowReport}
+                setImageToReport={setImageToReport}
+                toggleImageDetail={toggleImageDetail}
+                setItemShowDetail={setItemShowDetail}
+              />
+            );
+          })}
       </div>
-
-      <ModalCustom
+      <ImageDetail
+        item={itemShowDetail}
+        showImageDetail={showImageDetail}
+        handleCloseImageDetail={toggleImageDetail}
+      />
+      <ModalReportImage
         show={showReport}
-        size="lg"
-        modalTitle="Report Photo"
-        modalContent={modalReportContent()}
-        handleClose={handleCloseReport}
-        confirmButtonMessage="Submit"
-        handleSavechanges={handleSaveReport}
+        image={imageToReport}
+        handleClose={toggleShowReport}
+        handleSavechanges={toggleShowReport}
       />
     </div>
   );
