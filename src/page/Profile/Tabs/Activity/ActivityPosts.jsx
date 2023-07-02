@@ -1,21 +1,20 @@
-import './ActivityPosts.css';
-import Post from '../../../Home/Post';
-import React, { useState } from 'react';
-import ImageDetail from '../../../Home/Post/ImageDetail';
+import ModalReportImage from '../../../../components/Modal/ModalReportImage';
 import useModal from '../../../../components/Modal/useModal';
 import { useGetAllUserPost } from '../../../../graphql/usePost';
-import ModalReportImage from '../../../../components/Modal/ModalReportImage';
+import Post from '../../../Home/Post';
+import ImageDetail from '../../../Home/Post/ImageDetail';
+import './ActivityPosts.css';
+import React, { useState } from 'react';
 
 const ActivityPosts = ({ userId }) => {
   const { isFetching, fetchedData, fetchError } = useGetAllUserPost({
     getAllUserPostId: { userId },
   });
 
-  const { isShowing: showReport, toggle: toggleShowReport } = useModal();
-  const { isShowing: showImageDetail, toggle: toggleImageDetail } = useModal();
-
   const [imageToReport, setImageToReport] = useState('');
   const [itemShowDetail, setItemShowDetail] = useState(null);
+  const { isShowing: showReport, toggle: toggleShowReport } = useModal();
+  const { isShowing: showImageDetail, toggle: toggleImageDetail } = useModal();
 
   return (
     <div className="profile-activity-container">

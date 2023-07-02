@@ -1,12 +1,12 @@
-import CoverImage from '../../assets/images/Profile/profileCoverImage.jpg';
+import './Profile.css';
+import { Suspense } from 'react';
+import TabMenu from './Tabs/Tabs';
+import { useParams } from 'react-router-dom';
 import Page from '../../components/utils/Page';
 import Spinner from '../../components/utils/Spinner';
 import { useUserProfileImage } from '../../graphql/useUser';
-import './Profile.css';
-import TabMenu from './Tabs/Tabs';
-import { Suspense } from 'react';
-import { PersonCircle } from 'react-bootstrap-icons';
-import { useParams } from 'react-router-dom';
+import CoverImage from '../../assets/images/Profile/profileCoverImage.jpg';
+
 
 const Profile = () => {
   const { userId } = useParams();
