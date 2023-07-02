@@ -144,3 +144,11 @@ li div:hover {
 #navbar-avatar:hover{
   opacity: 0.7;
 }
+
+#upload-btn-navbar {
+  border-radius: 5px;
+}
+
+a.navbar-brand:hover{
+  color: white;
+}
