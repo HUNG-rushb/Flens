@@ -1,23 +1,34 @@
-import './Profile.css';
-import { Suspense } from 'react';
-import TabMenu from './Tabs/Tabs';
-import { useParams } from 'react-router-dom';
+import CoverImage from '../../assets/images/Profile/profileCoverImage.jpg';
 import Page from '../../components/utils/Page';
 import Spinner from '../../components/utils/Spinner';
+import { useGetAllUserPost } from '../../graphql/usePost';
 import { useUserProfileImage } from '../../graphql/useUser';
-import CoverImage from '../../assets/images/Profile/profileCoverImage.jpg';
+import './Profile.css';
+import TabMenu from './Tabs/Tabs';
+import { Suspense } from 'react';
+import { useParams } from 'react-router-dom';
 
 const Profile = () => {
   const { userId } = useParams();
-  const { isFetching, fetchedData, fetchError } = useUserProfileImage({
+  const {
+    isFetching: isFetchingUserProfileData,
+    fetchedData: fetchingUserProfileData,
+    fetchError: fetchUserProfileError,
+  } = useUserProfileImage({
     userInfoData: { userId },
   });
-  console.log({ fetchedData });
+  const {
+    isFetching: isFetchingUserAllPost,
+    fetchedData: fetchUserAllPostData,
+    fetchError: fetchingUserAllPostError,
+  } = useGetAllUserPost({
+    getAllUserPostId: { userId },
+  });
 
   return (
     <Page title={'Flens-Profile'}>
       <Suspense>
-        {isFetching ? (
+        {isFetchingUserProfileData ? (
           <Spinner />
         ) : (
           <div className="profilePage">
@@ -25,24 +36,31 @@ const Profile = () => {
             <img
               id="coverImage"
               src={
-                fetchedData?.userInfo.backgroundImageURL
-                  ? fetchedData?.userInfo.backgroundImageURL
+                fetchingUserProfileData?.userInfo.backgroundImageURL
+                  ? fetchingUserProfileData?.userInfo.backgroundImageURL
                   : CoverImage
               }
               alt=""
             />
             <div className="peronalInfor">
               <div className="profileAvatar">
-                <img src={fetchedData?.userInfo.profileImageURL} alt="" />
+                <img
+                  src={fetchingUserProfileData?.userInfo.profileImageURL}
+                  alt=""
+                />
 
                 <div className="profileName">
-                  {fetchedData?.userInfo.name
-                    ? fetchedData?.userInfo.name
+                  {fetchingUserProfileData?.userInfo.name
+                    ? fetchingUserProfileData?.userInfo.name
                     : 'Username'}
                 </div>
               </div>
             </div>
-            <TabMenu userId={userId} />
+            <TabMenu
+              userId={userId}
+              userProfileData={fetchingUserProfileData}
+              userAllPostData={fetchUserAllPostData}
+            />
           </div>
         )}
       </Suspense>

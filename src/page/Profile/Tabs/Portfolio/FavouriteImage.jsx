@@ -1,13 +1,16 @@
-import Favourites1 from '../../../../assets/images/Profile/favourites1.png';
-import Favourites2 from '../../../../assets/images/Profile/favourites2.png';
+import React from 'react';
 
-const FavouriteImage = () => {
+const FavouriteImage = ({ userAllPostData }) => {
   return (
     <div className="favourites">
-      <span id='portfolio-title'>Favourites album</span>
+      <div className="favourites-title">
+        <span>Favourites image </span>
+        <span id="see-all-button">See all</span>
+      </div>
       <div className="favoutites-images">
-        <img src={Favourites1} alt="Favourites1" width={'30%'} />
-        <img src={Favourites2} alt="Favourites2" width={'30%'} />
+        {userAllPostData?.userInfo.posts.slice(0, 2).map((item) => (
+          <img key={item.id} src={item.image.url} alt="" />
+        ))}
       </div>
     </div>
   );

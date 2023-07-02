@@ -1,16 +1,19 @@
-import { useGetAllUserPost } from '../../../../graphql/usePost';
+import React from 'react';
 
-const LatestUploadImage = ({ userId }) => {
-  const { isFetching, fetchedData, fetchError } = useGetAllUserPost({
-    getAllUserPostId: { userId },
-  });
-  console.log({ fetchedData });
-
+const LatestUploadImage = ({ userAllPostData }) => {
   return (
     <div className="latest-upload">
-      <span  id='portfolio-title'>Latest upload ({fetchedData?.userInfo.posts.length})</span>
+      <div className="portfolio-title">
+        <span>
+          Latest upload
+          {userAllPostData
+            ? ` (${userAllPostData?.userInfo.posts.length})`
+            : ''}
+        </span>
+        <span id="see-all-button">See all</span>
+      </div>
       <div className="latest-upload-images">
-        {fetchedData?.userInfo.posts.slice(0, 3).map((item) => (
+        {userAllPostData?.userInfo.posts.slice(0, 3).map((item) => (
           <img key={item.id} src={item.image.url} alt="" />
         ))}
       </div>

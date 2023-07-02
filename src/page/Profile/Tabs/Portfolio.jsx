@@ -2,12 +2,12 @@ import AlbumImage from './Portfolio/AlbumImage';
 import FavouriteImage from './Portfolio/FavouriteImage';
 import LatestUploadImage from './Portfolio/LatestUploadImage';
 
-const Portfoio = ({ userId }) => {
+const Portfoio = ({ userProfileData, userAllPostData }) => {
   return (
     <div className="portfolio-tab">
-      <AlbumImage userId={userId} />
-      <LatestUploadImage userId={userId} />
-      <FavouriteImage userId={userId} />
+      <AlbumImage userProfileData={userProfileData}/>
+      <LatestUploadImage userAllPostData={userAllPostData} />
+      <FavouriteImage userAllPostData={userAllPostData} />
     </div>
   );
 };

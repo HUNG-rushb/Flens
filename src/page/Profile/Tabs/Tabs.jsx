@@ -8,7 +8,7 @@ import { Tab, Tabs } from 'react-bootstrap';
 import { ThreeDots } from 'react-bootstrap-icons';
 import { useLocation } from 'react-router-dom';
 
-const TabMenu = ({ userId }) => {
+const TabMenu = ({ userId, userProfileData, userAllPostData }) => {
   const location = useLocation();
   const { id: checkUserId } = useAuthState();
   const [isFollow, setIsFollow] = useState(false);
@@ -28,10 +28,10 @@ const TabMenu = ({ userId }) => {
       <div className="profile-tabs">
         <Tabs defaultActiveKey="Portfolio">
           <Tab eventKey="Activity" title="Activity">
-            <Activity userId={userId} />
+            <Activity userAllPostData={userAllPostData} />
           </Tab>
           <Tab eventKey="Portfolio" title="Portfolio">
-            <Portfoio userId={userId} />
+            <Portfoio userProfileData={userProfileData} userAllPostData={userAllPostData} />
           </Tab>
           <Tab eventKey="Biography" title="Biography">
             <Biography userId={userId} />
