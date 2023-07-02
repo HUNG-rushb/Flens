@@ -2,7 +2,7 @@ import ButtonCustom from '../../components/Button/ButtonCustom.jsx';
 import './Modal.css';
 import { Modal } from 'react-bootstrap';
 
-const ModalReportImage = ({ image, show, handleClose, handleSavechanges }) => {
+const ModalCustom = ({ image, show, handleClose, handleSavechanges }) => {
   return (
     <Modal show={show} onHide={handleClose} centered={true} size="lg">
       <Modal.Header closeButton>
@@ -54,4 +54,4 @@ const ModalReportImage = ({ image, show, handleClose, handleSavechanges }) => {
   );
 };
 
-export default ModalReportImage;
+export default ModalCustom;

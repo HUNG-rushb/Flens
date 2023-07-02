@@ -99,6 +99,15 @@
   opacity: 0.7;
 }
 
+.child-album {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.child-album:hover {
+  opacity: 0.8;
+}
+
 .child-album img {
   max-width: 200px;
   width: 100%;
