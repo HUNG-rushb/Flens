@@ -55,12 +55,16 @@
   padding-bottom: 100px;
 }
 
-.portfolio-title, .album-title, .favourites-title {
+.portfolio-title,
+.album-title,
+.favourites-title {
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
 }
 
-.portfolio-title span, .album-title span, .favourites-title span{
+.portfolio-title span,
+.album-title span,
+.favourites-title span {
   font-size: 20px;
   font-weight: 600;
   padding-left: 5px;
@@ -71,7 +75,7 @@
   opacity: 1;
 }
 
-#see-all-button:hover{
+#see-all-button:hover {
   opacity: 0.6;
 }
 
@@ -95,7 +99,7 @@
   opacity: 1;
 }
 
-.new-album:hover{
+.new-album:hover {
   opacity: 0.7;
 }
 
@@ -128,7 +132,6 @@
   padding: 3px;
 }
 
-
 .latest-upload {
   margin-top: 40px;
 }
@@ -142,7 +145,7 @@
 
 .latest-upload-images img {
   width: 100%;
-  height:340px;
+  height: 340px;
   object-fit: cover;
 }
 
@@ -155,7 +158,7 @@
 
 .favoutites-images img {
   width: 100%;
-  height:340px;
+  height: 400px;
   object-fit: cover;
 }
 

@@ -2,7 +2,7 @@ import ModalCustom from '../../../../components/Modal/ModalCustom';
 import useModal from '../../../../components/Modal/useModal';
 import React, { useRef, useState } from 'react';
 
-const AlbumImage = ({ userProfileData, setAlbumDetail }) => {
+const AlbumImage = ({ userProfileData, setComponentToRender }) => {
   const { isShowing: openCreateAlbum, toggle: toggleCreateAlbum } = useModal();
   const [newAlbumTitle, setNewAlbumTitle] = useState('');
 
@@ -100,7 +100,7 @@ const AlbumImage = ({ userProfileData, setAlbumDetail }) => {
           <div
             key={album.id}
             className="child-album"
-            onClick={() => setAlbumDetail(true)}
+            onClick={() => setComponentToRender(1)}
           >
             <img src={album.image} alt="" />
             <span id="child-album-title">{album.title}</span>

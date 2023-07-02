@@ -4,7 +4,7 @@ import './Portfolio.css';
 import React, { useEffect, useRef, useState } from 'react';
 import { ThreeDots, Trash } from 'react-bootstrap-icons';
 
-const AlbumDetail = ({setAlbumDetailClick}) => {
+const AlbumDetail = ({setComponentToRender}) => {
   const fakeData = [
     'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
     'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
@@ -89,7 +89,7 @@ const AlbumDetail = ({setAlbumDetailClick}) => {
 
   return (
     <div className="Album-detail-container">
-        <div><button id='back-to-portfolio' onClick={()=>setAlbumDetailClick(false)}>Back</button></div>
+        <div><button id='back-to-portfolio' onClick={()=>setComponentToRender(0)}>Back</button></div>
       <div className="album-detail-header">
         <span id="album-detail-title">Album tittle</span>
         <ThreeDots
@@ -111,7 +111,7 @@ const AlbumDetail = ({setAlbumDetailClick}) => {
       </div>
       <div className="album-detail-images">
         <div className="upload-new-album-image" onClick={toggleUploadImage}>
-          + add new Image
+          + Add new Image
         </div>
         {fakeData.map((item, index) => (
           <div className="album-detail-image" key={index}>
