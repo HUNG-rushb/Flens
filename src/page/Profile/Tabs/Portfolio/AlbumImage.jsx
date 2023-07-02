@@ -64,7 +64,7 @@ const AlbumImage = ({ userProfileData, setComponentToRender }) => {
           />
         </div>
 
-        <div>
+        <div className='custom-input-image-to-album'>
           <label
             onClick={handleFileSelect}
             type="button"
