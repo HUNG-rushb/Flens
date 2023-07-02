@@ -9,6 +9,7 @@ import { ThreeDots } from 'react-bootstrap-icons';
 import { useLocation } from 'react-router-dom';
 
 const TabMenu = ({ userId, userProfileData, userAllPostData }) => {
+
   const location = useLocation();
   const { id: checkUserId } = useAuthState();
   const [isFollow, setIsFollow] = useState(false);
@@ -34,7 +35,7 @@ const TabMenu = ({ userId, userProfileData, userAllPostData }) => {
             <Portfoio userProfileData={userProfileData} userAllPostData={userAllPostData} />
           </Tab>
           <Tab eventKey="Biography" title="Biography">
-            <Biography userId={userId} />
+            <Biography userId={userId} userAllPostData={userAllPostData}/>
           </Tab>
         </Tabs>
       </div>

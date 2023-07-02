@@ -29,7 +29,7 @@ const Profile = () => {
     <Page title={'Flens-Profile'}>
       <Suspense>
         {isFetchingUserProfileData ? (
-          <Spinner />
+          <Spinner/>
         ) : (
           <div className="profilePage">
             <div className="overlay"></div>

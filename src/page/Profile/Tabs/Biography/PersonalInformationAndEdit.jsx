@@ -1,12 +1,22 @@
 import ButtonCustom from '../../../../components/Button/ButtonCustom';
+import { useEffect, useState } from 'react';
 import { CameraFill } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 
-const PersonalInforAndEdit = () => {
-  const navigate = useNavigate()
+const PersonalInforAndEdit = ({ userAllPostData }) => {
+  console.log(userAllPostData);
+  const navigate = useNavigate();
   const handleEditClick = () => {
-    navigate('/editProfile')
+    navigate('/editProfile');
   };
+
+  const [userLevel, setUserLevel] = useState(0);
+
+  useEffect(() => {
+    let level = 0;
+    userAllPostData?.userInfo.posts.map((item) => (level += item.points));
+    setUserLevel(level)
+  }, [userAllPostData]);
 
   return (
     <div className="bio-right">
@@ -18,7 +28,7 @@ const PersonalInforAndEdit = () => {
           2<span>Followers</span>
         </div>
         <div>
-          0<span>Level</span>
+          {userLevel}<span>Level</span>
         </div>
       </div>
       <div className="personal-infor">
@@ -41,11 +51,7 @@ const PersonalInforAndEdit = () => {
         </span>
       </div>
       <div className="edit-btn">
-        <ButtonCustom
-          text={'Edit'}
-          type="default2"
-          onClick={handleEditClick}
-        />
+        <ButtonCustom text={'Edit'} type="default2" onClick={handleEditClick} />
       </div>
     </div>
   );
