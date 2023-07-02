@@ -7,7 +7,6 @@ import Spinner from '../../components/utils/Spinner';
 import { useUserProfileImage } from '../../graphql/useUser';
 import CoverImage from '../../assets/images/Profile/profileCoverImage.jpg';
 
-
 const Profile = () => {
   const { userId } = useParams();
   const { isFetching, fetchedData, fetchError } = useUserProfileImage({

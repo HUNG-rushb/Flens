@@ -9,11 +9,9 @@ import { ThreeDots } from 'react-bootstrap-icons';
 import { useLocation } from 'react-router-dom';
 
 const TabMenu = ({ userId }) => {
-  const [isFollow, setIsFollow] = useState(false);
-
-  // const { id: userId } = useAuthState();
   const location = useLocation();
-
+  const { id: checkUserId } = useAuthState();
+  const [isFollow, setIsFollow] = useState(false);
   const checkPath = location.pathname.split('/');
   const checkId = checkPath[2];
 
@@ -40,7 +38,7 @@ const TabMenu = ({ userId }) => {
           </Tab>
         </Tabs>
       </div>
-      {userId !== checkId && (
+      {checkId !== checkUserId && (
         <div className="follow-interactions">
           <div id="follow-unfollow-button" onClick={handleClickFollow}>
             {!isFollow ? '+ Follow' : 'UnFollow'}
