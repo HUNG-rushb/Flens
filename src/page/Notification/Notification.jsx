@@ -1,54 +1,66 @@
 import Avatar from '../../assets/images/avatar.jpg';
 import ButtonCustom from '../../components/Button/ButtonCustom';
 import Page from '../../components/utils/Page';
+import { useAuthState } from '../../context/AuthContext';
+import { useUserProfileImage } from '../../graphql/useUser';
 import LeftContent from './LeftContent.jsx';
 import './Notification.css';
 import React, { Suspense } from 'react';
 import { HeartFill, ReplyFill } from 'react-bootstrap-icons';
 
 const Notification = () => {
-  const handleClick = () => {
+  const { id: userId } = useAuthState();
+  const {
+    isFetching: isFetchingUserProfileData,
+    fetchedData: fetchingUserProfileData,
+    fetchError: fetchUserProfileError,
+  } = useUserProfileImage({
+    userInfoData: { userId },
+  });
+  const handleClickFollowBack = () => {
     console.log('click');
   };
 
   const notifi_data = [
     {
       id: 1,
-      avatar: Avatar,
       name: 'Tom',
-      type: 1,
+      image: fetchingUserProfileData?.userInfo.profileImageURL,
       time: '2 minutes ago',
+      type: 1,
     },
     {
       id: 2,
-      avatar: Avatar,
       name: 'Thomas',
-      type: 2,
+      image: fetchingUserProfileData?.userInfo.profileImageURL,
       time: '3 minutes ago',
+      type: 2,
     },
     {
       id: 3,
-      avatar: Avatar,
       name: 'John',
-      type: 3,
+      image: fetchingUserProfileData?.userInfo.profileImageURL,
       time: '5 minutes ago',
+      type: 3,
     },
   ];
   return (
     <Page title={'Flens-Notification'}>
       <Suspense fallback={null}>
         <div className="Notifi-page">
-          <LeftContent />
+          <LeftContent
+            userId={userId}
+            userProfileInfo={fetchingUserProfileData}
+          />
           <div className="right-content">
             <div className="notify-title">Notifications</div>
-
             <div className="notifi-content">
               {notifi_data.map((item) => {
                 return (
                   <div className="noti-card" key={item.id}>
                     <div className="upper-content">
-                      <img src={item.avatar} alt='' />
-                      <div className="card-content">
+                      <img src={item.image} alt="" id="image-user-react" />
+                      <div className="card-notify-content">
                         {item.type === 1 ? (
                           <div className="name">
                             <span>{item.name}</span> Followed you.
@@ -71,31 +83,22 @@ const Notification = () => {
                                 />{' '}
                                 your post.
                               </>
-        
                             )}
                           </div>
-                          
                         )}
                         <div>{item.time}</div>
-                        <div></div>
                       </div>
                       {item.type === 1 ? (
                         <div className="button-follow-back">
                           <ButtonCustom
                             text={'Follow back'}
                             type="default3"
-                            onClick={handleClick}
+                            onClick={handleClickFollowBack}
                           />
                         </div>
                       ) : (
                         <></>
                       )}
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
                     </div>
                     {item.type === 1 ? (
                       <div className="below-content">

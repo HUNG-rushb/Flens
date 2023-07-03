@@ -1,13 +1,13 @@
-import Avatar from '../../assets/images/avatar.jpg';
+import React from 'react';
 
-const LeftContent = () => {
+const LeftContent = ({ userId, userProfileInfo }) => {
   return (
     <div className="notifi-left-content">
-      <img src={Avatar} alt="avatar"></img>
-      <div className="name">Nguyen Van A</div>
+      <img src={userProfileInfo?.userInfo.profileImageURL} alt="" />
+      <div className="notifi-left-name">{userProfileInfo?.userInfo.name}</div>
       <div className="skill-content">
-        <div>
-          <span>Your Flens link:</span> flens.com/quocthanhh
+        <div id="userLink">
+          <span>Your Flens link:</span> flens.com/{userId}
         </div>
         <div>
           <span>Favourites:</span> Camera, Portrait

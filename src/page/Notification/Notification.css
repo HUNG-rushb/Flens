@@ -1,81 +1,90 @@
 .notifi-page {
-    display: flex;
-    position: relative;
+  display: flex;
+  position: relative;
 }
 
 .notifi-left-content {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 28%;
-    position: fixed;
-    padding-top: 20px;
-    height: 100%;
-    background-color: #FFFAF0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 28%;
+  position: fixed;
+  padding-top: 20px;
+  height: 100%;
+  background-color: #fffaf0;
 }
 
-.notifi-left-content > img {
-    width: 40%;
-    border-radius: 50%;
+.notifi-left-content img {
+  height: 150px;
+  width: 100%;
+  max-width: 150px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
-.notifi-left-content > .name {
-    font-weight: 500;
-    margin: 20px 0px;
+.notifi-left-name {
+  font-weight: 500;
+  margin: 20px 0px;
+  font-size: 20px;
 }
 
 .right-content {
-    display: flex;
-    width: 72%;
-    flex-direction: column;
-    position: absolute;
-    top: 0;
+  display: flex;
+  width: 72%;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
 }
 
 .notify-title {
-    font-size: 20px;
-    margin: 30px 0px;
+  font-size: 20px;
+  margin: 30px 0px;
+  font-weight: 600;
 }
 
 .notifi-content {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    flex-direction: column;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
 }
 
 .noti-card {
-    width: 60%;
-    padding: 30px;
-    border-radius: 15px;
-    margin: 20px 0px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  width: 60%;
+  padding: 30px;
+  border-radius: 15px;
+  margin: 20px 0px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
 .upper-content {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
 }
 
-.upper-content img {
-    max-width: 80px;
-    border-radius: 50%;
+#image-user-react {
+  height: 80px;
+  width: 100%;
+  max-width: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 10px;
 }
 
 .name {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .name > span {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .button-follow-back {
-    margin-left: 100px;
+  margin-left: 100px;
 }
 
 .below-content {
-    display: flex;
-    font-weight: 500;
-    padding-left: 110px;
+  display: flex;
+  font-weight: 500;
+  padding-left: 110px;
 }
