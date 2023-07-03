@@ -62,8 +62,8 @@
 
 .image-detail-right-container {
   height: 580px;
-  overflow: scroll;
   padding: 0 10px;
+  overflow: scroll;
   overflow-x: hidden;
 }
 

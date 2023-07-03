@@ -1,5 +1,5 @@
-.modal-backdrop {
-  z-index: 999999999999999999;
+.fade.modal.show{
+z-index: 99999999999999999;
 }
 
 .report-photo-container {

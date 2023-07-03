@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
 import {
+  Flag,
   Heart,
-  HeartFill,
+  Trash,
   Reply,
   ThreeDots,
-  Flag,
-  Trash,
+  HeartFill,
 } from 'react-bootstrap-icons';
+import { useEffect, useRef, useState } from 'react';
 
 const PostInteraction = ({
   item,
@@ -15,17 +15,16 @@ const PostInteraction = ({
   showReport,
   toggleShowReport,
 }) => {
+  const clickOutsideRef = useRef(null);
   const [isLiked, setIsLiked] = useState(false);
-  const [countNumberOfLikes, setCountNumberOfLikes] = useState(59);
+  const [showListOtherActions, setShowListOtherActions] = useState(true);
+  const [countNumberOfLikes, setCountNumberOfLikes] = useState(item?.points);
 
   const handleClickLikePost = () => {
     setIsLiked(!isLiked);
     if (isLiked === false) setCountNumberOfLikes(countNumberOfLikes + 1);
     else setCountNumberOfLikes(countNumberOfLikes - 1);
   };
-
-  const clickOutsideRef = useRef(null);
-  const [showListOtherActions, setShowListOtherActions] = useState(true);
 
   const handleClickReport = () => {
     setShowListOtherActions(true);
@@ -61,7 +60,7 @@ const PostInteraction = ({
           ) : (
             <HeartFill color="red" size={25} />
           )}
-          <span>{item?.points}</span>
+          <span>{countNumberOfLikes}</span>
         </div>
         <div className="right-action">
           <Reply size={30} className="reply-icon" />

@@ -1,3 +1,9 @@
+.activity-posts {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
 .activity-post {
   margin: 20px 0 50px 0;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;

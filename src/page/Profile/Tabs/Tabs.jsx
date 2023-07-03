@@ -8,12 +8,11 @@ import { Tab, Tabs } from 'react-bootstrap';
 import { ThreeDots } from 'react-bootstrap-icons';
 import { useLocation } from 'react-router-dom';
 
-const TabMenu = ({ userId }) => {
-  const [isFollow, setIsFollow] = useState(false);
+const TabMenu = ({ userId, userProfileData, userAllPostData }) => {
 
-  // const { id: userId } = useAuthState();
   const location = useLocation();
-
+  const { id: checkUserId } = useAuthState();
+  const [isFollow, setIsFollow] = useState(false);
   const checkPath = location.pathname.split('/');
   const checkId = checkPath[2];
 
@@ -30,17 +29,17 @@ const TabMenu = ({ userId }) => {
       <div className="profile-tabs">
         <Tabs defaultActiveKey="Portfolio">
           <Tab eventKey="Activity" title="Activity">
-            <Activity userId={userId} />
+            <Activity userAllPostData={userAllPostData} />
           </Tab>
           <Tab eventKey="Portfolio" title="Portfolio">
-            <Portfoio userId={userId} />
+            <Portfoio userProfileData={userProfileData} userAllPostData={userAllPostData} />
           </Tab>
           <Tab eventKey="Biography" title="Biography">
-            <Biography userId={userId} />
+            <Biography userId={userId} userAllPostData={userAllPostData}/>
           </Tab>
         </Tabs>
       </div>
-      {userId !== checkId && (
+      {checkId !== checkUserId && (
         <div className="follow-interactions">
           <div id="follow-unfollow-button" onClick={handleClickFollow}>
             {!isFollow ? '+ Follow' : 'UnFollow'}
