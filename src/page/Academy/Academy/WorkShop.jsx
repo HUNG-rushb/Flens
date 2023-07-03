@@ -2,6 +2,7 @@ import Workshop1 from '../../../assets/images/academy/workshop1.png';
 import Workshop2 from '../../../assets/images/academy/workshop2.png';
 import Workshop3 from '../../../assets/images/academy/workshop3.png';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -41,16 +42,25 @@ const workshop_data = [
 ];
 
 const Workshop = () => {
+  const navigate = useNavigate();
+
+  const handleCLickOpenCourses = (title) => {
+    navigate(`/academy/workshop/${title.split(' ').join('')}`);
+  };
   return (
     <div className="workshop-component">
-      <span className="academy-section-tittle">Workshop</span>
+      <span id="academy-section-tittle">Workshop</span>
       <Swiper
         slidesPerView={3}
         spaceBetween={30}
         className="workshop-courses-list"
       >
         {workshop_data.map((item) => (
-          <SwiperSlide key={item.id} className='workshop-courses-item'>
+          <SwiperSlide
+            key={item.id}
+            className="workshop-courses-item"
+            onClick={() => handleCLickOpenCourses(item.title)}
+          >
             <img src={item.image} alt={item.title} />
             <span>{item.title}</span>
           </SwiperSlide>

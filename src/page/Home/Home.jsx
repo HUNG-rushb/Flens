@@ -44,6 +44,7 @@ const Home = () => {
                   <Post
                     key={item.id}
                     item={item}
+                    userId={userId}
                     showReport={showReport}
                     showImageDetail={showImageDetail}
                     toggleShowReport={toggleShowReport}

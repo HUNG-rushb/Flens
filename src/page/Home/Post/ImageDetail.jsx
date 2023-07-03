@@ -19,8 +19,10 @@ const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
                   <div
                     className="close-overlay"
                     onClick={handleCloseImageDetail}
-                  >X
+                  >
+                    X
                   </div>
+
                   <div className="image-detail-right-container">
                     <div className="image-detail-page-header">
                       <img src={item?.userId.profileImageURL} alt="avatar" />

@@ -7,6 +7,7 @@ import PostTeachnical from './Post/PostTeachnicalInformation.jsx';
 
 const Post = ({
   item,
+  userId,
   showImageDetail,
   toggleImageDetail,
   showReport,
@@ -14,9 +15,10 @@ const Post = ({
   setImageToReport,
   setItemShowDetail,
 }) => {
+
   return (
     <div className="posts">
-      <PostHeader item={item} />
+      <PostHeader item={item} userId={userId} />
 
       <div className="post-content">
         <PostImageAndTitle

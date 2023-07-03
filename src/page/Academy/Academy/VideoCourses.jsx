@@ -1,6 +1,7 @@
 import VideoCourses1 from '../../../assets/images/academy/videoCourses1.png';
 import VideoCourses2 from '../../../assets/images/academy/videoCourses2.png';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -50,16 +51,25 @@ const video_courses_data = [
 ];
 
 const VideoCourses = () => {
+  const navigate = useNavigate();
+
+  const handleCLickOpenCourses = (title) => {
+    navigate(`/academy/videoCourses/${title.split(' ').join('')}`);
+  };
   return (
     <div className="video-courses-component">
-      <span className="academy-section-tittle">Video Courses</span>
+      <span id="academy-section-tittle">Video Courses</span>
       <Swiper
         slidesPerView={3}
         spaceBetween={30}
         className="video-courses-list"
       >
         {video_courses_data.map((item) => (
-          <SwiperSlide key={item.id} className="video-courses-item">
+          <SwiperSlide
+            key={item.id}
+            className="video-courses-item"
+            onClick={() => handleCLickOpenCourses(item.title)}
+          >
             <img src={item.image} alt={item.title} />
             <span>{item.title}</span>
           </SwiperSlide>

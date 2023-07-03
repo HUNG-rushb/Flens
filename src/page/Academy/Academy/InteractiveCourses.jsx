@@ -55,12 +55,12 @@ const interactive_courses_data = [
 const InteractiveCourses = () => {
   const navigate = useNavigate();
 
-  const handleCLickOpenCourses = () => {
-    navigate('/courses');
+  const handleCLickOpenCourses = (title) => {
+    navigate(`/academy/interactiveCourses/${title.split(' ').join('')}`);
   };
   return (
     <div className="interactive-courses-component">
-      <span className="academy-section-tittle">interactive video Courses</span>
+      <span id="academy-section-tittle">interactive video Courses</span>
       <Swiper
         slidesPerView={4}
         spaceBetween={30}
@@ -70,7 +70,7 @@ const InteractiveCourses = () => {
           <SwiperSlide
             key={item.id}
             className="interactive-courses-item"
-            onClick={handleCLickOpenCourses}
+            onClick={()=>handleCLickOpenCourses(item.title)}
           >
             <img src={item.image} alt={item.title} />
             <span>{item.title}</span>
