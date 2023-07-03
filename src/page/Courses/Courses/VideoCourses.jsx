@@ -1,4 +1,3 @@
-import videoCourses from '../../../assets/images/academy/videoCourses.mp4';
 import '../Courses.css';
 import React from 'react';
 
@@ -8,7 +7,7 @@ const VideoCoursesDetail = () => {
       <span id="courses-detail-title">Helmut Newton MasterClass</span>
       <div className="video-to-display">
         <video id="video-courses" controls>
-          <source autoPlay src={videoCourses} type="video/mp4" />
+          <source autoPlay src='https://df0179xsabjj8.cloudfront.net/videocourse/1080/steve_trailer_steve_478os1bfcbum6mfgube8i4hi7f.mp4' type="video/mp4" />
         </video>
       </div>
       <div className="video-courses-detail-content">
