@@ -2,7 +2,6 @@ import './ContestTab.css';
 import React from 'react';
 import { useNavigate} from 'react-router-dom';
 
-
 const contests = [
   {
     id: 1,
