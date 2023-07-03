@@ -1,5 +1,5 @@
 import './ContestDetail.css';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
 const birthdayContest = {
   title: 'birthday',
@@ -17,6 +17,28 @@ const birthdayContest = {
 };
 
 const ContestDetail = () => {
+  const fileInputRef = useRef(null);
+
+  const [previewImage, setPreviewImage] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const imageUrl = event.target.result;
+
+      const image = new Image();
+      image.src = imageUrl;
+      setPreviewImage(imageUrl);
+    };
+    reader.readAsDataURL(file);
+    setSelectedFile(file);
+  };
+  const handleFileSelect = () => {
+    fileInputRef.current.click();
+  };
   return (
     <div className="contest-detail-page">
       <div className="contest-detail-header">
@@ -55,7 +77,7 @@ const ContestDetail = () => {
           </ul>
         </div>
         <div className="contest-detail-uploader">
-          <span id='contest-subtitle'>Uploader</span>
+          <span id="contest-subtitle">Uploader</span>
           <p>Mr/Ms. {birthdayContest.uploader}</p>
         </div>
         <div className="contest-detail-submit">
@@ -66,14 +88,33 @@ const ContestDetail = () => {
                 <div>
                   <label>Full name</label>
                   <input type="text" placeholder="Enter your full name" />
+                  <label>Email</label>
+                  <input type="text" placeholder="Enter your email" />
+                  <label>Title</label>
+                  <input type="text" placeholder="Enter your image title" />
                 </div>
-                <div>
-                  <label>Profile Link</label>
-                  <input type="text" placeholder="Enter your profile link" />
-                </div>
-                <div>
-                  <label>Link to your Entry</label>
-                  <input type="text" placeholder="Enter your entry link" />
+                 
+                  <div>
+                    <div className="custom-input-image-to-album">
+                      <label
+                        onClick={handleFileSelect}
+                        type="button"
+                        id="custom-image-to-album"
+                      >
+                        Upload your image
+                      </label>
+                    </div>
+                    <input
+                      type="file"
+                      id="fileInputNewAlbum"
+                      ref={fileInputRef}
+                      onChange={handleFileChange}
+                    />
+                  </div>
+                
+                <img src={previewImage} alt="" id="upload-image-entry" />
+                <div className="submit-entry-btn">
+                  <button id="submit-contest-entry">Submit</button>
                 </div>
               </div>
             </div>
@@ -84,7 +125,6 @@ const ContestDetail = () => {
             </div>
           </div>
         </div>
-        
       </div>
     </div>
   );

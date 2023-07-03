@@ -1,11 +1,11 @@
 import unixToDateTime from '../../../utils/unixToDateTime';
 import { useNavigate } from 'react-router-dom';
 
-const PostHeader = ({ item }) => {
+const PostHeader = ({ item, userId }) => {
   const navigate = useNavigate();
 
   const handleClickToProfile = () => {
-    navigate(`/profile/${item.userId.id}`);
+    navigate(`/profile/${userId}`);
   };
 
   return (

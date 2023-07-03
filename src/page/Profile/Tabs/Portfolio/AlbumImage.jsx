@@ -89,7 +89,7 @@ const AlbumImage = ({ userProfileData, setComponentToRender }) => {
       <div className="album-title">
         <span>Album </span>
       </div>
-      <div className="album-images">
+      {userProfileData && <div className="album-images">
         <div>
           <div className="new-album" onClick={toggleCreateAlbum}>
             +
@@ -106,7 +106,7 @@ const AlbumImage = ({ userProfileData, setComponentToRender }) => {
             <span id="child-album-title">{album.title}</span>
           </div>
         ))}
-      </div>
+      </div> }
       <ModalCustom
         show={openCreateAlbum}
         modalTitle={'Create new album'}
