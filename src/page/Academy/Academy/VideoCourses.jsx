@@ -58,7 +58,7 @@ const VideoCourses = () => {
   };
   return (
     <div className="video-courses-component">
-      <span className="academy-section-tittle">Video Courses</span>
+      <span id="academy-section-tittle">Video Courses</span>
       <Swiper
         slidesPerView={3}
         spaceBetween={30}

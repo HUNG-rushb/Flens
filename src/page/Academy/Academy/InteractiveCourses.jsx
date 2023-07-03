@@ -60,7 +60,7 @@ const InteractiveCourses = () => {
   };
   return (
     <div className="interactive-courses-component">
-      <span className="academy-section-tittle">interactive video Courses</span>
+      <span id="academy-section-tittle">interactive video Courses</span>
       <Swiper
         slidesPerView={4}
         spaceBetween={30}

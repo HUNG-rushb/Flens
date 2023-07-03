@@ -49,7 +49,7 @@ const Workshop = () => {
   };
   return (
     <div className="workshop-component">
-      <span className="academy-section-tittle">Workshop</span>
+      <span id="academy-section-tittle">Workshop</span>
       <Swiper
         slidesPerView={3}
         spaceBetween={30}
