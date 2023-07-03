@@ -76,17 +76,18 @@ const routes = [
     isPrivate: true,
   },
   {
-    path: '/leaderBoard',
-    element: <LeaderBoard />,
-    exact: true,
-    isPrivate: true,
-  },
-  {
-    path: '/courses',
+    path: '/academy/:typeCourses/:courses',
     element: <Courses />,
     exact: true,
     isPrivate: true,
   },
+  {
+    path: '/leaderBoard',
+    element: <LeaderBoard />,
+    exact: true,
+    isPrivate: true,
+  }
+  ,
   {
     path: '/reports',
     element: <Report />,
