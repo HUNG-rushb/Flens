@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import {
   Flag,
   Heart,
@@ -6,7 +7,6 @@ import {
   ThreeDots,
   HeartFill,
 } from 'react-bootstrap-icons';
-import { useEffect, useRef, useState } from 'react';
 
 const PostInteraction = ({
   item,
@@ -69,7 +69,6 @@ const PostInteraction = ({
             onClick={() => setShowListOtherActions((prev) => !prev)}
             className="otherAction"
           />
-
           <div className="list-other-actions" hidden={showListOtherActions}>
             <ul>
               <li onClick={handleClickReport}>
