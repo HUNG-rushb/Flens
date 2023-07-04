@@ -37,8 +37,6 @@ const StoryDetail = () => {
     setShowListOtherActions(true);
   };
 
-  const handleCLickBack = () => {};
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
