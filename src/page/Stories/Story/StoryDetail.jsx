@@ -1,6 +1,14 @@
+import PostComment from '../../Home/Post/PostComment.jsx';
 import './StoryDetail.css';
 import React, { useEffect, useRef, useState } from 'react';
-import { Heart, HeartFill, Reply, ThreeDots, Flag, Trash } from 'react-bootstrap-icons';
+import {
+  Heart,
+  HeartFill,
+  Reply,
+  ThreeDots,
+  Flag,
+  Trash,
+} from 'react-bootstrap-icons';
 
 const storyData = {
   id: 1,
@@ -8,6 +16,7 @@ const storyData = {
     'https://images.pexels.com/photos/3658120/pexels-photo-3658120.jpeg?auto=compress&cs=tinysrgb&w=600',
   userName: 'Nguyen',
   time: '1 day ago',
+  storyContent: `<h1>something in title</h1><p><br></p><p>content here</p><p><br></p><p><br></p><p><img src="https://bku-image-story.s3.ap-southeast-1.amazonaws.com/313115171_539574057499719_4456594889956300652_n-390763.jpg"></p><p><img src="https://bku-image-story.s3.ap-southeast-1.amazonaws.com/313855905_869280087580635_170760695398301708_n-148241.jpg"></p>`,
 };
 
 const StoryDetail = () => {
@@ -19,14 +28,16 @@ const StoryDetail = () => {
   const handleClickLike = () => {
     setIsLiked((prev) => !prev);
   };
-  
+
   const handleClickReportStory = () => {
-    setShowListOtherActions(true)
-  }
+    setShowListOtherActions(true);
+  };
 
   const handleClickDeleteStory = () => {
-setShowListOtherActions(true)
-  }
+    setShowListOtherActions(true);
+  };
+
+  const handleCLickBack = () => {};
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -45,7 +56,6 @@ setShowListOtherActions(true)
     };
   }, []);
 
-  const storyContent = `<h1>something in title</h1><p><br></p><p>content here</p><p><br></p><p><br></p><p><img src="https://bku-image-story.s3.ap-southeast-1.amazonaws.com/313115171_539574057499719_4456594889956300652_n-390763.jpg"></p><p><img src="https://bku-image-story.s3.ap-southeast-1.amazonaws.com/313855905_869280087580635_170760695398301708_n-148241.jpg"></p>`;
   return (
     <div className="story-detail-container">
       <div className="story-detail-content">
@@ -56,7 +66,7 @@ setShowListOtherActions(true)
             <span>{storyData.time}</span>
           </div>
         </div>
-        <div dangerouslySetInnerHTML={{ __html: storyContent }} />
+        <div dangerouslySetInnerHTML={{ __html: storyData.storyContent }} />
         <div className="story-detail-interaction" ref={clickOutsideRef}>
           <div>
             {!isLiked ? (
@@ -67,8 +77,14 @@ setShowListOtherActions(true)
             <span>10</span>
             <Reply size={28} /> <span>10</span>
           </div>
-          <ThreeDots size={28} onClick={() => setShowListOtherActions((prev) => !prev)} />
-          <div className="list-other-actions" hidden={showListOtherActions}>
+          <ThreeDots
+            size={28}
+            onClick={() => setShowListOtherActions((prev) => !prev)}
+          />
+          <div
+            className="list-other-actions-story"
+            hidden={showListOtherActions}
+          >
             <ul>
               <li onClick={handleClickReportStory}>
                 <Flag color="blue" />
@@ -81,6 +97,8 @@ setShowListOtherActions(true)
             </ul>
           </div>
         </div>
+        <hr />
+        <PostComment />
       </div>
     </div>
   );
