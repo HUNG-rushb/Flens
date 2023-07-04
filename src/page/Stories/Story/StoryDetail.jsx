@@ -28,7 +28,7 @@ const StoryDetail = () => {
           </div>
         </div>
         <div dangerouslySetInnerHTML={{ __html: storyContent }} />
-        <div className="story-interaction">
+        <div className="story-detail-interaction">
           <div>
 
           

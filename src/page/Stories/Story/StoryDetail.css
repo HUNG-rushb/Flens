@@ -43,29 +43,29 @@
     border-radius: 10px;
 }
 
-.story-interaction {
+.story-detail-interaction {
     display: flex;
     justify-content: space-between;
     align-items: center;
     
 }
 
-.story-interaction div {
+.story-detail-interaction div {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-top: 10px;
 }
 
-.story-interaction  svg {
+.story-detail-interaction  svg {
     cursor: pointer;
     opacity: 1;
 }
 
-.story-interaction  svg:hover{
+.story-detail-interaction  svg:hover{
     opacity: 0.7;
 }
 
-.story-interaction div span {
+.story-detail-interaction div span {
     font-size: 20px;
 }

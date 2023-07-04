@@ -56,7 +56,7 @@ const StoryPage = () => {
               {story.storyContent}
             </div>
             <div className="image-story">
-              <img src={story.storyImage} alt="" />
+              <img src={story.storyImage} alt="" onClick={()=>handeClickStoryDetail(story)}/>
             </div>
             <div className="story-interaction">
               {!isLiked ? (
