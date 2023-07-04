@@ -68,7 +68,7 @@ const NavBar = () => {
         <Navbar.Collapse className="justify-content-end">
           {isNotAuthenticated ? (
             <Nav>
-              <Nav.Link as={Link} to="/explore">
+              <Nav.Link as={Link} to="/explore/inspiration">
                 Explore
               </Nav.Link>
               <Nav.Link as={Link} to="/register">
@@ -87,7 +87,7 @@ const NavBar = () => {
                     <Nav.Link as={Link} to="/">
                       Home
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/explore">
+                    <Nav.Link as={Link} to="/explore/inspiration">
                       Explore
                     </Nav.Link>
                     <Nav.Link as={Link} to="message">

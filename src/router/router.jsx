@@ -15,10 +15,10 @@ import Statistic from '../page/Statistic/Statistic.jsx';
 import CoursesManagement from '../page/CoursesManagement/CoursesManagement.jsx';
 import UploadImage from '../page/UploadImage/UploadImage.jsx';
 import UploadStory from '../page/UploadStory/UploadStory.jsx'
-import StoryPage from '../page/Stories/StoryPage.jsx'
 import UploadCourses from '../page/CoursesManagement/UploadCourses/UploadCourses.jsx'
 import Contest from '../page/Contest/Contest.jsx';
-import ContestDetail from '../page/Contest/contestTab/ContestDetail.jsx'
+import ContestDetail from '../page/Contest/contestTab/ContestDetail.jsx';
+import StoryDetail from '../page/Stories/Story/StoryDetail.jsx';
 
 const routes = [
   {
@@ -40,7 +40,7 @@ const routes = [
     isPrivate: false,
   },
   {
-    path: '/explore',
+    path: '/explore/:exploreTab',
     element: <Explore />,
     exact: true,
     isPrivate: false,
@@ -125,8 +125,8 @@ const routes = [
     isPrivate: true,
   },
   {
-    path: '/stories',
-    element: <StoryPage />,
+    path: '/stories/:storyDetail',
+    element: <StoryDetail />,
     exact: true,
     isPrivate: true,
   },
