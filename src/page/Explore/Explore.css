@@ -18,41 +18,26 @@
   margin-left: 100px;
 }
 
-.options {
+.explore-tabs {
   width: 100%;
   text-align: center;
 }
 
-.options span {
-  padding: 0px 20px;
+.explore-tabs span {
+  padding: 2px 20px;
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;
-  position: relative;
+  text-transform: uppercase;
 }
 
-.options span::before {
-  content: '';
-  position: absolute;
-  bottom: -9px;
-  left: 10%;
-  width: 0;
-  height: 2px;
-  background-color: #f08080;
-  transition: width 0.3s ease-in-out;
-}
-
-.options span:hover::before {
-  width: 80%;
-}
-
-.explore-images {
+.explore-inspiration {
   display: flex;
   width: 100%;
   padding: 30px 10px;
 }
 
-.explore-images img {
+.explore-inspiration img {
   width: 480px;
   height: auto;
   object-fit: cover;

@@ -6,7 +6,7 @@
 
 .stories {
     margin: 40px 0;
-    width: 50%;
+    width: 100%;
 }
 
 .story {
@@ -14,6 +14,11 @@
     padding: 20px;
     margin-bottom: 40px;
     border-radius: 5px;
+}
+
+.description-story {
+    margin: 10px 0;
+
 }
 
 .description-story span {
@@ -32,6 +37,7 @@
 
 .image-story img{
     width: 100%;
+    cursor: pointer;
 }
 
 .story-interaction {
@@ -43,6 +49,25 @@
 
 .story-interaction span {
     font-size: 20px;
+}
+
+.header-story {
+    display: flex;
+}
+
+.fullname-and-time-story {
+    display: flex;
+    flex-direction: column;
+}
+
+#story-fullname {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+#story-title {
+    font-size: 25px;
+    cursor: pointer;
 }
 
 @media only screen and (max-width: 960px) {
