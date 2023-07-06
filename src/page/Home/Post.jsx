@@ -3,7 +3,7 @@ import PostComment from './Post/PostComment.jsx';
 import PostHeader from './Post/PostHeader.jsx';
 import PostImageAndTitle from './Post/PostImageAndTitle.jsx';
 import PostInteraction from './Post/PostInteraction.jsx';
-import PostTeachnical from './Post/PostTeachnicalInformation.jsx';
+import PostTechnical from './Post/PostTechnicalInformation.jsx';
 
 const Post = ({
   item,
@@ -15,7 +15,6 @@ const Post = ({
   setImageToReport,
   setItemShowDetail,
 }) => {
-
   return (
     <div className="posts">
       <PostHeader item={item} userId={userId} />
@@ -27,7 +26,7 @@ const Post = ({
           setItemShowDetail={setItemShowDetail}
         />
 
-        <PostTeachnical item={item} showImageDetail={showImageDetail} />
+        <PostTechnical item={item} showImageDetail={showImageDetail} />
 
         {/* <HashTag item={item} /> */}
 
@@ -38,7 +37,7 @@ const Post = ({
           toggleShowReport={toggleShowReport}
         />
 
-        <PostComment item={item} showImageDetail={showImageDetail} />
+        <PostComment item={item} />
       </div>
     </div>
   );

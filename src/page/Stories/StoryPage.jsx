@@ -1,71 +1,63 @@
-import AvatarStory from './../../assets/images/avatar.jpg';
+import { useGetAllStories } from '../../graphql/useStory';
+import unixToDateTime from '../../utils/unixToDateTime';
 import './StoryPage.css';
 import React, { useState } from 'react';
-import {useNavigate} from 'react-router-dom'
 import { Heart, HeartFill, Reply, ThreeDots } from 'react-bootstrap-icons';
+import { useNavigate } from 'react-router-dom';
 
 const StoryPage = () => {
+  const { isFetching, fetchedData, fetchError } = useGetAllStories();
+  // console.log(12313, { fetchedData });
+
   const [isLiked, setIsLiked] = useState(false);
 
   const handleClickLike = () => {
     setIsLiked((prev) => !prev);
   };
 
-  const stories = [
-    {
-      id: 1,
-      avatar: AvatarStory,
-      name: 'Nguyen Van A',
-      time: '1 day ago',
-      storyTitle: 'This is the tittle of the story',
-      storyContent: 'the content of this story here ...',
-      storyImage:
-        'https://images.pexels.com/photos/10899530/pexels-photo-10899530.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-    },
-    {
-      id: 2,
-      avatar: AvatarStory,
-      name: 'Nguyen Van A',
-      time: '1 day ago',
-      storyTitle: 'This is the tittle of the story',
-      storyContent: 'the content of this story here ...',
-      storyImage:
-        'https://images.pexels.com/photos/10899530/pexels-photo-10899530.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-    },
-  ];
-
-  const navigate = useNavigate()
-  const handeClickStoryDetail = (story) => {
-    navigate(`/stories/${story.storyTitle.split(' ').join('')}`)
-  }
+  const navigate = useNavigate();
+  const handeClickStoryDetail = (storyId) => {
+    navigate(`/stories/${storyId}`);
+  };
 
   return (
     <div className="stories-page">
       <div className="stories">
-        {stories.map((story) => (
-          <div className="story" key={story.id}>
+        {fetchedData?.allStories.map((item, idx) => (
+          <div className="story" key={idx}>
             <div className="header-story">
-              <img src={story.avatar} alt="" />
+              <img src={item.userId.profileImageURL} />
               <div className="fullname-and-time-story">
-                <span id='story-fullname'>{story.name}</span> <span>{story.time}</span>
+                <span id="story-fullname">{item.userId.namee}</span>
+                <span>{unixToDateTime(item.createdAt)}</span>
               </div>
             </div>
+
             <div className="description-story">
-              <span id='story-title' onClick={()=>handeClickStoryDetail(story)}>{story.storyTitle}</span>
-              <br />
-              {story.storyContent}
+              <span
+                id="story-title"
+                onClick={() => handeClickStoryDetail(item.id)}
+              >
+                {item.title}
+              </span>
             </div>
+
             <div className="image-story">
-              <img src={story.storyImage} alt="" onClick={()=>handeClickStoryDetail(story)}/>
+              <img
+                src={item.images[0]}
+                onClick={() => handeClickStoryDetail(item.id)}
+              />
             </div>
+
             <div className="story-interaction">
               {!isLiked ? (
                 <Heart size={28} onClick={handleClickLike} />
               ) : (
                 <HeartFill size={28} color="red" onClick={handleClickLike} />
               )}
-              <span>10</span>
-              <Reply size={28} /> <span>10</span>
+
+              <span>{item.points}</span>
+
               <ThreeDots size={28} />
             </div>
           </div>

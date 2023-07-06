@@ -1,5 +1,9 @@
-import { CREATE_STORY } from './queries/Story.js';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
+import {
+  CREATE_STORY,
+  GET_ALL_STORIES,
+  GET_STORY_INFO,
+} from './queries/Story.js';
+import { useQuery, useMutation } from '@apollo/client';
 
 export const useCreateStoryLazy = (cache) => {
   const [createStory, { data, loading, error }] = useMutation(CREATE_STORY, {
@@ -14,17 +18,31 @@ export const useCreateStoryLazy = (cache) => {
   };
 };
 
-// export const useGetAllUserPost = (queryPayload) => {
-//   const { data, loading, error } = useQuery(GET_ALL_USER_POST, {
-//     variables: queryPayload,
-//   });
+export const useGetAllStories = (cache) => {
+  const { data, loading, error } = useQuery(GET_ALL_STORIES, {
+    fetchPolicy: cache ? undefined : 'no-cache',
+  });
 
-//   return {
-//     isFetching: loading,
-//     fetchedData: data,
-//     fetchError: error,
-//   };
-// };
+  return {
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
+
+export const useGetStoryInfo = (queryPayload, cache) => {
+  const { data, loading, error, refetch } = useQuery(GET_STORY_INFO, {
+    fetchPolicy: cache ? undefined : 'no-cache',
+    variables: queryPayload,
+  });
+
+  return {
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+    refetch,
+  };
+};
 
 // export const useGetAllPostComment = (queryPayload) => {
 //   const { data, loading, error, refetch } = useQuery(GET_ALL_POST_COMMENT, {
