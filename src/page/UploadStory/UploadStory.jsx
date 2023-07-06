@@ -90,7 +90,7 @@ const QuillEditorWithImage = () => {
 
     // console.log(fetchError);
     if (!fetchError) {
-      navigate('/stories');
+      navigate('/explore/stories');
     }
   };
 

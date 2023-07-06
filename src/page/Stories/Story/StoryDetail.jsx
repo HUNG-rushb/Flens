@@ -1,6 +1,9 @@
-import PostComment from '../../Home/Post/PostComment.jsx';
+import Spinner from '../../../components/utils/Spinner.js';
+import { useGetStoryInfo } from '../../../graphql/useStory.js';
+import unixToDateTime from '../../../utils/unixToDateTime.js';
+import StoryComment from '../../Home/Post/StoryComment.jsx';
 import './StoryDetail.css';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Heart,
   HeartFill,
@@ -9,17 +12,16 @@ import {
   Flag,
   Trash,
 } from 'react-bootstrap-icons';
-
-const storyData = {
-  id: 1,
-  userAvatar:
-    'https://images.pexels.com/photos/3658120/pexels-photo-3658120.jpeg?auto=compress&cs=tinysrgb&w=600',
-  userName: 'Nguyen',
-  time: '1 day ago',
-  storyContent: `<h1>something in title</h1><p><br></p><p>content here</p><p><br></p><p><br></p><p><img src="https://bku-image-story.s3.ap-southeast-1.amazonaws.com/313115171_539574057499719_4456594889956300652_n-390763.jpg"></p><p><img src="https://bku-image-story.s3.ap-southeast-1.amazonaws.com/313855905_869280087580635_170760695398301708_n-148241.jpg"></p>`,
-};
+import { useParams } from 'react-router-dom';
 
 const StoryDetail = () => {
+  const { storyId } = useParams();
+  const { isFetching, fetchedData, fetchError, refetch } = useGetStoryInfo({
+    storyInfoData: { storyId },
+  });
+
+  // console.log({ fetchedData });
+
   const clickOutsideRef = useRef(null);
 
   const [isLiked, setIsLiked] = useState(false);
@@ -54,17 +56,27 @@ const StoryDetail = () => {
     };
   }, []);
 
+  if (fetchError) {
+    return <p>Error</p>;
+  } else if (isFetching) {
+    return <Spinner />;
+  }
+
   return (
     <div className="story-detail-container">
       <div className="story-detail-content">
         <div className="story-detail-userInfor">
-          <img src={storyData.userAvatar} alt="" />
+          <img src={fetchedData?.storyInfo.userId.backgroundImageURL} />
           <div>
-            <span id="story-detail-username">{storyData.userName}</span>
-            <span>{storyData.time}</span>
+            <span id="story-detail-username">
+              {fetchedData?.storyInfo.userId.name}
+            </span>
+            <span>{unixToDateTime(fetchedData?.storyInfo.createdAt)}</span>
           </div>
         </div>
-        <div dangerouslySetInnerHTML={{ __html: storyData.storyContent }} />
+        <div
+          dangerouslySetInnerHTML={{ __html: fetchedData?.storyInfo.content }}
+        />
         <div className="story-detail-interaction" ref={clickOutsideRef}>
           <div>
             {!isLiked ? (
@@ -72,13 +84,13 @@ const StoryDetail = () => {
             ) : (
               <HeartFill size={28} color="red" onClick={handleClickLike} />
             )}
-            <span>10</span>
-            <Reply size={28} /> <span>10</span>
+            <span>{fetchedData?.storyInfo.points}</span>
           </div>
           <ThreeDots
             size={28}
             onClick={() => setShowListOtherActions((prev) => !prev)}
           />
+
           <div
             className="list-other-actions-story"
             hidden={showListOtherActions}
@@ -95,11 +107,34 @@ const StoryDetail = () => {
             </ul>
           </div>
         </div>
+
         <hr />
-        <PostComment />
+
+        <StoryComment item={fetchedData?.storyInfo} refetchStory={refetch} />
       </div>
     </div>
   );
 };
 
 export default StoryDetail;
+// {
+//   "fetchedData": {
+//     "storyInfo": {
+//       "comments": [],
+//       "content": "<p>Hello </p><p><br></p><p><br></p><p><br></p><p><img src=\"https://bku-image-story.s3.ap-southeast-1.amazonaws.com/11-tests-342254.jpg\"></p><p><br></p><p><br></p><p><br></p><p><img src=\"https://bku-image-story.s3.ap-southeast-1.amazonaws.com/42_IndexError-184664.jpg\"></p>",
+//       "createdAt": "1688236819467",
+//       "images": [
+//         "https://bku-image-story.s3.ap-southeast-1.amazonaws.com/11-tests-342254.jpg",
+//         "https://bku-image-story.s3.ap-southeast-1.amazonaws.com/42_IndexError-184664.jpg"
+//       ],
+//       "points": 0,
+//       "title": "test",
+//       "userId": {
+//         "backgroundImageURL": "https://bku-profile-pic.s3.ap-southeast-1.amazonaws.com/nikon-e950-321773.jpg",
+//         "name": "hung",
+//         "__typename": "User"
+//       },
+//       "__typename": "Story"
+//     }
+//   }
+// }

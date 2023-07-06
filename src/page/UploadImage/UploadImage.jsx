@@ -7,13 +7,13 @@ import useUploadImageToAWS from '../../hooks/useUploadImageToAWS.js';
 import './UploadImage.css';
 import { EXIF } from 'exif-js';
 import Jimp from 'jimp';
-import React, { Suspense, useRef, useState } from 'react';
+import React, { Suspense, useRef, useState, useMemo } from 'react';
 import { CloudArrowUp } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
 
 const UploadImage = () => {
   const navigate = useNavigate();
-  const { id: userId } = useAuthState();
+  const { id: userId, name } = useAuthState();
   const fileInputRef = useRef(null);
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -36,7 +36,7 @@ const UploadImage = () => {
   });
   const [selectedCatagory, setSelectedCategory] = useState('');
 
-  const options = ['Family', 'Fashion', 'Food'];
+  const options = useMemo(() => ['Family', 'Fashion', 'Food'], []);
   const [copyright, setCopyright] = useState('');
 
   const { createPost, isFetching, fetchedData, fetchError } =
@@ -82,14 +82,19 @@ const UploadImage = () => {
           resolve(EXIF.getAllTags(this));
         });
       });
-      // console.log({ exifData });
 
       setTitle(file.name.substring(0, file.name.indexOf('.')));
       setCamera(exifData.Model ? exifData.Model.toString() : '');
       setAperture(exifData.FNumber ? exifData.FNumber.toString() : '');
       setShutterSpeed(
-        exifData.ShutterSpeedValue ? exifData.ShutterSpeedValue.toString() : ''
+        exifData.ShutterSpeedValue
+          ? '1/' +
+              Math.trunc(
+                1 / Math.pow(2, -exifData.ShutterSpeedValue)
+              ).toString()
+          : ''
       );
+
       setFocalLength(
         exifData.FocalLength ? exifData.FocalLength.toString() : ''
       );
@@ -135,13 +140,10 @@ const UploadImage = () => {
           },
         },
       });
-
-      // navigate('/');
     } catch (e) {
       throw e;
     }
 
-    // console.log(fetchError);
     if (!fetchError) {
       navigate('/');
     }
@@ -232,7 +234,7 @@ const UploadImage = () => {
                         <input
                           type="text"
                           placeholder="Input Shutter speed"
-                          value={shutterSpeed}
+                          value={shutterSpeed + ' s'}
                           onChange={(event) =>
                             setShutterSpeed(event.target.value)
                           }
@@ -254,7 +256,7 @@ const UploadImage = () => {
                         <input
                           type="text"
                           placeholder="Input Focal length"
-                          value={focalLength !== '' ? focalLength + 'mm' : ''}
+                          value={focalLength !== '' ? focalLength + ' mm' : ''}
                           onChange={(event) =>
                             setFocalLength(event.target.value)
                           }

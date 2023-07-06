@@ -30,15 +30,17 @@ export const useGetAllStories = (cache) => {
   };
 };
 
-export const useGetStoryInfo = (cache) => {
-  const { data, loading, error } = useQuery(GET_STORY_INFO, {
+export const useGetStoryInfo = (queryPayload, cache) => {
+  const { data, loading, error, refetch } = useQuery(GET_STORY_INFO, {
     fetchPolicy: cache ? undefined : 'no-cache',
+    variables: queryPayload,
   });
 
   return {
     isFetching: loading,
     fetchedData: data,
     fetchError: error,
+    refetch,
   };
 };
 

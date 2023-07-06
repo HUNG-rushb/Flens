@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-const PostTeachnical = ({ item, showImageDetail }) => {
+const PostTechnical = ({ item, showImageDetail }) => {
   return (
     <div
       className={!showImageDetail ? 'post-information' : 'post-information-2'}
@@ -10,15 +10,15 @@ const PostTeachnical = ({ item, showImageDetail }) => {
       </div>
 
       <div>
-        <span>Aperture:</span> {item?.image.imageInfoId.aperture}
+        <span>Aperture:</span> f/{item?.image.imageInfoId.aperture}
       </div>
 
       <div>
-        <span>Focal Length:</span> {item?.image.imageInfoId.focalLength}
+        <span>Focal Length:</span> {item?.image.imageInfoId.focalLength} mm
       </div>
 
       <div>
-        <span>Shutter Speed:</span> {item?.image.imageInfoId.shutterSpeed}
+        <span>Shutter Speed:</span> {item?.image.imageInfoId.shutterSpeed} s
       </div>
 
       <div>
@@ -36,4 +36,4 @@ const PostTeachnical = ({ item, showImageDetail }) => {
   );
 };
 
-export default PostTeachnical;
+export default PostTechnical;

@@ -2,7 +2,7 @@ import HashTag from './HashTag.jsx';
 import './ImageDetail.css';
 import PostComment from './PostComment';
 import PostInteraction from './PostInteraction.jsx';
-import PostTeachnicalInformation from './PostTeachnicalInformation.jsx';
+import PostTechnical from './PostTechnicalInformation.jsx';
 
 const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
   return (
@@ -33,7 +33,7 @@ const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
                       item={item}
                       showImageDetail={showImageDetail}
                     />
-                    <PostTeachnicalInformation
+                    <PostTechnical
                       item={item}
                       showImageDetail={showImageDetail}
                     />

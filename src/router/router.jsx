@@ -1,7 +1,11 @@
 import Academy from '../page/Academy/Academy.jsx';
 import Login from '../page/Authentication/Login.jsx';
 import Register from '../page/Authentication/Register.jsx';
+import Contest from '../page/Contest/Contest.jsx';
+import ContestDetail from '../page/Contest/contestTab/ContestDetail.jsx';
 import Courses from '../page/Courses/Courses.jsx';
+import CoursesManagement from '../page/CoursesManagement/CoursesManagement.jsx';
+import UploadCourses from '../page/CoursesManagement/UploadCourses/UploadCourses.jsx';
 import Explore from '../page/Explore/Explore.jsx';
 import Home from '../page/Home/Home.jsx';
 import LeaderBoard from '../page/LeaderBoard/LeaderBoard.jsx';
@@ -12,13 +16,9 @@ import Profile from '../page/Profile/Profile.jsx';
 import EditProfile from '../page/Profile/Tabs/Biography/EditProfile.jsx';
 import Report from '../page/Report/Report.jsx';
 import Statistic from '../page/Statistic/Statistic.jsx';
-import CoursesManagement from '../page/CoursesManagement/CoursesManagement.jsx';
-import UploadImage from '../page/UploadImage/UploadImage.jsx';
-import UploadStory from '../page/UploadStory/UploadStory.jsx'
-import UploadCourses from '../page/CoursesManagement/UploadCourses/UploadCourses.jsx'
-import Contest from '../page/Contest/Contest.jsx';
-import ContestDetail from '../page/Contest/contestTab/ContestDetail.jsx';
 import StoryDetail from '../page/Stories/Story/StoryDetail.jsx';
+import UploadImage from '../page/UploadImage/UploadImage.jsx';
+import UploadStory from '../page/UploadStory/UploadStory.jsx';
 
 const routes = [
   {
@@ -86,8 +86,7 @@ const routes = [
     element: <LeaderBoard />,
     exact: true,
     isPrivate: true,
-  }
-  ,
+  },
   {
     path: '/reports',
     element: <Report />,
@@ -125,7 +124,7 @@ const routes = [
     isPrivate: true,
   },
   {
-    path: '/stories/:storyDetail',
+    path: '/stories/:storyId',
     element: <StoryDetail />,
     exact: true,
     isPrivate: true,
@@ -147,8 +146,7 @@ const routes = [
     element: <ContestDetail />,
     exact: true,
     isPrivate: true,
-  }
-  
+  },
 ];
 
 export default routes;

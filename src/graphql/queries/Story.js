@@ -31,8 +31,9 @@ export const GET_ALL_STORIES = gql`
 `;
 
 export const GET_STORY_INFO = gql`
-  query StoryInfo($storyInfoData2: StoryInfoInput!) {
-    storyInfo(data: $storyInfoData2) {
+  query StoryInfo($storyInfoData: StoryInfoInput!) {
+    storyInfo(data: $storyInfoData) {
+      id
       comments {
         userId {
           name
