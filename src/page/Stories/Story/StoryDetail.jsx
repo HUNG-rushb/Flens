@@ -66,7 +66,7 @@ const StoryDetail = () => {
     <div className="story-detail-container">
       <div className="story-detail-content">
         <div className="story-detail-userInfor">
-          <img src={fetchedData?.storyInfo.userId.backgroundImageURL} />
+          <img src={fetchedData?.storyInfo.userId.backgroundImageURL} alt='' />
           <div>
             <span id="story-detail-username">
               {fetchedData?.storyInfo.userId.name}
@@ -107,9 +107,7 @@ const StoryDetail = () => {
             </ul>
           </div>
         </div>
-
         <hr />
-
         <StoryComment item={fetchedData?.storyInfo} refetchStory={refetch} />
       </div>
     </div>

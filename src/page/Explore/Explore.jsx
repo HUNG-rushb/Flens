@@ -5,7 +5,7 @@ import HotTab from './ExploreTab/HotTab.jsx';
 import Inspiration from './ExploreTab/Inspiration';
 import NewestTab from './ExploreTab/NewestTab.jsx';
 import React, { Suspense, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const options = [
   { id: 1, value: 'Inspiration', isChecked: false },
@@ -25,9 +25,14 @@ const Explore = () => {
   const tabs = ['inspiration', 'hot', 'newest', 'stories'];
   const [selectedOption, setSelectedOption] = useState(options[0].value);
 
+  const location = useLocation()
+
   useEffect(() => {
     options[0].isChecked = true;
-  }, []);
+    if(location.pathname === '/explore/stories'){
+      setActiveTab(3)
+    }
+  }, [location]);
 
   return (
     <Page title="Flens-Explore">

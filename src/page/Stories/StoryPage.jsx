@@ -26,13 +26,12 @@ const StoryPage = () => {
         {fetchedData?.allStories.map((item, idx) => (
           <div className="story" key={idx}>
             <div className="header-story">
-              <img src={item.userId.profileImageURL} />
+              <img src={item.userId.profileImageURL} alt="" id='header-story-avatar' />
               <div className="fullname-and-time-story">
-                <span id="story-fullname">{item.userId.namee}</span>
+                <span id="story-fullname">{item.userId.name}</span>
                 <span>{unixToDateTime(item.createdAt)}</span>
               </div>
             </div>
-
             <div className="description-story">
               <span
                 id="story-title"
@@ -46,6 +45,7 @@ const StoryPage = () => {
               <img
                 src={item.images[0]}
                 onClick={() => handeClickStoryDetail(item.id)}
+                alt=""
               />
             </div>
 

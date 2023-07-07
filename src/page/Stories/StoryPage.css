@@ -14,6 +14,7 @@
     padding: 20px;
     margin-bottom: 40px;
     border-radius: 5px;
+    max-width: 1000px;
 }
 
 .description-story {
@@ -26,8 +27,10 @@
     font-weight: 600;
 }
 
-.header-story img {
+#header-story-avatar {
     width: 45px;
+    height: 45px;
+    object-fit: cover;
     border-radius: 50%;
 }
 
