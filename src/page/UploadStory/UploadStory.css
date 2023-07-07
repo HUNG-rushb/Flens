@@ -22,3 +22,14 @@
   object-fit: cover;
   margin: 10px 0;
 }
+
+.story-title {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+#story-title-input{
+  width: 30%;
+}

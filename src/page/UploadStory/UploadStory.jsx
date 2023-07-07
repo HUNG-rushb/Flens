@@ -15,6 +15,7 @@ const QuillEditorWithImage = () => {
 
   const [editorContent, setEditorContent] = useState('');
   const [storyImages, setStoryImages] = useState([]);
+  const [stortTitle, setStoryTitle] = useState('')
   const editorRef = useRef(null);
 
   const { createStory, isFetching, fetchedData, fetchError } =
@@ -98,6 +99,16 @@ const QuillEditorWithImage = () => {
 
   return (
     <div className="upload-story-page">
+      <div className="story-title">
+        <label htmlFor="">Story title</label>
+        <input
+          type="text"
+          id="story-title-input"
+          placeholder="Enter your story title"
+          value={stortTitle}
+          onChange={(e)=>setStoryTitle(e.target.value)}
+        />
+      </div>
       <ReactQuill
         ref={editorRef}
         value={editorContent}
