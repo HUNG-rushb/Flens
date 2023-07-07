@@ -8,6 +8,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 const QuillEditorWithImage = () => {
   const { id: userId } = useAuthState();
@@ -83,6 +84,16 @@ const QuillEditorWithImage = () => {
           },
         },
       });
+      toast.info('upload Story sucessfull!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
 
       // navigate('/');
     } catch (e) {

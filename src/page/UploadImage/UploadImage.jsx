@@ -10,6 +10,7 @@ import Jimp from 'jimp';
 import React, { Suspense, useRef, useState, useMemo } from 'react';
 import { CloudArrowUp } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 const UploadImage = () => {
   const navigate = useNavigate();
@@ -140,6 +141,16 @@ const UploadImage = () => {
           },
         },
       });
+      toast.info('upload image sucessfull!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
     } catch (e) {
       throw e;
     }
