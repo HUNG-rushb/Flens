@@ -225,7 +225,7 @@
   display: grid;
   grid-template-columns: auto auto;
   margin-bottom: 10px;
-  margin: 20px;
+  margin: 0 20px 20px;
 }
 
 .post-information div {
@@ -494,4 +494,13 @@
 
 .trending-tag:hover {
   background-color: #aaa;
+}
+
+#follow-suggestion-list-add-icon {
+  opacity: 1;
+  cursor: pointer;
+}
+
+#follow-suggestion-list-add-icon:hover{
+  opacity: 0.7;
 }

@@ -62,7 +62,7 @@ const RightContent = () => {
                       <span id="follow-sugesstion-type">{item.type}</span>
                     </div>
                   </div>
-                  <PersonPlusFill size={25} />
+                  <PersonPlusFill size={25} color='#f08080' id='follow-suggestion-list-add-icon' />
                 </div>
                 <hr />
               </div>

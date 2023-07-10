@@ -52,7 +52,7 @@ const Notification = () => {
             userId={userId}
             userProfileInfo={fetchingUserProfileData}
           />
-          <div className="right-content">
+          <div className="notifi-right-content">
             <div className="notify-title">Notifications</div>
             <div className="notifi-content">
               {notifi_data.map((item) => {
