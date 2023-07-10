@@ -1,13 +1,14 @@
 .home-page {
   display: flex;
   position: relative;
+  width: 100%;
 }
 
 .homepage-left-container {
   display: flex;
   align-items: center;
   flex-direction: column;
-  width: 30%;
+  width: 23%;
   position: fixed;
   height: 100%;
   background-color: #fffaf0;
@@ -45,20 +46,40 @@
 }
 
 #userLink {
-  max-width: 250px;
+  max-width: 240px;
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
 
-.right-content {
+.homepage-center-container {
+  align-self: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 72%;
+  width: 100%;
+}
+
+.homepage-center-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 54%;
   flex-direction: column;
-  position: absolute;
+}
+
+.homepage-right-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 23%;
+  position: fixed;
   top: 0;
   right: 0;
+  height: 100%;
+  background-color: #fffaf0;
+  padding-top: 90px;
+  overflow-y: scroll;
+  padding-bottom: 40px;
 }
 
 .upload-bar {
@@ -149,11 +170,13 @@
   padding: 0px 8px;
 }
 
-.post-header img, .post-header svg {
+.post-header img,
+.post-header svg {
   opacity: 1;
 }
 
-.post-header img:hover, .post-header svg:hover {
+.post-header img:hover,
+.post-header svg:hover {
   opacity: 0.6;
 }
 
@@ -205,11 +228,11 @@
   margin: 20px;
 }
 
-.post-information > div {
+.post-information div {
   padding: 3px 0px;
 }
 
-.post-information > div > span {
+.post-information div span {
   font-weight: 600;
 }
 
@@ -219,11 +242,11 @@
   margin-bottom: 10px;
 }
 
-.post-information-2 > div {
+.post-information-2 div {
   padding: 3px 0px;
 }
 
-.post-information-2 > div > span {
+.post-information-2 div span {
   font-weight: 600;
 }
 
@@ -248,7 +271,6 @@
   display: flex;
   justify-content: space-between;
 }
-
 
 .like-icon {
   display: flex;
@@ -303,7 +325,7 @@
 
 .list-other-actions ul li:hover {
   opacity: 0.6;
-  background-color: #ccc; 
+  background-color: #ccc;
   color: white;
 }
 
@@ -376,4 +398,100 @@
 
 .reply-comment-date {
   font-size: 14px;
+}
+
+.special-contest {
+  display: flex;
+  flex-direction: column;
+}
+
+.special-contest-detail {
+  position: relative;
+  width: 100%;
+}
+
+#special-contest-image {
+  max-width: 240px;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+#special-contest-image:hover {
+  opacity: 1;
+}
+
+#special-contest-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+#home-right-content-subtitle {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.follow-suggestion-container {
+  margin: 10px 0;
+}
+
+.follow-suggestion-avatar-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#follow-suggestion-image {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.follow-suggestion-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.follow-suggestion-name-an-type {
+  display: flex;
+  flex-direction: column;
+}
+
+#follow-sugesstion-name {
+  font-weight: 600;
+}
+
+#follow-sugesstion-type {
+  font-size: 14px;
+}
+
+.trending-tags {
+  display: flex;
+  margin: 5px 0;
+  max-width: 240px;
+  flex-wrap: wrap;
+}
+
+.trending-tag{
+  padding: 0 10px;
+  border: 1px solid #93a6b9;
+  margin: 5px 10px;
+  cursor: pointer;
+}
+
+.trending-tag:hover {
+  background-color: #aaa;
 }

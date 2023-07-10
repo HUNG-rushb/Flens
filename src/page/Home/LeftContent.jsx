@@ -16,17 +16,17 @@ const LeftHomeContent = () => {
         <div id="homepage-left-content-name">{fetchedImage?.userInfo.name}</div>
 
         <div className="skill-content">
-          <div id='userLink'>
+          <div id="userLink">
             <span>Your Flens link:</span> flens.com/{userId}
           </div>
 
-          {/* <div>
-            <span>Favourites:</span> Camera, Portrait
+          <div>
+            <span>Experiences:</span> Camera, Portrait
           </div>
 
           <div>
             <span>Skills:</span> Portrait photography
-          </div> */}
+          </div>
         </div>
       </div>
     </div>
