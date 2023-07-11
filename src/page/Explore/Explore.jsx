@@ -25,12 +25,12 @@ const Explore = () => {
   const tabs = ['inspiration', 'hot', 'newest', 'stories'];
   const [selectedOption, setSelectedOption] = useState(options[0].value);
 
-  const location = useLocation()
+  const location = useLocation();
 
   useEffect(() => {
     options[0].isChecked = true;
-    if(location.pathname === '/explore/stories'){
-      setActiveTab(3)
+    if (location.pathname === '/explore/stories') {
+      setActiveTab(3);
     }
   }, [location]);
 
@@ -64,10 +64,12 @@ const Explore = () => {
               ))}
             </div>
           </div>
-          {activeTab === 0 && <Inspiration />}
-          {activeTab === 1 && <HotTab />}
-          {activeTab === 2 && <NewestTab />}
-          {activeTab === 3 && <StoryPage />}
+          <div className="explore-page-tab-content">
+            {activeTab === 0 && <Inspiration />}
+            {activeTab === 1 && <HotTab />}
+            {activeTab === 2 && <NewestTab />}
+            {activeTab === 3 && <StoryPage />}
+          </div>
         </div>
       </Suspense>
     </Page>
