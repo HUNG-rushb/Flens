@@ -3,8 +3,33 @@ import './ImageDetail.css';
 import PostComment from './PostComment';
 import PostInteraction from './PostInteraction.jsx';
 import PostTechnical from './PostTechnicalInformation.jsx';
+import { useState } from 'react';
 
 const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
+  const [zoomedIn, setZoomedIn] = useState(false);
+  const [scale, setScale] = useState(1);
+  const [cursor, setCursor] = useState('zoom-in');
+
+  const handleImageClick = () => {
+    setZoomedIn(!zoomedIn);
+    if (zoomedIn) {
+      setScale(1);
+      setCursor('zoom-in');
+    } else {
+      setScale(1.4);
+      setCursor('zoom-out');
+    }
+  };
+
+  const handleMouseMove = (e) => {
+    if (zoomedIn) {
+      const { offsetX, offsetY, target } = e.nativeEvent;
+      const { width, height } = target;
+      const xPercentage = (offsetX / width) * 100;
+      const yPercentage = (offsetY / height) * 100;
+      target.style.transformOrigin = `${xPercentage}% ${yPercentage}%`;
+    }
+  };
   return (
     <>
       <div className="image-detail-page">
@@ -13,7 +38,21 @@ const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
             <div className="modal-detail-image-container">
               <div className="modal-detail-image-content">
                 <div className="modal-detail-image-left">
-                  <img src={item?.image.url} alt="" />
+                  <div
+                    className={`image-detail-information-container ${
+                      zoomedIn ? 'zoomed-in' : ''
+                    }`}
+                    onClick={handleImageClick}
+                    onMouseMove={handleMouseMove}
+                    style={{ cursor: cursor }}
+                  >
+                    <img
+                      id="image-detail-information"
+                      src={item?.image.url}
+                      alt=""
+                      style={{ transform: `scale(${scale})` }}
+                    />
+                  </div>
                 </div>
                 <div className="modal-detail-image-right">
                   <div
@@ -25,7 +64,7 @@ const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
 
                   <div className="image-detail-right-container">
                     <div className="image-detail-page-header">
-                      <img src={item?.userId.profileImageURL} alt="avatar" />
+                      <img id='image-detail-avatar' src={item?.userId.profileImageURL} alt="avatar" />
                       <span>{item?.userId.name}</span>
                     </div>
                     <div className="image-detail-title">{item?.title}</div>

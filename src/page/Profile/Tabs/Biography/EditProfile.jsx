@@ -10,6 +10,7 @@ import './EditProfile.css';
 import React, { useEffect, useRef, useState } from 'react';
 import { PersonCircle } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 const EditProfile = () => {
   const navigate = useNavigate();
@@ -105,6 +106,16 @@ const EditProfile = () => {
     }
 
     if (!fetchError) {
+      toast.info('Edit profile sucessfull!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
       navigate(`/profile/${userId}`);
     }
   };

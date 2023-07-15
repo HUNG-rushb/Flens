@@ -24,9 +24,8 @@ const Post = ({
           item={item}
           toggleImageDetail={toggleImageDetail}
           setItemShowDetail={setItemShowDetail}
+          showImageDetail={showImageDetail}
         />
-
-        <PostTechnical item={item} showImageDetail={showImageDetail} />
 
         {/* <HashTag item={item} /> */}
 

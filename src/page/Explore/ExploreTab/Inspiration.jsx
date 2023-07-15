@@ -107,8 +107,11 @@ const Inspiration = () => {
         <div className="second-column-image">{secondColumn}</div>
         <div className="third-column-image">{thirdColumn}</div>
       </div>
+      <div className="similar-images">
+   
+      </div>
       <span>See More ...</span>
-      <div className="same-images"></div>
+
     </>
   );
 };

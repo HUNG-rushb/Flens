@@ -14,13 +14,16 @@ import {
   CardChecklist,
   Journal,
 } from 'react-bootstrap-icons';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const NavBar = () => {
   const dispatch = useAuthDispatch();
   const { id, isAdmin } = useAuthState();
   const isNotAuthenticated = id === '' && isAdmin === '';
   const [showDropdown, setShowDropdown] = useState(false);
+  const location = useLocation()
+  const checkPath = location.pathname.split('/');
+  const pathType = checkPath[1];
 
   const { id: userId } = useAuthState();
   const { isFetching, fetchedData, fetchError } = useUserProfileImage({
@@ -84,18 +87,19 @@ const NavBar = () => {
                 <>
                   <NavbarSearch />
                   <Nav>
-                    <Nav.Link as={Link} to="/">
+                    <Nav.Link href='/' className={pathType===''? 'active-nav-link':''} >
                       Home
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/explore/inspiration">
+                    <Nav.Link href="/explore/inspiration" className={pathType==='explore'? 'active-nav-link':''} >
                       Explore
                     </Nav.Link>
-                    <Nav.Link as={Link} to="message">
+                    <Nav.Link href='/message' className={pathType==='message'? 'active-nav-link':''}>
                       <Envelope size={28} />
                     </Nav.Link>
-                    <Nav.Link as={Link} to="Notification">
+                    <Nav.Link href="/notification" className={pathType==='notification'? 'active-nav-link':''} >
                       <Bell size={28} />
                     </Nav.Link>
+                    
                     <Nav.Item>
                       <div ref={clickOutsideRef}>
                         {fetchedData ? (
@@ -161,13 +165,13 @@ const NavBar = () => {
                 <>
                   <NavbarSearch />
                   <Nav>
-                    <Nav.Link as={Link} to="courses">
+                    <Nav.Link as={Link} to="/courses">
                       <Journal size={28} />
                     </Nav.Link>
-                    <Nav.Link as={Link} to="reports">
+                    <Nav.Link as={Link} to="/reports">
                       <CardChecklist size={28} />
                     </Nav.Link>
-                    <Nav.Link as={Link} to="statistic">
+                    <Nav.Link as={Link} to="/statistic">
                       <Clipboard2Data size={28} />
                     </Nav.Link>
                     <Nav.Item>

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const PersonalInforAndEdit = ({ userAllPostData }) => {
   console.log(userAllPostData);
   const navigate = useNavigate();
+
   const handleEditClick = () => {
     navigate('/editProfile');
   };
@@ -15,7 +16,7 @@ const PersonalInforAndEdit = ({ userAllPostData }) => {
   useEffect(() => {
     let level = 0;
     userAllPostData?.userInfo.posts.map((item) => (level += item.points));
-    setUserLevel(level)
+    setUserLevel(level);
   }, [userAllPostData]);
 
   return (
@@ -28,7 +29,8 @@ const PersonalInforAndEdit = ({ userAllPostData }) => {
           2<span>Followers</span>
         </div>
         <div>
-          {userLevel}<span>Level</span>
+          {userLevel}
+          <span>Level</span>
         </div>
       </div>
       <div className="personal-infor">
@@ -45,7 +47,7 @@ const PersonalInforAndEdit = ({ userAllPostData }) => {
 
       <div className="camera">
         <CameraFill />
-        <span>
+        <span id='camera-text'>
           Cannon Eos 80D, Cannon Eos 700D, Nikon P1000, Polaroid 100L
           underwater.
         </span>

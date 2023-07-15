@@ -33,7 +33,7 @@ const NavbarSearch = () => {
               <FormControl
                 type="search"
                 placeholder="Search Flens"
-                className="me-2 rounded-pill"
+                className="me-2 rounded-md"
                 aria-label="Search"
               />
             </InputGroup>

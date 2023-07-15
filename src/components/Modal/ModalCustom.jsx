@@ -8,9 +8,10 @@ const ModalCustom = ({
   handleSavechanges,
   modalTitle,
   modalContent,
+  size
 }) => {
   return (
-    <Modal show={show} onHide={handleClose} centered={true} size="lg">
+    <Modal show={show} onHide={handleClose} centered={true} size={size}>
       <Modal.Header closeButton>
         <Modal.Title>{modalTitle}</Modal.Title>
       </Modal.Header>

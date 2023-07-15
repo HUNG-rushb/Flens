@@ -41,6 +41,13 @@
   cursor: pointer;
 }
 
+.button--default-4 {
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 10px 15px;
+}
+
 .button--save-change-edit {
   font-size: 15px;
   color: white;

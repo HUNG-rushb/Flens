@@ -27,7 +27,7 @@ const TabMenu = ({ userId, userProfileData, userAllPostData }) => {
   return (
     <>
       <div className="profile-tabs">
-        <Tabs defaultActiveKey="Portfolio">
+        <Tabs defaultActiveKey="Biography">
           <Tab eventKey="Activity" title="Activity">
             <Activity userAllPostData={userAllPostData} />
           </Tab>

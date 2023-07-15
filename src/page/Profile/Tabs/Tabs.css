@@ -180,28 +180,20 @@
   border-right: 1px solid #f08080;
 }
 
-.bio-right {
-  width: 30%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  padding-left: 20px;
-}
-
-.experience-text,
-.skills-text {
+.achievement-text,
+.hobby-text {
   display: flex;
   flex-direction: column;
 }
 
-.experience-text > span,
-.skills-text > span {
+.achievement-text > span,
+.hobby-text > span {
   font-size: 20px;
   font-weight: 600;
 }
 
-.bio-experience,
-.bio-skills {
+.bio-achievement,
+.bio-hobbies {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -215,7 +207,7 @@
   width: 100%;
 }
 
-.badge-container > div {
+.badge-container div {
   font-size: 16px;
   font-weight: 600;
   border: 2px solid #f08080;
@@ -226,9 +218,22 @@
   text-align: center;
 }
 
-.skill-btn,
-.exp-btn {
+.achievements-list div {
+  margin: 10px 0;
+}
+
+.hobby-btn,
+.achievement-btn {
   align-self: center;
+}
+
+.bio-right {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 20px;
 }
 
 .social-infor {
@@ -236,7 +241,7 @@
   padding: 30px 0px;
 }
 
-.social-infor > div {
+.social-infor div {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -244,7 +249,7 @@
   font-weight: 600;
 }
 
-.social-infor > div > span {
+.social-infor div span {
   font-weight: 400;
 }
 
@@ -252,15 +257,15 @@
   margin-bottom: 10px;
 }
 
-.personal-infor > div {
+.personal-infor div {
   padding: 5px 0px;
 }
 
-.personal-infor > div > span {
+.personal-infor div span {
   font-weight: 600;
 }
 
-.camera > svg {
+.camera svg {
   margin-right: 10px;
 }
 
@@ -268,11 +273,11 @@
   width: 70%;
 }
 
-.camera > span {
+#camera-text {
   font-weight: 300;
   font-size: 16px;
 }
 
 .edit-btn {
-  margin: 20px 0px;
+  margin: 20px 0;
 }
