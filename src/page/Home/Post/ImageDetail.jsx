@@ -42,6 +42,7 @@ const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
                     className={`image-detail-information-container ${
                       zoomedIn ? 'zoomed-in' : ''
                     }`}
+                    
                     onClick={handleImageClick}
                     onMouseMove={handleMouseMove}
                     style={{ cursor: cursor }}

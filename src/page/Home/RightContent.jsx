@@ -1,5 +1,31 @@
 import React from 'react';
 import { PersonPlusFill } from 'react-bootstrap-icons';
+import { Autoplay, Pagination, Navigation } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+const happeningContest = [
+  {
+    id: 1,
+    title: 'Flowers contest',
+    image:
+      'https://images.pexels.com/photos/1408221/pexels-photo-1408221.jpeg?auto=compress&cs=tinysrgb&w=600',
+  },
+  {
+    id: 2,
+    title: 'Fashion contest',
+    image:
+      'https://images.pexels.com/photos/2036650/pexels-photo-2036650.jpeg?auto=compress&cs=tinysrgb&w=600',
+  },
+  {
+    id: 3,
+    title: 'Pet contest',
+    image:
+      'https://images.pexels.com/photos/2607544/pexels-photo-2607544.jpeg?auto=compress&cs=tinysrgb&w=600',
+  },
+];
 
 const followSuggestionList = [
   {
@@ -39,15 +65,31 @@ const RightContent = () => {
       <div className="homepage-right-content">
         <div className="special-contest">
           <span id="home-right-content-subtitle">Happening Contest:</span>
-          <div className="special-contest-detail">
-            <img
-              src="https://images.pexels.com/photos/1408221/pexels-photo-1408221.jpeg?auto=compress&cs=tinysrgb&w=600"
-              alt=""
-              id="special-contest-image"
-            />
-            <span id="special-contest-title">Flowers contest</span>
-          </div>
-          <hr />
+          <Swiper
+            spaceBetween={30}
+            centeredSlides={true}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+            }}
+            pagination={{
+              clickable: true,
+            }}
+            modules={[Autoplay, Pagination]}
+          >
+            {happeningContest.map((item)=>(
+              <SwiperSlide key={item.id}>
+              <div>
+                <img
+                  src={item.image}
+                  alt=""
+                  id="special-contest-image"
+                />
+                <span id="special-contest-title">{item.title}</span>
+              </div>
+            </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
         <div className="follow-suggestion-container">
           <span id="home-right-content-subtitle">Follow list suggestion:</span>
@@ -62,7 +104,11 @@ const RightContent = () => {
                       <span id="follow-sugesstion-type">{item.type}</span>
                     </div>
                   </div>
-                  <PersonPlusFill size={25} color='#f08080' id='follow-suggestion-list-add-icon' />
+                  <PersonPlusFill
+                    size={25}
+                    color="#f08080"
+                    id="follow-suggestion-list-add-icon"
+                  />
                 </div>
                 <hr />
               </div>

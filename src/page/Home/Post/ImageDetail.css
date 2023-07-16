@@ -47,6 +47,7 @@
   width: 70%;
   max-height: 700px;
   background-color: #ccc;
+  border-radius: 4px;
 }
 
 .image-detail-information-container {

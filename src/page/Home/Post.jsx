@@ -3,7 +3,6 @@ import PostComment from './Post/PostComment.jsx';
 import PostHeader from './Post/PostHeader.jsx';
 import PostImageAndTitle from './Post/PostImageAndTitle.jsx';
 import PostInteraction from './Post/PostInteraction.jsx';
-import PostTechnical from './Post/PostTechnicalInformation.jsx';
 
 const Post = ({
   item,

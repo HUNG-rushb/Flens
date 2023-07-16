@@ -1,5 +1,5 @@
+import CryptoJS from 'crypto-js';
 import React, { useEffect, useState } from 'react';
-import './Message.css'
 
 const images = [
   {
@@ -34,42 +34,67 @@ const images = [
   },
 ];
 
-function ImageZoom() {
-  const [zoomedIn, setZoomedIn] = useState(false);
-  const [scale, setScale] = useState(1);
-  const [cursor, setCursor] = useState('zoom-in');
+const ImageHasher = () => {
+  const [similarImage, setSimilarImage] = useState([]);
 
-  const handleImageClick = () => {
-    setZoomedIn(!zoomedIn);
-    if (zoomedIn) {
-      setScale(1);
-      setCursor('zoom-in');
-    } else {
-      setScale(1.2);
-      setCursor('zoom-out');
-    }
+  const handleFindSimilarImage = (image) => {
+    const imageHash = CryptoJS.SHA256(image).toString();
+    findSimilarImages(imageHash);
   };
 
-  const handleMouseMove = (e) => {
-    if (zoomedIn) {
-      const { offsetX, offsetY, target } = e.nativeEvent;
-      const { width, height } = target;
-      const xPercentage = (offsetX / width) * 100;
-      const yPercentage = (offsetY / height) * 100;
-      target.style.transformOrigin = `${xPercentage}% ${yPercentage}%`;
-    }
+  const findSimilarImages = (targetHash) => {
+    const threshold = 5;
+
+    images.forEach((image) => {
+      const binary1 = targetHash
+        .split('')
+        .map((char) => parseInt(char, 16).toString(2).padStart(4, '0'))
+        .join('');
+      const imageHash = CryptoJS.SHA256(image.image).toString();
+      const binary2 = imageHash
+        .split('')
+        .map((char) => parseInt(char, 16).toString(2).padStart(4, '0'))
+        .join('');
+
+        const hash1 = binary1.toString(CryptoJS.enc.Hex).slice(0, 64);
+        const hash2 = binary2.toString(CryptoJS.enc.Hex).slice(0, 64);
+
+      const hammingDistance = calculateHammingDistance(binary1, binary2);
+      console.log(`Hamming distance: ${hammingDistance}`);
+      if (hammingDistance <= threshold) {
+        console.log(image);
+      }
+    });
   };
+
+  const calculateHammingDistance = (hash1, hash2) => {
+    console.log("bin1",hash1,'-',hash1.length,"bin2",hash2,'-',hash2.length)
+    let distance = 0;
+    for (let i = 0; i < hash1.length; i++) {
+      if (hash1[i] !== hash2[i]) {
+        distance++;
+      }
+    }
+    return distance;
+  };
+
+  useEffect(() => {
+    console.log(similarImage);
+  }, [similarImage]);
 
   return (
-    <div
-      className={`image-container ${zoomedIn ? 'zoomed-in' : ''}`}
-      onClick={handleImageClick}
-      onMouseMove={handleMouseMove}
-      style={{ cursor: cursor }}
-    >
-      <img src="https://images.pexels.com/photos/17539866/pexels-photo-17539866/free-photo-of-bi-n-n-c-lan-song-d-i-d-ng.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" alt="Description" style={{ transform: `scale(${scale})` }} />
+    <div>
+      {images.map((image, index) => (
+        <img
+          src={image.image}
+          alt=""
+          width={200}
+          key={index}
+          onClick={() => handleFindSimilarImage(image.image)}
+        />
+      ))}
     </div>
   );
-}
+};
 
-export default ImageZoom;
+export default ImageHasher;
