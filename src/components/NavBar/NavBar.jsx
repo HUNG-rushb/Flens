@@ -77,7 +77,7 @@ const NavBar = () => {
               <Nav.Link as={Link} to="/register">
                 Sign up
               </Nav.Link>
-              <Nav.Link as={Link} to="/login">
+              <Nav.Link as={Link} to="/login">  
                 Sign in
               </Nav.Link>
             </Nav>
@@ -156,9 +156,9 @@ const NavBar = () => {
                         </div>
                       </div>
                     </Nav.Item>
-                    <Nav.Link as={Link} to="upload">
-                      <button id='upload-btn-navbar'>Upload</button>
-                    </Nav.Link>
+                    <a href="/upload" id='upload-btn-navbar'>
+                      Upload
+                    </a>
                   </Nav>
                 </>
               ) : (
