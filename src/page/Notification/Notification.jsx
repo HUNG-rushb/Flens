@@ -1,4 +1,4 @@
-import Avatar from '../../assets/images/avatar.jpg';
+import { useEffect } from 'react';
 import ButtonCustom from '../../components/Button/ButtonCustom';
 import Page from '../../components/utils/Page';
 import { useAuthState } from '../../context/AuthContext';
@@ -7,6 +7,7 @@ import LeftContent from './LeftContent.jsx';
 import './Notification.css';
 import React, { Suspense } from 'react';
 import { HeartFill, ReplyFill } from 'react-bootstrap-icons';
+import { useState } from 'react';
 
 const Notification = () => {
   const { id: userId } = useAuthState();
@@ -17,9 +18,6 @@ const Notification = () => {
   } = useUserProfileImage({
     userInfoData: { userId },
   });
-  const handleClickFollowBack = () => {
-    console.log('click');
-  };
 
   const notifi_data = [
     {
@@ -43,7 +41,100 @@ const Notification = () => {
       time: '5 minutes ago',
       type: 3,
     },
+    {
+      id: 4,
+      name: 'Tom',
+      image: fetchingUserProfileData?.userInfo.profileImageURL,
+      time: '2 minutes ago',
+      type: 1,
+    },
+    {
+      id: 5,
+      name: 'Thomas',
+      image: fetchingUserProfileData?.userInfo.profileImageURL,
+      time: '3 minutes ago',
+      type: 2,
+    },
+    {
+      id: 6,
+      name: 'John',
+      image: fetchingUserProfileData?.userInfo.profileImageURL,
+      time: '5 minutes ago',
+      type: 3,
+    },
+    {
+      id: 7,
+      name: 'Tom',
+      image: fetchingUserProfileData?.userInfo.profileImageURL,
+      time: '2 minutes ago',
+      type: 1,
+    },
+    {
+      id: 8,
+      name: 'Thomas',
+      image: fetchingUserProfileData?.userInfo.profileImageURL,
+      time: '3 minutes ago',
+      type: 2,
+    },
+    {
+      id: 9,
+      name: 'John',
+      image: fetchingUserProfileData?.userInfo.profileImageURL,
+      time: '5 minutes ago',
+      type: 3,
+    },
+    {
+      id: 10,
+      name: 'Tom',
+      image: fetchingUserProfileData?.userInfo.profileImageURL,
+      time: '2 minutes ago',
+      type: 1,
+    },
+    {
+      id: 11,
+      name: 'Thomas',
+      image: fetchingUserProfileData?.userInfo.profileImageURL,
+      time: '3 minutes ago',
+      type: 2,
+    },
+    {
+      id: 12,
+      name: 'John',
+      image: fetchingUserProfileData?.userInfo.profileImageURL,
+      time: '5 minutes ago',
+      type: 3,
+    },
   ];
+  
+  const notificationsPerPage = 3;
+  const [notifyToDisplay, setNotifyToDisplay] = useState(notificationsPerPage);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleClickFollowBack = () => {
+    console.log('click');
+  };
+
+  const handleScroll = () => {
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const scrollHeight = document.body.scrollHeight;
+
+    if (!isLoading && scrollPosition >= scrollHeight - 100) {
+      setIsLoading(true);
+      setTimeout(() => {
+        setNotifyToDisplay(prevCount => prevCount + notificationsPerPage);
+        setIsLoading(false);
+      }, 3000);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  
   return (
     <Page title={'Flens-Notification'}>
       <Suspense fallback={null}>
@@ -54,8 +145,8 @@ const Notification = () => {
           />
           <div className="notifi-right-content">
             <div className="notify-title">Notifications</div>
-            <div className="notifi-content">
-              {notifi_data.map((item) => {
+           <div className="notifi-content">
+              {notifi_data.slice(0, notifyToDisplay).map((item) => {
                 return (
                   <div className="noti-card" key={item.id}>
                     <div className="upper-content">
@@ -110,7 +201,8 @@ const Notification = () => {
                   </div>
                 );
               })}
-            </div>
+            </div> 
+            {isLoading && <p>Loading ...</p>}
           </div>
         </div>
       </Suspense>
