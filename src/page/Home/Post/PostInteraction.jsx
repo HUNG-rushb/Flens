@@ -19,11 +19,13 @@ const PostInteraction = ({
   const [isLiked, setIsLiked] = useState(false);
   const [showListOtherActions, setShowListOtherActions] = useState(true);
   const [countNumberOfLikes, setCountNumberOfLikes] = useState(item?.points);
+  const [animationWhenClick, setAnimationWhenClick] = useState(false);
 
   const handleClickLikePost = () => {
     setIsLiked(!isLiked);
     if (isLiked === false) setCountNumberOfLikes(countNumberOfLikes + 1);
     else setCountNumberOfLikes(countNumberOfLikes - 1);
+    setAnimationWhenClick(true)
   };
 
   const handleClickReport = () => {
@@ -48,6 +50,14 @@ const PostInteraction = ({
     };
   }, []);
 
+  useEffect(() => {
+    if (animationWhenClick) {
+      setTimeout(() => {
+        setAnimationWhenClick(false);
+      }, 1000);
+    }
+  }, [animationWhenClick]);
+
   return (
     <>
       <div
@@ -56,15 +66,15 @@ const PostInteraction = ({
       >
         <div className="like-icon" onClick={handleClickLikePost}>
           {isLiked === false ? (
-            <Heart size={25} />
+            <Heart id={!animationWhenClick?'heart-icon':'heart-icon-2'} size={25} />
           ) : (
-            <HeartFill color="red" size={25} />
+            <HeartFill id={!animationWhenClick?'heart-icon':'heart-icon-2'} color="red" size={25} />
           )}
           <span>{countNumberOfLikes}</span>
         </div>
         <div className="right-action">
           <Reply size={30} className="reply-icon" />
-          <ThreeDots
+          <ThreeDots 
             size={30}
             onClick={() => setShowListOtherActions((prev) => !prev)}
             className="otherAction"

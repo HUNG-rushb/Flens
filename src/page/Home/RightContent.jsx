@@ -103,7 +103,7 @@ const RightContent = () => {
                       <span id="follow-sugesstion-name">{item.name}</span>
                       <span id="follow-sugesstion-type">{item.type}</span>
                     </div>
-                  </div>
+                  </div>  
                   <PersonPlusFill
                     size={25}
                     color="#f08080"

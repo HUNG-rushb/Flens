@@ -1,5 +1,7 @@
 import CryptoJS from 'crypto-js';
 import React, { useEffect, useState } from 'react';
+import UseAnimations from "react-useanimations";
+import heart from 'react-useanimations/lib/heart'
 
 const images = [
   {
@@ -78,10 +80,6 @@ const ImageHasher = () => {
     return distance;
   };
 
-  useEffect(() => {
-    console.log(similarImage);
-  }, [similarImage]);
-
   return (
     <div>
       {images.map((image, index) => (
@@ -93,6 +91,7 @@ const ImageHasher = () => {
           onClick={() => handleFindSimilarImage(image.image)}
         />
       ))}
+      <UseAnimations animation={heart} size={56} />
     </div>
   );
 };
