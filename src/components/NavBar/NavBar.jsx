@@ -29,14 +29,13 @@ const NavBar = () => {
   const { isFetching, fetchedData, fetchError } = useUserProfileImage({
     userInfoData: { userId },
   });
+  const clickOutsideRef = useRef(null);
 
   const handleLogout = () => {
     setShowDropdown(!showDropdown);
     logout(dispatch);
     // navigate('/');
   };
-
-  const clickOutsideRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -90,13 +89,13 @@ const NavBar = () => {
                     <Nav.Link href='/' className={pathType===''? 'active-nav-link':''} >
                       Home
                     </Nav.Link>
-                    <Nav.Link href="/explore/inspiration" className={pathType==='explore'? 'active-nav-link':''} >
+                    <Nav.Link href="/explore/inspiration" className={pathType==='explore'? 'active-nav-link':''}>
                       Explore
                     </Nav.Link>
                     <Nav.Link href='/message' className={pathType==='message'? 'active-nav-link':''}>
                       <Envelope size={28} />
                     </Nav.Link>
-                    <Nav.Link href="/notification" className={pathType==='notification'? 'active-nav-link':''} >
+                    <Nav.Link href="/notification" className={pathType==='notification'? 'active-nav-link':''}>
                       <Bell size={28} />
                     </Nav.Link>
                     

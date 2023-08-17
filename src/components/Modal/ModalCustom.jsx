@@ -8,7 +8,8 @@ const ModalCustom = ({
   handleSavechanges,
   modalTitle,
   modalContent,
-  size
+  size,
+  hideButton = false
 }) => {
   return (
     <Modal show={show} onHide={handleClose} centered={true} size={size}>
@@ -16,7 +17,7 @@ const ModalCustom = ({
         <Modal.Title>{modalTitle}</Modal.Title>
       </Modal.Header>
       <Modal.Body>{modalContent}</Modal.Body>
-      <Modal.Footer>
+      {!hideButton && <Modal.Footer>
         <ButtonCustom
           text={'Close'}
           type="modal-close-btn"
@@ -27,7 +28,7 @@ const ModalCustom = ({
           type="modal-save-btn submit"
           onClick={handleSavechanges}
         />
-      </Modal.Footer>
+      </Modal.Footer>}
     </Modal>
   );
 };

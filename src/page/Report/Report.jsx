@@ -1,4 +1,4 @@
-import ModalCustom from '../../components/Modal/Modal.jsx';
+import ModalCustom from '../../components/Modal/ModalCustom.jsx';
 import Page from '../../components/utils/Page.js';
 import './Report.css';
 import TableReportData from './TableReportData.jsx';
