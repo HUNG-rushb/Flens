@@ -41,6 +41,10 @@ a.active-nav-link {
   position: relative;
 }
 
+a.active-nav-link:focus{
+  color: azure;
+}
+
 a.active-nav-link::after {
   content: '';
   position: absolute;

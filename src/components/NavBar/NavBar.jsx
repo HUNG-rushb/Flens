@@ -15,15 +15,17 @@ import {
   Journal,
 } from 'react-bootstrap-icons';
 import { Link, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
   const dispatch = useAuthDispatch();
   const { id, isAdmin } = useAuthState();
   const isNotAuthenticated = id === '' && isAdmin === '';
   const [showDropdown, setShowDropdown] = useState(false);
-  const location = useLocation()
+  const location = useLocation();
   const checkPath = location.pathname.split('/');
   const pathType = checkPath[1];
+  const navigate = useNavigate();
 
   const { id: userId } = useAuthState();
   const { isFetching, fetchedData, fetchError } = useUserProfileImage({
@@ -76,7 +78,7 @@ const NavBar = () => {
               <Nav.Link as={Link} to="/register">
                 Sign up
               </Nav.Link>
-              <Nav.Link as={Link} to="/login">  
+              <Nav.Link as={Link} to="/login">
                 Sign in
               </Nav.Link>
             </Nav>
@@ -86,19 +88,50 @@ const NavBar = () => {
                 <>
                   <NavbarSearch />
                   <Nav>
-                    <Nav.Link href='/' className={pathType===''? 'active-nav-link':''} >
+                    <Nav.Link
+                      className={pathType === '' ? 'active-nav-link' : ''}
+                      onClick={(e) => [e.preventDefault(), navigate('/')]}
+                    >
                       Home
                     </Nav.Link>
-                    <Nav.Link href="/explore/inspiration" className={pathType==='explore'? 'active-nav-link':''}>
+                    <Nav.Link
+                      className={
+                        pathType === 'explore' ? 'active-nav-link' : ''
+                      }
+                      onClick={(e) => [
+                        e.preventDefault(),
+                        navigate('/explore/inspiration'),
+                      ]}
+                    >
                       Explore
                     </Nav.Link>
-                    <Nav.Link href='/message' className={pathType==='message'? 'active-nav-link':''}>
-                      <Envelope size={28} />
+                    <Nav.Link
+                      className={
+                        pathType === 'message' ? 'active-nav-link' : ''
+                      }
+                    >
+                      <Envelope
+                        size={28}
+                        onClick={(e) => [
+                          e.preventDefault(),
+                          navigate('/message'),
+                        ]}
+                      />
                     </Nav.Link>
-                    <Nav.Link href="/notification" className={pathType==='notification'? 'active-nav-link':''}>
-                      <Bell size={28} />
+                    <Nav.Link
+                      className={
+                        pathType === 'notification' ? 'active-nav-link' : ''
+                      }
+                    >
+                      <Bell
+                        size={28}
+                        onClick={(e) => [
+                          e.preventDefault(),
+                          navigate('/notification'),
+                        ]}
+                      />
                     </Nav.Link>
-                    
+
                     <Nav.Item>
                       <div ref={clickOutsideRef}>
                         {fetchedData ? (
@@ -155,7 +188,7 @@ const NavBar = () => {
                         </div>
                       </div>
                     </Nav.Item>
-                    <a href="/upload" id='upload-btn-navbar'>
+                    <a href="/upload" id="upload-btn-navbar">
                       Upload
                     </a>
                   </Nav>
