@@ -5,7 +5,7 @@ import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.min.css';
 
-const similarImages = [
+const allImagesList = [
   {
     id: 1,
     image:
@@ -79,7 +79,7 @@ const SimilarImageDetail = ({ imageDetail }) => {
               spaceBetween={30}
               className="similar-image-list"
             >
-              {similarImages.map((item) => (
+              {allImagesList.map((item) => (
                 <SwiperSlide key={item.id} className="similar-image-list-item">
                   <img src={item.image} alt="" />
                 </SwiperSlide>
