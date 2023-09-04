@@ -105,6 +105,24 @@ const NavBar = () => {
                     >
                       Explore
                     </Nav.Link>
+                    <Nav.Link className={
+                        pathType === 'academy' ? 'active-nav-link' : ''
+                      }
+                      onClick={(e) => [
+                        e.preventDefault(),
+                        navigate('/academy'),
+                      ]}>
+                        Academy
+                    </Nav.Link>
+                    <Nav.Link className={
+                        pathType === 'contest' ? 'active-nav-link' : ''
+                      }
+                      onClick={(e) => [
+                        e.preventDefault(),
+                        navigate('/contest'),
+                      ]}>
+                        Contest
+                    </Nav.Link>
                     <Nav.Link
                       className={
                         pathType === 'message' ? 'active-nav-link' : ''

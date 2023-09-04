@@ -1,7 +1,7 @@
 import '../Explore.css';
 import React, { useState } from 'react';
 
-const Inspiration = () => {
+const Inspiration = ({ toggleModal, setImageToShow }) => {
   const images = [
     {
       id: 1,
@@ -48,21 +48,6 @@ const Inspiration = () => {
       image:
         'https://images.pexels.com/photos/16158164/pexels-photo-16158164/free-photo-of-thien-nhien-th-i-trang-kinh-ram-nh-ng-ng-i.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
     },
-    // {
-    //   id: 10,
-    //   image:
-    //     'https://images.pexels.com/photos/7549484/pexels-photo-7549484.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-    // },
-    // {
-    //   id: 11,
-    //   image:
-    //     'https://images.pexels.com/photos/16747487/pexels-photo-16747487/free-photo-of-d-ng-ph-xe-h-i-xe-d-cu.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-    // },
-    // {
-    //   id: 12,
-    //   image:
-    //     'https://images.pexels.com/photos/16614531/pexels-photo-16614531/free-photo-of-g-ngh-thu-t-b-c-v-sang-tr-ng.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-    // }
   ];
 
   const [countNumberColumn, setCountNumberColumn] = useState(images.length / 3);
@@ -73,9 +58,10 @@ const Inspiration = () => {
       <img
         key={image.id}
         src={image.image}
-        alt="item"
+        alt=""
         width={500}
         height={300}
+        onClick={() => [setImageToShow(image.image), toggleModal()]}
       />
     ));
   const secondColumn = images
@@ -84,9 +70,10 @@ const Inspiration = () => {
       <img
         key={image.id}
         src={image.image}
-        alt="item"
+        alt=""
         width={500}
         height={300}
+        onClick={() => [setImageToShow(image.image), toggleModal()]}
       />
     ));
   const thirdColumn = images
@@ -95,9 +82,10 @@ const Inspiration = () => {
       <img
         key={image.id}
         src={image.image}
-        alt="item"
+        alt=""
         width={500}
         height={300}
+        onClick={() => [setImageToShow(image.image), toggleModal()]}
       />
     ));
   return (
@@ -107,11 +95,8 @@ const Inspiration = () => {
         <div className="second-column-image">{secondColumn}</div>
         <div className="third-column-image">{thirdColumn}</div>
       </div>
-      <div className="similar-images">
-   
-      </div>
+      <div className="similar-images"></div>
       <span>See More ...</span>
-
     </>
   );
 };

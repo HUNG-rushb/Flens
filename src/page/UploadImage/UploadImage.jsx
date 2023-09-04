@@ -35,7 +35,11 @@ const UploadImage = () => {
     id: 0,
     value: '',
   });
-  const [selectedCatagory, setSelectedCategory] = useState('');
+  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState({
+    id: 0,
+    value: '',
+  });
 
   const options = useMemo(() => ['Family', 'Fashion', 'Food'], []);
   const [copyright, setCopyright] = useState('');
@@ -62,6 +66,21 @@ const UploadImage = () => {
     const removeTag = tags.filter((item) => item.id !== id);
     setTags(removeTag);
   };
+
+  const handleSelectCategory = () => {
+    categories.push(category);
+    console.log(categories);
+    setCategories(categories);
+    setCategory({
+      id: 0,
+      value: '',
+    });
+  };
+
+  const removeCategory = (id) => {
+    const removeCategory = categories.filter((item) => item.id !== id);
+    setCategories(removeCategory);
+  }
 
   const handleFileSelect = () => {
     fileInputRef.current.click();
@@ -142,15 +161,15 @@ const UploadImage = () => {
         },
       });
       toast.info('upload image sucessfull!', {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
-        });
+        theme: 'light',
+      });
     } catch (e) {
       throw e;
     }
@@ -318,20 +337,44 @@ const UploadImage = () => {
                         />
                       </div>
 
-                      <div className="image-categories">
+                      <div className="all-categories">
                         <label>Category</label>
-                        <select
-                          onChange={(e) => setSelectedCategory(e.target.value)}
-                          id="select-image-category"
-                        >
-                          {options.map((item) => {
-                            return (
-                              <option key={options.indexOf(item)}>
-                                {item}
-                              </option>
-                            );
-                          })}
-                        </select>
+                        {categories.length > 0 && (
+                          <div className="categories-item">
+                            {categories.map((item) => (
+                              <div key={item.id} onClick={()=>removeCategory(item.id)}>                                  <span id="remove-tag">X</span>
+                              {item.value}</div>
+                            ))}
+                          </div>
+                        )}
+                        <div className="sub-categories">
+                          <select
+                            value={category.value}
+                            id="select-image-category"
+                            onChange={(e) =>
+                              setCategory({
+                                id:
+                                  categories.length === 0
+                                    ? 1
+                                    : categories[categories.length - 1].id + 1,
+                                value: e.target.value,
+                              })
+                            }
+                          >
+                            {options.map((item) => {
+                              return (
+                                <option key={options.indexOf(item)}>
+                                  {item}
+                                </option>
+                              );
+                            })}
+                          </select>
+                          <div className="add-category-button">
+                            <button onClick={handleSelectCategory}>
+                              Add
+                            </button>
+                          </div>
+                        </div>
                       </div>
 
                       <div>

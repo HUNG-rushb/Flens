@@ -1,6 +1,6 @@
 import ButtonCustom from '../../components/Button/ButtonCustom';
 import InputCustom from '../../components/Input/Input.jsx';
-import ModalCustom from '../../components/Modal/Modal';
+import ModalCustom from '../../components/Modal/ModalCustom';
 import SelectCustom from '../../components/Select/SelectCustom';
 import Page from '../../components/utils/Page.js';
 import './CoursesManagement.css';
