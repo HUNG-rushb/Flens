@@ -69,7 +69,6 @@ const UploadImage = () => {
 
   const handleSelectCategory = () => {
     categories.push(category);
-    console.log(categories);
     setCategories(categories);
     setCategory({
       id: 0,
