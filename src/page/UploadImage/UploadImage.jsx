@@ -79,7 +79,7 @@ const UploadImage = () => {
   const removeCategory = (id) => {
     const removeCategory = categories.filter((item) => item.id !== id);
     setCategories(removeCategory);
-  }
+  };
 
   const handleFileSelect = () => {
     fileInputRef.current.click();
@@ -341,8 +341,13 @@ const UploadImage = () => {
                         {categories.length > 0 && (
                           <div className="categories-item">
                             {categories.map((item) => (
-                              <div key={item.id} onClick={()=>removeCategory(item.id)}>                                  <span id="remove-tag">X</span>
-                              {item.value}</div>
+                              <div
+                                key={item.id}
+                                onClick={() => removeCategory(item.id)}
+                              >
+                                <span id="remove-tag">X</span>
+                                {item.value}
+                              </div>
                             ))}
                           </div>
                         )}
@@ -369,9 +374,7 @@ const UploadImage = () => {
                             })}
                           </select>
                           <div className="add-category-button">
-                            <button onClick={handleSelectCategory}>
-                              Add
-                            </button>
+                            <button onClick={handleSelectCategory}>Add</button>
                           </div>
                         </div>
                       </div>
