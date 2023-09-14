@@ -13,7 +13,24 @@ import ReactDOM from 'react-dom/client';
 // dotenv.config();
 
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          getNewFeed: {
+            // Don't cache separate results based on
+            // any of this field's arguments.
+            keyArgs: false,
+            // Concatenate the incoming list items with
+            // the existing list items.
+            merge(existing = [], incoming) {
+              return [...existing, ...incoming];
+            },
+          },
+        },
+      },
+    },
+  }),
   // !This is live hosted server
   // uri: 'https://social-image-api.link',
   // ! This is a local server

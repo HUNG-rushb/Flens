@@ -3,7 +3,7 @@ import useModal from '../../components/Modal/useModal';
 import Page from '../../components/utils/Page';
 import Spinner from '../../components/utils/Spinner';
 import { useAuthState } from '../../context/AuthContext';
-import { useGetAllUserPost } from '../../graphql/usePost';
+import { useGetNewFeed } from '../../graphql/usePost';
 import './Home.css';
 import LeftContent from './LeftContent';
 import Post from './Post';
@@ -11,6 +11,7 @@ import ImageDetail from './Post/ImageDetail';
 import RightContent from './RightContent';
 import UploadBar from './UploadBar';
 import { Suspense, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Home = () => {
   const { isShowing: showReport, toggle: toggleShowReport } = useModal();
@@ -21,10 +22,14 @@ const Home = () => {
 
   const { id: userId } = useAuthState();
 
-  const { isFetching, fetchedData, fetchError } = useGetAllUserPost({
-    getAllUserPostId: { userId },
-  });
+  const { posts, isFetching, fetchedData, fetchError, loadNew } = useGetNewFeed(
+    {
+      getAllUserPostId: { userId },
+    }
+  );
+  console.log({ posts });
   console.log({ fetchedData });
+  console.log(fetchedData?.userInfo.posts.length);
 
   if (fetchError) {
     return <p>Error</p>;
@@ -35,7 +40,8 @@ const Home = () => {
       <Suspense>
         <div className="home-page">
           <LeftContent />
-          <div className="homepage-center-container">
+
+          {/* <div className="homepage-center-container">
             <div className="homepage-center-content">
               <UploadBar />
               {isFetching && <Spinner />}
@@ -57,7 +63,42 @@ const Home = () => {
                   );
                 })}
             </div>
+          </div> */}
+
+          <div className="homepage-center-container">
+            <div className="homepage-center-content">
+              <UploadBar />
+
+              <InfiniteScroll
+                dataLength={fetchedData ? fetchedData.userInfo.posts.length : 0} //This is important field to render the next data
+                next={loadNew}
+                hasMore={true}
+                loader={<h4>Loading...</h4>}
+                endMessage={
+                  <p style={{ textAlign: 'center' }}>
+                    <b>Yay! You have seen it all</b>
+                  </p>
+                }
+              >
+                {posts.map((item) => {
+                  return (
+                    <Post
+                      key={item.id}
+                      item={item}
+                      userId={userId}
+                      showReport={showReport}
+                      showImageDetail={showImageDetail}
+                      toggleShowReport={toggleShowReport}
+                      setImageToReport={setImageToReport}
+                      toggleImageDetail={toggleImageDetail}
+                      setItemShowDetail={setItemShowDetail}
+                    />
+                  );
+                })}
+              </InfiniteScroll>
+            </div>
           </div>
+
           <RightContent />
 
           <ImageDetail

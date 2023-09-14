@@ -5,6 +5,7 @@ import {
   CREATE_COMMENT,
 } from './queries/Post.js';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
+import { useCallback, useEffect, useState } from 'react';
 
 export const useCreatePostLazy = (cache) => {
   const [createPost, { data, loading, error }] = useMutation(CREATE_POST, {
@@ -16,6 +17,38 @@ export const useCreatePostLazy = (cache) => {
     isFetching: loading,
     fetchedData: data,
     fetchError: error,
+  };
+};
+
+export const useGetNewFeed = (queryPayload, cache) => {
+  const [posts, setPosts] = useState([]);
+  const { data, loading, error, fetchMore } = useQuery(GET_ALL_USER_POST, {
+    fetchPolicy: cache ? undefined : 'no-cache',
+    variables: queryPayload,
+    onCompleted: (data) => {
+      // const { content, hasMore } = data;
+      setPosts(data.userInfo.posts);
+      // setHasMorePosts(hasMore);
+    },
+  });
+
+  // console.log({ data });
+  // console.log({ posts });
+
+  const loadNew = useCallback(() => {
+    const a = fetchMore();
+    console.log({ a });
+
+    // setPosts((prev) => ({ ...prev, ...a }));
+    // console.log({ posts });
+  }, []);
+
+  return {
+    posts,
+    isFetching: false,
+    fetchedData: data,
+    fetchError: false,
+    loadNew,
   };
 };
 
