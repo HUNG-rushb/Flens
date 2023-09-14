@@ -12,10 +12,10 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const options = [
-  { id: 1, value: 'Inspiration', isChecked: false },
-  { id: 2, value: 'Hot', isChecked: false },
-  { id: 3, value: 'Newest', isChecked: false },
-  { id: 4, value: 'stories', isChecked: false },
+  { id: 1, value: 'Animal', isChecked: false },
+  { id: 2, value: 'food', isChecked: false },
+  { id: 3, value: 'Technologies', isChecked: false },
+  { id: 4, value: 'travel', isChecked: false },
 ];
 
 const Explore = () => {

@@ -149,3 +149,35 @@
     border: 1px solid #aaa;
     outline: 1px solid #aaa;
 }
+
+.categories-item {
+  border: 1px solid #93a6b9;
+  display: flex;
+  margin: 5px 0;
+  max-width: 290px;
+  flex-wrap: wrap;
+}
+
+.categories-item div {
+  padding: 0 10px;
+  border: 1px solid #93a6b9;
+  margin: 5px  10px;
+  cursor: pointer;
+}
+
+.sub-categories {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-category-button {
+margin-top: 2px;
+}
+
+.add-category-button button {
+  padding: 5 10px;
+  color: white;
+  border-radius: 10px;
+}
