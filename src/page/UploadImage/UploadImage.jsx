@@ -35,13 +35,13 @@ const UploadImage = () => {
     id: 0,
     value: '',
   });
+  const options = useMemo(() => ['Family', 'Fashion', 'Food'], []);
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState({
-    id: 0,
-    value: '',
+    id: 1,
+    value: options[0],
   });
 
-  const options = useMemo(() => ['Family', 'Fashion', 'Food'], []);
   const [copyright, setCopyright] = useState('');
 
   const { createPost, isFetching, fetchedData, fetchError } =
@@ -50,12 +50,22 @@ const UploadImage = () => {
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      tags.push(tag);
-      setTags(tags);
-      setTag({
-        id: 0,
-        value: '',
-      });
+      const checkExistTag = tags.every(
+        (item) => item.value !== event.target.value
+      );
+      if (checkExistTag && tag.value) {
+        tags.push(tag);
+        setTags(tags);
+        setTag({
+          id: 0,
+          value: '',
+        });
+      } else {
+        setTag({
+          id: 0,
+          value: '',
+        });
+      }
     }
   };
 
@@ -65,12 +75,23 @@ const UploadImage = () => {
   };
 
   const handleSelectCategory = () => {
-    categories.push(category);
-    setCategories(categories);
-    setCategory({
-      id: 0,
-      value: '',
-    });
+    console.log(categories)
+    const checkExistCategory = categories.every(
+      (item) => item.value !== category.value
+    ); 
+    if (checkExistCategory && category.value) {
+      categories.push(category);
+      setCategories(categories);
+      setCategory({
+        id: 0,
+        value: '',
+      });
+    } else {
+      setCategory({
+        id: 0,
+        value: '',
+      });
+    }
   };
 
   const removeCategory = (id) => {
@@ -340,7 +361,7 @@ const UploadImage = () => {
                         )}
                         <div className="sub-categories">
                           <select
-                            value={category.value}
+                            value={category}
                             id="select-image-category"
                             onChange={(e) =>
                               setCategory({

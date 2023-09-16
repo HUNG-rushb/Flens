@@ -11,19 +11,15 @@ const LeftHomeContent = () => {
   return (
     <div className="homepage-left-container">
       <div className="homepage-left-content">
-        <img src={fetchedImage?.userInfo.profileImageURL} alt="avatar" />
-
+        <img src={fetchedImage?.userInfo.profileImageURL} alt="" />
         <div id="homepage-left-content-name">{fetchedImage?.userInfo.name}</div>
-
         <div className="skill-content">
           <div id="userLink">
             <span>Your Flens link:</span> flens.com/{userId}
           </div>
-
           <div>
             <span>Experiences:</span> Camera, Portrait
           </div>
-
           <div>
             <span>Skills:</span> Portrait photography
           </div>

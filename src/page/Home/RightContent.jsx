@@ -1,6 +1,6 @@
 import React from 'react';
 import { PersonPlusFill } from 'react-bootstrap-icons';
-import { Autoplay, Pagination, Navigation } from 'swiper';
+import { Autoplay, Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
