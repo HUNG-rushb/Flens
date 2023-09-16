@@ -361,7 +361,7 @@ const UploadImage = () => {
                         )}
                         <div className="sub-categories">
                           <select
-                            value={category}
+                            value={category.value}
                             id="select-image-category"
                             onChange={(e) =>
                               setCategory({
