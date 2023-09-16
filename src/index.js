@@ -1,6 +1,5 @@
 import App from './App.js';
 import './index.css';
-import './styles/tailwind.css'
 // Apollo Client
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import '@babel/polyfill';

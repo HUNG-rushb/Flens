@@ -9,10 +9,12 @@ const NotFound = () => {
         <div className="d-flex not-found-page-wrapper">
           <div className="not-found-page-box">
             <div className="not-found-page-box-content">
-              <span>oops!</span>
-              <span>something went wrong</span>
-              <span>404</span>
-              <span>Page not found. Please check the url</span>
+              <span id="oops">oops!</span>
+              <span id="something-wrong-text">something went wrong</span>
+              <span id="err-404-text">404</span>
+              <span id="page-not-found-text">
+                Page not found. Please check the url
+              </span>
             </div>
           </div>
         </div>
