@@ -1,5 +1,6 @@
 import Page from '../../components/utils/Page';
 import './404NotFound.css';
+import Lottie from 'lottie-react';
 import { Suspense } from 'react';
 
 const NotFound = () => {
@@ -9,11 +10,14 @@ const NotFound = () => {
         <div className="d-flex not-found-page-wrapper">
           <div className="not-found-page-box">
             <div className="not-found-page-box-content">
-              <span id="oops">oops!</span>
-              <span id="something-wrong-text">something went wrong</span>
-              <span id="err-404-text">404</span>
+              <Lottie
+                animationData={require('../../assets/lotties/not_found_error.json')}
+                style={{
+                  height: 500,
+                }}
+              />
               <span id="page-not-found-text">
-                Page not found. Please check the url
+                Page not found. Please check the url !!!
               </span>
             </div>
           </div>

@@ -1,16 +1,18 @@
-import ModalReportImage from '../../components/Modal/ModalReportImage';
-import useModal from '../../components/Modal/useModal';
+import Modal from '../../components/Modal/ModalCustom';
 import Page from '../../components/utils/Page';
 import Spinner from '../../components/utils/Spinner';
 import { useAuthState } from '../../context/AuthContext';
 import { useGetAllUserPost } from '../../graphql/usePost';
+import useModal from '../../hooks/useModal';
+import { ReportContent } from '../Report/ReportImageContent';
 import './Home.css';
 import LeftContent from './LeftContent';
-import Post from './Post';
+import Post from './Post'; 
 import ImageDetail from './Post/ImageDetail';
 import RightContent from './RightContent';
 import UploadBar from './UploadBar';
 import { Suspense, useState } from 'react';
+import Lottie from 'lottie-react';
 
 const Home = () => {
   const { isShowing: showReport, toggle: toggleShowReport } = useModal();
@@ -27,7 +29,7 @@ const Home = () => {
   console.log({ fetchedData });
 
   if (fetchError) {
-    return <p>Error</p>;
+    return <Lottie animationData={require('../../assets/lotties/error_loading.json')} style={{height: 300}} />;
   }
 
   return (
@@ -65,9 +67,9 @@ const Home = () => {
             showImageDetail={showImageDetail}
             handleCloseImageDetail={toggleImageDetail}
           />
-          <ModalReportImage
+          <Modal
             show={showReport}
-            image={imageToReport}
+            modalContent={<ReportContent image={imageToReport} />}
             handleClose={toggleShowReport}
             handleSavechanges={toggleShowReport}
           />

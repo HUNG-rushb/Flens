@@ -1,6 +1,6 @@
-import useModal from '../../../components/Modal/useModal';
 import { useAuthState } from '../../../context/AuthContext';
 import { useGetAllUserPost } from '../../../graphql/usePost';
+import useModal from '../../../hooks/useModal';
 import Post from '../../Home/Post';
 import React, { useState } from 'react';
 
@@ -17,7 +17,7 @@ const PhotoEntries = () => {
   });
   console.log({ fetchedData });
   return (
-    <div className='photo-entries-container'>
+    <div className="photo-entries-container">
       {fetchedData &&
         fetchedData.userInfo.posts.map((item) => {
           return (

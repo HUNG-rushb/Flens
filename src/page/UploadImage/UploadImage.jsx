@@ -1,8 +1,8 @@
 import ButtonCustom from '../../components/Button/ButtonCustom.jsx';
-import InputCustom from '../../components/Input/Input.jsx';
 import Page from '../../components/utils/Page.js';
 import { useAuthState } from '../../context/AuthContext.js';
 import { useCreatePostLazy } from '../../graphql/usePost.js';
+import useModal from '../../hooks/useModal.jsx';
 import useUploadImageToAWS from '../../hooks/useUploadImageToAWS.js';
 import './UploadImage.css';
 import { EXIF } from 'exif-js';
@@ -20,7 +20,7 @@ const UploadImage = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const [previewImage, setPreviewImage] = useState(null);
-  const [showModalUpload, setShowModalUpload] = useState(false);
+  const { isShowing: showUpload, toggle: toggleShowUpload } = useModal();
 
   const [title, setTitle] = useState('');
   const [aperture, setAperture] = useState('');
@@ -47,9 +47,6 @@ const UploadImage = () => {
   const { createPost, isFetching, fetchedData, fetchError } =
     useCreatePostLazy();
   const uploadImageToAWS = useUploadImageToAWS();
-
-  // console.log({ fetchedData });
-  // console.log({ fetchError });
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
@@ -79,10 +76,6 @@ const UploadImage = () => {
   const removeCategory = (id) => {
     const removeCategory = categories.filter((item) => item.id !== id);
     setCategories(removeCategory);
-  };
-
-  const handleFileSelect = () => {
-    fileInputRef.current.click();
   };
 
   const handleFileChange = (event) => {
@@ -127,8 +120,7 @@ const UploadImage = () => {
     };
 
     reader.readAsDataURL(file);
-    setShowModalUpload(true);
-
+    toggleShowUpload(true);
     setSelectedFile(file);
   };
 
@@ -178,11 +170,6 @@ const UploadImage = () => {
     }
   };
 
-  const handleCancelUpload = (event) => {
-    event.preventDefault();
-    setShowModalUpload(false);
-  };
-
   return (
     <Page title="Flens-Upload">
       <Suspense fallback={<div>Loading...</div>}>
@@ -198,7 +185,7 @@ const UploadImage = () => {
               <label
                 className="custom-file-input"
                 type="button"
-                onClick={handleFileSelect}
+                onClick={() => fileInputRef.current.click()}
               >
                 Upload a photo
               </label>
@@ -211,7 +198,7 @@ const UploadImage = () => {
               />
             </div>
 
-            <div className="modal-upload-overlay" hidden={!showModalUpload}>
+            <div className="modal-upload-overlay" hidden={!showUpload}>
               <div className="modal-upload-container">
                 <div className="modal-upload-content">
                   <div className="modal-upload-left">
@@ -395,7 +382,10 @@ const UploadImage = () => {
                         <ButtonCustom
                           text={'Cancel'}
                           type="modal-close-btn"
-                          onClick={(e) => handleCancelUpload(e)}
+                          onClick={(event) => [
+                            event.preventDefault(),
+                            toggleShowUpload(false),
+                          ]}
                         />
                       </div>
 
