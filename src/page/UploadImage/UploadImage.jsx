@@ -406,6 +406,7 @@ const UploadImage = () => {
                           onClick={(event) => [
                             event.preventDefault(),
                             toggleShowUpload(false),
+                            setCategories([])
                           ]}
                         />
                       </div>
