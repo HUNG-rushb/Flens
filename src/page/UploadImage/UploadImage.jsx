@@ -75,10 +75,10 @@ const UploadImage = () => {
   };
 
   const handleSelectCategory = () => {
-    console.log(categories)
+    console.log(categories);
     const checkExistCategory = categories.every(
       (item) => item.value !== category.value
-    ); 
+    );
     if (checkExistCategory && category.value) {
       categories.push(category);
       setCategories(categories);
@@ -189,6 +189,16 @@ const UploadImage = () => {
     if (!fetchError) {
       navigate('/');
     }
+  };
+
+  const handleCancelUpload = (event) => {
+    event.preventDefault();
+    toggleShowUpload(false);
+    setCategories([]);
+    setCategory({
+      id: 1,
+      value: options[0],
+    });
   };
 
   return (
@@ -403,11 +413,7 @@ const UploadImage = () => {
                         <ButtonCustom
                           text={'Cancel'}
                           type="modal-close-btn"
-                          onClick={(event) => [
-                            event.preventDefault(),
-                            toggleShowUpload(false),
-                            setCategories([])
-                          ]}
+                          onClick={(e) => handleCancelUpload(e)}
                         />
                       </div>
 
