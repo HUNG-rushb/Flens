@@ -15,6 +15,7 @@ const PostComment = ({ item }) => {
   const [indexCmt, setIndexCmt] = useState(3);
 
   const commentid = item?.id;
+  console.log({ item }, 327462874682346);
 
   const { isFetching, fetchedData, fetchError, refetch } = useGetAllPostComment(
     {
@@ -138,7 +139,7 @@ const PostComment = ({ item }) => {
               <img
                 src={i.userId.profileImageURL}
                 alt="reply-comment"
-                id='reply-comment-avatar'
+                id="reply-comment-avatar"
               />
               <span>{i.userId.name}</span>
               <div className="reply-comment-content">{i.content}</div>

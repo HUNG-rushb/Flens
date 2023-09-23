@@ -22,14 +22,11 @@ const Home = () => {
 
   const { id: userId } = useAuthState();
 
-  const { posts, isFetching, fetchedData, fetchError, loadNew } = useGetNewFeed(
-    {
-      getAllUserPostId: { userId },
-    }
-  );
+  const { posts, hasMore, isFetching, fetchedData, fetchError, loadNew } =
+    useGetNewFeed(userId);
   console.log({ posts });
-  console.log({ fetchedData });
-  console.log(fetchedData?.userInfo.posts.length);
+  // console.log({ fetchedData });
+  // console.log(fetchedData?.userInfo.posts.length);
 
   if (fetchError) {
     return <p>Error</p>;
@@ -70,9 +67,9 @@ const Home = () => {
               <UploadBar />
 
               <InfiniteScroll
-                dataLength={fetchedData ? fetchedData.userInfo.posts.length : 0} //This is important field to render the next data
+                dataLength={posts.length} //This is important field to render the next data
                 next={loadNew}
-                hasMore={true}
+                hasMore={hasMore}
                 loader={<h4>Loading...</h4>}
                 endMessage={
                   <p style={{ textAlign: 'center' }}>
@@ -101,11 +98,12 @@ const Home = () => {
 
           <RightContent />
 
-          <ImageDetail
+          {/* <ImageDetail
             item={itemShowDetail}
             showImageDetail={showImageDetail}
             handleCloseImageDetail={toggleImageDetail}
-          />
+          /> */}
+
           <ModalReportImage
             show={showReport}
             image={imageToReport}

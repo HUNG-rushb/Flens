@@ -3,6 +3,7 @@ import {
   GET_ALL_USER_POST,
   GET_ALL_POST_COMMENT,
   CREATE_COMMENT,
+  GET_NEW_FEED,
 } from './queries/Post.js';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import { useCallback, useEffect, useState } from 'react';
@@ -20,14 +21,18 @@ export const useCreatePostLazy = (cache) => {
   };
 };
 
-export const useGetNewFeed = (queryPayload, cache) => {
+export const useGetNewFeed = (userId, cache) => {
   const [posts, setPosts] = useState([]);
-  const { data, loading, error, fetchMore } = useQuery(GET_ALL_USER_POST, {
+  const [hasMore, setHasMore] = useState(true);
+  const [offset, setOffset] = useState(0);
+
+  const { data, loading, error, fetchMore } = useQuery(GET_NEW_FEED, {
     fetchPolicy: cache ? undefined : 'no-cache',
-    variables: queryPayload,
+    variables: {
+      getNewFeedData: { userId, offset },
+    },
     onCompleted: (data) => {
-      // const { content, hasMore } = data;
-      setPosts(data.userInfo.posts);
+      setPosts(data.getNewFeed);
       // setHasMorePosts(hasMore);
     },
   });
@@ -35,16 +40,24 @@ export const useGetNewFeed = (queryPayload, cache) => {
   // console.log({ data });
   // console.log({ posts });
 
-  const loadNew = useCallback(() => {
-    const a = fetchMore();
-    console.log({ a });
+  const loadNew = useCallback(async () => {
+    setOffset((prev) => prev + 2);
+    console.log('fawfwgfhefuwyfiuwefh');
 
-    // setPosts((prev) => ({ ...prev, ...a }));
-    // console.log({ posts });
+    const fetchMoreData = await fetchMore({
+      variables: {
+        getNewFeedData: { userId, offset: offset + 2 },
+      },
+    });
+    console.log({ fetchMoreData });
+
+    setPosts((prev) => [...prev, fetchMoreData.data.getNewFeed]);
+    console.log({ posts }, 'wfwifhuewfhiwuefhiewu379287429847');
   }, []);
 
   return {
     posts,
+    hasMore,
     isFetching: false,
     fetchedData: data,
     fetchError: false,

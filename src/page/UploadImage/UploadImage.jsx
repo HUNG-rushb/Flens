@@ -378,6 +378,7 @@ const UploadImage = () => {
                             ))}
                           </div>
                         )}
+
                         <div className="sub-categories">
                           <select
                             value={category.value}
@@ -393,13 +394,51 @@ const UploadImage = () => {
                             }
                           >
                             {options.map((item) => {
-                              return (
-                                <option key={options.indexOf(item)}>
-                                  {item}
-                                </option>
-                              );
+                              return <option key={item.id}>{item.name}</option>;
                             })}
                           </select>
+
+                          <div className="add-category-button">
+                            <button onClick={handleSelectCategory}>Add</button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="all-albums">
+                        <label>Album</label>
+                        {categories.length > 0 && (
+                          <div className="categories-item">
+                            {categories.map((item) => (
+                              <div
+                                key={item.id}
+                                onClick={() => removeCategory(item.id)}
+                              >
+                                <span id="remove-tag">X</span>
+                                {item.value}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        <div className="sub-categories">
+                          <select
+                            value={category.value}
+                            id="select-image-category"
+                            onChange={(e) =>
+                              setCategory({
+                                id:
+                                  categories.length === 0
+                                    ? 1
+                                    : categories[categories.length - 1].id + 1,
+                                value: e.target.value,
+                              })
+                            }
+                          >
+                            {options.map((item) => {
+                              return <option key={item.id}>{item.name}</option>;
+                            })}
+                          </select>
+
                           <div className="add-category-button">
                             <button onClick={handleSelectCategory}>Add</button>
                           </div>
