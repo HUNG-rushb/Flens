@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import ButtonCustom from '../../components/Button/ButtonCustom';
 import Page from '../../components/utils/Page';
 import { useAuthState } from '../../context/AuthContext';
@@ -114,7 +114,7 @@ const Notification = () => {
     console.log('click');
   };
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     const scrollPosition = window.innerHeight + window.scrollY;
     const scrollHeight = document.body.scrollHeight;
 
@@ -125,7 +125,7 @@ const Notification = () => {
         setIsLoading(false);
       }, 3000);
     }
-  };
+  },[isLoading]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -133,7 +133,7 @@ const Notification = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [handleScroll]);
   
   return (
     <Page title={'Flens-Notification'}>

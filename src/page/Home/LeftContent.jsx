@@ -1,5 +1,6 @@
 import { useAuthState } from '../../context/AuthContext';
 import { useUserProfileImage } from '../../graphql/useUser';
+import { memo } from 'react';
 
 const LeftHomeContent = () => {
   const { id: userId } = useAuthState();
@@ -29,4 +30,4 @@ const LeftHomeContent = () => {
   );
 };
 
-export default LeftHomeContent;
+export default memo(LeftHomeContent);

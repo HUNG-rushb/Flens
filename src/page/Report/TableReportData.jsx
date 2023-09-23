@@ -8,11 +8,22 @@ const CustomTable = ({
   handleClickReject,
   X,
 }) => {
+
+  const table_title = [
+    { value: 'No' },
+    { value: 'Name' },
+    { value: 'Time' },
+    { value: 'Reason' },
+    { value: 'Reporter' },
+    { value: '#' },
+    { value: '#' },
+  ];
+
   return (
     <table>
       <thead>
         <tr>
-          {titles.map((title, index) => {
+          {table_title.map((title, index) => {
             return <td key={index}>{title.value}</td>;
           })}
         </tr>

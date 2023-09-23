@@ -2,20 +2,12 @@ import ModalCustom from '../../components/Modal/ModalCustom.jsx';
 import Page from '../../components/utils/Page.js';
 import './Report.css';
 import TableReportData from './TableReportData.jsx';
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useCallback, useState } from 'react';
 import { CheckSquare, XSquare } from 'react-bootstrap-icons';
 
 const Report = () => {
-  const table_title = [
-    { value: 'No' },
-    { value: 'Name' },
-    { value: 'Time' },
-    { value: 'Reason' },
-    { value: 'Reporter' },
-    { value: '#' },
-    { value: '#' },
-  ];
-  const [table_report_data, setTable_report_data] = useState([
+
+  const [data, setData] = useState([
     {
       id: 1,
       name: 'Nguyen Van A',
@@ -54,9 +46,9 @@ const Report = () => {
   const [showRejectModal, setShowRejectModal] = useState(false);
   const [tempObj, setTempObj] = useState({});
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     showAcceptModal ? setShowAcceptModal(false) : setShowRejectModal(false);
-  };
+  },[showAcceptModal]);
 
   const modalAcceptContent = () => {
     return (
@@ -87,7 +79,7 @@ const Report = () => {
   };
 
   const handleSubmitModal = () => {
-    setTable_report_data(table_report_data.filter((item) => item !== tempObj));
+    setData(data.filter((item) => item !== tempObj));
     showAcceptModal ? setShowAcceptModal(false) : setShowRejectModal(false);
   };
 
@@ -98,8 +90,7 @@ const Report = () => {
           <div className="title">Report Management</div>
           <div className="body-page">
             <TableReportData
-              titles={table_title}
-              body={table_report_data}
+              body={data}
               handleClickAccept={handleClickAccept}
               Check={CheckSquare}
               handleClickReject={handleClickReject}

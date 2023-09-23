@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 const LeftContent = ({ userId, userProfileInfo }) => {
   return (
@@ -20,4 +20,4 @@ const LeftContent = ({ userId, userProfileInfo }) => {
   );
 };
 
-export default LeftContent;
+export default memo(LeftContent);

@@ -1,16 +1,17 @@
+import { memo, useCallback } from 'react';
 import { CameraFill, PencilSquare } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 
 const UploadBar = () => {
   const navigate = useNavigate();
 
-  const handleClickUploadPart = () => {
+  const handleClickUploadPart = useCallback(() => {
     navigate('/upload')
-  }
+  },[navigate])
 
-  const handleClickUploadStory = () => {
+  const handleClickUploadStory = useCallback(() => {
     navigate('/uploadStory')
-  }
+  },[navigate])
 
   return (
     <div className="upload-bar">
@@ -28,4 +29,4 @@ const UploadBar = () => {
   );
 };
 
-export default UploadBar;
+export default memo(UploadBar);

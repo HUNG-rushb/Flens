@@ -1,24 +1,23 @@
 import { useGetAllStories } from '../../graphql/useStory';
 import unixToDateTime from '../../utils/unixToDateTime';
 import './StoryPage.css';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Heart, HeartFill, Reply, ThreeDots } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 
 const StoryPage = () => {
   const { isFetching, fetchedData, fetchError } = useGetAllStories();
-  // console.log(12313, { fetchedData });
 
   const [isLiked, setIsLiked] = useState(false);
-
+  const navigate = useNavigate();
+  
   const handleClickLike = () => {
     setIsLiked((prev) => !prev);
   };
 
-  const navigate = useNavigate();
-  const handeClickStoryDetail = (storyId) => {
+  const handeClickStoryDetail = useCallback((storyId) => {
     navigate(`/stories/${storyId}`);
-  };
+  },[navigate]);
 
   return (
     <div className="stories-page">
