@@ -1,5 +1,6 @@
-import ModalCustom from '../../../../components/Modal/ModalCustom.jsx';
-import useModal from '../../../../components/Modal/useModal';
+import Modal from '../../../../components/Modal/ModalCustom.jsx';
+import useModal from '../../../../hooks/useModal.jsx';
+import { handleFileChange } from '../../../../utils/useHandleFileChange.js';
 import './Portfolio.css';
 import React, { useEffect, useRef, useState } from 'react';
 import { ThreeDots, Trash } from 'react-bootstrap-icons';
@@ -15,38 +16,13 @@ const AlbumDetail = ({ setComponentToRender }) => {
   const { isShowing: openUploadImage, toggle: toggleUploadImage } = useModal();
   const [showListOtherActions, setShowListOtherActions] = useState(false);
 
-  const clickOutsideRef = useRef(null);
-
-  const handleConfirmUpload = () => {
-    toggleUploadImage();
-  };
-
-  const handleClose = () => {
-    toggleUploadImage();
-    setPreviewImage(null);
-  };
-
   const fileInputRef = useRef(null);
-
+  const clickOutsideRef = useRef(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-
-    const reader = new FileReader();
-    reader.onload = async (event) => {
-      const imageUrl = event.target.result;
-
-      const image = new Image();
-      image.src = imageUrl;
-      setPreviewImage(imageUrl);
-    };
-    reader.readAsDataURL(file);
-    setSelectedFile(file);
-  };
-  const handleFileSelect = () => {
-    fileInputRef.current.click();
+  const handleConfirmUpload = () => {
+    toggleUploadImage();
   };
 
   const modalContent = () => {
@@ -54,7 +30,7 @@ const AlbumDetail = ({ setComponentToRender }) => {
       <div className="up-image-to-album">
         <div>
           <label
-            onClick={handleFileSelect}
+            onClick={() => fileInputRef.current.click()}
             type="button"
             id="custom-image-to-album"
           >
@@ -65,7 +41,7 @@ const AlbumDetail = ({ setComponentToRender }) => {
           type="file"
           id="fileInput"
           ref={fileInputRef}
-          onChange={handleFileChange}
+          onChange={(event)=>handleFileChange(event, setPreviewImage, setSelectedFile)}
         />
         <img src={previewImage} alt="" id="image-to-album" />
       </div>
@@ -123,11 +99,11 @@ const AlbumDetail = ({ setComponentToRender }) => {
           </div>
         ))}
       </div>
-      <ModalCustom
+      <Modal
         show={openUploadImage}
         modalTitle={'Upload image to album'}
         modalContent={modalContent()}
-        handleClose={handleClose}
+        handleClose={() => [toggleUploadImage(), setPreviewImage(null)]}
         handleSavechanges={handleConfirmUpload}
       />
     </div>

@@ -1,7 +1,7 @@
 import Avatar from '../../assets/images/avatar.jpg';
 import ModalCustom from '../../components/Modal/ModalCustom.jsx';
-import useModal from '../../components/Modal/useModal';
 import Page from '../../components/utils/Page';
+import useModal from '../../hooks/useModal';
 import StoryPage from '../Stories/StoryPage';
 import './Explore.css';
 import HotTab from './ExploreTab/HotTab.jsx';

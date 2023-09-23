@@ -1,5 +1,6 @@
 import ModalCustom from '../../../../components/Modal/ModalCustom';
-import useModal from '../../../../components/Modal/useModal';
+import useModal from '../../../../hooks/useModal';
+import { handleFileChange } from '../../../../utils/useHandleFileChange';
 import React, { useRef, useState } from 'react';
 
 const AlbumImage = ({ userProfileData, setComponentToRender }) => {
@@ -19,36 +20,12 @@ const AlbumImage = ({ userProfileData, setComponentToRender }) => {
     },
   ];
 
-  const handleCreateAlbum = () => {
-    toggleCreateAlbum();
-  };
-
-  const handleClose = () => {
-    toggleCreateAlbum();
-    setPreviewImage(null);
-  };
-
   const fileInputRef = useRef(null);
-
   const [previewImage, setPreviewImage] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-
-    const reader = new FileReader();
-    reader.onload = async (event) => {
-      const imageUrl = event.target.result;
-
-      const image = new Image();
-      image.src = imageUrl;
-      setPreviewImage(imageUrl);
-    };
-    reader.readAsDataURL(file);
-    setSelectedFile(file);
-  };
-  const handleFileSelect = () => {
-    fileInputRef.current.click();
+  const handleCreateAlbum = () => {
+    toggleCreateAlbum();
   };
 
   const modalContent = () => {
@@ -64,9 +41,9 @@ const AlbumImage = ({ userProfileData, setComponentToRender }) => {
           />
         </div>
 
-        <div className='custom-input-image-to-album'>
+        <div className="custom-input-image-to-album">
           <label
-            onClick={handleFileSelect}
+            onClick={() => fileInputRef.current.click()}
             type="button"
             id="custom-image-to-album"
           >
@@ -77,7 +54,9 @@ const AlbumImage = ({ userProfileData, setComponentToRender }) => {
           type="file"
           id="fileInputNewAlbum"
           ref={fileInputRef}
-          onChange={handleFileChange}
+          onChange={(event) =>
+            handleFileChange(event, setPreviewImage, setSelectedFile)
+          }
         />
         <img src={previewImage} alt="" id="image-to-album" />
       </div>
@@ -89,29 +68,31 @@ const AlbumImage = ({ userProfileData, setComponentToRender }) => {
       <div className="album-title">
         <span>Album </span>
       </div>
-      {userProfileData && <div className="album-images">
-        <div>
-          <div className="new-album" onClick={toggleCreateAlbum}>
-            +
+      {userProfileData && (
+        <div className="album-images">
+          <div>
+            <div className="new-album" onClick={toggleCreateAlbum}>
+              +
+            </div>
+            <span id="child-album-title">Create album</span>
           </div>
-          <span id="child-album-title">Create album</span>
+          {fakeAlbum.map((album) => (
+            <div
+              key={album.id}
+              className="child-album"
+              onClick={() => setComponentToRender(1)}
+            >
+              <img src={album.image} alt="" />
+              <span id="child-album-title">{album.title}</span>
+            </div>
+          ))}
         </div>
-        {fakeAlbum.map((album) => (
-          <div
-            key={album.id}
-            className="child-album"
-            onClick={() => setComponentToRender(1)}
-          >
-            <img src={album.image} alt="" />
-            <span id="child-album-title">{album.title}</span>
-          </div>
-        ))}
-      </div> }
+      )}
       <ModalCustom
         show={openCreateAlbum}
         modalTitle={'Create new album'}
         modalContent={modalContent()}
-        handleClose={handleClose}
+        handleClose={() => [toggleCreateAlbum(), setPreviewImage(null)]}
         handleSavechanges={handleCreateAlbum}
       />
     </div>

@@ -1,6 +1,6 @@
 import InputCustom from '../../../components/Input/Input.jsx';
 import ModalCustom from '../../../components/Modal/ModalCustom.jsx';
-import useModal from '../../../components/Modal/useModal.jsx';
+import useModal from '../../../hooks/useModal.jsx';
 import AchievementComponent from './Biography/Achievements.jsx';
 import HobbyComponent from './Biography/Hobbies.jsx';
 import PersonalInforAndEdit from './Biography/PersonalInformationAndEdit.jsx';

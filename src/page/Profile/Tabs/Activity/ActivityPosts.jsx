@@ -1,7 +1,8 @@
-import ModalReportImage from '../../../../components/Modal/ModalReportImage';
-import useModal from '../../../../components/Modal/useModal';
+import Modal from '../../../../components/Modal/ModalCustom';
+import useModal from '../../../../hooks/useModal';
 import Post from '../../../Home/Post';
 import ImageDetail from '../../../Home/Post/ImageDetail';
+import { ReportContent } from '../../../Report/ReportImageContent';
 import './ActivityPosts.css';
 import React, { useState } from 'react';
 
@@ -35,9 +36,9 @@ const ActivityPosts = ({ userAllPostData }) => {
         showImageDetail={showImageDetail}
         handleCloseImageDetail={toggleImageDetail}
       />
-      <ModalReportImage
+      <Modal
         show={showReport}
-        image={imageToReport}
+        modalContent={<ReportContent image={imageToReport} />}
         handleClose={toggleShowReport}
         handleSavechanges={toggleShowReport}
       />

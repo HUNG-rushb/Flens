@@ -1,8 +1,8 @@
 import ButtonCustom from '../../components/Button/ButtonCustom.jsx';
-import InputCustom from '../../components/Input/Input.jsx';
 import Page from '../../components/utils/Page.js';
 import { useAuthState } from '../../context/AuthContext.js';
 import { useCreatePostLazy } from '../../graphql/usePost.js';
+import useModal from '../../hooks/useModal.jsx';
 import useUploadImageToAWS from '../../hooks/useUploadImageToAWS.js';
 import './UploadImage.css';
 import { EXIF } from 'exif-js';
@@ -20,7 +20,7 @@ const UploadImage = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const [previewImage, setPreviewImage] = useState(null);
-  const [showModalUpload, setShowModalUpload] = useState(false);
+  const { isShowing: showUpload, toggle: toggleShowUpload } = useModal();
 
   const [title, setTitle] = useState('');
   const [aperture, setAperture] = useState('');
@@ -35,10 +35,11 @@ const UploadImage = () => {
     id: 0,
     value: '',
   });
+
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState({
-    id: 0,
-    value: '',
+    id: 1,
+    value: options[0],
   });
 
   const options = useMemo(
@@ -74,17 +75,24 @@ const UploadImage = () => {
     useCreatePostLazy();
   const uploadImageToAWS = useUploadImageToAWS();
 
-  // console.log({ fetchedData });
-  // console.log({ fetchError });
-
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      tags.push(tag);
-      setTags(tags);
-      setTag({
-        id: 0,
-        value: '',
-      });
+      const checkExistTag = tags.every(
+        (item) => item.value !== event.target.value
+      );
+      if (checkExistTag && tag.value) {
+        tags.push(tag);
+        setTags(tags);
+        setTag({
+          id: 0,
+          value: '',
+        });
+      } else {
+        setTag({
+          id: 0,
+          value: '',
+        });
+      }
     }
   };
 
@@ -94,21 +102,28 @@ const UploadImage = () => {
   };
 
   const handleSelectCategory = () => {
-    categories.push(category);
-    setCategories(categories);
-    setCategory({
-      id: 0,
-      value: '',
-    });
+    console.log(categories);
+    const checkExistCategory = categories.every(
+      (item) => item.value !== category.value
+    );
+    if (checkExistCategory && category.value) {
+      categories.push(category);
+      setCategories(categories);
+      setCategory({
+        id: 0,
+        value: '',
+      });
+    } else {
+      setCategory({
+        id: 0,
+        value: '',
+      });
+    }
   };
 
   const removeCategory = (id) => {
     const removeCategory = categories.filter((item) => item.id !== id);
     setCategories(removeCategory);
-  };
-
-  const handleFileSelect = () => {
-    fileInputRef.current.click();
   };
 
   const handleFileChange = (event) => {
@@ -153,8 +168,7 @@ const UploadImage = () => {
     };
 
     reader.readAsDataURL(file);
-    setShowModalUpload(true);
-
+    toggleShowUpload(true);
     setSelectedFile(file);
   };
 
@@ -206,7 +220,12 @@ const UploadImage = () => {
 
   const handleCancelUpload = (event) => {
     event.preventDefault();
-    setShowModalUpload(false);
+    toggleShowUpload(false);
+    setCategories([]);
+    setCategory({
+      id: 1,
+      value: options[0],
+    });
   };
 
   return (
@@ -224,7 +243,7 @@ const UploadImage = () => {
               <label
                 className="custom-file-input"
                 type="button"
-                onClick={handleFileSelect}
+                onClick={() => fileInputRef.current.click()}
               >
                 Upload a photo
               </label>
@@ -237,7 +256,7 @@ const UploadImage = () => {
               />
             </div>
 
-            <div className="modal-upload-overlay" hidden={!showModalUpload}>
+            <div className="modal-upload-overlay" hidden={!showUpload}>
               <div className="modal-upload-container">
                 <div className="modal-upload-content">
                   <div className="modal-upload-left">

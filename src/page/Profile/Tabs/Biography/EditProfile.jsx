@@ -1,3 +1,4 @@
+import { Avatar } from '../../../../assets/icons/icons';
 import CoverImage from '../../../../assets/images/Profile/profileCoverImage.jpg';
 import Button from '../../../../components/Button/ButtonCustom';
 import { useAuthState } from '../../../../context/AuthContext';
@@ -6,9 +7,9 @@ import { updateProfileUser } from '../../../../context/actions/AuthActions';
 import { useUpdateProfileLazy } from '../../../../graphql/useUser';
 import { useUserProfileImage } from '../../../../graphql/useUser';
 import { uploadAvatarToAWS } from '../../../../hooks/useUploadImageToAWS';
+import { handleFileChange } from '../../../../utils/useHandleFileChange';
 import './EditProfile.css';
 import React, { useEffect, useRef, useState } from 'react';
-import { PersonCircle } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
@@ -27,7 +28,7 @@ const EditProfile = () => {
   const [name, setName] = useState('');
   const [birthday, setBirthday] = useState('');
 
-  const [previewImageAvatar, setPreviewAvatarImage] = useState(null);
+  const [previewImageAvatar, setPreviewAvatar] = useState(null);
   const [previewImageCover, setPreviewCoverImage] = useState(null);
   const [selectedAvatar, setSelectedAvatar] = useState(null);
   const [selectedCover, setSelectedCover] = useState(null);
@@ -35,47 +36,9 @@ const EditProfile = () => {
   const { updateProfile, isFetching, fetchError } = useUpdateProfileLazy();
 
   useEffect(() => {
-    setPreviewAvatarImage(fetchedImage?.userInfo.profileImageURL);
+    setPreviewAvatar(fetchedImage?.userInfo.profileImageURL);
     setPreviewCoverImage(fetchedImage?.userInfo.backgroundImageURL);
   }, [fetchedImage]);
-
-  const handleFileAvatarSelect = () => {
-    fileInputAvatarRef.current.click();
-  };
-
-  const handleFileCoverSelect = () => {
-    fileInputCoverRef.current.click();
-  };
-
-  const handleFileChangeAvatar = (event) => {
-    const file = event.target.files[0];
-
-    const reader = new FileReader();
-    reader.onload = async (event) => {
-      const imageUrl = event.target.result;
-
-      const image = new Image();
-      image.src = imageUrl;
-      setPreviewAvatarImage(imageUrl);
-    };
-    reader.readAsDataURL(file);
-    setSelectedAvatar(file);
-  };
-
-  const handleFileChangeCover = (event) => {
-    const file = event.target.files[0];
-
-    const reader = new FileReader();
-    reader.onload = async (event) => {
-      const imageUrl = event.target.result;
-
-      const image = new Image();
-      image.src = imageUrl;
-      setPreviewCoverImage(imageUrl);
-    };
-    reader.readAsDataURL(file);
-    setSelectedCover(file);
-  };
 
   const handleSaveEdit = async (event) => {
     event.preventDefault();
@@ -107,15 +70,15 @@ const EditProfile = () => {
 
     if (!fetchError) {
       toast.info('Edit profile sucessfull!', {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
-        });
+        theme: 'light',
+      });
       navigate(`/profile/${userId}`);
     }
   };
@@ -125,16 +88,18 @@ const EditProfile = () => {
       <div className="above-content">
         <div className="change-avatar-img">
           {previewImageAvatar ? (
-            <img src={previewImageAvatar} alt="edit-avatar" />
+            <img src={previewImageAvatar} alt="" />
           ) : (
-            <PersonCircle size={200} color="#f08080" id="default-edit-avatar" />
+            <div className="default-edit-avatar">
+              <Avatar size={200} color={'#f08080'} />
+            </div>
           )}
 
           <div className="edit-avatar-image">
             <label
               className="custom-file-input"
               type="button"
-              onClick={handleFileAvatarSelect}
+              onClick={() => fileInputAvatarRef.current.click()}
             >
               Change avatar image
             </label>
@@ -143,7 +108,9 @@ const EditProfile = () => {
               type="file"
               id="fileInput"
               ref={fileInputAvatarRef}
-              onChange={handleFileChangeAvatar}
+              onChange={(event) =>
+                handleFileChange(event, setPreviewAvatar, setSelectedAvatar)
+              }
             />
           </div>
         </div>
@@ -157,7 +124,7 @@ const EditProfile = () => {
             <label
               className="custom-file-input"
               type="button"
-              onClick={handleFileCoverSelect}
+              onClick={() => fileInputCoverRef.current.click()}
             >
               Change cover image
             </label>
@@ -165,7 +132,9 @@ const EditProfile = () => {
               type="file"
               id="fileInput"
               ref={fileInputCoverRef}
-              onChange={handleFileChangeCover}
+              onChange={(event) =>
+                handleFileChange(event, setPreviewCoverImage, setSelectedCover)
+              }
             />
           </div>
         </div>
