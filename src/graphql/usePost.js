@@ -27,40 +27,44 @@ export const useGetNewFeed = (userId, cache) => {
   const [offset, setOffset] = useState(0);
 
   const { data, loading, error, fetchMore } = useQuery(GET_NEW_FEED, {
-    fetchPolicy: cache ? undefined : 'no-cache',
+    // fetchPolicy: cache ? undefined : 'no-cache',
+    fetchPolicy: 'no-cache',
     variables: {
       getNewFeedData: { userId, offset },
     },
     onCompleted: (data) => {
-      setPosts(data.getNewFeed);
-      // setHasMorePosts(hasMore);
+      console.log(data.getNewFeed, 'first time');
+      setPosts(data.getNewFeed.edges);
+      // setHasMore(data.getNewFeed.pageInfo.hasNextPage);
     },
   });
 
-  // console.log({ data });
-  // console.log({ posts });
-
   const loadNew = useCallback(async () => {
     setOffset((prev) => prev + 2);
-    console.log('fawfwgfhefuwyfiuwefh');
+    console.log('load new');
 
     const fetchMoreData = await fetchMore({
       variables: {
         getNewFeedData: { userId, offset: offset + 2 },
       },
+      // onCompleted: (data) => {
+      //   console.log(data.getNewFeed, 'second time');
+      //   setPosts((prev) => [...prev, ...data.getNewFeed.edges]);
+      //   // setHasMore(data.getNewFeed.pageInfo.hasNextPage);
+      // },
     });
     console.log({ fetchMoreData });
 
-    setPosts((prev) => [...prev, fetchMoreData.data.getNewFeed]);
-    console.log({ posts }, 'wfwifhuewfhiwuefhiewu379287429847');
+    setPosts((prev) => [...prev, ...fetchMoreData.data.getNewFeed.edges]);
+    setHasMore(fetchMoreData.data.getNewFeed.pageInfo.hasNextPage);
   }, []);
 
   return {
     posts,
     hasMore,
-    isFetching: false,
+    isFetching: loading,
     fetchedData: data,
-    fetchError: false,
+    fetchError: error,
     loadNew,
   };
 };

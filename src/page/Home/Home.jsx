@@ -27,18 +27,18 @@ const Home = () => {
 
   const { posts, hasMore, isFetching, fetchedData, fetchError, loadNew } =
     useGetNewFeed(userId);
-  console.log({ posts });
+  console.log({ posts }, 'in Home');
   // console.log({ fetchedData });
   // console.log(fetchedData?.userInfo.posts.length);
 
-  if (fetchError) {
-    return (
-      <Lottie
-        animationData={require('../../assets/lotties/error_loading.json')}
-        style={{ height: 300 }}
-      />
-    );
-  }
+  // if (fetchError) {
+  //   return (
+  //     <Lottie
+  //       animationData={require('../../assets/lotties/error_loading.json')}
+  //       style={{ height: 300 }}
+  //     />
+  //   );
+  // }
 
   return (
     <Page title={'FLens-Home'}>
@@ -77,7 +77,8 @@ const Home = () => {
               <InfiniteScroll
                 dataLength={posts.length} //This is important field to render the next data
                 next={loadNew}
-                hasMore={hasMore}
+                // !!!!!
+                hasMore={true}
                 loader={<h4>Loading...</h4>}
                 endMessage={
                   <p style={{ textAlign: 'center' }}>
@@ -85,11 +86,11 @@ const Home = () => {
                   </p>
                 }
               >
-                {posts.map((item) => {
+                {posts.map((item, idx) => {
                   return (
                     <Post
-                      key={item.id}
-                      item={item}
+                      key={'post_' + idx}
+                      item={item.node}
                       userId={userId}
                       showReport={showReport}
                       showImageDetail={showImageDetail}

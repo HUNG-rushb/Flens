@@ -87,28 +87,38 @@ export const GET_ALL_USER_POST = gql`
 export const GET_NEW_FEED = gql`
   query Query($getNewFeedData: NewFeedInput!) {
     getNewFeed(data: $getNewFeedData) {
-      id
-      points
-      title
-      createdAt
+      edges {
+        cursor
+        node {
+          id
+          points
+          title
+          createdAt
 
-      userId {
-        profileImageURL
-        name
+          userId {
+            profileImageURL
+            name
+          }
+
+          image {
+            url
+            imageInfoId {
+              ISO
+              aperture
+              camera
+              copyRight
+              focalLength
+              lens
+              shutterSpeed
+              takenWhen
+            }
+          }
+        }
       }
 
-      image {
-        url
-        imageInfoId {
-          ISO
-          aperture
-          camera
-          copyRight
-          focalLength
-          lens
-          shutterSpeed
-          takenWhen
-        }
+      pageInfo {
+        hasNextPage
+        endCursor
       }
     }
   }
