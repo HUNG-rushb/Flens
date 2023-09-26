@@ -76,7 +76,6 @@ const Courses = () => {
   ];
 
   const [filteredData, setFilteredData] = useState(data);
-  
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);

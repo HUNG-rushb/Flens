@@ -99,7 +99,7 @@ const NavBar = () => {
                         pathType === 'explore' ? 'active-nav-link' : ''
                       }
                       onClick={(e) => [
-                        e.preventDefault(),
+                        e.preventDefault(), 
                         navigate('/explore/inspiration'),
                       ]}
                     >

@@ -1,30 +1,20 @@
 import React from 'react';
 
-const CustomTable = ({
-  titles,
+const table_title = ['No','Name','Time','Reason','Reporter','#','#'];
+
+const TableReportManagement = ({
   body,
   handleClickAccept,
   Check,
   handleClickReject,
   X,
 }) => {
-
-  const table_title = [
-    { value: 'No' },
-    { value: 'Name' },
-    { value: 'Time' },
-    { value: 'Reason' },
-    { value: 'Reporter' },
-    { value: '#' },
-    { value: '#' },
-  ];
-
   return (
     <table>
       <thead>
         <tr>
-          {table_title.map((title, index) => {
-            return <td key={index}>{title.value}</td>;
+          {table_title.map((value, index) => {
+            return <td key={index}>{value}</td>;
           })}
         </tr>
       </thead>
@@ -61,4 +51,4 @@ const CustomTable = ({
   );
 };
 
-export default CustomTable;
+export default TableReportManagement;
