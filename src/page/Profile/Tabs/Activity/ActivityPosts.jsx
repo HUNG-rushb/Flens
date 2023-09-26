@@ -2,7 +2,7 @@ import Modal from '../../../../components/Modal/ModalCustom';
 import useModal from '../../../../hooks/useModal';
 import Post from '../../../Home/Post';
 import ImageDetail from '../../../Home/Post/ImageDetail';
-import { ReportContent } from '../../../Report/ReportImageContent';
+import { ReportContent } from '../../../ReportManagement/ReportImageContent';
 import './ActivityPosts.css';
 import React, { useState } from 'react';
 

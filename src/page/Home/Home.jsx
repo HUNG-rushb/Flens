@@ -4,7 +4,7 @@ import Spinner from '../../components/utils/Spinner';
 import { useAuthState } from '../../context/AuthContext';
 import { useGetAllUserPost } from '../../graphql/usePost';
 import useModal from '../../hooks/useModal';
-import { ReportContent } from '../Report/ReportImageContent';
+import { ReportContent } from '../ReportManagement/ReportImageContent';
 import './Home.css';
 import LeftContent from './LeftContent';
 import Post from './Post'; 
