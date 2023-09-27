@@ -21,6 +21,7 @@ import UploadStory from '../page/UploadStory/UploadStory.jsx';
 import Report from '../page/ReportManagement/ReportManagement.jsx';
 import Statistic from '../page/Statistic/Statistic.jsx';
 import CoursesManagement from '../page/CoursesManagement/CoursesManagement.jsx';
+import ContestManagement from '../page/ContestManagement/ContestManagement.jsx';
 
 const routes = [
   {
@@ -102,7 +103,7 @@ const routes = [
     isPrivate: true,
   },
   {
-    path: '/coursesManagement',
+    path: '/courses-management',
     element: <CoursesManagement />,
     exact: true,
     isPrivate: true,
@@ -146,6 +147,12 @@ const routes = [
   {
     path: '/contest/:title',
     element: <ContestDetail />,
+    exact: true,
+    isPrivate: true,
+  },
+  {
+    path: '/contest-management',
+    element: <ContestManagement />,
     exact: true,
     isPrivate: true,
   },

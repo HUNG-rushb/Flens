@@ -1,7 +1,7 @@
 import Modal from '../../components/Modal/ModalCustom.jsx';
 import Page from '../../components/utils/Page.js';
 import useModal from '../../hooks/useModal.jsx';
-import './ReportManagement.scss';
+import './ReportManagement.css';
 import TableReportData from './TableReportData.jsx';
 import React, { Suspense, useCallback, useMemo, useState } from 'react';
 import { CheckSquare, XSquare } from 'react-bootstrap-icons';
@@ -63,7 +63,7 @@ const ReportManagement = () => {
           <span>Link: </span>
           {targetItem.link}
         </div>
-        <div>
+        <div> 
           <span>Reason:</span> {targetItem.reason}
         </div>
         <div>
