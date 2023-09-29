@@ -9,26 +9,31 @@ const ModalCustom = ({
   modalTitle,
   modalContent,
   size,
-  hideButton = false
+  hideButton = false,
+  submitText = 'Submit',
 }) => {
   return (
     <Modal show={show} onHide={handleClose} centered={true} size={size}>
       <Modal.Header closeButton>
         <Modal.Title>{modalTitle}</Modal.Title>
       </Modal.Header>
+
       <Modal.Body>{modalContent}</Modal.Body>
-      {!hideButton && <Modal.Footer>
-        <ButtonCustom
-          text={'Close'}
-          type="modal-close-btn"
-          onClick={handleClose}
-        />
-        <ButtonCustom
-          text="Submit"
-          type="modal-save-btn submit"
-          onClick={handleSavechanges}
-        />
-      </Modal.Footer>}
+
+      {!hideButton && (
+        <Modal.Footer>
+          <ButtonCustom
+            text={'Close'}
+            type="modal-close-btn"
+            onClick={handleClose}
+          />
+          <ButtonCustom
+            text={submitText}
+            type="modal-save-btn submit"
+            onClick={handleSavechanges}
+          />
+        </Modal.Footer>
+      )}
     </Modal>
   );
 };

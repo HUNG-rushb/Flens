@@ -70,7 +70,7 @@ const Home = () => {
             </div>
           </div> */}
 
-          <div className="homepage-center-container">
+          {/* <div className="homepage-center-container">
             <div className="homepage-center-content">
               <UploadBar />
 
@@ -103,7 +103,7 @@ const Home = () => {
                 })}
               </InfiniteScroll>
             </div>
-          </div>
+          </div> */}
 
           <RightContent />
 

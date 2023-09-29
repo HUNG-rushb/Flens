@@ -1,6 +1,7 @@
 import ButtonCustom from '../../components/Button/ButtonCustom.jsx';
 import Page from '../../components/utils/Page.js';
 import { useAuthState } from '../../context/AuthContext.js';
+import { useGetAllUserAlbum } from '../../graphql/useAlbum.js';
 import { useCreatePostLazy } from '../../graphql/usePost.js';
 import useModal from '../../hooks/useModal.jsx';
 import useUploadImageToAWS from '../../hooks/useUploadImageToAWS.js';
@@ -13,35 +14,6 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
 const UploadImage = () => {
-  const navigate = useNavigate();
-  const { id: userId, name } = useAuthState();
-  const fileInputRef = useRef(null);
-
-  const [selectedFile, setSelectedFile] = useState(null);
-
-  const [previewImage, setPreviewImage] = useState(null);
-  const { isShowing: showUpload, toggle: toggleShowUpload } = useModal();
-
-  const [title, setTitle] = useState('');
-  const [aperture, setAperture] = useState('');
-  const [lens, setLens] = useState('');
-  const [takenWhen, setTakenWhen] = useState('');
-  const [camera, setCamera] = useState('');
-  const [focalLength, setFocalLength] = useState('');
-  const [shutterSpeed, setShutterSpeed] = useState('');
-  const [iso, setIso] = useState('');
-  const [tags, setTags] = useState([]);
-  const [tag, setTag] = useState({
-    id: 0,
-    value: '',
-  });
-
-  const [categories, setCategories] = useState([]);
-  const [category, setCategory] = useState({
-    id: 1,
-    value: options[0],
-  });
-
   const options = useMemo(
     () => [
       { name: 'All categories', id: '64ecb68380295e50c958e547' },
@@ -69,7 +41,45 @@ const UploadImage = () => {
     ],
     []
   );
+  const navigate = useNavigate();
+  const { id: userId } = useAuthState();
+  const fileInputRef = useRef(null);
+
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const [previewImage, setPreviewImage] = useState(null);
+  const { isShowing: showUpload, toggle: toggleShowUpload } = useModal();
+
+  const [title, setTitle] = useState('');
+  const [aperture, setAperture] = useState('');
+  const [lens, setLens] = useState('');
+  const [takenWhen, setTakenWhen] = useState('');
+  const [camera, setCamera] = useState('');
+  const [focalLength, setFocalLength] = useState('');
+  const [shutterSpeed, setShutterSpeed] = useState('');
+  const [iso, setIso] = useState('');
   const [copyright, setCopyright] = useState('');
+
+  const [tags, setTags] = useState([]);
+  const [tag, setTag] = useState({
+    id: 0,
+    value: '',
+  });
+
+  const [categories, setCategories] = useState([options[0]]);
+  console.log({ categories });
+  const [category, setCategory] = useState(options[0]);
+  console.log({ category });
+
+  // const [albums, setAlbums] = useState([]);
+  // const [album, setAlbum] = useState({
+  //   id: 1,
+  //   value: options[0],
+  // });
+  // const { fetchedData: userAlbums } = useGetAllUserAlbum({
+  //   userAllAlbumData: { userId },
+  // });
+  // console.log({ userAlbums });
 
   const { createPost, isFetching, fetchedData, fetchError } =
     useCreatePostLazy();
@@ -102,22 +112,10 @@ const UploadImage = () => {
   };
 
   const handleSelectCategory = () => {
-    console.log(categories);
-    const checkExistCategory = categories.every(
-      (item) => item.value !== category.value
-    );
-    if (checkExistCategory && category.value) {
-      categories.push(category);
-      setCategories(categories);
-      setCategory({
-        id: 0,
-        value: '',
-      });
-    } else {
-      setCategory({
-        id: 0,
-        value: '',
-      });
+    const isCategoryExist = categories.includes(category);
+
+    if (!isCategoryExist) {
+      setCategories((prev) => [...prev, category]);
     }
   };
 
@@ -199,6 +197,7 @@ const UploadImage = () => {
           },
         },
       });
+
       toast.info('upload image sucessfull!', {
         position: 'top-right',
         autoClose: 5000,
@@ -392,7 +391,7 @@ const UploadImage = () => {
                                 onClick={() => removeCategory(item.id)}
                               >
                                 <span id="remove-tag">X</span>
-                                {item.value}
+                                {item.name}
                               </div>
                             ))}
                           </div>
@@ -400,20 +399,24 @@ const UploadImage = () => {
 
                         <div className="sub-categories">
                           <select
-                            value={category.value}
+                            value={category.name}
                             id="select-image-category"
-                            onChange={(e) =>
+                            onChange={(e) => {
+                              console.log(e.target.value);
                               setCategory({
-                                id:
-                                  categories.length === 0
-                                    ? 1
-                                    : categories[categories.length - 1].id + 1,
-                                value: e.target.value,
-                              })
-                            }
+                                name: e.target.value,
+                                id: options.find(
+                                  (item) => item.name === e.target.value
+                                ).id,
+                              });
+                            }}
                           >
                             {options.map((item) => {
-                              return <option key={item.id}>{item.name}</option>;
+                              return (
+                                <option key={item.id} value={item.name}>
+                                  {item.name}
+                                </option>
+                              );
                             })}
                           </select>
 
@@ -423,7 +426,7 @@ const UploadImage = () => {
                         </div>
                       </div>
 
-                      <div className="all-albums">
+                      {/* <div className="all-albums">
                         <label>Album</label>
                         {categories.length > 0 && (
                           <div className="categories-item">
@@ -462,7 +465,7 @@ const UploadImage = () => {
                             <button onClick={handleSelectCategory}>Add</button>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
 
                       <div>
                         <label htmlFor="">CopyRight</label>
