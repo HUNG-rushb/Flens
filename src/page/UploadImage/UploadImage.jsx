@@ -1,6 +1,7 @@
 import ButtonCustom from '../../components/Button/ButtonCustom.jsx';
 import Page from '../../components/utils/Page.js';
 import { useAuthState } from '../../context/AuthContext.js';
+import { useGetAllUserAlbum } from '../../graphql/useAlbum.js';
 import { useCreatePostLazy } from '../../graphql/usePost.js';
 import useModal from '../../hooks/useModal.jsx';
 import useUploadImageToAWS from '../../hooks/useUploadImageToAWS.js';
@@ -13,8 +14,35 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
 const UploadImage = () => {
+  const options = useMemo(
+    () => [
+      { name: 'All categories', id: '64ecb68380295e50c958e547' },
+      { name: 'Animal', id: '64edaf03809a20aed5684794' },
+      { name: 'Architecture', id: '64edaf2d809a20aed5684795' },
+      { name: 'Black and White', id: '64edaf3c809a20aed5684796' },
+      { name: 'Cityscapes', id: '64edaf4c809a20aed5684797' },
+      { name: 'Family', id: '64edaf62809a20aed5684798' },
+      { name: 'Fashion', id: '64edaf66809a20aed5684799' },
+      { name: 'Film', id: '64edaf72809a20aed568479a' },
+      { name: 'Food', id: '64edaf77809a20aed568479b' },
+      { name: 'Vintage', id: '64edafb5809a20aed568479c' },
+      { name: 'Vehicle', id: '64edafbb809a20aed568479d' },
+      { name: 'Urban', id: '64edafbf809a20aed568479e' },
+      { name: 'Underwater', id: '64edb08f809a20aed568479f' },
+      { name: 'Travel', id: '64edb0a5809a20aed56847a0' },
+      { name: 'Street photography', id: '64edb0ae809a20aed56847a1' },
+      { name: 'Sports', id: '64edb0c7809a20aed56847a2' },
+      { name: 'Landscape', id: '64edb0df809a20aed56847a3' },
+      { name: 'Nature', id: '64edb0e2809a20aed56847a4' },
+      { name: 'Sea', id: '64edb0f6809a20aed56847a5' },
+      { name: 'People', id: '64edb117809a20aed56847a7' },
+      { name: 'Interior', id: '64edb11c809a20aed56847a8' },
+      { name: 'Random', id: '64edb0f9809a20aed56847a6' },
+    ],
+    []
+  );
   const navigate = useNavigate();
-  const { id: userId, name } = useAuthState();
+  const { id: userId } = useAuthState();
   const fileInputRef = useRef(null);
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -30,19 +58,28 @@ const UploadImage = () => {
   const [focalLength, setFocalLength] = useState('');
   const [shutterSpeed, setShutterSpeed] = useState('');
   const [iso, setIso] = useState('');
+  const [copyright, setCopyright] = useState('');
+
   const [tags, setTags] = useState([]);
   const [tag, setTag] = useState({
     id: 0,
     value: '',
   });
-  const options = useMemo(() => ['Family', 'Fashion', 'Food'], []);
-  const [categories, setCategories] = useState([]);
-  const [category, setCategory] = useState({
-    id: 1,
-    value: options[0],
-  });
 
-  const [copyright, setCopyright] = useState('');
+  const [categories, setCategories] = useState([options[0]]);
+  console.log({ categories });
+  const [category, setCategory] = useState(options[0]);
+  console.log({ category });
+
+  // const [albums, setAlbums] = useState([]);
+  // const [album, setAlbum] = useState({
+  //   id: 1,
+  //   value: options[0],
+  // });
+  // const { fetchedData: userAlbums } = useGetAllUserAlbum({
+  //   userAllAlbumData: { userId },
+  // });
+  // console.log({ userAlbums });
 
   const { createPost, isFetching, fetchedData, fetchError } =
     useCreatePostLazy();
@@ -75,22 +112,10 @@ const UploadImage = () => {
   };
 
   const handleSelectCategory = () => {
-    console.log(categories);
-    const checkExistCategory = categories.every(
-      (item) => item.value !== category.value
-    );
-    if (checkExistCategory && category.value) {
-      categories.push(category);
-      setCategories(categories);
-      setCategory({
-        id: 0,
-        value: '',
-      });
-    } else {
-      setCategory({
-        id: 0,
-        value: '',
-      });
+    const isCategoryExist = categories.includes(category);
+
+    if (!isCategoryExist) {
+      setCategories((prev) => [...prev, category]);
     }
   };
 
@@ -172,6 +197,7 @@ const UploadImage = () => {
           },
         },
       });
+
       toast.info('upload image sucessfull!', {
         position: 'top-right',
         autoClose: 5000,
@@ -337,6 +363,7 @@ const UploadImage = () => {
                             })}
                           </div>
                         )}
+
                         <input
                           type="text"
                           placeholder="Input a tag and press enter"
@@ -364,11 +391,57 @@ const UploadImage = () => {
                                 onClick={() => removeCategory(item.id)}
                               >
                                 <span id="remove-tag">X</span>
+                                {item.name}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        <div className="sub-categories">
+                          <select
+                            value={category.name}
+                            id="select-image-category"
+                            onChange={(e) => {
+                              console.log(e.target.value);
+                              setCategory({
+                                name: e.target.value,
+                                id: options.find(
+                                  (item) => item.name === e.target.value
+                                ).id,
+                              });
+                            }}
+                          >
+                            {options.map((item) => {
+                              return (
+                                <option key={item.id} value={item.name}>
+                                  {item.name}
+                                </option>
+                              );
+                            })}
+                          </select>
+
+                          <div className="add-category-button">
+                            <button onClick={handleSelectCategory}>Add</button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* <div className="all-albums">
+                        <label>Album</label>
+                        {categories.length > 0 && (
+                          <div className="categories-item">
+                            {categories.map((item) => (
+                              <div
+                                key={item.id}
+                                onClick={() => removeCategory(item.id)}
+                              >
+                                <span id="remove-tag">X</span>
                                 {item.value}
                               </div>
                             ))}
                           </div>
                         )}
+
                         <div className="sub-categories">
                           <select
                             value={category.value}
@@ -384,18 +457,15 @@ const UploadImage = () => {
                             }
                           >
                             {options.map((item) => {
-                              return (
-                                <option key={options.indexOf(item)}>
-                                  {item}
-                                </option>
-                              );
+                              return <option key={item.id}>{item.name}</option>;
                             })}
                           </select>
+
                           <div className="add-category-button">
                             <button onClick={handleSelectCategory}>Add</button>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
 
                       <div>
                         <label htmlFor="">CopyRight</label>

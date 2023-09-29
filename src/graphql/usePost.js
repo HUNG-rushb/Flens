@@ -3,8 +3,10 @@ import {
   GET_ALL_USER_POST,
   GET_ALL_POST_COMMENT,
   CREATE_COMMENT,
+  GET_NEW_FEED,
 } from './queries/Post.js';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
+import { useCallback, useEffect, useState } from 'react';
 
 export const useCreatePostLazy = (cache) => {
   const [createPost, { data, loading, error }] = useMutation(CREATE_POST, {
@@ -16,6 +18,54 @@ export const useCreatePostLazy = (cache) => {
     isFetching: loading,
     fetchedData: data,
     fetchError: error,
+  };
+};
+
+export const useGetNewFeed = (userId, cache) => {
+  const [posts, setPosts] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [offset, setOffset] = useState(0);
+
+  const { data, loading, error, fetchMore } = useQuery(GET_NEW_FEED, {
+    // fetchPolicy: cache ? undefined : 'no-cache',
+    fetchPolicy: 'no-cache',
+    variables: {
+      getNewFeedData: { userId, offset },
+    },
+    onCompleted: (data) => {
+      console.log(data.getNewFeed, 'first time');
+      setPosts(data.getNewFeed.edges);
+      // setHasMore(data.getNewFeed.pageInfo.hasNextPage);
+    },
+  });
+
+  const loadNew = useCallback(async () => {
+    setOffset((prev) => prev + 2);
+    console.log('load new');
+
+    const fetchMoreData = await fetchMore({
+      variables: {
+        getNewFeedData: { userId, offset: offset + 2 },
+      },
+      // onCompleted: (data) => {
+      //   console.log(data.getNewFeed, 'second time');
+      //   setPosts((prev) => [...prev, ...data.getNewFeed.edges]);
+      //   // setHasMore(data.getNewFeed.pageInfo.hasNextPage);
+      // },
+    });
+    console.log({ fetchMoreData });
+
+    setPosts((prev) => [...prev, ...fetchMoreData.data.getNewFeed.edges]);
+    setHasMore(fetchMoreData.data.getNewFeed.pageInfo.hasNextPage);
+  }, []);
+
+  return {
+    posts,
+    hasMore,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+    loadNew,
   };
 };
 
