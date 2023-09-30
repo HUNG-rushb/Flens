@@ -25,12 +25,6 @@ import ContestManagement from '../page/ContestManagement/ContestManagement.jsx';
 
 const routes = [
   {
-    path: '/',
-    element: <Home />,
-    exact: true,
-    isPrivate: true,
-  },
-  {
     path: '/login',
     element: <Login />,
     exact: true,
@@ -41,6 +35,12 @@ const routes = [
     element: <Register />,
     exact: true,
     isPrivate: false,
+  },
+  {
+    path: '/',
+    element: <Home />,
+    exact: true,
+    isPrivate: true,
   },
   {
     path: '/explore/:exploreTab',
@@ -85,7 +85,7 @@ const routes = [
     isPrivate: true,
   },
   {
-    path: '/leaderBoard',
+    path: '/leader-board',
     element: <LeaderBoard />,
     exact: true,
     isPrivate: true,

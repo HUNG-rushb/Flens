@@ -8,7 +8,13 @@ import HotTab from './ExploreTab/HotTab.jsx';
 import Inspiration from './ExploreTab/Inspiration';
 import NewestTab from './ExploreTab/NewestTab.jsx';
 import SimilarImageDetail from './ExploreTab/SimilarImageDetail.jsx';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const options = [
@@ -21,7 +27,7 @@ const options = [
 const Explore = () => {
   const [activeTab, setActiveTab] = useState(0);
   const location = useLocation();
-  const tabs = ['inspiration', 'hot', 'newest', 'stories'];
+  const tabs = useMemo(() => ['inspiration', 'hot', 'newest', 'stories'], []);
   const [selectedOption, setSelectedOption] = useState(options[0].value);
   const { isShowing: showModal, toggle: toggleModal } = useModal();
   const navigate = useNavigate();
@@ -33,14 +39,17 @@ const Explore = () => {
     image: imageToShow,
   });
 
-  const modalContent = () => {
+  const modalContent = useCallback(() => {
     return <SimilarImageDetail imageDetail={selectedItem} />;
-  };
+  }, [selectedItem]);
 
-  const handleChangeTab = (index, tab) => {
-    setActiveTab(index);
-    navigate(`/explore/${tab}`);
-  };
+  const handleChangeTab = useCallback(
+    (index, tab) => {
+      setActiveTab(index);
+      navigate(`/explore/${tab}`);
+    },
+    [navigate]
+  );
 
   useEffect(() => {
     options[0].isChecked = true;
@@ -57,59 +66,70 @@ const Explore = () => {
     });
   }, [imageToShow]);
 
-  return (
-    <Page title="Flens-Explore">
-      <Suspense fallback={null}>
-        <div className="explore-page">
-          <div className="options-bar">
-            <div className="select-explore-container">
-              <select
-                id="select-option-explore"
-                value={selectedOption}
-                onChange={(e) => setSelectedOption(e.target.value)}
-              >
-                {options.map((option) => (
-                  <option key={option.id}>{option.value}</option>
-                ))}
-              </select>
-            </div>
-            <div className="explore-tabs">
-              {tabs.map((tab, index) => (
-                <span
-                  key={index}
-                  className={`tab--${
-                    activeTab === index ? 'active' : 'inActive'
-                  }`}
-                  onClick={() => handleChangeTab(index, tab)}
+  return useMemo(
+    () => (
+      <Page title="Flens-Explore">
+        <Suspense fallback={null}>
+          <div className="explore-page">
+            <div className="options-bar">
+              <div className="select-explore-container">
+                <select
+                  id="select-option-explore"
+                  value={selectedOption}
+                  onChange={(e) => setSelectedOption(e.target.value)}
                 >
-                  {tab}
-                </span>
-              ))}
+                  {options.map((option) => (
+                    <option key={option.id}>{option.value}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="explore-tabs">
+                {tabs.map((tab, index) => (
+                  <span
+                    key={index}
+                    className={`tab--${
+                      activeTab === index ? 'active' : 'inActive'
+                    }`}
+                    onClick={() => handleChangeTab(index, tab)}
+                  >
+                    {tab}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="explore-page-tab-content">
+              {activeTab === 0 && (
+                <Inspiration
+                  showModal={showModal}
+                  toggleModal={toggleModal}
+                  setImageToShow={setImageToShow}
+                />
+              )}
+              {activeTab === 1 && <HotTab />}
+              {activeTab === 2 && <NewestTab />}
+              {activeTab === 3 && <StoryPage />}
             </div>
           </div>
-          <div className="explore-page-tab-content">
-            {activeTab === 0 && (
-              <Inspiration
-                showModal={showModal}
-                toggleModal={toggleModal}
-                setImageToShow={setImageToShow}
-              />
-            )}
-            {activeTab === 1 && <HotTab />}
-            {activeTab === 2 && <NewestTab />}
-            {activeTab === 3 && <StoryPage />}
-          </div>
-        </div>
-        <ModalCustom
-          show={showModal}
-          handleClose={toggleModal}
-          handleSavechanges={toggleModal}
-          modalContent={modalContent()}
-          size={'xl'}
-          hideButton={true}
-        />
-      </Suspense>
-    </Page>
+          <ModalCustom
+            show={showModal}
+            handleClose={toggleModal}
+            handleSavechanges={toggleModal}
+            modalContent={modalContent()}
+            size={'xl'}
+            hideButton={true}
+          />
+        </Suspense>
+      </Page>
+    ),
+    [
+      tabs,
+      activeTab,
+      showModal,
+      selectedOption,
+      modalContent,
+      toggleModal,
+      handleChangeTab,
+    ]
   );
 };
 

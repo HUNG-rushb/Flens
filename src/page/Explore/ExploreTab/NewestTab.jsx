@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useMemo } from 'react';
 
-export default function NewestTab() {
-  return (
-    <div>NewestTab</div>
-  )
-}
+const NewestTab = () => {
+  return useMemo(() => <div>NewestTab</div>, []);
+};
+
+export default NewestTab;

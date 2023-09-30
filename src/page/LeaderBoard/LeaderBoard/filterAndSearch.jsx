@@ -1,5 +1,7 @@
+import { useMemo } from 'react';
+
 const FilterAndSearch = () => {
-    return 
-}
+  return useMemo(() => <div>filter and search</div>, []);
+};
 
 export default FilterAndSearch;

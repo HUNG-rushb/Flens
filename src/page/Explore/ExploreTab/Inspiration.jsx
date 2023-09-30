@@ -1,5 +1,5 @@
 import '../Explore.css';
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 
 const Inspiration = ({ toggleModal, setImageToShow }) => {
   const images = [
@@ -50,7 +50,7 @@ const Inspiration = ({ toggleModal, setImageToShow }) => {
     },
   ];
 
-  const [countNumberColumn, setCountNumberColumn] = useState(images.length / 3);
+  const countNumberColumn = useMemo(() => images.length / 3, [images.length]);
 
   const firstColum = images
     .slice(0, countNumberColumn)
@@ -88,16 +88,19 @@ const Inspiration = ({ toggleModal, setImageToShow }) => {
         onClick={() => [setImageToShow(image.image), toggleModal()]}
       />
     ));
-  return (
-    <>
-      <div className="explore-inspiration">
-        <div className="first-column-image">{firstColum}</div>
-        <div className="second-column-image">{secondColumn}</div>
-        <div className="third-column-image">{thirdColumn}</div>
+  return useMemo(
+    () => (
+      <div>
+        <div className="explore-inspiration">
+          <div className="first-column-image">{firstColum}</div>
+          <div className="second-column-image">{secondColumn}</div>
+          <div className="third-column-image">{thirdColumn}</div>
+        </div>
+        <div className="similar-images"></div>
+        <span>See More ...</span>
       </div>
-      <div className="similar-images"></div>
-      <span>See More ...</span>
-    </>
+    ),
+    [firstColum, secondColumn, thirdColumn]
   );
 };
 

@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useMemo } from 'react';
 
-export default function HotTab() {
-  return (
-    <div>HotTab</div>
-  )
-}
+const HotTab = () => {
+  return useMemo(() => <div>HotTab</div>, []);
+};
+
+export default HotTab;

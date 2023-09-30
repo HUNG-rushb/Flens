@@ -1,5 +1,5 @@
 import './ExploreTab.css';
-import React from 'react';
+import React, { useMemo } from 'react';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -54,41 +54,49 @@ const allImagesList = [
 ];
 
 const SimilarImageDetail = ({ imageDetail }) => {
-  return (
-    <div className="similar-image-detail-container">
-      <div className="similar-image-detail-content">
-        <div className="similar-image-detail-header">
-          <div>
-            <img
-              src={imageDetail.avatar}
-              alt=""
-              id="similar-image-detail-avatar"
-            />
+  return useMemo(
+    () => (
+      <div className="similar-image-detail-container">
+        <div className="similar-image-detail-content">
+          <div className="similar-image-detail-header">
+            <div>
+              <img
+                src={imageDetail.avatar}
+                alt=""
+                id="similar-image-detail-avatar"
+              />
+            </div>
+            <span id="similar-image-detail-username">
+              {imageDetail.username}
+            </span>
           </div>
-          <span id="similar-image-detail-username">{imageDetail.username}</span>
-        </div>
-        <div className="similar-image-detail-main-image">
-          <img src={imageDetail.image} alt="" />
-        </div>
-        <hr />
-        <div className="similar-image-list-part">
-          <span>Similar image</span>
-          <div>
-            <Swiper
-              slidesPerView={4}
-              spaceBetween={30}
-              className="similar-image-list"
-            >
-              {allImagesList.map((item) => (
-                <SwiperSlide key={item.id} className="similar-image-list-item">
-                  <img src={item.image} alt="" />
-                </SwiperSlide>
-              ))}
-            </Swiper>
+          <div className="similar-image-detail-main-image">
+            <img src={imageDetail.image} alt="" />
+          </div>
+          <hr />
+          <div className="similar-image-list-part">
+            <span>Similar image</span>
+            <div>
+              <Swiper
+                slidesPerView={4}
+                spaceBetween={30}
+                className="similar-image-list"
+              >
+                {allImagesList.map((item) => (
+                  <SwiperSlide
+                    key={item.id}
+                    className="similar-image-list-item"
+                  >
+                    <img src={item.image} alt="" />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    ),
+    [imageDetail.avatar, imageDetail.image, imageDetail.username]
   );
 };
 
