@@ -1,31 +1,12 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { PersonPlusFill } from 'react-bootstrap-icons';
 import { Autoplay, Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-const happeningContest = [
-  {
-    id: 1,
-    title: 'Flowers contest',
-    image:
-      'https://images.pexels.com/photos/1408221/pexels-photo-1408221.jpeg?auto=compress&cs=tinysrgb&w=600',
-  },
-  {
-    id: 2,
-    title: 'Fashion contest',
-    image:
-      'https://images.pexels.com/photos/2036650/pexels-photo-2036650.jpeg?auto=compress&cs=tinysrgb&w=600',
-  },
-  {
-    id: 3,
-    title: 'Pet contest',
-    image:
-      'https://images.pexels.com/photos/2607544/pexels-photo-2607544.jpeg?auto=compress&cs=tinysrgb&w=600',
-  },
-];
+import { contests } from '../Contest/contestTab/contestData';
+import { useNavigate } from 'react-router';
 
 const followSuggestionList = [
   {
@@ -60,7 +41,12 @@ const tags = [
 ];
 
 const RightContent = () => {
-  return (
+  const navigate = useNavigate();
+
+  const handleClickContest = (item) => {
+    navigate(`/contest/${item.title}`)
+  }
+  return useMemo(()=>(
     <div className="homepage-right-container">
       <div className="homepage-right-content">
         <div className="special-contest">
@@ -77,15 +63,15 @@ const RightContent = () => {
             }}
             modules={[Autoplay, Pagination]}
           >
-            {happeningContest.map((item)=>(
-              <SwiperSlide key={item.id}>
-              <div>
+            {contests.map((item, index)=>(
+              <SwiperSlide key={index}>
+              <div onClick={()=>handleClickContest(item)}>
                 <img
                   src={item.image}
                   alt=""
                   id="special-contest-image"
                 />
-                <span id="special-contest-title">{item.title}</span>
+                <span id="special-contest-title">{item.title} contest</span>
               </div>
             </SwiperSlide>
             ))}
@@ -127,7 +113,7 @@ const RightContent = () => {
         </div>
       </div>
     </div>
-  );
+  ),[]);
 };
 
 export default RightContent;

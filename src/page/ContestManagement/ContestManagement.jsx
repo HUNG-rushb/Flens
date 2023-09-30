@@ -1,6 +1,6 @@
 import { Suspense, useMemo } from "react"
 import Page from "../../components/utils/Page"
-
+import './ContestManagement.scss';
 
 const ContestManagement = () => {
     return useMemo(()=>(

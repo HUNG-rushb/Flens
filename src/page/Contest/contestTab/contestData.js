@@ -118,3 +118,42 @@ export const landscapeContest = {
   ],
   uploader: 'Eric Alison',
 };
+
+export const contests = [
+  {
+    id: 1,
+    image:
+      'https://images.pexels.com/photos/2072181/pexels-photo-2072181.jpeg?auto=compress&cs=tinysrgb&w=600',
+    title: 'birthday',
+  },
+  {
+    id: 2,
+    image:
+      'https://images.pexels.com/photos/2036650/pexels-photo-2036650.jpeg?auto=compress&cs=tinysrgb&w=600',
+    title: 'fashion',
+  },
+  {
+    idd: 3,
+    image:
+      'https://images.pexels.com/photos/2607544/pexels-photo-2607544.jpeg?auto=compress&cs=tinysrgb&w=600',
+    title: 'pet',
+  },
+  {
+    id: 4,
+    image:
+      'https://images.pexels.com/photos/1408221/pexels-photo-1408221.jpeg?auto=compress&cs=tinysrgb&w=600',
+    title: 'flowers',
+  },
+  {
+    id: 5,
+    image:
+      'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=600',
+    title: 'food',
+  },
+  {
+    id: 6,
+    image:
+      'https://images.pexels.com/photos/1166209/pexels-photo-1166209.jpeg?auto=compress&cs=tinysrgb&w=600',
+    title: 'landscape',
+  },
+];

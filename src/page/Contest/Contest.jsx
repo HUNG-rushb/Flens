@@ -1,21 +1,21 @@
 import ContestBanner from '../../assets/images/Contest/contestBanner.jpeg';
-import './Contest.css';
+import './Contest.scss';
 import ContestInfo from './contestTab/ContestInfo.jsx';
 import PhotoEntries from './contestTab/PhotoEntries.jsx';
 import PreviousWinner from './contestTab/PreviousWinner.jsx';
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 const tabs = ['Contest Info', 'Photo Entries', 'Previous Winners'];
 
 const Contest = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const handleChangeTab = (index) => { 
+  const handleChangeTab = useCallback((index) => {
     setActiveTab(index);
-  };
+  }, []);
 
-  return (
-    <div className="contest-page">
-      <div className="contest-page-container">
+  return useMemo(
+    () => (
+      <div className="contests">
         <div className="contest-banner">
           <img src={ContestBanner} alt="" />
           <div className="contest-header">
@@ -43,7 +43,8 @@ const Contest = () => {
           {activeTab === 2 && <PreviousWinner />}
         </div>
       </div>
-    </div>
+    ),
+    [activeTab, handleChangeTab]
   );
 };
 
