@@ -160,5 +160,5 @@ const routes = [
     isPrivate: false,
   }
 ];
-
+  
 export default routes;
