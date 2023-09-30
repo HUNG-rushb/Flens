@@ -28,14 +28,14 @@ const Home = () => {
   const { posts, hasNextPage, isFetching, fetchError, loadNew } =
     useGetNewFeed(userId);
 
-  if (fetchError) {
-    return (
-      <Lottie
-        animationData={require('../../assets/lotties/error_loading.json')}
-        style={{ height: 300 }}
-      />
-    );
-  }
+  // if (fetchError) {
+  //   return (
+  //     <Lottie
+  //       animationData={require('../../assets/lotties/error_loading.json')}
+  //       style={{ height: 300 }}
+  //     />
+  //   );
+  // }
 
   return (
     <Page title={'FLens-Home'}>

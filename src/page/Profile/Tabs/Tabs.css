@@ -5,6 +5,14 @@
   margin: 15px 0px 30px 0px;
 }
 
+.nav-tabs {
+  --bs-nav-link-color: #f08080 !important;
+}
+
+.nav-tabs:hover {
+  color: #f08080 !important;
+}
+
 .follow-interactions {
   position: absolute;
   right: 0;
