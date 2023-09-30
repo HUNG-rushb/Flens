@@ -15,7 +15,7 @@ const PostComment = ({ item }) => {
   const [indexCmt, setIndexCmt] = useState(3);
 
   const commentid = item?.id;
-  console.log({ item }, 'in post comment');
+  console.log(item?.id);
 
   const { isFetching, fetchedData, fetchError, refetch } = useGetAllPostComment(
     {
