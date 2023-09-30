@@ -24,6 +24,7 @@ import CoursesManagement from '../page/CoursesManagement/CoursesManagement.jsx';
 import ContestManagement from '../page/ContestManagement/ContestManagement.jsx';
 
 const routes = [
+  // user route
   {
     path: '/login',
     element: <Login />,
@@ -67,12 +68,6 @@ const routes = [
     isPrivate: true,
   },
   {
-    path: '/*',
-    element: <NotFound />,
-    exact: false,
-    isPrivate: false,
-  },
-  {
     path: '/academy',
     element: <Academy />,
     exact: true,
@@ -87,24 +82,6 @@ const routes = [
   {
     path: '/leader-board',
     element: <LeaderBoard />,
-    exact: true,
-    isPrivate: true,
-  },
-  {
-    path: '/reports',
-    element: <Report />,
-    exact: true,
-    isPrivate: true,
-  },
-  {
-    path: '/statistic',
-    element: <Statistic />,
-    exact: true,
-    isPrivate: true,
-  },
-  {
-    path: '/courses-management',
-    element: <CoursesManagement />,
     exact: true,
     isPrivate: true,
   },
@@ -150,12 +127,38 @@ const routes = [
     exact: true,
     isPrivate: true,
   },
+  // admin route
   {
     path: '/contest-management',
     element: <ContestManagement />,
     exact: true,
     isPrivate: true,
   },
+  {
+    path: '/courses-management',
+    element: <CoursesManagement />,
+    exact: true,
+    isPrivate: true,
+  },
+  {
+    path: '/reports',
+    element: <Report />,
+    exact: true,
+    isPrivate: true,
+  },
+  {
+    path: '/statistic',
+    element: <Statistic />,
+    exact: true,
+    isPrivate: true,
+  },
+  // error page
+  {
+    path: '/*',
+    element: <NotFound />,
+    exact: false,
+    isPrivate: false,
+  }
 ];
-
+  
 export default routes;
