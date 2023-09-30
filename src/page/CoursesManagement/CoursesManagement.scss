@@ -1,0 +1,65 @@
+.courses-management {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+
+  .title {
+    font-size: 25px;
+    font-weight: 500;
+    padding: 30px 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .create-courses-btn {
+    display: flex;
+    align-self: end;
+    margin: 0 65px 20px 0;
+  }
+  .body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 90%;
+
+    .content {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      justify-content: space-between;
+      padding-top: 10px;
+      margin-bottom: 50px;
+    }
+    
+    #label {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 10px 5px;
+    }
+
+    table {
+      width: 100%;
+      text-align: center;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    }
+
+    tr > td {
+      padding: 10px 5px;
+      border-collapse: collapse;
+    }
+
+    thead > tr {
+      background-color: #f8ad9d;
+      font-size: 19px;
+      font-weight: 600;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #fcebd7;
+    }
+  }
+}

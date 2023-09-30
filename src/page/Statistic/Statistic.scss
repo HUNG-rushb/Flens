@@ -1,0 +1,30 @@
+.statistic {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .title {
+    font-size: 25px;
+    font-weight: 500;
+    padding: 30px 0;    
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .chart-data {
+    width: 90%;
+
+    .nav-tabs {
+      --bs-nav-tabs-border-color: white;
+    }
+
+    .tab-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 30px 0px;
+    }
+  }
+}

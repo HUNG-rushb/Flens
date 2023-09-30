@@ -1,7 +1,7 @@
 import Modal from '../../components/Modal/ModalCustom.jsx';
 import Page from '../../components/utils/Page.js';
 import useModal from '../../hooks/useModal.jsx';
-import './ReportManagement.css';
+import './ReportManagement.scss';
 import TableReportData from './TableReportData.jsx';
 import React, { Suspense, useCallback, useMemo, useState } from 'react';
 import { CheckSquare, XSquare } from 'react-bootstrap-icons';
@@ -107,7 +107,7 @@ const ReportManagement = () => {
     () => (
       <Page title={'Flens-Reports'}>
         <Suspense fallback={null}>
-          <div className="report-page">
+          <div className="report-management">
             <div className="title">Report Management</div>
             <div className="body-page">
               <TableReportData

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 const content = [
   {
@@ -24,23 +24,26 @@ const content = [
 ];
 
 export const ReportContent = ({ image }) => {
-  return (
-    <div className="report-photo-container">
-      <img src={image} alt="" />
-      <div className="right-report-photo">
-        <span>Report this photo with reason:</span>
-        <ul>
-          {content.map((item) => {
-            return (
-              <div key={item.id}>
-                <li>
-                  <input type="checkbox" /> <span>{item.content}</span>
-                </li>
-              </div>
-            );
-          })}
-        </ul>
+  return useMemo(
+    () => (
+      <div className="report-photo-container">
+        <img src={image} alt="" />
+        <div className="right-report-photo">
+          <span>Report this photo with reason:</span>
+          <ul>
+            {content.map((item) => {
+              return (
+                <div key={item.id}>
+                  <li>
+                    <input type="checkbox" /> <span>{item.content}</span>
+                  </li>
+                </div>
+              );
+            })}
+          </ul>
+        </div>
       </div>
-    </div>
+    ),
+    [image]
   );
 };

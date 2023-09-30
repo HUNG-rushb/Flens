@@ -42,8 +42,6 @@ const QuizCreator = () => {
   return (
     <div className="upload-courses-page">
         <div className="upload-courses-container">
-
-       
       <h1>Create courses</h1>
       <form onSubmit={handleSubmit}>
         <div className="upload-courses-name-and-description">

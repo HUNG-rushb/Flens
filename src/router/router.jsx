@@ -18,7 +18,7 @@ import UploadImage from '../page/UploadImage/UploadImage.jsx';
 import UploadStory from '../page/UploadStory/UploadStory.jsx';
 
 // admin
-import Report from '../page/ReportManagement/ReportManagement.jsx';
+import ReportManagement from '../page/ReportManagement/ReportManagement.jsx';
 import Statistic from '../page/Statistic/Statistic.jsx';
 import CoursesManagement from '../page/CoursesManagement/CoursesManagement.jsx';
 import ContestManagement from '../page/ContestManagement/ContestManagement.jsx';
@@ -110,7 +110,7 @@ const routes = [
     isPrivate: true,
   },
   {
-    path: '/uploadCourses',
+    path: '/upload-courses',
     element: <UploadCourses />,
     exact: true,
     isPrivate: true,
@@ -141,8 +141,8 @@ const routes = [
     isPrivate: true,
   },
   {
-    path: '/reports',
-    element: <Report />,
+    path: '/report-management',
+    element: <ReportManagement />,
     exact: true,
     isPrivate: true,
   },
