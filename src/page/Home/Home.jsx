@@ -13,7 +13,7 @@ import ImageDetail from './Post/ImageDetail';
 import RightContent from './RightContent';
 import UploadBar from './UploadBar';
 import Lottie from 'lottie-react';
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Home = () => {
@@ -25,20 +25,17 @@ const Home = () => {
 
   const { id: userId } = useAuthState();
 
-  const { posts, hasMore, isFetching, fetchedData, fetchError, loadNew } =
+  const { posts, hasNextPage, isFetching, fetchError, loadNew } =
     useGetNewFeed(userId);
-  console.log({ posts }, 'in Home');
-  // console.log({ fetchedData });
-  // console.log(fetchedData?.userInfo.posts.length);
 
-  // if (fetchError) {
-  //   return (
-  //     <Lottie
-  //       animationData={require('../../assets/lotties/error_loading.json')}
-  //       style={{ height: 300 }}
-  //     />
-  //   );
-  // }
+  if (fetchError) {
+    return (
+      <Lottie
+        animationData={require('../../assets/lotties/error_loading.json')}
+        style={{ height: 300 }}
+      />
+    );
+  }
 
   return (
     <Page title={'FLens-Home'}>
@@ -46,39 +43,16 @@ const Home = () => {
         <div className="home-page">
           <LeftContent />
 
-          {/* <div className="homepage-center-container">
-            <div className="homepage-center-content">
-              <UploadBar />
-              {isFetching && <Spinner />}
-
-              {fetchedData &&
-                fetchedData.userInfo.posts.map((item) => {
-                  return (
-                    <Post
-                      key={item.id}
-                      item={item}
-                      userId={userId}
-                      showReport={showReport}
-                      showImageDetail={showImageDetail}
-                      toggleShowReport={toggleShowReport}
-                      setImageToReport={setImageToReport}
-                      toggleImageDetail={toggleImageDetail}
-                      setItemShowDetail={setItemShowDetail}
-                    />
-                  );
-                })}
-            </div>
-          </div> */}
-
-          {/* <div className="homepage-center-container">
+          <div className="homepage-center-container">
             <div className="homepage-center-content">
               <UploadBar />
 
               <InfiniteScroll
-                dataLength={posts.length} //This is important field to render the next data
-                next={loadNew}
-                // !!!!!
-                hasMore={true}
+                dataLength={posts.length}
+                next={() => {
+                  loadNew();
+                }}
+                hasMore={hasNextPage}
                 loader={<h4>Loading...</h4>}
                 endMessage={
                   <p style={{ textAlign: 'center' }}>
@@ -103,15 +77,15 @@ const Home = () => {
                 })}
               </InfiniteScroll>
             </div>
-          </div> */}
+          </div>
 
           <RightContent />
 
-          {/* <ImageDetail
+          <ImageDetail
             item={itemShowDetail}
             showImageDetail={showImageDetail}
             handleCloseImageDetail={toggleImageDetail}
-          /> */}
+          />
 
           <Modal
             show={showReport}

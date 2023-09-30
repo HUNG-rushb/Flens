@@ -35,7 +35,7 @@ const Post = ({
           toggleShowReport={toggleShowReport}
         />
 
-        {/* <PostComment item={item} /> */}
+        <PostComment item={item} />
       </div>
     </div>
   );
