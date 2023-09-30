@@ -42,7 +42,6 @@ const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
                     className={`image-detail-information-container ${
                       zoomedIn ? 'zoomed-in' : ''
                     }`}
-                    
                     onClick={handleImageClick}
                     onMouseMove={handleMouseMove}
                     style={{ cursor: cursor }}
@@ -65,7 +64,11 @@ const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
 
                   <div className="image-detail-right-container">
                     <div className="image-detail-page-header">
-                      <img id='image-detail-avatar' src={item?.userId.profileImageURL} alt="avatar" />
+                      <img
+                        id="image-detail-avatar"
+                        src={item?.userId.profileImageURL}
+                        alt="avatar"
+                      />
                       <span>{item?.userId.name}</span>
                     </div>
                     <div className="image-detail-title">{item?.title}</div>
@@ -79,10 +82,10 @@ const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
                     />
                     <hr style={{ border: '1px solid #F08080' }} />
                     {/* <HashTag item={item} /> */}
-                    <PostComment
+                    {/* <PostComment
                       item={item}
                       showImageDetail={showImageDetail}
-                    />
+                    /> */}
                   </div>
                 </div>
               </div>

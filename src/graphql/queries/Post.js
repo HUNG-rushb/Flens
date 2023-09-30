@@ -85,8 +85,8 @@ export const GET_ALL_USER_POST = gql`
 `;
 
 export const GET_NEW_FEED = gql`
-  query Query($getNewFeedData: NewFeedInput!) {
-    getNewFeed(data: $getNewFeedData) {
+  query GetNewFeed($userId: String, $after: String) {
+    getNewFeed(userId: $userId, after: $after) {
       edges {
         cursor
         node {
@@ -117,7 +117,9 @@ export const GET_NEW_FEED = gql`
       }
 
       pageInfo {
+        hasPreviousPage
         hasNextPage
+        startCursor
         endCursor
       }
     }

@@ -21,47 +21,28 @@ export const useCreatePostLazy = (cache) => {
   };
 };
 
-export const useGetNewFeed = (userId, cache) => {
-  const [posts, setPosts] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
-  const [offset, setOffset] = useState(0);
-
+export const useGetNewFeed = (userId) => {
   const { data, loading, error, fetchMore } = useQuery(GET_NEW_FEED, {
-    // fetchPolicy: cache ? undefined : 'no-cache',
-    fetchPolicy: 'no-cache',
+    fetchPolicy: 'network-only',
     variables: {
-      getNewFeedData: { userId, offset },
-    },
-    onCompleted: (data) => {
-      console.log(data.getNewFeed, 'first time');
-      setPosts(data.getNewFeed.edges);
-      // setHasMore(data.getNewFeed.pageInfo.hasNextPage);
+      userId,
     },
   });
 
   const loadNew = useCallback(async () => {
-    setOffset((prev) => prev + 2);
-    console.log('load new');
+    console.log('load second');
 
     const fetchMoreData = await fetchMore({
       variables: {
-        getNewFeedData: { userId, offset: offset + 2 },
+        after: data.getNewFeed.pageInfo.endCursor,
       },
-      // onCompleted: (data) => {
-      //   console.log(data.getNewFeed, 'second time');
-      //   setPosts((prev) => [...prev, ...data.getNewFeed.edges]);
-      //   // setHasMore(data.getNewFeed.pageInfo.hasNextPage);
-      // },
     });
-    console.log({ fetchMoreData });
-
-    setPosts((prev) => [...prev, ...fetchMoreData.data.getNewFeed.edges]);
-    setHasMore(fetchMoreData.data.getNewFeed.pageInfo.hasNextPage);
-  }, []);
+    // console.log({ fetchMoreData });
+  }, [data]);
 
   return {
-    posts,
-    hasMore,
+    posts: data?.getNewFeed?.edges ?? [],
+    hasNextPage: data?.getNewFeed?.pageInfo?.hasNextPage ?? true,
     isFetching: loading,
     fetchedData: data,
     fetchError: error,
