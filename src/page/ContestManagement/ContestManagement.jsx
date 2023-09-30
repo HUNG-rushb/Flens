@@ -1,6 +1,7 @@
 import { Suspense, useMemo } from "react"
 import Page from "../../components/utils/Page"
 
+
 const ContestManagement = () => {
     return useMemo(()=>(
         <Page title={'Flens-Contest management'}>
