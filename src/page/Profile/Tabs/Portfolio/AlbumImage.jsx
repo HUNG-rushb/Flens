@@ -1,31 +1,41 @@
 import ModalCustom from '../../../../components/Modal/ModalCustom';
+import { useAuthState } from '../../../../context/AuthContext';
+import { useCreateAlbumLazy } from '../../../../graphql/useAlbum';
+import { useGetAllUserAlbum } from '../../../../graphql/useAlbum';
 import useModal from '../../../../hooks/useModal';
-import { handleFileChange } from '../../../../utils/useHandleFileChange';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 
 const AlbumImage = ({ userProfileData, setComponentToRender }) => {
+  const { id: userId } = useAuthState();
+  const { fetchedData: userAlbums, refetch } = useGetAllUserAlbum({
+    userAllAlbumData: { userId },
+  });
+  console.log({ userAlbums });
+
   const { isShowing: openCreateAlbum, toggle: toggleCreateAlbum } = useModal();
   const [newAlbumTitle, setNewAlbumTitle] = useState('');
 
-  const fakeAlbum = [
-    {
-      id: 1,
-      image: userProfileData?.userInfo.profileImageURL,
-      title: 'Avatar',
-    },
-    {
-      id: 2,
-      image: userProfileData?.userInfo.backgroundImageURL,
-      title: 'Cover image',
-    },
-  ];
+  const { createAlbum } = useCreateAlbumLazy();
 
-  const fileInputRef = useRef(null);
-  const [previewImage, setPreviewImage] = useState(null);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const handleCreateAlbum = async (event) => {
+    event.preventDefault();
 
-  const handleCreateAlbum = () => {
-    toggleCreateAlbum();
+    try {
+      await createAlbum({
+        variables: {
+          createAlbumData: {
+            userId,
+            name: newAlbumTitle,
+          },
+        },
+      });
+
+      toggleCreateAlbum();
+    } catch (e) {
+      throw e;
+    }
+    setNewAlbumTitle('');
+    refetch();
   };
 
   const modalContent = () => {
@@ -35,30 +45,12 @@ const AlbumImage = ({ userProfileData, setComponentToRender }) => {
           <label htmlFor="">Album title</label>
           <input
             type="text"
+            required
             placeholder="Enter album title"
             value={newAlbumTitle}
             onChange={(e) => setNewAlbumTitle(e.target.value)}
           />
         </div>
-
-        <div className="custom-input-image-to-album">
-          <label
-            onClick={() => fileInputRef.current.click()}
-            type="button"
-            id="custom-image-to-album"
-          >
-            Choose 1 image for new album
-          </label>
-        </div>
-        <input
-          type="file"
-          id="fileInputNewAlbum"
-          ref={fileInputRef}
-          onChange={(event) =>
-            handleFileChange(event, setPreviewImage, setSelectedFile)
-          }
-        />
-        <img src={previewImage} alt="" id="image-to-album" />
       </div>
     );
   };
@@ -66,9 +58,10 @@ const AlbumImage = ({ userProfileData, setComponentToRender }) => {
   return (
     <div className="album">
       <div className="album-title">
-        <span>Album </span>
+        <span>Album ({userAlbums ? userAlbums.userAllAlbum.length : 0})</span>
       </div>
-      {userProfileData && (
+
+      {userAlbums && (
         <div className="album-images">
           <div>
             <div className="new-album" onClick={toggleCreateAlbum}>
@@ -76,23 +69,26 @@ const AlbumImage = ({ userProfileData, setComponentToRender }) => {
             </div>
             <span id="child-album-title">Create album</span>
           </div>
-          {fakeAlbum.map((album) => (
+
+          {userAlbums.userAllAlbum.map((album) => (
             <div
               key={album.id}
               className="child-album"
               onClick={() => setComponentToRender(1)}
             >
-              <img src={album.image} alt="" />
-              <span id="child-album-title">{album.title}</span>
+              {/* <img src={album.posts[0].image.url} alt="" /> */}
+              <span id="child-album-title">{album.name}</span>
             </div>
           ))}
         </div>
       )}
+
       <ModalCustom
         show={openCreateAlbum}
         modalTitle={'Create new album'}
+        submitText={'Create'}
         modalContent={modalContent()}
-        handleClose={() => [toggleCreateAlbum(), setPreviewImage(null)]}
+        handleClose={() => [toggleCreateAlbum()]}
         handleSavechanges={handleCreateAlbum}
       />
     </div>
