@@ -6,30 +6,27 @@ import { Tab, Tabs } from 'react-bootstrap';
 
 const Statistic = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const userOptions = useMemo(
-    {
-      chart: {
-        id: 'user-apexchart',
-      },
-      xaxis: {
-        categories: [
-          'January',
-          'February',
-          'March',
-          'April',
-          'May',
-          'June',
-          'July',
-          'August',
-          'September',
-          'October',
-          'November',
-          'December',
-        ],
-      },
+  const userOptions = {
+    chart: {
+      id: 'user-apexchart',
     },
-    []
-  );
+    xaxis: {
+      categories: [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ],
+    },
+  };
 
   const userSeries = useMemo(
     () => [
@@ -45,30 +42,27 @@ const Statistic = () => {
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const postOptions = useMemo(
-    {
-      chart: {
-        id: 'post-apexchart',
-      },
-      xaxis: {
-        categories: [
-          'January',
-          'February',
-          'March',
-          'April',
-          'May',
-          'June',
-          'July',
-          'August',
-          'September',
-          'October',
-          'November',
-          'December',
-        ],
-      },
+  const postOptions = {
+    chart: {
+      id: 'post-apexchart',
     },
-    []
-  );
+    xaxis: {
+      categories: [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ],
+    },
+  };
 
   const postSeries = useMemo(
     () => [

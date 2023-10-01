@@ -99,29 +99,33 @@ const NavBar = () => {
                         pathType === 'explore' ? 'active-nav-link' : ''
                       }
                       onClick={(e) => [
-                        e.preventDefault(), 
+                        e.preventDefault(),
                         navigate('/explore/inspiration'),
                       ]}
                     >
                       Explore
                     </Nav.Link>
-                    <Nav.Link className={
+                    <Nav.Link
+                      className={
                         pathType === 'academy' ? 'active-nav-link' : ''
                       }
                       onClick={(e) => [
                         e.preventDefault(),
                         navigate('/academy'),
-                      ]}>
-                        Academy
+                      ]}
+                    >
+                      Academy
                     </Nav.Link>
-                    <Nav.Link className={
+                    <Nav.Link
+                      className={
                         pathType === 'contest' ? 'active-nav-link' : ''
                       }
                       onClick={(e) => [
                         e.preventDefault(),
                         navigate('/contest'),
-                      ]}>
-                        Contest
+                      ]}
+                    >
+                      Contest
                     </Nav.Link>
                     <Nav.Link
                       className={
@@ -215,10 +219,10 @@ const NavBar = () => {
                 <>
                   <NavbarSearch />
                   <Nav>
-                    <Nav.Link as={Link} to="/courses">
+                    <Nav.Link as={Link} to="/courses-management">
                       <Journal size={28} />
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/reports">
+                    <Nav.Link as={Link} to="/report-management">
                       <CardChecklist size={28} />
                     </Nav.Link>
                     <Nav.Link as={Link} to="/statistic">
@@ -226,21 +230,31 @@ const NavBar = () => {
                     </Nav.Link>
                     <Nav.Item>
                       <div ref={clickOutsideRef}>
-                        <PersonCircle
-                          size={29}
-                          onClick={() => setShowDropdown(!showDropdown)}
-                        />
+                      {fetchedData ? (
+                          <img
+                            id="navbar-avatar"
+                            src={fetchedData.userInfo.profileImageURL}
+                            alt=""
+                            onClick={() => setShowDropdown(!showDropdown)}
+                          />
+                        ) : (
+                          <PersonCircle
+                            size={28}
+                            onClick={() => setShowDropdown(!showDropdown)}
+                            id="avtar-nav-bar"
+                          />
+                        )}
                         <div className="popover-avatar">
                           {showDropdown ? (
                             <ul className="popover-avatar-content">
                               <li>
-                                <a href="/profile">Profile</a>
+                                <Link to={`/profile/${id}`}>Profile</Link>
                               </li>
                               <li>
-                                <a href="/courses">Courses</a>
+                                <a href="/courses-management">Courses</a>
                               </li>
                               <li>
-                                <a href="/reports">Reports</a>
+                                <a href="/report-management">Reports</a>
                               </li>
                               <li>
                                 <a href="/statistic">Statistic</a>
