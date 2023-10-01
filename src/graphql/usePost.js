@@ -5,6 +5,7 @@ import {
   CREATE_COMMENT,
   GET_NEW_FEED,
   DELETE_POST,
+  INTERACT_POST,
 } from './queries/Post.js';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import { useCallback, useEffect, useState } from 'react';
@@ -104,6 +105,23 @@ export const useDeletePost = () => {
     isFetching: loading,
     fetchedData: data,
     fetchError: error,
+  };
+};
+
+export const useInteractPost = () => {
+  const [interactPost, { data, loading, error, refetch }] = useMutation(
+    INTERACT_POST,
+    {
+      fetchPolicy: 'no-cache',
+    }
+  );
+
+  return {
+    interactPost,
+    isFetching: loading,
+    fetchedPostAfterInteract: data,
+    fetchError: error,
+    refetch,
   };
 };
 

@@ -1,4 +1,6 @@
+import { useAuthState } from '../../../context/AuthContext';
 import { useDeletePost } from '../../../graphql/usePost';
+import { useInteractPost } from '../../../graphql/usePost';
 import { useEffect, useRef, useState } from 'react';
 import {
   Flag,
@@ -17,17 +19,35 @@ const PostInteraction = ({
   toggleShowReport,
   handleDeletePost,
 }) => {
+  const { id: userId } = useAuthState();
   const clickOutsideRef = useRef(null);
-  const [isLiked, setIsLiked] = useState(false);
-  const [showListOtherActions, setShowListOtherActions] = useState(true);
-  const [countNumberOfLikes, setCountNumberOfLikes] = useState(item?.points);
-  const [animationWhenClick, setAnimationWhenClick] = useState(false);
-  const { deletePost } = useDeletePost({});
 
-  const handleClickLikePost = () => {
-    setIsLiked(!isLiked);
-    if (isLiked === false) setCountNumberOfLikes(countNumberOfLikes + 1);
-    else setCountNumberOfLikes(countNumberOfLikes - 1);
+  const [isLiked, setIsLiked] = useState(item?.userLikedPost.includes(userId));
+  const [countNumberOfLikes, setCountNumberOfLikes] = useState(item?.points);
+
+  const [showListOtherActions, setShowListOtherActions] = useState(true);
+  const [animationWhenClick, setAnimationWhenClick] = useState(false);
+  const { deletePost } = useDeletePost();
+  const { interactPost } = useInteractPost();
+
+  const handleClickLikePost = async (event) => {
+    event.preventDefault();
+
+    try {
+      const a = await interactPost({
+        variables: {
+          interactPostData: {
+            postId: item.id,
+            likedUserId: userId,
+            isLiked: !isLiked,
+          },
+        },
+      });
+      setIsLiked(!isLiked);
+      setCountNumberOfLikes(a.data.interactPost.points);
+    } catch (e) {
+      throw e;
+    }
     setAnimationWhenClick(true);
   };
 
@@ -101,6 +121,7 @@ const PostInteraction = ({
           )}
           <span>{countNumberOfLikes}</span>
         </div>
+
         <div className="right-action">
           <Reply size={30} className="reply-icon" />
           <ThreeDots
