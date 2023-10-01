@@ -59,6 +59,7 @@ const PostComment = ({ item }) => {
   };
 
   const handlePressEnter = async (event) => {
+    event.preventDefault();
     const textarea = document.getElementById(`textarea-comment-${commentid}`);
     const { selectionStart, selectionEnd } = textarea;
     const value = textarea.value;

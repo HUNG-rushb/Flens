@@ -3,6 +3,7 @@ import PostComment from './Post/PostComment.jsx';
 import PostHeader from './Post/PostHeader.jsx';
 import PostImageAndTitle from './Post/PostImageAndTitle.jsx';
 import PostInteraction from './Post/PostInteraction.jsx';
+import { useState } from 'react';
 
 const Post = ({
   item,
@@ -14,30 +15,39 @@ const Post = ({
   setImageToReport,
   setItemShowDetail,
 }) => {
+  const [isDeletedPost, setIsDeletedPost] = useState(false);
+
   return (
-    <div className="posts">
-      <PostHeader item={item} userId={userId} />
+    <>
+      {isDeletedPost ? (
+        <p>Post deleted successfully!</p>
+      ) : (
+        <div className="posts">
+          <PostHeader item={item} userId={userId} />
 
-      <div className="post-content">
-        <PostImageAndTitle
-          item={item}
-          toggleImageDetail={toggleImageDetail}
-          setItemShowDetail={setItemShowDetail}
-          showImageDetail={showImageDetail}
-        />
+          <div className="post-content">
+            <PostImageAndTitle
+              item={item}
+              toggleImageDetail={toggleImageDetail}
+              setItemShowDetail={setItemShowDetail}
+              showImageDetail={showImageDetail}
+            />
 
-        {/* <HashTag item={item} /> */}
+            {/* <HashTag item={item} /> */}
 
-        <PostInteraction
-          item={item}
-          showReport={showReport}
-          setImageToReport={setImageToReport}
-          toggleShowReport={toggleShowReport}
-        />
+            <PostInteraction
+              item={item}
+              showReport={showReport}
+              setImageToReport={setImageToReport}
+              toggleShowReport={toggleShowReport}
+              handleDeletePost={setIsDeletedPost}
+            />
 
-        <PostComment item={item} />
-      </div>
-    </div>
+            <PostComment item={item} />
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

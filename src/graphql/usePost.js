@@ -1,9 +1,10 @@
 import {
-  CREATE_POST, // GET_POST_INFORMATION,
+  CREATE_POST,
   GET_ALL_USER_POST,
   GET_ALL_POST_COMMENT,
   CREATE_COMMENT,
   GET_NEW_FEED,
+  DELETE_POST,
 } from './queries/Post.js';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import { useCallback, useEffect, useState } from 'react';
@@ -90,6 +91,19 @@ export const useGetAllPostComment = (queryPayload) => {
     fetchedData: data,
     fetchError: error,
     refetch,
+  };
+};
+
+export const useDeletePost = () => {
+  const [deletePost, { data, loading, error }] = useMutation(DELETE_POST, {
+    fetchPolicy: 'no-cache',
+  });
+
+  return {
+    deletePost,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
   };
 };
 
