@@ -4,7 +4,7 @@ import useModal from '../../../hooks/useModal.jsx';
 import AchievementComponent from './Biography/Achievements.jsx';
 import HobbyComponent from './Biography/Hobbies.jsx';
 import PersonalInforAndEdit from './Biography/PersonalInformationAndEdit.jsx';
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 const Biography = ({ userId, userAllPostData }) => {
   const { isShowing: showModal, toggle: toggleShowModal } = useModal();
@@ -47,9 +47,14 @@ const Biography = ({ userId, userAllPostData }) => {
     value: '',
   });
 
-  const addAchievementContent = () => {
-    return (
-      <>
+  const modalTitle = useMemo(
+    () => (checkType === 1 ? 'Input new achievement' : 'Input new hobby'),
+    [checkType]
+  );
+
+  const modalContent = useCallback(() => {
+    if (checkType === 1) {
+      return (
         <InputCustom
           type={'text'}
           value={initialValue.achievement}
@@ -60,13 +65,9 @@ const Biography = ({ userId, userAllPostData }) => {
             })
           }
         />
-      </>
-    );
-  };
-
-  const addHobbyContent = () => {
-    return (
-      <>
+      );
+    } else if (checkType === 2) {
+      return (
         <InputCustom
           type={'text'}
           value={initialValue.hobby}
@@ -77,53 +78,73 @@ const Biography = ({ userId, userAllPostData }) => {
             })
           }
         />
-      </>
-    );
-  };
+      );
+    }
+  }, [
+    achievements,
+    checkType,
+    hobbies,
+    initialValue.achievement,
+    initialValue.hobby,
+  ]);
 
-  const SubmitAchivement = () => {
-    achievements.push(initialValue);
-    setAchievements(achievements);
+  const handleCloseModal = useCallback(() => {
     toggleShowModal();
     setCheckType(0);
-  };
+  }, [toggleShowModal]);
 
-  const SubmitHobby = () => {
-    hobbies.push(initialValue);
-    setHobbies(hobbies);
+  const submitModal = useCallback(() => {
+    if (checkType === 1) {
+      achievements.push(initialValue);
+      setAchievements(achievements);
+    } else if (checkType === 2) {
+      hobbies.push(initialValue);
+      setHobbies(hobbies);
+    }
     toggleShowModal();
     setCheckType(0);
-  };
+  }, [achievements, checkType, hobbies, initialValue, toggleShowModal]);
 
-  return (
-    <div className="biography-tab">
-      <div className="bio-left">
-        <AchievementComponent
+  return useMemo(
+    () => (
+      <div className="biography-tab">
+        <div className="bio-left">
+          <AchievementComponent
+            achievements={achievements}
+            toggleShowModal={toggleShowModal}
+            setCheckType={setCheckType}
+          />
+          <HobbyComponent
+            hobbies={hobbies}
+            toggleShowModal={toggleShowModal}
+            setCheckType={setCheckType}
+          />
+        </div>
+        <PersonalInforAndEdit
           userId={userId}
-          achievements={achievements}
-          toggleShowModal={toggleShowModal}
-          checkType={checkType}
-          setCheckType={setCheckType}
+          userAllPostData={userAllPostData}
         />
-        <HobbyComponent
-          userId={userId}
-          hobbies={hobbies}
-          toggleShowModal={toggleShowModal}
+        <ModalCustom
+          show={showModal}
+          modalTitle={modalTitle}
+          modalContent={modalContent}
+          handleClose={handleCloseModal}
+          handleSavechanges={submitModal}
         />
       </div>
-      <PersonalInforAndEdit userId={userId} userAllPostData={userAllPostData} />
-      <ModalCustom
-        show={showModal}
-        handleClose={() => [toggleShowModal(), setCheckType(0)]}
-        modalTitle={
-          checkType === 1 ? 'Input new achievement' : 'Input new hobby'
-        }
-        modalContent={
-          checkType === 1 ? addAchievementContent() : addHobbyContent()
-        }
-        handleSavechanges={checkType === 1 ? SubmitAchivement : SubmitHobby}
-      />
-    </div>
+    ),
+    [
+      achievements,
+      toggleShowModal,
+      hobbies,
+      userId,
+      userAllPostData,
+      showModal,
+      handleCloseModal,
+      modalTitle,
+      modalContent,
+      submitModal,
+    ]
   );
 };
 
