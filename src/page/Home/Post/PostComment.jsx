@@ -81,6 +81,7 @@ const PostComment = ({ item }) => {
       setComment('');
       refetch();
     } else if (event.key === 'Enter' && event.shiftKey) {
+      event.preventDefault();
       const newValue =
         value.substring(0, selectionStart) +
         '\n' +
@@ -97,6 +98,8 @@ const PostComment = ({ item }) => {
       selectionStart === selectionEnd &&
       selectionStart > 0
     ) {
+      event.preventDefault();
+
       const newValue =
         value.substring(0, selectionStart - 1) + value.substring(selectionEnd);
       textarea.value = newValue;
