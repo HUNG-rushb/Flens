@@ -53,33 +53,33 @@ const Biography = ({ userId, userAllPostData }) => {
   );
 
   const modalContent = useCallback(() => {
-    if (checkType === 1) {
-      return (
-        <InputCustom
-          type={'text'}
-          value={initialValue.achievement}
-          onChange={(e) =>
-            setInitialValue({
-              id: achievements[achievements.length - 1].id + 1,
-              value: e.target.value,
-            })
-          }
-        />
-      );
-    } else if (checkType === 2) {
-      return (
-        <InputCustom
-          type={'text'}
-          value={initialValue.hobby}
-          onChange={(e) =>
-            setInitialValue({
-              id: hobbies[hobbies.length - 1].id + 1,
-              value: e.target.value,
-            })
-          }
-        />
-      );
-    }
+    return (
+      <>
+        {checkType === 1 ? (
+          <InputCustom
+            type={'text'}
+            value={initialValue.achievement}
+            onChange={(e) =>
+              setInitialValue({
+                id: achievements[achievements.length - 1].id + 1,
+                value: e.target.value,
+              })
+            }
+          />
+        ) : (
+          <InputCustom
+            type={'text'}
+            value={initialValue.hobby}
+            onChange={(e) =>
+              setInitialValue({
+                id: hobbies[hobbies.length - 1].id + 1,
+                value: e.target.value,
+              })
+            }
+          />
+        )}
+      </>
+    );
   }, [
     achievements,
     checkType,
@@ -127,7 +127,7 @@ const Biography = ({ userId, userAllPostData }) => {
         <ModalCustom
           show={showModal}
           modalTitle={modalTitle}
-          modalContent={modalContent}
+          modalContent={modalContent()}
           handleClose={handleCloseModal}
           handleSavechanges={submitModal}
         />
