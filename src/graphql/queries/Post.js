@@ -94,6 +94,7 @@ export const GET_NEW_FEED = gql`
           points
           title
           createdAt
+          userLikedPost
 
           userId {
             profileImageURL
@@ -159,6 +160,30 @@ export const CREATE_COMMENT = gql`
 `;
 
 export const INTERACT_POST = gql`
+  mutation InteractPost($interactPostData: InteractPostInput!) {
+    interactPost(data: $interactPostData) {
+      points
+      userLikedPost
+      id
+      title
+    }
+  }
+`;
+
+export const DELETE_POST = gql`
+  mutation DeletePost($deletePostData: DeletePostInput!) {
+    deletePost(data: $deletePostData) {
+      id
+      createdAt
+      title
+      userId {
+        name
+      }
+    }
+  }
+`;
+
+export const REPORT_POST = gql`
   mutation InteractPost($interactPostData: InteractPostInput!) {
     interactPost(data: $interactPostData) {
       points

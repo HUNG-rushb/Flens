@@ -15,7 +15,6 @@ const PostComment = ({ item }) => {
   const [indexCmt, setIndexCmt] = useState(3);
 
   const commentid = item?.id;
-  console.log(item?.id);
 
   const { isFetching, fetchedData, fetchError, refetch } = useGetAllPostComment(
     {
@@ -59,6 +58,7 @@ const PostComment = ({ item }) => {
   };
 
   const handlePressEnter = async (event) => {
+    event.preventDefault();
     const textarea = document.getElementById(`textarea-comment-${commentid}`);
     const { selectionStart, selectionEnd } = textarea;
     const value = textarea.value;
