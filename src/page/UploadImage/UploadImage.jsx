@@ -68,17 +68,28 @@ const UploadImage = () => {
 
   const [categories, setCategories] = useState([options[0]]);
   const [category, setCategory] = useState(options[0]);
+
   // console.log({ categories });
-  // console.log();
 
   const { fetchedData: userAlbums } = useGetAllUserAlbum({
     userAllAlbumData: { userId },
   });
   const [albums, setAlbums] = useState([]);
-  const [album, setAlbum] = useState({
-    id: 1,
-    value: options[0],
-  });
+  const [album, setAlbum] = useState(options[0]);
+
+
+  const handleSelectAlbum = () => {
+    const isCategoryExist = albums.includes(album);
+
+    if (!isCategoryExist) {
+      setAlbums((prev) => [...prev, album]);
+    }
+  };
+
+  const removeAlbum = (id) => {
+    const removeAlbum = albums.filter((item) => item.id !== id);
+    setAlbums(removeAlbum);
+  };
 
   console.log({ userAlbums });
 
@@ -435,14 +446,14 @@ const UploadImage = () => {
                         </div>
                       </div>
 
-                      {/* <div className="all-albums">
+                      <div className="all-albums">
                         <label>Album</label>
-                        {categories.length > 0 && (
-                          <div className="categories-item">
-                            {categories.map((item) => (
+                        {albums.length > 0 && (
+                          <div className="albums-item">
+                            {albums.map((item) => (
                               <div
                                 key={item.id}
-                                onClick={() => removeCategory(item.id)}
+                                onClick={() => removeAlbum(item.id)}
                               >
                                 <span id="remove-tag">X</span>
                                 {item.value}
@@ -451,16 +462,16 @@ const UploadImage = () => {
                           </div>
                         )}
 
-                        <div className="sub-categories">
+                        <div className="sub-albums">
                           <select
-                            value={category.value}
-                            id="select-image-category"
+                            value={album.value}
+                            id="select-image-album"
                             onChange={(e) =>
-                              setCategory({
+                              setAlbum({
                                 id:
-                                  categories.length === 0
+                                  albums.length === 0
                                     ? 1
-                                    : categories[categories.length - 1].id + 1,
+                                    : albums[albums.length - 1].id + 1,
                                 value: e.target.value,
                               })
                             }
@@ -470,11 +481,11 @@ const UploadImage = () => {
                             })}
                           </select>
 
-                          <div className="add-category-button">
-                            <button onClick={handleSelectCategory}>Add</button>
+                          <div className="add-album-button">
+                            <button onClick={handleSelectAlbum}>Add</button>
                           </div>
                         </div>
-                      </div> */}
+                      </div>
 
                       <div>
                         <label htmlFor="">CopyRight</label>
