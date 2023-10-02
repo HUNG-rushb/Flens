@@ -1,10 +1,14 @@
 import ActivityPosts from './Activity/ActivityPosts';
+import { useMemo } from 'react';
 
 const Activity = ({ userAllPostData }) => {
-  return (
-    <div className="activity-tab">
-      <ActivityPosts userAllPostData={userAllPostData} />
-    </div>
+  return useMemo(
+    () => (
+      <div className="activity-tab">
+        <ActivityPosts userAllPostData={userAllPostData} />
+      </div>
+    ),
+    [userAllPostData]
   );
 };
 
