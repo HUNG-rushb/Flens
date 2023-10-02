@@ -74,7 +74,7 @@ const UploadImage = () => {
   const { fetchedData: userAlbums } = useGetAllUserAlbum({
     userAllAlbumData: { userId },
   });
-  const [albums, setAlbums] = useState([]);
+  const [albums, setAlbums] = useState([options[0]]);
   const [album, setAlbum] = useState(options[0]);
 
 
