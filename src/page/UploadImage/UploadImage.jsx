@@ -67,19 +67,20 @@ const UploadImage = () => {
   });
 
   const [categories, setCategories] = useState([options[0]]);
-  console.log({ categories });
   const [category, setCategory] = useState(options[0]);
-  console.log({ category });
+  // console.log({ categories });
+  // console.log();
 
-  // const [albums, setAlbums] = useState([]);
-  // const [album, setAlbum] = useState({
-  //   id: 1,
-  //   value: options[0],
-  // });
-  // const { fetchedData: userAlbums } = useGetAllUserAlbum({
-  //   userAllAlbumData: { userId },
-  // });
-  // console.log({ userAlbums });
+  const { fetchedData: userAlbums } = useGetAllUserAlbum({
+    userAllAlbumData: { userId },
+  });
+  const [albums, setAlbums] = useState([]);
+  const [album, setAlbum] = useState({
+    id: 1,
+    value: options[0],
+  });
+
+  console.log({ userAlbums });
 
   const { createPost, isFetching, fetchedData, fetchError } =
     useCreatePostLazy();
@@ -177,11 +178,18 @@ const UploadImage = () => {
     const result = await uploadImageToAWS({ selectedFile });
     console.log({ result });
 
+    const submitTags = [
+      ...new Set(
+        tags.map((a) => a.value).map((element) => element.toLowerCase())
+      ),
+    ];
+
     try {
       await createPost({
         variables: {
           createPostData: {
-            categoryId: '6496c183518d8caaf82fcaca',
+            categoryId: categories.map((a) => a.id),
+            albumId: '6496c183518d8caaf82fcaca',
             userId,
             title,
             aperture,
@@ -194,6 +202,7 @@ const UploadImage = () => {
             copyRight: copyright,
             imageHash: '',
             imageURL: result.Location,
+            tag: submitTags,
           },
         },
       });

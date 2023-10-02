@@ -102,21 +102,14 @@ const useUploadImageToAWS = () => {
       ),
     };
 
-    //   const [progress, setProgress] = useState(0);
     let result;
     await myBucket
       .upload(params)
-      //   .on('httpUploadProgress', (evt) => {
-      //     setProgress(Math.round((evt.loaded / evt.total) * 100));
-      //   })
       .promise()
       .then((data) => {
-        // console.log({ data });
         result = data;
       })
       .catch((err) => console.log(err));
-
-    // console.log({ result });
 
     return result;
   };
