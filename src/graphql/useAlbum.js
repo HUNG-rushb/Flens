@@ -1,12 +1,14 @@
 import { CREATE_ALBUM, GET_ALL_USER_ALBUM } from './queries/Album.js';
 import { useQuery, useMutation } from '@apollo/client';
 
-// import { useCallback, useEffect, useState } from 'react';
-
-export const useGetAllUserAlbum = (queryPayload, cache) => {
+export const useGetAllUserAlbum = (queryPayload, setAlbum) => {
   const { data, loading, error, refetch } = useQuery(GET_ALL_USER_ALBUM, {
-    fetchPolicy: cache ? undefined : 'no-cache',
+    fetchPolicy: 'no-cache',
     variables: queryPayload,
+    onCompleted: (data) => {
+      console.log(data);
+      setAlbum(data.userAllAlbum[0]);
+    },
   });
 
   return {

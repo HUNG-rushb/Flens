@@ -1,9 +1,7 @@
 import TextareaCustom from '../../../components/TextArea/Textarea';
 import { useAuthState } from '../../../context/AuthContext';
-import {
-  useGetAllPostComment,
-  useCreateCommentLazy, // useGetAllPostCommentLazy,
-} from '../../../graphql/usePost';
+import { useCreateCommentLazy } from '../../../graphql/usePost';
+// import { useGetAllStoryComment } from '../../../graphql/useStory';
 import { relativeDays } from '../../../utils/unixToDateTime';
 import { useEffect, useState } from 'react';
 import { Send } from 'react-bootstrap-icons';
@@ -14,19 +12,19 @@ const StoryComment = ({ item, refetchStory }) => {
   const [comment, setComment] = useState('');
   const [indexCmt, setIndexCmt] = useState(3);
 
-  const commentid = item?.id;
+  console.log({ item });
 
   const { createComment } = useCreateCommentLazy();
 
-  //   const { isFetching, fetchedData, fetchError, refetch } = useGetAllPostComment(
-  //     {
-  //       postInfo: { postId: item?.id },
-  //     }
-  //   );
+  // const { isFetching, fetchedData, fetchError } = useGetAllStoryComment({
+  //   storyInfoData: { storyId: item?.id },
+  // });
 
   useEffect(() => {
     setAllComment(item?.comments);
   }, [item]);
+
+  const storyID = item?.id;
 
   const handleSubmitComment = async (e) => {
     e.preventDefault();
@@ -53,7 +51,7 @@ const StoryComment = ({ item, refetchStory }) => {
   };
 
   const handlePressEnter = async (event) => {
-    const textarea = document.getElementById(`textarea-comment-${commentid}`);
+    const textarea = document.getElementById(`textarea-comment-${storyID}`);
     const { selectionStart, selectionEnd } = textarea;
     const value = textarea.value;
 
@@ -63,8 +61,8 @@ const StoryComment = ({ item, refetchStory }) => {
           variables: {
             createCommentData: {
               userId,
-              postId: item.id,
-              storyId: '000000000000000000000000',
+              postId: '000000000000000000000000',
+              storyId: item?.id,
               content: comment,
             },
           },
@@ -113,7 +111,7 @@ const StoryComment = ({ item, refetchStory }) => {
         <TextareaCustom
           type={'comment'}
           placeholder={'Add a comment'}
-          id={`textarea-comment-${commentid}`}
+          id={`textarea-comment-${storyID}`}
           value={comment}
           rows={1}
           onChange={(e) => setComment(e.target.value)}

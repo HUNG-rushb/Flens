@@ -39,6 +39,7 @@ export const GET_STORY_INFO = gql`
           name
           profileImageURL
         }
+        id
         content
         createdAt
       }
@@ -47,10 +48,49 @@ export const GET_STORY_INFO = gql`
       images
       points
       title
+      userLikedStory
       userId {
         backgroundImageURL
         name
       }
+    }
+  }
+`;
+
+export const GET_ALL_STORY_COMMENT = gql`
+  query StoryInfo($storyInfoData: StoryInfoInput!) {
+    storyInfo(data: $storyInfoData) {
+      comments {
+        content
+        createdAt
+        id
+        userId {
+          profileImageURL
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const DELETE_STORY = gql`
+  mutation DeleteStory($deleteStoryData: DeleteStoryInput!) {
+    deleteStory(data: $deleteStoryData) {
+      id
+      title
+      userId {
+        name
+      }
+    }
+  }
+`;
+
+export const INTERACT_STORY = gql`
+  mutation InteractStory($interactStoryData: InteractStoryInput!) {
+    interactStory(data: $interactStoryData) {
+      id
+      points
+      title
     }
   }
 `;

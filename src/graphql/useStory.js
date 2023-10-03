@@ -2,6 +2,9 @@ import {
   CREATE_STORY,
   GET_ALL_STORIES,
   GET_STORY_INFO,
+  GET_ALL_STORY_COMMENT,
+  DELETE_STORY,
+  INTERACT_STORY,
 } from './queries/Story.js';
 import { useQuery, useMutation } from '@apollo/client';
 
@@ -30,10 +33,19 @@ export const useGetAllStories = (cache) => {
   };
 };
 
-export const useGetStoryInfo = (queryPayload, cache) => {
+export const useGetStoryInfo = (
+  queryPayload,
+  userId,
+  setIsLiked,
+  setCountNumberOfLikes
+) => {
   const { data, loading, error, refetch } = useQuery(GET_STORY_INFO, {
-    fetchPolicy: cache ? undefined : 'no-cache',
+    fetchPolicy: 'no-cache',
     variables: queryPayload,
+    onCompleted: (data) => {
+      setIsLiked(data.storyInfo.userLikedStory.includes(userId));
+      setCountNumberOfLikes(data.storyInfo.points);
+    },
   });
 
   return {
@@ -44,65 +56,46 @@ export const useGetStoryInfo = (queryPayload, cache) => {
   };
 };
 
-// export const useGetAllPostComment = (queryPayload) => {
-//   const { data, loading, error, refetch } = useQuery(GET_ALL_POST_COMMENT, {
-//     variables: queryPayload,
-//     fetchPolicy: 'no-cache',
-//   });
+export const useGetAllStoryComment = (queryPayload) => {
+  const { data, loading, error, refetch } = useQuery(GET_ALL_STORY_COMMENT, {
+    variables: queryPayload,
+    fetchPolicy: 'no-cache',
+  });
 
-//   return {
-//     isFetching: loading,
-//     fetchedData: data,
-//     fetchError: error,
-//     refetch,
-//   };
-// };
+  return {
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+    refetch,
+  };
+};
 
-// export const useGetAllPostCommentLazy = (queryPayload) => {
-//   const { data, loading, error } = useQuery(GET_ALL_POST_COMMENT, {
-//     variables: queryPayload,
-//   });
+export const useDeleteStory = () => {
+  const [deleteStory, { data, loading, error }] = useMutation(DELETE_STORY, {
+    fetchPolicy: 'no-cache',
+  });
 
-//   return {
-//     isFetching: loading,
-//     fetchedData: data,
-//     fetchError: error,
-//   };
-// };
+  return {
+    deleteStory,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
 
-// !!!!!!!!!!!!
-// !!!!!!!!!!!!
-// !!!!!!!!!!!!
-// export const useGetAllPostCommentLazy = (cache) => {
-//   const [getAllComment, { data, loading, error }] = useLazyQuery(
-//     GET_ALL_POST_COMMENT,
-//     {
-//       fetchPolicy: cache ? undefined : 'no-cache',
-//     }
-//   );
+export const useInteractStory = () => {
+  const [interactStory, { data, loading, error, refetch }] = useMutation(
+    INTERACT_STORY,
+    {
+      fetchPolicy: 'no-cache',
+    }
+  );
 
-//   return {
-//     getAllCommentLazy: (queryPayload) => {
-//       getAllComment(queryPayload);
-//     },
-//     isFetching: loading,
-//     fetchedData: data,
-//     fetchError: error,
-//   };
-// };
-
-// export const useCreateCommentLazy = (cache) => {
-//   const [createComment, { data, loading, error }] = useMutation(
-//     CREATE_COMMENT,
-//     {
-//       fetchPolicy: cache ? undefined : 'no-cache',
-//     }
-//   );
-
-//   return {
-//     createComment,
-//     isFetching: loading,
-//     fetchedData: data,
-//     fetchError: error,
-//   };
-// };
+  return {
+    interactStory,
+    isFetching: loading,
+    fetchedPostAfterInteract: data,
+    fetchError: error,
+    refetch,
+  };
+};

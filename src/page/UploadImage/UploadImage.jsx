@@ -8,7 +8,7 @@ import useUploadImageToAWS from '../../hooks/useUploadImageToAWS.js';
 import './UploadImage.css';
 import { EXIF } from 'exif-js';
 import Jimp from 'jimp';
-import React, { Suspense, useRef, useState, useMemo } from 'react';
+import React, { Suspense, useRef, useState, useMemo, useEffect } from 'react';
 import { CloudArrowUp } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
@@ -71,17 +71,22 @@ const UploadImage = () => {
 
   // console.log({ categories });
 
-  const { fetchedData: userAlbums } = useGetAllUserAlbum({
-    userAllAlbumData: { userId },
+  const [albums, setAlbums] = useState([]);
+  console.log({ albums });
+  const [album, setAlbum] = useState({
+    id: '',
+    name: '',
   });
-  const [albums, setAlbums] = useState([options[0]]);
-  const [album, setAlbum] = useState(options[0]);
-
+  console.log({ album });
+  const { fetchedData: userAlbums } = useGetAllUserAlbum(
+    {
+      userAllAlbumData: { userId },
+    },
+    setAlbum
+  );
 
   const handleSelectAlbum = () => {
-    const isCategoryExist = albums.includes(album);
-
-    if (!isCategoryExist) {
+    if (albums.filter((e) => e.id === album.id).length === 0) {
       setAlbums((prev) => [...prev, album]);
     }
   };
@@ -91,10 +96,9 @@ const UploadImage = () => {
     setAlbums(removeAlbum);
   };
 
-  console.log({ userAlbums });
-
   const { createPost, isFetching, fetchedData, fetchError } =
     useCreatePostLazy();
+
   const uploadImageToAWS = useUploadImageToAWS();
 
   const handleKeyDown = (event) => {
@@ -124,9 +128,7 @@ const UploadImage = () => {
   };
 
   const handleSelectCategory = () => {
-    const isCategoryExist = categories.includes(category);
-
-    if (!isCategoryExist) {
+    if (categories.filter((e) => e.id === category.id).length === 0) {
       setCategories((prev) => [...prev, category]);
     }
   };
@@ -189,18 +191,10 @@ const UploadImage = () => {
     const result = await uploadImageToAWS({ selectedFile });
     console.log({ result });
 
-    const submitTags = [
-      ...new Set(
-        tags.map((a) => a.value).map((element) => element.toLowerCase())
-      ),
-    ];
-
     try {
       await createPost({
         variables: {
           createPostData: {
-            categoryId: categories.map((a) => a.id),
-            albumId: '6496c183518d8caaf82fcaca',
             userId,
             title,
             aperture,
@@ -213,7 +207,14 @@ const UploadImage = () => {
             copyRight: copyright,
             imageHash: '',
             imageURL: result.Location,
-            tag: submitTags,
+
+            categoryId: categories.map((a) => a.id),
+            albumId: albums.map((a) => a.id),
+            tag: [
+              ...new Set(
+                tags.map((a) => a.value).map((element) => element.toLowerCase())
+              ),
+            ],
           },
         },
       });
@@ -422,7 +423,6 @@ const UploadImage = () => {
                             value={category.name}
                             id="select-image-category"
                             onChange={(e) => {
-                              console.log(e.target.value);
                               setCategory({
                                 name: e.target.value,
                                 id: options.find(
@@ -456,7 +456,7 @@ const UploadImage = () => {
                                 onClick={() => removeAlbum(item.id)}
                               >
                                 <span id="remove-tag">X</span>
-                                {item.value}
+                                {item.name}
                               </div>
                             ))}
                           </div>
@@ -464,19 +464,18 @@ const UploadImage = () => {
 
                         <div className="sub-albums">
                           <select
-                            value={album.value}
+                            value={album?.name}
                             id="select-image-album"
                             onChange={(e) =>
                               setAlbum({
-                                id:
-                                  albums.length === 0
-                                    ? 1
-                                    : albums[albums.length - 1].id + 1,
-                                value: e.target.value,
+                                name: e.target.value,
+                                id: userAlbums.userAllAlbum.find(
+                                  (item) => item.name === e.target.value
+                                ).id,
                               })
                             }
                           >
-                            {options.map((item) => {
+                            {userAlbums?.userAllAlbum.map((item) => {
                               return <option key={item.id}>{item.name}</option>;
                             })}
                           </select>
