@@ -1,0 +1,73 @@
+.stories {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+  margin: 40px 0;
+
+  .story {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 1000px;
+    min-width: 1000px;
+    width: 100%;
+
+    .header {
+      display: flex;
+
+      #header-avatar {
+        width: 45px;
+        height: 45px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+
+      .sub-header {
+        display: flex;
+        flex-direction: column;
+
+        #fullname {
+          font-size: 18px;
+          font-weight: 600;
+        }
+
+        span {
+          margin-left: 10px;
+        }
+      }
+    }
+
+    .description {
+      margin: 10px 0;
+
+      #title {
+        font-size: 25px;
+        cursor: pointer;
+      }
+
+      #image {
+        width: 100%;
+        cursor: pointer;
+      }
+
+      .interaction {
+        margin: 15px 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+  
+        #points {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .tittle-story {
+    font-size: 20px;
+  }
+}

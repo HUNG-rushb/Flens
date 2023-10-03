@@ -4,12 +4,11 @@ import { useGetStoryInfo } from '../../../graphql/useStory.js';
 import { useDeleteStory, useInteractStory } from '../../../graphql/useStory.js';
 import unixToDateTime from '../../../utils/unixToDateTime.js';
 import StoryComment from '../../Home/Post/StoryComment.jsx';
-import './StoryDetail.css';
+import './StoryDetail.scss';
 import { useEffect, useRef, useState } from 'react';
 import {
   Heart,
   HeartFill,
-  Reply,
   ThreeDots,
   Flag,
   Trash,
@@ -42,7 +41,7 @@ const StoryDetail = () => {
   const { deleteStory } = useDeleteStory();
   const { interactStory } = useInteractStory();
 
-  const handleClickLikeStory = async (event) => {
+  const handleLikeStory = async (event) => {
     event.preventDefault();
 
     try {
@@ -63,11 +62,11 @@ const StoryDetail = () => {
   };
 
   // !!!!!!!!!
-  const handleClickReportStory = () => {
+  const handleReportStory = () => {
     setShowListOtherActions(true);
   };
 
-  const handleClickDeleteStory = async (event) => {
+  const handleDeleteStory = async (event) => {
     event.preventDefault();
 
     try {
@@ -83,6 +82,14 @@ const StoryDetail = () => {
     } catch (e) {
       throw e;
     }
+  };
+
+  const renderHeartIcon = () => {
+    return !isLiked ? (
+      <Heart size={28} onClick={handleLikeStory} />
+    ) : (
+      <HeartFill size={28} color="red" onClick={handleLikeStory} />
+    );
   };
 
   useEffect(() => {
@@ -109,59 +116,52 @@ const StoryDetail = () => {
   }
 
   return (
-    <div className="story-detail-container">
-      <div className="story-detail-content">
-        <div className="story-detail-userInfor">
-          <img src={fetchedData?.storyInfo.userId.backgroundImageURL} alt="" />
-          <div>
-            <span id="story-detail-username">
-              {fetchedData?.storyInfo.userId.name}
-            </span>
-            <span>{unixToDateTime(fetchedData?.storyInfo.createdAt)}</span>
+      <div className="story-detail">
+        <div className="content">
+          <div className="user-infor">
+            <img
+            id='user-avatar'
+              src={fetchedData?.storyInfo.userId.backgroundImageURL}
+              alt=""
+            />
+            <div className="sub-user-infor">
+              <span id="username">{fetchedData?.storyInfo.userId.name}</span>
+              <span>{unixToDateTime(fetchedData?.storyInfo.createdAt)}</span>
+            </div>
           </div>
-        </div>
-
-        <div
-          dangerouslySetInnerHTML={{ __html: fetchedData?.storyInfo.content }}
-        />
-
-        <div className="story-detail-interaction" ref={clickOutsideRef}>
-          <div>
-            {!isLiked ? (
-              <Heart size={28} onClick={handleClickLikeStory} />
-            ) : (
-              <HeartFill size={28} color="red" onClick={handleClickLikeStory} />
-            )}
-            <span>{countNumberOfLikes}</span>
-          </div>
-          <ThreeDots
-            size={28}
-            onClick={() => setShowListOtherActions((prev) => !prev)}
-          />
 
           <div
-            className="list-other-actions-story"
-            hidden={showListOtherActions}
-          >
-            <ul>
-              <li onClick={handleClickReportStory}>
-                <Flag color="blue" />
-                Report this story
-              </li>
-              <li onClick={handleClickDeleteStory}>
-                <Trash color="red" />
-                Delete story
-              </li>
-            </ul>
+            dangerouslySetInnerHTML={{ __html: fetchedData?.storyInfo.content }}
+          />
+
+          <div className="interaction" ref={clickOutsideRef}>
+            <div className="likes">
+              {renderHeartIcon()}
+              <span>{countNumberOfLikes}</span>
+            </div>
+            <ThreeDots
+              size={28}
+              onClick={() => setShowListOtherActions((prev) => !prev)}
+            />
+
+            <div className="list-other-actions" hidden={showListOtherActions}>
+              <ul>
+                <li onClick={handleReportStory}>
+                  <Flag color="blue" />
+                  Report this story
+                </li>
+                <li onClick={handleDeleteStory}>
+                  <Trash color="red" />
+                  Delete story
+                </li>
+              </ul>
+            </div>
           </div>
+          <hr />
+          <StoryComment item={fetchedData?.storyInfo} refetchStory={refetch} />
         </div>
-
-        <hr />
-
-        <StoryComment item={fetchedData?.storyInfo} refetchStory={refetch} />
       </div>
-    </div>
-  );
+    );
 };
 
 export default StoryDetail;
