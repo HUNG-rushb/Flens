@@ -588,3 +588,10 @@
 .swiper-pagination-bullet-active {
   background-color: #f08080;
 }
+
+.infinite-scroll-component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
