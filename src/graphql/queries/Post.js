@@ -95,7 +95,7 @@ export const GET_NEW_FEED = gql`
           title
           createdAt
           userLikedPost
-          tagId
+          tag
 
           userId {
             profileImageURL

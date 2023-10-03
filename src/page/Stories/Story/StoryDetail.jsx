@@ -1,5 +1,7 @@
 import Spinner from '../../../components/utils/Spinner.js';
+import { useAuthState } from '../../../context/AuthContext.js';
 import { useGetStoryInfo } from '../../../graphql/useStory.js';
+import { useDeleteStory, useInteractStory } from '../../../graphql/useStory.js';
 import unixToDateTime from '../../../utils/unixToDateTime.js';
 import StoryComment from '../../Home/Post/StoryComment.jsx';
 import './StoryDetail.css';
@@ -13,30 +15,74 @@ import {
   Trash,
 } from 'react-bootstrap-icons';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const StoryDetail = () => {
+  const navigate = useNavigate();
   const { storyId } = useParams();
-  const { isFetching, fetchedData, fetchError, refetch } = useGetStoryInfo({
-    storyInfoData: { storyId },
-  });
-
-  // console.log({ fetchedData });
+  const { id: userId } = useAuthState();
 
   const clickOutsideRef = useRef(null);
 
   const [isLiked, setIsLiked] = useState(false);
+  const [countNumberOfLikes, setCountNumberOfLikes] = useState(0);
   const [showListOtherActions, setShowListOtherActions] = useState(true);
 
-  const handleClickLike = () => {
-    setIsLiked((prev) => !prev);
+  const { isFetching, fetchedData, fetchError, refetch } = useGetStoryInfo(
+    {
+      storyInfoData: { storyId },
+    },
+    userId,
+    setIsLiked,
+    setCountNumberOfLikes
+  );
+
+  console.log({ fetchedData }, 'story detail');
+
+  const { deleteStory } = useDeleteStory();
+  const { interactStory } = useInteractStory();
+
+  const handleClickLikeStory = async (event) => {
+    event.preventDefault();
+
+    try {
+      const a = await interactStory({
+        variables: {
+          interactStoryData: {
+            storyId,
+            likedUserId: userId,
+            isLiked: !isLiked,
+          },
+        },
+      });
+      setIsLiked(!isLiked);
+      setCountNumberOfLikes(a.data.interactStory.points);
+    } catch (e) {
+      throw e;
+    }
   };
 
+  // !!!!!!!!!
   const handleClickReportStory = () => {
     setShowListOtherActions(true);
   };
 
-  const handleClickDeleteStory = () => {
-    setShowListOtherActions(true);
+  const handleClickDeleteStory = async (event) => {
+    event.preventDefault();
+
+    try {
+      await deleteStory({
+        variables: {
+          deleteStoryData: {
+            storyId,
+          },
+        },
+      });
+
+      navigate('/explore/stories');
+    } catch (e) {
+      throw e;
+    }
   };
 
   useEffect(() => {
@@ -66,7 +112,7 @@ const StoryDetail = () => {
     <div className="story-detail-container">
       <div className="story-detail-content">
         <div className="story-detail-userInfor">
-          <img src={fetchedData?.storyInfo.userId.backgroundImageURL} alt='' />
+          <img src={fetchedData?.storyInfo.userId.backgroundImageURL} alt="" />
           <div>
             <span id="story-detail-username">
               {fetchedData?.storyInfo.userId.name}
@@ -74,17 +120,19 @@ const StoryDetail = () => {
             <span>{unixToDateTime(fetchedData?.storyInfo.createdAt)}</span>
           </div>
         </div>
+
         <div
           dangerouslySetInnerHTML={{ __html: fetchedData?.storyInfo.content }}
         />
+
         <div className="story-detail-interaction" ref={clickOutsideRef}>
           <div>
             {!isLiked ? (
-              <Heart size={28} onClick={handleClickLike} />
+              <Heart size={28} onClick={handleClickLikeStory} />
             ) : (
-              <HeartFill size={28} color="red" onClick={handleClickLike} />
+              <HeartFill size={28} color="red" onClick={handleClickLikeStory} />
             )}
-            <span>{fetchedData?.storyInfo.points}</span>
+            <span>{countNumberOfLikes}</span>
           </div>
           <ThreeDots
             size={28}
@@ -107,7 +155,9 @@ const StoryDetail = () => {
             </ul>
           </div>
         </div>
+
         <hr />
+
         <StoryComment item={fetchedData?.storyInfo} refetchStory={refetch} />
       </div>
     </div>
