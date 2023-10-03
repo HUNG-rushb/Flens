@@ -1,4 +1,4 @@
-// import HashTag from './Post/HashTag.jsx';
+import HashTag from './Post/HashTag.jsx';
 import PostComment from './Post/PostComment.jsx';
 import PostHeader from './Post/PostHeader.jsx';
 import PostImageAndTitle from './Post/PostImageAndTitle.jsx';
@@ -33,7 +33,7 @@ const Post = ({
               showImageDetail={showImageDetail}
             />
 
-            {/* <HashTag item={item} /> */}
+            <HashTag item={item} />
 
             <PostInteraction
               item={item}
