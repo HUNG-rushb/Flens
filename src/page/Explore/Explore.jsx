@@ -3,7 +3,7 @@ import ModalCustom from '../../components/Modal/ModalCustom.jsx';
 import Page from '../../components/utils/Page';
 import useModal from '../../hooks/useModal';
 import StoryPage from '../Stories/StoryPage';
-import './Explore.css';
+import './Explore.scss';
 import HotTab from './ExploreTab/HotTab.jsx';
 import Inspiration from './ExploreTab/Inspiration';
 import NewestTab from './ExploreTab/NewestTab.jsx';
@@ -33,11 +33,7 @@ const Explore = () => {
   const navigate = useNavigate();
 
   const [imageToShow, setImageToShow] = useState('');
-  const [selectedItem, setSelectedItem] = useState({
-    username: 'Thanh',
-    avatar: Avatar,
-    image: imageToShow,
-  });
+  const [selectedItem, setSelectedItem] = useState({});
 
   const modalContent = useCallback(() => {
     return <SimilarImageDetail imageDetail={selectedItem} />;
@@ -72,9 +68,9 @@ const Explore = () => {
         <Suspense fallback={null}>
           <div className="explore-page">
             <div className="options-bar">
-              <div className="select-explore-container">
+              <div className="select-container">
                 <select
-                  id="select-option-explore"
+                  id="select"
                   value={selectedOption}
                   onChange={(e) => setSelectedOption(e.target.value)}
                 >
@@ -87,7 +83,7 @@ const Explore = () => {
                 {tabs.map((tab, index) => (
                   <span
                     key={index}
-                    className={`tab--${
+                    className={`tab tab--${
                       activeTab === index ? 'active' : 'inActive'
                     }`}
                     onClick={() => handleChangeTab(index, tab)}
@@ -97,7 +93,7 @@ const Explore = () => {
                 ))}
               </div>
             </div>
-            <div className="explore-page-tab-content">
+            <div className="tab-content">
               {activeTab === 0 && (
                 <Inspiration
                   showModal={showModal}
