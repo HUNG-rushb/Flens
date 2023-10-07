@@ -1,7 +1,7 @@
 import { useAuthState } from '../../../context/AuthContext';
 import { useGetAllUserPost } from '../../../graphql/usePost';
 import useModal from '../../../hooks/useModal';
-import Post from '../../Home/Post';
+import Post from '../../Home/Post/Post';
 import React, { useState } from 'react';
 
 const PhotoEntries = () => {

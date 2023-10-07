@@ -1,4 +1,4 @@
-import { contests } from '../Contest/contestTab/contestData';
+import { contests } from '../../Contest/contestTab/contestData';
 import React, { useCallback, useMemo } from 'react';
 import { PersonPlusFill } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
@@ -7,6 +7,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import './styles.scss';
 
 const followSuggestionList = [
   {
@@ -51,10 +52,10 @@ const RightContent = () => {
   );
   return useMemo(
     () => (
-      <div className="homepage-right-container">
-        <div className="homepage-right-content">
+      <div className="right-container">
+        <div className="right-content">
           <div className="special-contest">
-            <span id="home-right-content-subtitle">Happening Contest:</span>
+            <span id="subtitle">Happening Contest:</span>
             <Swiper
               spaceBetween={30}
               centeredSlides={true}
@@ -67,7 +68,7 @@ const RightContent = () => {
               }}
               modules={[Autoplay, Pagination]}
             >
-              {contests.map((item, index) => (
+              {contests.map((item, index) => ( 
                 <SwiperSlide key={index}>
                   <div onClick={() => handleClickContest(item)}>
                     <img src={item.image} alt="" id="special-contest-image" />
@@ -78,28 +79,28 @@ const RightContent = () => {
             </Swiper>
           </div>
           <div className="follow-suggestion-container">
-            <span id="home-right-content-subtitle">
+            <span id="subtitle">
               Follow list suggestion:
             </span>
             <div className="follow-list-suggestion">
               {followSuggestionList.map((item, index) => (
                 <div className="follow-suggestion" key={index}>
-                  <div className="follow-suggestion-content">
-                    <div className="follow-suggestion-avatar-name">
+                  <div className="content">
+                    <div className="content-wrapper">
                       <img
                         src={item.image}
                         alt=""
-                        id="follow-suggestion-image"
+                        id="suggestion-image"
                       />
-                      <div className="follow-suggestion-name-an-type">
-                        <span id="follow-sugesstion-name">{item.name}</span>
-                        <span id="follow-sugesstion-type">{item.type}</span>
+                      <div className="subcontent-wrapper">
+                        <span id="sugesstion-name">{item.name}</span>
+                        <span id="sugesstion-type">{item.type}</span>
                       </div>
                     </div>
                     <PersonPlusFill
                       size={25}
                       color="#f08080"
-                      id="follow-suggestion-list-add-icon"
+                      id="add-friend-icon"
                     />
                   </div>
                   <hr />
@@ -108,10 +109,10 @@ const RightContent = () => {
             </div>
           </div>
           <div className="trending-tags-container">
-            <span id="home-right-content-subtitle">Trending tags: </span>
-            <div className="trending-tags">
+            <span id="subtitle">Trending tags: </span>
+            <div className="tags-list">
               {tags.map((tag, index) => (
-                <div className="trending-tag" key={index}>
+                <div className="tag" key={index}>
                   #{tag}
                 </div>
               ))}

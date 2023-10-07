@@ -1,7 +1,7 @@
 import { useAuthState } from '../../../context/AuthContext';
 import { useDeletePost } from '../../../graphql/usePost';
 import { useInteractPost } from '../../../graphql/usePost';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Flag,
   Heart,
@@ -13,11 +13,10 @@ import {
 
 const PostInteraction = ({
   item,
-  showImageDetail,
   setImageToReport,
   showReport,
   toggleShowReport,
-  handleDeletePost,
+  setIsDeletedPost,
 }) => {
   const { id: userId } = useAuthState();
   const clickOutsideRef = useRef(null);
@@ -30,50 +29,56 @@ const PostInteraction = ({
   const { deletePost } = useDeletePost();
   const { interactPost } = useInteractPost();
 
-  const handleClickLikePost = async (event) => {
-    event.preventDefault();
+  const handleLikePost = useCallback(
+    async (event) => {
+      event.preventDefault();
 
-    try {
-      const a = await interactPost({
-        variables: {
-          interactPostData: {
-            postId: item.id,
-            likedUserId: userId,
-            isLiked: !isLiked,
+      try {
+        const a = await interactPost({
+          variables: {
+            interactPostData: {
+              postId: item?.id,
+              likedUserId: userId,
+              isLiked: !isLiked,
+            },
           },
-        },
-      });
-      setIsLiked(!isLiked);
-      setCountNumberOfLikes(a.data.interactPost.points);
-    } catch (e) {
-      throw e;
-    }
-    setAnimationWhenClick(true);
-  };
+        });
+        setIsLiked(!isLiked);
+        setCountNumberOfLikes(a.data.interactPost.points);
+      } catch (e) {
+        throw e;
+      }
+      setAnimationWhenClick(true);
+    },
+    [interactPost, isLiked, item?.id, userId]
+  );
 
-  const handleClickReport = () => {
+  const handleReportImage = useCallback(() => {
     setShowListOtherActions(true);
     setImageToReport(item?.image.url);
     toggleShowReport(showReport);
-  };
+  }, [item?.image.url, setImageToReport, showReport, toggleShowReport]);
 
-  const handleClickDeletePost = async (event) => {
-    event.preventDefault();
+  const handleDeletePost = useCallback(
+    async (event) => {
+      event.preventDefault();
 
-    try {
-      await deletePost({
-        variables: {
-          deletePostData: {
-            postId: item.id,
+      try {
+        await deletePost({
+          variables: {
+            deletePostData: {
+              postId: item?.id,
+            },
           },
-        },
-      });
+        });
 
-      handleDeletePost(true);
-    } catch (e) {
-      throw e;
-    }
-  };
+        setIsDeletedPost(true);
+      } catch (e) {
+        throw e;
+      }
+    },
+    [deletePost, setIsDeletedPost, item?.id]
+  );
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -100,52 +105,60 @@ const PostInteraction = ({
     }
   }, [animationWhenClick]);
 
-  return (
-    <>
-      <div
-        className={!showImageDetail ? 'post-interaction' : 'post-interaction-2'}
-        ref={clickOutsideRef}
-      >
-        <div className="like-icon" onClick={handleClickLikePost}>
-          {isLiked === false ? (
-            <Heart
-              id={!animationWhenClick ? 'heart-icon' : 'heart-icon-2'}
-              size={25}
-            />
-          ) : (
-            <HeartFill
-              id={!animationWhenClick ? 'heart-icon' : 'heart-icon-2'}
-              color="red"
-              size={25}
-            />
-          )}
-          <span>{countNumberOfLikes}</span>
-        </div>
+  return useMemo(
+    () => (
+      <div>
+        <div className="post-interaction" ref={clickOutsideRef}>
+          <div className="heart-icon-wrapper" onClick={handleLikePost}>
+            {isLiked === false ? (
+              <Heart
+                id={!animationWhenClick ? 'heart-icon' : 'heart-icon-2'}
+                size={25}
+              />
+            ) : (
+              <HeartFill
+                id={!animationWhenClick ? 'heart-icon' : 'heart-icon-2'}
+                color="red"
+                size={25}
+              />
+            )}
+            <span id="likes-number">{countNumberOfLikes}</span>
+          </div>
 
-        <div className="right-action">
-          <Reply size={30} className="reply-icon" />
-          <ThreeDots
-            size={30}
-            onClick={() => setShowListOtherActions((prev) => !prev)}
-            className="otherAction"
-          />
-          <div className="list-other-actions" hidden={showListOtherActions}>
-            <ul>
-              <li onClick={handleClickReport}>
-                <Flag color="blue" />
-                Report
-              </li>
+          <div className="right-action-wrapper">
+            <Reply size={30} id="reply-icon" />
+            <ThreeDots
+              size={30}
+              onClick={() => setShowListOtherActions((prev) => !prev)}
+              id="other-action-icon"
+            />
+            <div className="list-actions" hidden={showListOtherActions}>
+              <ul>
+                <li onClick={handleReportImage}>
+                  <Flag color="blue" />
+                  Report
+                </li>
 
-              <li onClick={handleClickDeletePost}>
-                <Trash color="red" />
-                Delete this photo
-              </li>
-            </ul>
+                <li onClick={handleDeletePost}>
+                  <Trash color="red" />
+                  Delete this photo
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
+        <hr style={{ border: '1px solid #F08080' }} />
       </div>
-      <hr style={{ border: '1px solid #F08080' }} />
-    </>
+    ),
+    [
+      animationWhenClick,
+      countNumberOfLikes,
+      handleDeletePost,
+      handleReportImage,
+      handleLikePost,
+      isLiked,
+      showListOtherActions,
+    ]
   );
 };
 

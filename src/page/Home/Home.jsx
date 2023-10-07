@@ -6,15 +6,15 @@ import { useGetNewFeed } from '../../graphql/usePost';
 import { useGetAllUserPost } from '../../graphql/usePost';
 import useModal from '../../hooks/useModal';
 import { ReportContent } from '../ReportManagement/ReportImageContent';
-import './Home.css';
-import LeftContent from './LeftContent';
-import Post from './Post';
+import './Home.scss';
+import LeftContent from './LeftContent/LeftContent.jsx';
+import Post from './Post/Post';
 import ImageDetail from './Post/ImageDetail';
-import RightContent from './RightContent';
-import UploadBar from './UploadBar';
-import Lottie from 'lottie-react';
-import { Suspense, useEffect, useState } from 'react';
+import RightContent from './RightContent/RightContent.jsx';
+import { Suspense, useCallback, useState } from 'react';
+import { CameraFill, PencilSquare } from 'react-bootstrap-icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useNavigate } from 'react-router';
 
 const Home = () => {
   const { isShowing: showReport, toggle: toggleShowReport } = useModal();
@@ -28,24 +28,39 @@ const Home = () => {
   const { posts, hasNextPage, isFetching, fetchError, loadNew } =
     useGetNewFeed(userId);
 
-  // if (fetchError) {
-  //   return (
-  //     <Lottie
-  //       animationData={require('../../assets/lotties/error_loading.json')}
-  //       style={{ height: 300 }}
-  //     />
-  //   );
-  // }
+  const navigate = useNavigate();
+
+  const handleToUploadImage = useCallback(() => {
+    navigate('/upload');
+  }, [navigate]);
+
+  const handleToUploadStory = useCallback(() => {
+    navigate('/uploadStory');
+  }, [navigate]);
 
   return (
     <Page title={'FLens-Home'}>
-      <Suspense>
+      <Suspense fallback={null}>
         <div className="home-page">
           <LeftContent />
 
-          <div className="homepage-center-container">
-            <div className="homepage-center-content">
-              <UploadBar />
+          <div className="center-container">
+            <div className="center-content">
+              <div className="upload-bar">
+                <div className="content">
+                  <div className="upload-image" onClick={handleToUploadImage}>
+                    <CameraFill size={28} color="#F08080" id="upload-icon" />
+                    Upload a photo
+                  </div>
+                  <div
+                    className="upload-story"
+                    onClick={handleToUploadStory}
+                  >
+                    <PencilSquare size={28} color="#F08080" id="upload-icon" />
+                    Publish a Story
+                  </div>
+                </div>
+              </div>
 
               <InfiniteScroll
                 dataLength={posts.length}
