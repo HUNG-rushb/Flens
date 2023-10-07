@@ -1,0 +1,295 @@
+.posts-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 80%;
+  border-radius: 10px;
+  margin-bottom: 50px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+    rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+
+  .post-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 20px 0 10px 10px;
+    flex-direction: row;
+
+    #avatar {
+      max-width: 60px;
+      border-radius: 50%;
+      height: 60px;
+      cursor: pointer;
+      object-fit: cover;
+      opacity: 1;
+    }
+    #avatar:hover {
+      opacity: 0.7;
+    }
+
+    #username {
+      font-size: 17px;
+      font-weight: 600;
+      padding: 0px 8px;
+    }
+
+    #date {
+      padding: 0px 8px;
+    }
+  }
+
+  .post-content-wrapper {
+    width: 90%;
+
+    .post-content {
+      padding: 20px 20px 0 20px;
+
+      .image-wrapper {
+        display: flex;
+        justify-content: center;
+        position: relative;
+
+        #image-post {
+          width: 100%;
+          object-fit: cover;
+          max-width: 800px;
+          max-height: 1000px;
+          border-radius: 4px;
+        }
+
+        .technical-container {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: rgba(0, 0, 0, 0.7);
+          border-radius: 4px;
+          color: #ffffff;
+          padding: 10px;
+          font-size: 16px;
+          width: 100%;
+          height: 100%;
+
+          .technical-wrapper {
+            position: relative;
+            height: 100%;
+
+            .technical-content {
+              display: grid;
+              grid-template-columns: auto auto;
+              margin-bottom: 10px;
+              place-items: center;
+              width: 100%;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              position: absolute;
+              gap: 10px;
+
+              #content {
+                font-weight: 600;
+              }
+            }
+
+            .technical-content-2 {
+              display: grid;
+              grid-template-columns: auto;
+              margin-bottom: 10px;
+              gap: 5px;
+            }
+          }
+        }
+        .technical-infor-icon {
+          position: absolute;
+          bottom: 2%;
+          right: 2%;
+          background-color: white;
+          padding: 0 5px;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+      }
+      .post-title {
+        font-size: 25px;
+        font-weight: 600;
+        padding: 10px 0;
+        max-width: 800px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+
+      .hash-tags {
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: row;
+
+        #tag {
+          font-weight: 600;
+          padding-right: 15px;
+        }
+      }
+
+      .post-interaction {
+        display: flex;
+        justify-content: space-between;
+
+        .heart-icon-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          #heart-icon {
+            opacity: 1;
+            cursor: pointer;
+          }
+
+          #heart-icon:hover {
+            opacity: 0.7;
+          }
+
+          #heart-icon-2 {
+            opacity: 1;
+            cursor: pointer;
+            clip-path: url(#heartClip);
+            animation: beat 0.5s infinite;
+          }
+
+          #likes-number {
+            padding-left: 10px;
+            font-size: 25px;
+            margin-bottom: 5px;
+          }
+        }
+
+        .right-action-wrapper {
+          display: flex;
+          flex-direction: row;
+
+          #reply-icon,
+          #other-action-icon {
+            opacity: 1;
+            cursor: pointer;
+          }
+
+          #reply-icon:hover,
+          #other-action-icon:hover {
+            opacity: 0.7;
+          }
+
+          .list-actions {
+            position: absolute;
+            background-color: #fff;
+            padding: 10px 20px;
+            margin-top: 30px;
+            z-index: 900;
+            border-radius: 10px;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+            ul {
+              list-style-type: none;
+              margin: 0;
+              padding: 0;
+              cursor: pointer;
+
+              li {
+                padding-bottom: 5px;
+                opacity: 1;
+
+                svg {
+                  margin-right: 10px;
+                }
+              }
+
+              li:hover {
+                opacity: 0.6;
+                background-color: #ccc;
+                color: white;
+              }
+            }
+          }
+        }
+      }
+
+      .comments-wrapper {
+        .comment-header {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          margin: 0 10px;
+
+          #comment-avatar {
+            max-width: 40px !important;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
+          #submit-button {
+            background: none;
+            padding: 0;
+            border: none;
+
+            #send-icon {
+              opacity: 1;
+            }
+
+            #send-icon :hover {
+              opacity: 0.5;
+            }
+          }
+        }
+
+        .comment-list {
+          margin: 10px 50px;
+
+          .comment-wrapper {
+            padding-top: 10px;
+
+            #comment-avatar {
+              width: 35px !important;
+              height: 35px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+
+            #comment-username {
+              margin-left: 10px;
+              font-weight: 600;
+            }
+            #comment-content {
+              margin-left: 45px;
+            }
+            #comment-date {
+              margin-left: 45px;
+              font-size: 14px;
+            }
+          }
+
+          .View-more-comments {
+            font-weight: 600;
+            margin-top: 20px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes beat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.infinite-scroll-component {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

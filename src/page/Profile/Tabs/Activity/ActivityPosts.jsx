@@ -1,6 +1,6 @@
 import Modal from '../../../../components/Modal/ModalCustom';
 import useModal from '../../../../hooks/useModal';
-import Post from '../../../Home/Post';
+import Post from '../../../Home/Post/Post';
 import ImageDetail from '../../../Home/Post/ImageDetail';
 import { ReportContent } from '../../../ReportManagement/ReportImageContent';
 import './ActivityPosts.css';
@@ -14,7 +14,7 @@ const ActivityPosts = ({ userAllPostData }) => {
 
   return (
     <div className="profile-activity-container">
-      <div className="activity-posts">
+      {/* <div className="activity-posts">
         {userAllPostData &&
           userAllPostData?.userInfo.posts.map((item) => {
             return (
@@ -41,7 +41,8 @@ const ActivityPosts = ({ userAllPostData }) => {
         modalContent={<ReportContent image={imageToReport} />}
         handleClose={toggleShowReport}
         handleSavechanges={toggleShowReport}
-      />
+      /> */}
+      activity
     </div>
   );
 };

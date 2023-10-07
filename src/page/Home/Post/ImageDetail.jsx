@@ -2,7 +2,7 @@ import HashTag from './HashTag.jsx';
 import './ImageDetail.css';
 import PostComment from './PostComment';
 import PostInteraction from './PostInteraction.jsx';
-import PostTechnical from './PostTechnicalInformation.jsx';
+import PostTechnical from './PostTechnical.jsx';
 import { useState } from 'react';
 
 const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
