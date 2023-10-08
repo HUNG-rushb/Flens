@@ -1,4 +1,4 @@
-import { removeItemFromArray } from "./removeItemfromArray.js";
+import { removeItemFromArray } from './removeItemFromArray.js';
 
 export const renderInputField = (label, placeholder, value, setValue) => {
   switch (label) {
