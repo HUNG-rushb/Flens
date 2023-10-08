@@ -1,4 +1,5 @@
 import unixToDateTime from '../../../utils/unixToDateTime.js';
+import { successfullNoty } from '../../../utils/useNotify.js';
 import './Post.scss';
 import PostComment from './PostComment.jsx';
 import PostInteraction from './PostInteraction.jsx';
@@ -6,7 +7,6 @@ import PostTechnical from './PostTechnical.jsx';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 
 const Post = ({
   item,
@@ -34,16 +34,7 @@ const Post = ({
 
   useEffect(() => {
     if (isDeletedPost) {
-      toast.info('delete post sucessfull!', {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
+      successfullNoty('delete post sucessfull!');
     }
   }, [isDeletedPost]);
 
