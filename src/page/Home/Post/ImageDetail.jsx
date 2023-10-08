@@ -1,4 +1,4 @@
-import './ImageDetail.css';
+import './ImageDetail.scss';
 import PostComment from './PostComment';
 import PostInteraction from './PostInteraction.jsx';
 import PostTechnical from './PostTechnical.jsx';
@@ -31,14 +31,14 @@ const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
   };
   return (
     <>
-      <div className="image-detail-page">
-        <div className="image-detail-content">
-          <div className="modal-detail-image-overlay" hidden={!showImageDetail}>
-            <div className="modal-detail-image-container">
-              <div className="modal-detail-image-content">
-                <div className="modal-detail-image-left">
+      <div className="image-detail-modal">
+        <div className="image-detail-container">
+          <div className="overlay" hidden={!showImageDetail}>
+            <div className="container">
+              <div className="content">
+                <div className="left-content">
                   <div
-                    className={`image-detail-information-container ${
+                    className={`left-content-wrapper ${
                       zoomedIn ? 'zoomed-in' : ''
                     }`}
                     onClick={handleImageClick}
@@ -46,14 +46,14 @@ const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
                     style={{ cursor: cursor }}
                   >
                     <img
-                      id="image-detail-information"
+                      id="main-image"
                       src={item?.image.url}
                       alt=""
                       style={{ transform: `scale(${scale})` }}
                     />
                   </div>
                 </div>
-                <div className="modal-detail-image-right">
+                <div className="right-content">
                   <div
                     className="close-overlay"
                     onClick={handleCloseImageDetail}
@@ -61,16 +61,23 @@ const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
                     X
                   </div>
 
-                  <div className="image-detail-right-container">
-                    <div className="image-detail-page-header">
+                  <div className="right-content-wrapper">
+                    <div className="header">
                       <img
-                        id="image-detail-avatar"
+                        id="avatar"
                         src={item?.userId.profileImageURL}
-                        alt="avatar"
+                        alt=""
                       />
-                      <span>{item?.userId.name}</span>
+                      <span id="username">{item?.userId.name}</span>
                     </div>
-                    <div className="image-detail-title">{item?.title}</div>
+                    <div className="title">{item?.title}</div>
+                    <div className="hash-tags">
+                      {item?.tag.map((tag, index) => (
+                        <span id="tag" key={index}>
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
                     <PostInteraction
                       item={item}
                       showImageDetail={showImageDetail}
@@ -80,11 +87,8 @@ const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
                       showImageDetail={showImageDetail}
                     />
                     <hr style={{ border: '1px solid #F08080' }} />
-                    {/* <HashTag item={item} /> */}
-                    {/* <PostComment
-                      item={item}
-                      showImageDetail={showImageDetail}
-                    /> */}
+                   
+                    <PostComment item={item} />
                   </div>
                 </div>
               </div>
