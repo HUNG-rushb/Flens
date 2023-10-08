@@ -1,17 +1,30 @@
 import ButtonCustom from '../../components/Button/ButtonCustom.jsx';
+import Modal from '../../components/Modal/ModalCustom.jsx';
 import Page from '../../components/utils/Page.js';
 import { useAuthState } from '../../context/AuthContext.js';
 import { useGetAllUserAlbum } from '../../graphql/useAlbum.js';
 import { useCreatePostLazy } from '../../graphql/usePost.js';
 import useModal from '../../hooks/useModal.jsx';
 import useUploadImageToAWS from '../../hooks/useUploadImageToAWS.js';
+import { successfullNoty } from '../../utils/useNotify.js';
+import {
+  renderAddItemBySelect,
+  renderInputField,
+  renderInputTags,
+} from '../../utils/useRenderInputField.js';
 import './UploadImage.css';
 import { EXIF } from 'exif-js';
 import Jimp from 'jimp';
-import React, { Suspense, useRef, useState, useMemo, useEffect } from 'react';
+import React, {
+  Suspense,
+  useRef,
+  useState,
+  useMemo,
+  useEffect,
+  useCallback,
+} from 'react';
 import { CloudArrowUp } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 
 const UploadImage = () => {
   const options = useMemo(
@@ -69,15 +82,11 @@ const UploadImage = () => {
   const [categories, setCategories] = useState([options[0]]);
   const [category, setCategory] = useState(options[0]);
 
-  // console.log({ categories });
-
   const [albums, setAlbums] = useState([]);
-  console.log({ albums });
   const [album, setAlbum] = useState({
     id: '',
     name: '',
   });
-  console.log({ album });
   const { fetchedData: userAlbums } = useGetAllUserAlbum(
     {
       userAllAlbumData: { userId },
@@ -85,433 +94,362 @@ const UploadImage = () => {
     setAlbum
   );
 
-  const handleSelectAlbum = () => {
-    if (albums.filter((e) => e.id === album.id).length === 0) {
-      setAlbums((prev) => [...prev, album]);
-    }
-  };
-
-  const removeAlbum = (id) => {
-    const removeAlbum = albums.filter((item) => item.id !== id);
-    setAlbums(removeAlbum);
-  };
-
   const { createPost, isFetching, fetchedData, fetchError } =
     useCreatePostLazy();
 
   const uploadImageToAWS = useUploadImageToAWS();
 
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      const checkExistTag = tags.every(
-        (item) => item.value !== event.target.value
-      );
-      if (checkExistTag && tag.value) {
-        tags.push(tag);
-        setTags(tags);
-        setTag({
-          id: 0,
-          value: '',
-        });
-      } else {
-        setTag({
-          id: 0,
-          value: '',
-        });
+  const handleKeyDown = useCallback(
+    (event) => {
+      if (event.key === 'Enter') {
+        const checkExistTag = tags.every(
+          (item) => item.value !== event.target.value
+        );
+        if (checkExistTag && tag.value) {
+          tags.push(tag);
+          setTags(tags);
+          setTag({
+            id: 0,
+            value: '',
+          });
+        } else {
+          setTag({
+            id: 0,
+            value: '',
+          });
+        }
       }
+    },
+    [tag, tags]
+  );
+
+  const handleSelectAlbum = useCallback(() => {
+    if (albums.filter((e) => e.id === album.id).length === 0) {
+      setAlbums((prev) => [...prev, album]);
     }
-  };
+  }, [album, albums]);
 
-  const removeTag = (id) => {
-    const removeTag = tags.filter((item) => item.id !== id);
-    setTags(removeTag);
-  };
-
-  const handleSelectCategory = () => {
+  const handleSelectCategory = useCallback(() => {
     if (categories.filter((e) => e.id === category.id).length === 0) {
       setCategories((prev) => [...prev, category]);
     }
-  };
+  }, [categories, category]);
 
-  const removeCategory = (id) => {
-    const removeCategory = categories.filter((item) => item.id !== id);
-    setCategories(removeCategory);
-  };
+  const handleFileChange = useCallback(
+    (event) => {
+      const file = event.target.files[0];
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        const imageUrl = event.target.result;
 
-    const reader = new FileReader();
-    reader.onload = async (event) => {
-      const imageUrl = event.target.result;
+        const image = new Image();
+        image.src = imageUrl;
+        setPreviewImage(imageUrl);
 
-      const image = new Image();
-      image.src = imageUrl;
-      setPreviewImage(imageUrl);
-
-      const exifData = await new Promise((resolve) => {
-        EXIF.getData(file, function () {
-          resolve(EXIF.getAllTags(this));
+        const exifData = await new Promise((resolve) => {
+          EXIF.getData(file, function () {
+            resolve(EXIF.getAllTags(this));
+          });
         });
-      });
 
-      setTitle(file.name.substring(0, file.name.indexOf('.')));
-      setCamera(exifData.Model ? exifData.Model.toString() : '');
-      setAperture(exifData.FNumber ? exifData.FNumber.toString() : '');
-      setShutterSpeed(
-        exifData.ShutterSpeedValue
-          ? '1/' +
-              Math.trunc(
-                1 / Math.pow(2, -exifData.ShutterSpeedValue)
-              ).toString()
-          : ''
-      );
+        setTitle(file.name.substring(0, file.name.indexOf('.')));
+        setCamera(exifData.Model ? exifData.Model.toString() : '');
+        setAperture(exifData.FNumber ? exifData.FNumber.toString() : '');
+        setShutterSpeed(
+          exifData.ShutterSpeedValue
+            ? '1/' +
+                Math.trunc(
+                  1 / Math.pow(2, -exifData.ShutterSpeedValue)
+                ).toString()
+            : ''
+        );
 
-      setFocalLength(
-        exifData.FocalLength ? exifData.FocalLength.toString() : ''
-      );
-      setTakenWhen(
-        exifData.DateTimeOriginal ? exifData.DateTimeOriginal.toString() : ''
-      );
-      setIso(
-        exifData.ISOSpeedRatings ? exifData.ISOSpeedRatings.toString() : ''
-      );
-      setCopyright(exifData.Copyright ? exifData.Copyright.toString() : '');
-    };
+        setFocalLength(
+          exifData.FocalLength ? exifData.FocalLength.toString() : ''
+        );
+        setTakenWhen(
+          exifData.DateTimeOriginal ? exifData.DateTimeOriginal.toString() : ''
+        );
+        setIso(
+          exifData.ISOSpeedRatings ? exifData.ISOSpeedRatings.toString() : ''
+        );
+        setCopyright(exifData.Copyright ? exifData.Copyright.toString() : '');
+      };
 
-    reader.readAsDataURL(file);
-    toggleShowUpload(true);
-    setSelectedFile(file);
-  };
+      reader.readAsDataURL(file);
+      toggleShowUpload(true);
+      setSelectedFile(file);
+    },
+    [toggleShowUpload]
+  );
 
   // Create Post
-  const handleConfirmUpload = async (event) => {
-    event.preventDefault();
+  const handleConfirmUpload = useCallback(
+    async (event) => {
+      event.preventDefault();
 
-    const result = await uploadImageToAWS({ selectedFile });
-    console.log({ result });
+      const result = await uploadImageToAWS({ selectedFile });
 
-    try {
-      await createPost({
-        variables: {
-          createPostData: {
-            userId,
-            title,
-            aperture,
-            lens,
-            takenWhen,
-            camera,
-            focalLength,
-            shutterSpeed,
-            ISO: iso,
-            copyRight: copyright,
-            imageHash: '',
-            imageURL: result.Location,
+      try {
+        await createPost({
+          variables: {
+            createPostData: {
+              userId,
+              title,
+              aperture,
+              lens,
+              takenWhen,
+              camera,
+              focalLength,
+              shutterSpeed,
+              ISO: iso,
+              copyRight: copyright,
+              imageHash: '',
+              imageURL: result.Location,
 
-            categoryId: categories.map((a) => a.id),
-            albumId: albums.map((a) => a.id),
-            tag: [
-              ...new Set(
-                tags.map((a) => a.value).map((element) => element.toLowerCase())
-              ),
-            ],
+              categoryId: categories.map((a) => a.id),
+              albumId: albums.map((a) => a.id),
+              tag: [
+                ...new Set(
+                  tags
+                    .map((a) => a.value)
+                    .map((element) => element.toLowerCase())
+                ),
+              ],
+            },
           },
-        },
+        });
+        successfullNoty('upload image sucessfull!');
+      } catch (e) {
+        throw e;
+      }
+
+      if (!fetchError) {
+        navigate('/');
+      }
+    },
+    [
+      albums,
+      aperture,
+      camera,
+      categories,
+      copyright,
+      createPost,
+      fetchError,
+      focalLength,
+      iso,
+      lens,
+      navigate,
+      selectedFile,
+      shutterSpeed,
+      tags,
+      takenWhen,
+      title,
+      uploadImageToAWS,
+      userId,
+    ]
+  );
+
+  const handleCancelUpload = useCallback(
+    (event) => {
+      event.preventDefault();
+      toggleShowUpload(false);
+      setCategories([]);
+      setCategory({
+        id: 1,
+        value: options[0],
       });
+    },
+    [options, toggleShowUpload]
+  );
 
-      toast.info('upload image sucessfull!', {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
-    } catch (e) {
-      throw e;
-    }
+  const inputData = useMemo(
+    () => [
+      {
+        label: 'Title',
+        placeholder: 'Input title for this image',
+        field: title,
+        setField: setTitle,
+      },
+      {
+        label: 'Camera',
+        placeholder: 'Input Camera',
+        field: camera,
+        setField: setCamera,
+      },
+      {
+        label: 'Lens',
+        placeholder: 'Input Lens',
+        field: lens,
+        setField: setLens,
+      },
+      {
+        label: 'Aperture',
+        placeholder: 'Input Aperture',
+        field: aperture,
+        setField: setAperture,
+      },
+      {
+        label: 'Shutter speed',
+        placeholder: 'Input Shutter speed',
+        field: shutterSpeed,
+        setField: setShutterSpeed,
+      },
+      {
+        label: 'Focal length',
+        placeholder: 'Input Focal length',
+        field: focalLength,
+        setField: setFocalLength,
+      },
+      {
+        label: 'ISO',
+        placeholder: 'Input ISO',
+        field: iso,
+        setField: setIso,
+      },
+      {
+        label: 'Taken when',
+        placeholder: 'Taken when',
+        field: takenWhen,
+        setField: setTakenWhen,
+      },
+      {
+        label: 'Copyright',
+        placeholder: 'Input CopyRight',
+        field: copyright,
+        setField: setCopyright,
+      },
+    ],
+    [
+      aperture,
+      camera,
+      copyright,
+      focalLength,
+      iso,
+      lens,
+      shutterSpeed,
+      takenWhen,
+      title,
+    ]
+  );
 
-    if (!fetchError) {
-      navigate('/');
-    }
-  };
+  const InputDataBySelect = useMemo(
+    () => [
+      {
+        label: 'Category',
+        Array: categories,
+        setArray: setCategories,
+        value: category,
+        setValue: setCategory,
+        options: options,
+        handleSelect: handleSelectCategory,
+      },
+      {
+        label: 'Album',
+        Array: albums,
+        setArray: setAlbums,
+        value: album,
+        setValue: setAlbum,
+        options: userAlbums?.userAllAlbum,
+        handleSelect: handleSelectAlbum,
+      },
+    ],
+    [
+      album,
+      albums,
+      categories,
+      category,
+      handleSelectAlbum,
+      handleSelectCategory,
+      options,
+      userAlbums?.userAllAlbum,
+    ]
+  );
 
-  const handleCancelUpload = (event) => {
-    event.preventDefault();
-    toggleShowUpload(false);
-    setCategories([]);
-    setCategory({
-      id: 1,
-      value: options[0],
-    });
-  };
+  return useMemo(
+    () => (
+      <Page title="Flens-Upload">
+        <Suspense fallback={<div>Loading...</div>}>
+          <div className="upload-image-page">
+            <div className="upload-image-content">
+              <div className="upload-image-title">
+                <CloudArrowUp size={45} color="#f08080" />
+                <span>Upload</span>
+              </div>
 
-  return (
-    <Page title="Flens-Upload">
-      <Suspense fallback={<div>Loading...</div>}>
-        <div className="upload-image-page">
-          <div className="upload-image-content">
-            <div className="upload-image-title">
-              <CloudArrowUp size={45} color="#f08080" />
-              <span>Upload</span>
-            </div>
+              <div className="upload-image-text">Drop a photo here</div>
+              <div className="upload-image-input">
+                <label
+                  className="custom-file-input"
+                  type="button"
+                  onClick={() => fileInputRef.current.click()}
+                >
+                  Upload a photo
+                </label>
 
-            <div className="upload-image-text">Drop a photo here</div>
-            <div className="upload-image-input">
-              <label
-                className="custom-file-input"
-                type="button"
-                onClick={() => fileInputRef.current.click()}
-              >
-                Upload a photo
-              </label>
+                <input
+                  type="file"
+                  id="fileInput"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                />
+              </div>
 
-              <input
-                type="file"
-                id="fileInput"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-              />
-            </div>
-
-            <div className="modal-upload-overlay" hidden={!showUpload}>
-              <div className="modal-upload-container">
-                <div className="modal-upload-content">
-                  <div className="modal-upload-left">
-                    <img src={previewImage} alt="" />
-                  </div>
-                  <div className="modal-upload-right">
-                    <div className="modal-upload-details">
-                      <div>
-                        <label>Title</label>
-                        <input
-                          type="text"
-                          value={title}
-                          placeholder="input tittle for this image"
-                          onChange={(event) => setTitle(event.target.value)}
-                        />
-                      </div>
-                      <div>
-                        <label>Camera</label>
-                        <input
-                          type="text"
-                          placeholder="Input Camera"
-                          value={camera}
-                          onChange={(event) => setCamera(event.target.value)}
-                        />
-                      </div>
-
-                      <div>
-                        <label>Lens</label>
-                        <input
-                          type="text"
-                          placeholder="Input Lens"
-                          value={lens}
-                          onChange={(event) => setLens(event.target.value)}
-                        />
-                      </div>
-
-                      <div>
-                        <label>Aperture</label>
-                        <input
-                          type="text"
-                          placeholder="Input Aperture"
-                          value={aperture !== '' ? 'f/' + aperture : ''}
-                          onChange={(event) => setAperture(event.target.value)}
-                        />
-                      </div>
-
-                      <div>
-                        <label>Shutter speed</label>
-                        <input
-                          type="text"
-                          placeholder="Input Shutter speed"
-                          value={shutterSpeed + ' s'}
-                          onChange={(event) =>
-                            setShutterSpeed(event.target.value)
-                          }
-                        />
-                      </div>
-
-                      <div>
-                        <label>Taken</label>
-                        <input
-                          type="text"
-                          placeholder="Taken when"
-                          value={takenWhen}
-                          onChange={(event) => setTakenWhen(event.target.value)}
-                        />
-                      </div>
-
-                      <div>
-                        <label>Focal length</label>
-                        <input
-                          type="text"
-                          placeholder="Input Focal length"
-                          value={focalLength !== '' ? focalLength + ' mm' : ''}
-                          onChange={(event) =>
-                            setFocalLength(event.target.value)
-                          }
-                        />
-                      </div>
-
-                      <div>
-                        <label>ISO</label>
-                        <input
-                          type="text"
-                          placeholder="Input ISO"
-                          value={iso}
-                          onChange={(event) => setIso(event.target.value)}
-                        />
-                      </div>
-
-                      <div>
-                        <label>Tags</label>
-                        {tags.length > 0 && (
-                          <div className="all-tags">
-                            {tags.map((item) => {
-                              return (
-                                <div
-                                  key={item.id}
-                                  onClick={() => removeTag(item.id)}
-                                >
-                                  <span id="remove-tag">X</span>
-                                  {item.value}
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )}
-
-                        <input
-                          type="text"
-                          placeholder="Input a tag and press enter"
-                          onChange={(e) =>
-                            setTag({
-                              id:
-                                tags.length === 0
-                                  ? 1
-                                  : tags[tags.length - 1].id + 1,
-                              value: e.target.value,
-                            })
-                          }
-                          onKeyDown={(e) => handleKeyDown(e)}
-                          value={tag.value}
-                        />
-                      </div>
-
-                      <div className="all-categories">
-                        <label>Category</label>
-                        {categories.length > 0 && (
-                          <div className="categories-item">
-                            {categories.map((item) => (
-                              <div
-                                key={item.id}
-                                onClick={() => removeCategory(item.id)}
-                              >
-                                <span id="remove-tag">X</span>
-                                {item.name}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-
-                        <div className="sub-categories">
-                          <select
-                            value={category.name}
-                            id="select-image-category"
-                            onChange={(e) => {
-                              setCategory({
-                                name: e.target.value,
-                                id: options.find(
-                                  (item) => item.name === e.target.value
-                                ).id,
-                              });
-                            }}
-                          >
-                            {options.map((item) => {
-                              return (
-                                <option key={item.id} value={item.name}>
-                                  {item.name}
-                                </option>
-                              );
-                            })}
-                          </select>
-
-                          <div className="add-category-button">
-                            <button onClick={handleSelectCategory}>Add</button>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="all-albums">
-                        <label>Album</label>
-                        {albums.length > 0 && (
-                          <div className="albums-item">
-                            {albums.map((item) => (
-                              <div
-                                key={item.id}
-                                onClick={() => removeAlbum(item.id)}
-                              >
-                                <span id="remove-tag">X</span>
-                                {item.name}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-
-                        <div className="sub-albums">
-                          <select
-                            value={album?.name}
-                            id="select-image-album"
-                            onChange={(e) =>
-                              setAlbum({
-                                name: e.target.value,
-                                id: userAlbums.userAllAlbum.find(
-                                  (item) => item.name === e.target.value
-                                ).id,
-                              })
-                            }
-                          >
-                            {userAlbums?.userAllAlbum.map((item) => {
-                              return <option key={item.id}>{item.name}</option>;
-                            })}
-                          </select>
-
-                          <div className="add-album-button">
-                            <button onClick={handleSelectAlbum}>Add</button>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div>
-                        <label htmlFor="">CopyRight</label>
-                        <input
-                          type="text"
-                          placeholder="Input your CopyRight"
-                          value={copyright}
-                          onChange={(event) => setCopyright(event.target.value)}
-                        />
-                      </div>
+              <div className="modal-upload-overlay" hidden={!showUpload}>
+                <div className="modal-upload-container">
+                  <div className="modal-upload-content">
+                    <div className="modal-upload-left">
+                      <img src={previewImage} alt="" />
                     </div>
+                    <div className="modal-upload-right">
+                      <div className="modal-upload-details">
+                        {inputData.map((item) =>
+                          renderInputField(
+                            item.label,
+                            item.placeholder,
+                            item.field,
+                            item.setField
+                          )
+                        )}
 
-                    <div className="modal-buttons">
-                      <div className="button-close">
-                        <ButtonCustom
-                          text={'Cancel'}
-                          type="modal-close-btn"
-                          onClick={(e) => handleCancelUpload(e)}
-                        />
+                        {renderInputTags(
+                          'Tags',
+                          tags,
+                          setTags,
+                          tag,
+                          setTag,
+                          handleKeyDown
+                        )}
+                        {InputDataBySelect.map((item) =>
+                          renderAddItemBySelect(
+                            item.label,
+                            item.Array,
+                            item.setArray,
+                            item.value,
+                            item.setValue,
+                            item.options,
+                            item.handleSelect
+                          )
+                        )}
                       </div>
 
-                      <div className="button-confirm">
-                        <ButtonCustom
-                          text={'Upload'}
-                          type="modal-save-btn"
-                          onClick={(event) => handleConfirmUpload(event)}
-                        />
+                      <div className="modal-buttons">
+                        <div className="button-close">
+                          <ButtonCustom
+                            text={'Cancel'}
+                            type="modal-close-btn"
+                            onClick={(e) => handleCancelUpload(e)}
+                          />
+                        </div>
+
+                        <div className="button-confirm">
+                          <ButtonCustom
+                            text={'Upload'}
+                            type="modal-save-btn"
+                            onClick={(event) => handleConfirmUpload(event)}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -519,9 +457,21 @@ const UploadImage = () => {
               </div>
             </div>
           </div>
-        </div>
-      </Suspense>
-    </Page>
+        </Suspense>
+      </Page>
+    ),
+    [
+      InputDataBySelect,
+      handleCancelUpload,
+      handleConfirmUpload,
+      handleFileChange,
+      handleKeyDown,
+      inputData,
+      previewImage,
+      showUpload,
+      tag,
+      tags,
+    ]
   );
 };
 

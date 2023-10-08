@@ -1,4 +1,3 @@
-import HashTag from './HashTag.jsx';
 import './ImageDetail.css';
 import PostComment from './PostComment';
 import PostInteraction from './PostInteraction.jsx';
