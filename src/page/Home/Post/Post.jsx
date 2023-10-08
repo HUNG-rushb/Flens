@@ -30,7 +30,7 @@ const Post = ({
     toggleImageDetail();
   }, [item, setItemShowDetail, toggleImageDetail]);
 
-  const [showTechnicalInfor, setTechnicalInfor] = useState(false);
+  const [showTechnicalInfor, setShowTechnicalInfor] = useState(false);
 
   useEffect(() => {
     if (isDeletedPost) {
@@ -90,13 +90,13 @@ const Post = ({
                       <EyeFill
                         size={28}
                         color="#f08080"
-                        onClick={() => setTechnicalInfor(true)}
+                        onClick={() => setShowTechnicalInfor(true)}
                       />
                     ) : (
                       <EyeSlashFill
                         size={28}
                         color="#f08080"
-                        onClick={() => setTechnicalInfor(false)}
+                        onClick={() => setShowTechnicalInfor(false)}
                       />
                     )}
                   </div>

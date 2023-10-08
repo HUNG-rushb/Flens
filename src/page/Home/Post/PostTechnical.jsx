@@ -36,6 +36,9 @@ const PostTechnical = ({ item, showImageDetail }) => {
             {item?.image.imageInfoId.takenWhen}
           </div>
           <div>
+            <span id="content">Lens:</span> {item?.image.imageInfoId.lens}
+          </div>
+          <div>
             <span id="content">CopyRight:</span>{' '}
             {item?.image.imageInfoId.copyRight}
           </div>
@@ -48,6 +51,7 @@ const PostTechnical = ({ item, showImageDetail }) => {
       item?.image.imageInfoId.camera,
       item?.image.imageInfoId.copyRight,
       item?.image.imageInfoId.focalLength,
+      item?.image.imageInfoId.lens,
       item?.image.imageInfoId.shutterSpeed,
       item?.image.imageInfoId.takenWhen,
       showImageDetail,

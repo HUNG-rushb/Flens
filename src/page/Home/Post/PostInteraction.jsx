@@ -24,7 +24,7 @@ const PostInteraction = ({
   const [isLiked, setIsLiked] = useState(item?.userLikedPost.includes(userId));
   const [countNumberOfLikes, setCountNumberOfLikes] = useState(item?.points);
 
-  const [showListOtherActions, setShowListOtherActions] = useState(true);
+  const [showListActions, setShowListActions] = useState(true);
   const [animationWhenClick, setAnimationWhenClick] = useState(false);
   const { deletePost } = useDeletePost();
   const { interactPost } = useInteractPost();
@@ -54,7 +54,7 @@ const PostInteraction = ({
   );
 
   const handleReportImage = useCallback(() => {
-    setShowListOtherActions(true);
+    setShowListActions(true);
     setImageToReport(item?.image.url);
     toggleShowReport(showReport);
   }, [item?.image.url, setImageToReport, showReport, toggleShowReport]);
@@ -86,7 +86,7 @@ const PostInteraction = ({
         clickOutsideRef.current &&
         !clickOutsideRef.current.contains(event.target)
       ) {
-        setShowListOtherActions(true);
+        setShowListActions(true);
       }
     };
 
@@ -129,10 +129,10 @@ const PostInteraction = ({
             <Reply size={30} id="reply-icon" />
             <ThreeDots
               size={30}
-              onClick={() => setShowListOtherActions((prev) => !prev)}
+              onClick={() => setShowListActions((prev) => !prev)}
               id="other-action-icon"
             />
-            <div className="list-actions" hidden={showListOtherActions}>
+            <div className="list-actions" hidden={showListActions}>
               <ul>
                 <li onClick={handleReportImage}>
                   <Flag color="blue" />
@@ -157,7 +157,7 @@ const PostInteraction = ({
       handleReportImage,
       handleLikePost,
       isLiked,
-      showListOtherActions,
+      showListActions,
     ]
   );
 };
