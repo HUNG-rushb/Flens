@@ -10,7 +10,8 @@ const StoryComment = ({ item, refetchStory }) => {
   const { id: userId, profileImageURL } = useAuthState();
   const [allComment, setAllComment] = useState(null);
   const [comment, setComment] = useState('');
-  const [indexCmt, setIndexCmt] = useState(3);
+  const [indexComment, setIndexComment] = useState(3);
+
 
   console.log({ item });
 
@@ -46,32 +47,18 @@ const StoryComment = ({ item, refetchStory }) => {
     refetchStory();
   };
 
-  const showMoreCmt = () => {
-    setIndexCmt((prev) => prev + 2);
+  const showMoreComment = () => {
+    setIndexComment((prev) => prev + 2);
   };
 
-  const handlePressEnter = async (event) => {
+  const handleKeyPress = async (event) => {
+    event.preventDefault();
     const textarea = document.getElementById(`textarea-comment-${storyID}`);
     const { selectionStart, selectionEnd } = textarea;
     const value = textarea.value;
 
     if (event.key === 'Enter' && !event.shiftKey) {
-      try {
-        await createComment({
-          variables: {
-            createCommentData: {
-              userId,
-              postId: '000000000000000000000000',
-              storyId: item?.id,
-              content: comment,
-            },
-          },
-        });
-      } catch (e) {
-        throw e;
-      }
-      setComment('');
-      refetchStory();
+      handleSubmitComment(event);
     } else if (event.key === 'Enter' && event.shiftKey) {
       event.preventDefault();
       const newValue =
@@ -101,43 +88,41 @@ const StoryComment = ({ item, refetchStory }) => {
 
       textarea.selectionStart = selectionStart - 1;
       textarea.selectionEnd = selectionStart - 1;
+    } else {
+      setComment(event.target.value);
     }
-  };
+  }; 
 
   return (
-    <div className="post-comments">
-      <div className="post-comment-header">
-        <img src={profileImageURL} alt="" />
+    <div className="comments-wrapper">
+      <div className="comment-header">
+        <img src={profileImageURL} alt="" id="comment-avatar" />
         <TextareaCustom
           type={'comment'}
           placeholder={'Add a comment'}
           id={`textarea-comment-${storyID}`}
           value={comment}
           rows={1}
-          onChange={(e) => setComment(e.target.value)}
-          onKeyDown={(e) => handlePressEnter(e)}
+          onChange={(e) => handleKeyPress(e)}
         />
-
-        <button type="submit" id="btn-submit-cmt" onClick={handleSubmitComment}>
-          <Send size={25} />
+        <button type="submit" id="submit-button" onClick={handleSubmitComment}>
+          <Send size={25} id="send-icon" />
         </button>
       </div>
 
-      <div className="list-reply-comments">
-        {item?.comments &&
-          item?.comments.slice(0, indexCmt).map((i, index) => (
-            <div className="reply-comment" key={index}>
-              <img src={i.userId.profileImageURL} alt="reply-comment" />
-              <span>{i.userId.name}</span>
-              <div className="reply-comment-content">{i.content}</div>
-              <div className="reply-comment-date">
-                {relativeDays(i.createdAt)}
-              </div>
+      <div className="comment-list">
+        {allComment &&
+          allComment.slice(0, indexComment).map((i, index) => (
+            <div className="comment-wrapper" key={i.id}>
+              <img src={i.userId.profileImageURL} alt="" id="comment-avatar" />
+              <span id="comment-username">{i.userId.name}</span>
+              <div id="comment-content">{i.content}</div>
+              <div id="comment-date">{relativeDays(i.createdAt)}</div>
             </div>
           ))}
 
-        {allComment?.length > 3 && allComment?.length > indexCmt ? (
-          <div className="View-more-comments" onClick={showMoreCmt}>
+        {allComment?.length > 3 && allComment?.length > indexComment ? (
+          <div className="View-more-comments" onClick={showMoreComment}>
             View more
           </div>
         ) : (

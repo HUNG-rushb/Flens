@@ -100,7 +100,7 @@ const PostComment = ({ item }) => {
   };
 
   return (
-    <form className="comments-wrapper" onSubmit={handleSubmitComment}>
+    <div className="comments-wrapper">
       <div className="comment-header">
         <img src={profileImageURL} alt="" id="comment-avatar" />
         <TextareaCustom
@@ -111,7 +111,7 @@ const PostComment = ({ item }) => {
           rows={1}
           onChange={(e) => handleKeyPress(e)}
         />
-        <button type="submit" id="submit-button" onClick={handleSubmitComment}>
+        <button id="submit-button" onClick={handleSubmitComment}>
           <Send size={25} id="send-icon" />
         </button>
       </div>
@@ -135,7 +135,7 @@ const PostComment = ({ item }) => {
           <></>
         )}
       </div>
-    </form>
+    </div>
   );
 };
 

@@ -96,6 +96,69 @@
           }
         }
       }
+    } 
+
+    .comments-wrapper {
+      .comment-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 0 10px;
+
+        #comment-avatar {
+          max-width: 40px !important;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+        #submit-button {
+          background: none;
+          padding: 0;
+          border: none;
+
+          #send-icon {
+            opacity: 1;
+          }
+
+          #send-icon :hover {
+            opacity: 0.5;
+          }
+        }
+      }
+
+      .comment-list {
+        margin: 10px 50px;
+
+        .comment-wrapper {
+          padding-top: 10px;
+
+          #comment-avatar {
+            width: 35px !important;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
+          #comment-username {
+            margin-left: 10px;
+            font-weight: 600;
+          }
+          #comment-content {
+            margin-left: 45px;
+          }
+          #comment-date {
+            margin-left: 45px;
+            font-size: 14px;
+          }
+        }
+
+        .View-more-comments {
+          font-weight: 600;
+          margin-top: 20px;
+          cursor: pointer;
+        }
+      }
     }
   }
 }
