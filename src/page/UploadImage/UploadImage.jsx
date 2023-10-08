@@ -1,5 +1,4 @@
 import ButtonCustom from '../../components/Button/ButtonCustom.jsx';
-import Modal from '../../components/Modal/ModalCustom.jsx';
 import Page from '../../components/utils/Page.js';
 import { useAuthState } from '../../context/AuthContext.js';
 import { useGetAllUserAlbum } from '../../graphql/useAlbum.js';
@@ -14,13 +13,12 @@ import {
 } from '../../utils/useRenderInputField.js';
 import './UploadImage.css';
 import { EXIF } from 'exif-js';
-import Jimp from 'jimp';
+// import Jimp from 'jimp';
 import React, {
   Suspense,
   useRef,
   useState,
   useMemo,
-  useEffect,
   useCallback,
 } from 'react';
 import { CloudArrowUp } from 'react-bootstrap-icons';
