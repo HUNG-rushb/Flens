@@ -9,11 +9,7 @@
   height: 100%;
   background-color: #fffaf0;
   padding-top: 90px;
-  overflow: auto;
-  box-sizing: border-box;
-  padding-bottom: 40px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-
   ::-webkit-scrollbar {
     width: 0.5em;
   }
@@ -26,136 +22,143 @@
     background-color: transparent;
   }
 
-  .right-content {
-    .special-contest {
-      max-width: 240px;
+  .right-content-wrapper {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    .right-content {
+      height: 100%;
+      overflow-y: scroll;
+      .special-contest {
+        max-width: 240px;
 
-      #subtitle {
-        font-weight: 600;
-        font-size: 18px;
-        margin-bottom: 10px;
-      }
+        #subtitle {
+          font-weight: 600;
+          font-size: 18px;
+          margin-bottom: 10px;
+        }
 
-      .swiper {
-        width: 100%;
-        height: 100%;
+        .swiper {
+          width: 100%;
+          height: 100%;
 
-        .swiper-wrapper {
-          .swiper-slide {
-            text-align: center;
-            font-size: 18px;
-            background: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            #special-contest-image {
-              max-width: 240px;
-              height: 100%;
-              object-fit: cover;
-              opacity: 0.8;
-              cursor: pointer;
-            }
-            #special-contest-image:hover {
-              opacity: 1;
-            }
-
-            #special-contest-title {
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-              color: white;
-              font-weight: bold;
+          .swiper-wrapper {
+            .swiper-slide {
               text-align: center;
-              text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-              text-transform: uppercase;
-              cursor: pointer;
+              font-size: 18px;
+              background: #fff;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              #special-contest-image {
+                max-width: 240px;
+                height: 100%;
+                object-fit: cover;
+                opacity: 0.8;
+                cursor: pointer;
+              }
+              #special-contest-image:hover {
+                opacity: 1;
+              }
+
+              #special-contest-title {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: white;
+                font-weight: bold;
+                text-align: center;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+                text-transform: uppercase;
+                cursor: pointer;
+              }
             }
           }
-        }
-        .swiper-pagination-bullet-active {
-          background-color: #f08080;
+          .swiper-pagination-bullet-active {
+            background-color: #f08080;
+          }
         }
       }
-    }
 
-    .follow-suggestion-container {
-      margin: 10px 0;
-      #subtitle {
-        font-weight: 600;
-        font-size: 18px;
-        margin-bottom: 10px;
-      }
-      .follow-list-suggestion {
-        .content {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin: 10px 0;
-
-          .content-wrapper {
+      .follow-suggestion-container {
+        margin: 10px 0;
+        #subtitle {
+          font-weight: 600;
+          font-size: 18px;
+          margin-bottom: 10px;
+        }
+        .follow-list-suggestion {
+          .content {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 10px;
+            margin: 10px 0;
 
-            #suggestion-image {
-              height: 50px;
-              width: 50px;
-              border-radius: 50%;
-              object-fit: cover;
-              cursor: pointer;
-            }
-
-            .subcontent-wrapper {
+            .content-wrapper {
               display: flex;
-              flex-direction: column;
+              align-items: center;
+              gap: 10px;
 
-              #sugesstion-name {
-                font-weight: 600;
+              #suggestion-image {
+                height: 50px;
+                width: 50px;
+                border-radius: 50%;
+                object-fit: cover;
                 cursor: pointer;
               }
 
-              #sugesstion-type {
-                font-size: 14px;
+              .subcontent-wrapper {
+                display: flex;
+                flex-direction: column;
+
+                #sugesstion-name {
+                  font-weight: 600;
+                  cursor: pointer;
+                }
+
+                #sugesstion-type {
+                  font-size: 14px;
+                }
               }
             }
-          }
 
-          #add-friend-icon {
-            opacity: 1;
+            #add-friend-icon {
+              opacity: 1;
+              cursor: pointer;
+            }
+
+            #add-friend-icon:hover {
+              opacity: 0.7;
+            }
+          }
+        }
+      }
+
+      .trending-tags-container {
+        #subtitle {
+          font-weight: 600;
+          font-size: 18px;
+          margin-bottom: 10px;
+        }
+
+        .tags-list {
+          display: flex;
+          margin: 5px 0;
+          max-width: 240px;
+          flex-wrap: wrap;
+
+          .tag {
+            padding: 0 10px;
+            border: 1px solid #93a6b9;
+            margin: 5px 10px;
             cursor: pointer;
           }
 
-          #add-friend-icon:hover {
-            opacity: 0.7;
+          .tag:hover {
+            background-color: #aaa;
           }
-        }
-      }
-    }
-
-    .trending-tags-container {
-      #subtitle {
-        font-weight: 600;
-        font-size: 18px;
-        margin-bottom: 10px;
-      }
-
-      .tags-list {
-        display: flex;
-        margin: 5px 0;
-        max-width: 240px;
-        flex-wrap: wrap;
-
-        .tag {
-          padding: 0 10px;
-          border: 1px solid #93a6b9;
-          margin: 5px 10px;
-          cursor: pointer;
-        }
-
-        .tag:hover {
-          background-color: #aaa;
         }
       }
     }

@@ -1,5 +1,6 @@
 import { contests } from '../../Contest/contestTab/contestData';
-import React, { useCallback, useMemo } from 'react';
+import './styles.scss';
+import React, { useCallback, useMemo, useState } from 'react';
 import { PersonPlusFill } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
 import { Autoplay, Pagination } from 'swiper';
@@ -7,7 +8,6 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import './styles.scss';
 
 const followSuggestionList = [
   {
@@ -21,7 +21,7 @@ const followSuggestionList = [
       'https://images.pexels.com/photos/13722001/pexels-photo-13722001.jpeg?auto=compress&cs=tinysrgb&w=600',
     name: 'User 2',
     type: 'Random',
-  }, 
+  },
   {
     image:
       'https://images.pexels.com/photos/15379284/pexels-photo-15379284/free-photo-of-tr-ng-meo-con-meo-rau-ria.jpeg?auto=compress&cs=tinysrgb&w=600',
@@ -50,72 +50,71 @@ const RightContent = () => {
     },
     [navigate]
   );
+
   return useMemo(
     () => (
       <div className="right-container">
-        <div className="right-content">
-          <div className="special-contest">
-            <span id="subtitle">Happening Contest:</span>
-            <Swiper
-              spaceBetween={30}
-              centeredSlides={true}
-              autoplay={{
-                delay: 3000,
-                disableOnInteraction: false,
-              }}
-              pagination={{
-                clickable: true,
-              }}
-              modules={[Autoplay, Pagination]}
-            >
-              {contests.map((item, index) => ( 
-                <SwiperSlide key={index}>
-                  <div onClick={() => handleClickContest(item)}>
-                    <img src={item.image} alt="" id="special-contest-image" />
-                    <span id="special-contest-title">{item.title} contest</span>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-          <div className="follow-suggestion-container">
-            <span id="subtitle">
-              Follow list suggestion:
-            </span>
-            <div className="follow-list-suggestion">
-              {followSuggestionList.map((item, index) => (
-                <div className="follow-suggestion" key={index}>
-                  <div className="content">
-                    <div className="content-wrapper">
-                      <img
-                        src={item.image}
-                        alt=""
-                        id="suggestion-image"
-                      />
-                      <div className="subcontent-wrapper">
-                        <span id="sugesstion-name">{item.name}</span>
-                        <span id="sugesstion-type">{item.type}</span>
-                      </div>
+        <div className="right-content-wrapper">
+          <div className="right-content">
+            <div className="special-contest">
+              <span id="subtitle">Happening Contest:</span>
+              <Swiper
+                spaceBetween={30}
+                centeredSlides={true}
+                autoplay={{
+                  delay: 3000,
+                  disableOnInteraction: false,
+                }}
+                pagination={{
+                  clickable: true,
+                }}
+                modules={[Autoplay, Pagination]}
+              >
+                {contests.map((item, index) => (
+                  <SwiperSlide key={index}>
+                    <div onClick={() => handleClickContest(item)}>
+                      <img src={item.image} alt="" id="special-contest-image" />
+                      <span id="special-contest-title">
+                        {item.title} contest
+                      </span>
                     </div>
-                    <PersonPlusFill
-                      size={25}
-                      color="#f08080"
-                      id="add-friend-icon"
-                    />
-                  </div>
-                  <hr />
-                </div>
-              ))}
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             </div>
-          </div>
-          <div className="trending-tags-container">
-            <span id="subtitle">Trending tags: </span>
-            <div className="tags-list">
-              {tags.map((tag, index) => (
-                <div className="tag" key={index}>
-                  #{tag}
-                </div>
-              ))}
+            <div className="follow-suggestion-container">
+              <span id="subtitle">Follow list suggestion:</span>
+              <div className="follow-list-suggestion">
+                {followSuggestionList.map((item, index) => (
+                  <div className="follow-suggestion" key={index}>
+                    <div className="content">
+                      <div className="content-wrapper">
+                        <img src={item.image} alt="" id="suggestion-image" />
+                        <div className="subcontent-wrapper">
+                          <span id="sugesstion-name">{item.name}</span>
+                          <span id="sugesstion-type">{item.type}</span>
+                        </div>
+                      </div>
+                      <PersonPlusFill
+                        size={25}
+                        color="#f08080"
+                        id="add-friend-icon"
+                      />
+                    </div>
+                    <hr />
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="trending-tags-container">
+              <span id="subtitle">Trending tags: </span>
+              <div className="tags-list">
+                {tags.map((tag, index) => (
+                  <div className="tag" key={index}>
+                    #{tag}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

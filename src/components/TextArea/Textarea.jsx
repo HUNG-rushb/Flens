@@ -1,6 +1,6 @@
 import './Textarea.css';
 
-const TextAreacustom = ({ type, placeholder, ...props }) => {
+const Textarea = ({ type, placeholder, ...props }) => {
   return (
     <textarea
       className={`TextArea Textarea--${type}`}
@@ -10,4 +10,4 @@ const TextAreacustom = ({ type, placeholder, ...props }) => {
   );
 };
 
-export default TextAreacustom;
+export default Textarea;

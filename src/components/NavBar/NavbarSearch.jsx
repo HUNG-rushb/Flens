@@ -1,3 +1,4 @@
+import './NavBar.css';
 import React, { useState } from 'react';
 import {
   Form,
@@ -7,11 +8,21 @@ import {
   Row,
   Col,
 } from 'react-bootstrap';
-import './NavBar.css';
 
 const NavbarSearch = () => {
   const [isFocus, setIsFocus] = useState(false);
   const [input, setInput] = useState('');
+
+  const handleChange = (event) => {
+    setInput(event.target.value);
+  };
+
+  const handleKeyDown = (event) => {
+    if(event.key === 'Enter'){
+    event.preventDefault();
+      console.log('enter')  
+    }
+  }
 
   return (
     <Container>
@@ -19,10 +30,6 @@ const NavbarSearch = () => {
         <Col>
           <Form className="d-flex">
             <InputGroup
-              onChange={(e) => {
-                e.preventDefault();
-                setInput(e.target.value);
-              }}
               onFocus={() => {
                 setIsFocus(true);
               }}
@@ -35,6 +42,9 @@ const NavbarSearch = () => {
                 placeholder="Search Flens"
                 className="me-2 rounded-md"
                 aria-label="Search"
+                value={input}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
               />
             </InputGroup>
           </Form>
