@@ -35,7 +35,7 @@ const Post = ({
     (tag) => {
       navigate('/explore/inspiration', {
         state: {
-          searchValue: tag,
+          tagValue: tag,
         },
       });
     },

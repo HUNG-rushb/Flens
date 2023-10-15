@@ -36,7 +36,10 @@ const Explore = () => {
     () => location?.state?.searchValue,
     [location?.state?.searchValue]
   );
-  console.log(searchValue);
+  const tagValue = useMemo(
+    () => location?.state?.tagValue,
+    [location?.state?.tagValue]
+  );
 
   const [imageToShow, setImageToShow] = useState('');
   const [selectedItem, setSelectedItem] = useState({});
