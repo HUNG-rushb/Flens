@@ -32,6 +32,12 @@ const Explore = () => {
   const { isShowing: showModal, toggle: toggleModal } = useModal();
   const navigate = useNavigate();
 
+  const searchValue = useMemo(
+    () => location?.state?.searchValue,
+    [location?.state?.searchValue]
+  );
+  console.log(searchValue);
+
   const [imageToShow, setImageToShow] = useState('');
   const [selectedItem, setSelectedItem] = useState({});
 
