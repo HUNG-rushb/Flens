@@ -1,5 +1,5 @@
 import Avatar from '../../assets/images/avatar.jpg';
-import ModalCustom from '../../components/Modal/ModalCustom.jsx';
+import ModalCustom from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
 import useModal from '../../hooks/useModal';
 import StoryPage from '../Stories/StoryPage';

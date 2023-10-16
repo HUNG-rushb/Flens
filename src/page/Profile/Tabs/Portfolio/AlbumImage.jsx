@@ -1,4 +1,4 @@
-import ModalCustom from '../../../../components/Modal/ModalCustom';
+import ModalCustom from '../../../../components/Modal/Modal';
 import { useAuthState } from '../../../../context/AuthContext';
 import { useCreateAlbumLazy } from '../../../../graphql/useAlbum';
 import { useGetAllUserAlbum } from '../../../../graphql/useAlbum';

@@ -1,6 +1,6 @@
-import Button from '../../../components/Button/ButtonCustom';
-import Modal from '../../../components/Modal/ModalCustom';
-import useModal from '../../../hooks/useModal';
+import Button from '../../../../components/Button/ButtonCustom';
+import Modal from '../../../../components/Modal/Modal';
+import useModal from '../../../../hooks/useModal';
 import './ContestDetail.scss';
 import {
   birthdayContest,
@@ -9,10 +9,10 @@ import {
   flowersContest,
   foodContest,
   landscapeContest,
-} from './contestData';
+} from '../contestData';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import SubmitionContent from './contestDetail/SubmitionContent';
+import SubmitionContent from './SubmitionContent';
 
 const ContestDetail = () => {
   const location = useLocation();

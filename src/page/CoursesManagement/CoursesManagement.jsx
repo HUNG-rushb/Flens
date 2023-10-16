@@ -1,11 +1,11 @@
-import ButtonCustom from '../../components/Button/ButtonCustom';
-import InputCustom from '../../components/Input/Input.jsx';
-import ModalCustom from '../../components/Modal/ModalCustom';
-import SelectCustom from '../../components/Select/SelectCustom';
+import Button from '../../components/Button/ButtonCustom';
+import Input from '../../components/Input/Input';
+import Modal from '../../components/Modal/Modal';
+import Select from '../../components/Select/SelectCustom';
 import Page from '../../components/utils/Page.js';
 import useModal from '../../hooks/useModal';
-import './CoursesManagement.scss';
-import TableCoursesDate from './TableCoursesData.jsx';
+import './styles.scss';
+import TableDate from './TableData.jsx';
 import React, {
   Suspense,
   useCallback,
@@ -205,7 +205,7 @@ const Courses = () => {
           <div className="courses-management">
             <div className="title">Courses management</div>
             <div className="create-courses-btn">
-              <ButtonCustom
+              <Button
                 text={'Create a courses'}
                 type="default2"
                 onClick={handleClickCreateCourses()}
@@ -215,7 +215,7 @@ const Courses = () => {
               <div className="content">
                 <div className="content-item">
                   <span id="label">Name</span>
-                  <InputCustom type={'Text'} placeholder="Search" />
+                  <Input type={'Text'} placeholder="Search" />
                 </div>
                 <div className="content-item">
                   <span id="label">Created date</span>
@@ -224,13 +224,13 @@ const Courses = () => {
                 <div className="content-item">
                   <span id="label">Category</span>
                   <div>
-                    <SelectCustom options={category_options} type="default3" />
+                    <Select options={category_options} type="default3" />
                   </div>
                 </div>
                 <div className="content-item">
                   <span id="label">Status</span>
                   <div>
-                    <SelectCustom
+                    <Select
                       options={status_options}
                       type="default3"
                       selected={selectedStatus}
@@ -240,7 +240,7 @@ const Courses = () => {
                 </div>
               </div>
 
-              <TableCoursesDate
+              <TableDate
                 titles={table_title}
                 body={filteredData}
                 PencilSquare={PencilSquare}
@@ -248,13 +248,13 @@ const Courses = () => {
                 XSquare={XSquare}
                 handleClickRemove={handleClickRemove}
               />
-              <ModalCustom
+              <Modal
                 show={showModal}
                 handleClose={handleClose}
                 modalTitle={modalTitle}
                 modalContent={modalContent}
                 handleSavechanges={handleSubmit}
-                size={'md'}
+                size='md'
                 confirmButtonMessage="Submit"
               />
             </div>

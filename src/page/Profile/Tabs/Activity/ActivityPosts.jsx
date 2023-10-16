@@ -1,4 +1,4 @@
-import Modal from '../../../../components/Modal/ModalCustom';
+import Modal from '../../../../components/Modal/Modal';
 import useModal from '../../../../hooks/useModal';
 import Post from '../../../Home/Post/Post';
 import ImageDetail from '../../../Home/Post/ImageDetail';

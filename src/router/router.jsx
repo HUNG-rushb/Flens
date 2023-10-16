@@ -2,7 +2,7 @@ import Academy from '../page/Academy/Academy.jsx';
 import Login from '../page/Authentication/Login.jsx';
 import Register from '../page/Authentication/Register.jsx';
 import Contest from '../page/Contest/Contest.jsx';
-import ContestDetail from '../page/Contest/contestTab/ContestDetail.jsx';
+import ContestDetail from '../page/Contest/Tab/ContestDetail/ContestDetail.jsx';
 import Courses from '../page/Courses/Courses.jsx';
 import UploadCourses from '../page/CoursesManagement/UploadCourses/UploadCourses.jsx';
 import Explore from '../page/Explore/Explore.jsx';

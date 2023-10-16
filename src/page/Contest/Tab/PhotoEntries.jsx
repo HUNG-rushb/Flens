@@ -1,4 +1,4 @@
-import Modal from '../../../components/Modal/ModalCustom';
+import Modal from '../../../components/Modal/Modal';
 import { useAuthState } from '../../../context/AuthContext';
 import { useGetNewFeed } from '../../../graphql/usePost';
 import useModal from '../../../hooks/useModal';

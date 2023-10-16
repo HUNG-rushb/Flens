@@ -1,4 +1,4 @@
-import './ContestTab.scss';
+import './styles.scss';
 import { contests } from './contestData';
 import React, { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';

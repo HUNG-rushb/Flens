@@ -1,6 +1,6 @@
-import { contests } from '../../Contest/contestTab/contestData';
+import { contests } from '../../Contest/Tab/contestData';
 import './styles.scss';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { PersonPlusFill } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
 import { Autoplay, Pagination } from 'swiper';
