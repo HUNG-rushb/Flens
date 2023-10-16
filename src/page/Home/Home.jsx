@@ -43,7 +43,6 @@ const Home = () => {
       <Suspense fallback={null}>
         <div className="home-page">
           <LeftContent />
-
           <div className="center-container">
             <div className="center-content">
               <div className="upload-bar">

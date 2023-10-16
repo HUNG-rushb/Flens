@@ -15,12 +15,12 @@ const Contest = () => {
 
   return useMemo(
     () => (
-      <div className="contests">
+      <div className="contests-wrapper">
         <div className="contest-banner">
-          <img src={ContestBanner} alt="" />
+          <img src={ContestBanner} id='banner-image' alt="" />
           <div className="contest-header">
-            <div className="contest-page-title">Flens Photography Contest</div>
-            <div className="contest-page-slogan">
+            <div className="contest-title">Flens Photography Contest</div>
+            <div className="contest-slogan">
               Join our photography contests and showcase your skills!
             </div>
           </div>
