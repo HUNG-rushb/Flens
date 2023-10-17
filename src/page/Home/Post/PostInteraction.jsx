@@ -1,6 +1,7 @@
 import { useAuthState } from '../../../context/AuthContext';
 import { useDeletePost } from '../../../graphql/usePost';
 import { useInteractPost } from '../../../graphql/usePost';
+import { useUpdatePointPostingLazy } from '../../../graphql/usePost';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Flag,
@@ -28,6 +29,8 @@ const PostInteraction = ({
   const [animationWhenClick, setAnimationWhenClick] = useState(false);
   const { deletePost } = useDeletePost();
   const { interactPost } = useInteractPost();
+  const { updateLevel } = useUpdatePointPostingLazy();
+  console.log({ item });
 
   const handleLikePost = useCallback(
     async (event) => {
@@ -45,6 +48,15 @@ const PostInteraction = ({
         });
         setIsLiked(!isLiked);
         setCountNumberOfLikes(a.data.interactPost.points);
+
+        await updateLevel({
+          variables: {
+            updatePointPostingData: {
+              userId: item.userId.id,
+              xp: isLiked ? -1 : 1,
+            },
+          },
+        });
       } catch (e) {
         throw e;
       }

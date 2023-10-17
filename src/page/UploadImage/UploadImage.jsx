@@ -2,7 +2,10 @@ import ButtonCustom from '../../components/Button/ButtonCustom.jsx';
 import Page from '../../components/utils/Page.js';
 import { useAuthState } from '../../context/AuthContext.js';
 import { useGetAllUserAlbum } from '../../graphql/useAlbum.js';
-import { useCreatePostLazy } from '../../graphql/usePost.js';
+import {
+  useCreatePostLazy,
+  useUpdatePointPostingLazy,
+} from '../../graphql/usePost.js';
 import useModal from '../../hooks/useModal.jsx';
 import useUploadImageToAWS from '../../hooks/useUploadImageToAWS.js';
 import { successfullNoty } from '../../utils/useNotify.js';
@@ -14,13 +17,7 @@ import {
 import './UploadImage.css';
 import { EXIF } from 'exif-js';
 // import Jimp from 'jimp';
-import React, {
-  Suspense,
-  useRef,
-  useState,
-  useMemo,
-  useCallback,
-} from 'react';
+import React, { Suspense, useRef, useState, useMemo, useCallback } from 'react';
 import { CloudArrowUp } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
 
@@ -95,6 +92,8 @@ const UploadImage = () => {
   const { createPost, isFetching, fetchedData, fetchError } =
     useCreatePostLazy();
 
+  const { updateLevel } = useUpdatePointPostingLazy();
+
   const uploadImageToAWS = useUploadImageToAWS();
 
   const handleKeyDown = useCallback(
@@ -135,6 +134,7 @@ const UploadImage = () => {
 
   const handleFileChange = useCallback(
     (event) => {
+      // console.log(Jimp);
       const file = event.target.files[0];
 
       const reader = new FileReader();
@@ -215,6 +215,15 @@ const UploadImage = () => {
                     .map((element) => element.toLowerCase())
                 ),
               ],
+            },
+          },
+        });
+
+        await updateLevel({
+          variables: {
+            updatePointPostingData: {
+              userId,
+              xp: 50,
             },
           },
         });

@@ -1,4 +1,9 @@
-import { removeItemFromArray } from './removeItemFromArray.js';
+// import { removeItemFromArray } from './removeItemFromArray.js';
+
+export const removeItemFromArray = (removeId, array, setArray) => {
+  const removeItem = array.filter((item) => item.id !== removeId);
+  setArray(removeItem);
+};
 
 export const renderInputField = (label, placeholder, value, setValue) => {
   switch (label) {
@@ -42,7 +47,10 @@ export const renderInputTags = (
         <div className="all-tags">
           {tagArray.map((item) => {
             return (
-              <div key={item.id} onClick={() => removeItemFromArray(item.id, tagArray, setTags)}>
+              <div
+                key={item.id}
+                onClick={() => removeItemFromArray(item.id, tagArray, setTags)}
+              >
                 <span id="remove-tag">X</span>
                 {item.value}
               </div>
@@ -83,7 +91,10 @@ export const renderAddItemBySelect = (
       {Array.length > 0 && (
         <div className="categories-item">
           {Array?.map((item) => (
-            <div key={item.id} onClick={() => removeItemFromArray(item.id, Array, setArray)}>
+            <div
+              key={item.id}
+              onClick={() => removeItemFromArray(item.id, Array, setArray)}
+            >
               <span id="remove-tag">X</span>
               {item.name}
             </div>

@@ -100,6 +100,7 @@ export const GET_NEW_FEED = gql`
           userId {
             profileImageURL
             name
+            id
           }
 
           image {
@@ -188,6 +189,20 @@ export const REPORT_POST = gql`
   mutation InteractPost($interactPostData: InteractPostInput!) {
     interactPost(data: $interactPostData) {
       points
+    }
+  }
+`;
+
+export const UPDATE_POINT_POSTING = gql`
+  mutation UpdateLevel($updatePointPostingData: UpdateLevelInput!) {
+    updateLevel(data: $updatePointPostingData) {
+      currentLevel
+      currentXP
+      id
+      userId {
+        name
+        id
+      }
     }
   }
 `;

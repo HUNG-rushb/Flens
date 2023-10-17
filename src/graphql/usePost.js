@@ -6,6 +6,7 @@ import {
   GET_NEW_FEED,
   DELETE_POST,
   INTERACT_POST,
+  UPDATE_POINT_POSTING,
 } from './queries/Post.js';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import { useCallback, useEffect, useState } from 'react';
@@ -17,6 +18,22 @@ export const useCreatePostLazy = (cache) => {
 
   return {
     createPost,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
+
+export const useUpdatePointPostingLazy = (cache) => {
+  const [updateLevel, { data, loading, error }] = useMutation(
+    UPDATE_POINT_POSTING,
+    {
+      fetchPolicy: cache ? undefined : 'no-cache',
+    }
+  );
+
+  return {
+    updateLevel,
     isFetching: loading,
     fetchedData: data,
     fetchError: error,
