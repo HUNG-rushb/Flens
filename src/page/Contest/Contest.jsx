@@ -1,13 +1,16 @@
 import ContestBanner from '../../assets/images/Contest/contestBanner.jpeg';
-import './Contest.scss';
-import ContestInfo from './contestTab/ContestInfo.jsx';
-import PhotoEntries from './contestTab/PhotoEntries.jsx';
-import PreviousWinner from './contestTab/PreviousWinner.jsx';
+import Page from '../../components/utils/Page';
+import ContestInfo from './Tab/ContestInfo';
+import PhotoEntries from './Tab/PhotoEntries';
+import PreviousWinner from './Tab/PreviousWinner';
+import './styles.scss';
 import React, { useCallback, useMemo, useState } from 'react';
 
-const tabs = ['Contest Info', 'Photo Entries', 'Previous Winners'];
-
 const Contest = () => {
+  const tabs = useMemo(
+    () => ['Contest Info', 'Photo Entries', 'Previous Winners'],
+    []
+  );
   const [activeTab, setActiveTab] = useState(0);
   const handleChangeTab = useCallback((index) => {
     setActiveTab(index);
@@ -15,36 +18,40 @@ const Contest = () => {
 
   return useMemo(
     () => (
-      <div className="contests">
-        <div className="contest-banner">
-          <img src={ContestBanner} alt="" />
-          <div className="contest-header">
-            <div className="contest-page-title">Flens Photography Contest</div>
-            <div className="contest-page-slogan">
-              Join our photography contests and showcase your skills!
+      <Page title="Flens-Contest">
+        <div className="contests-wrapper">
+          <div className="contest-banner">
+            <img src={ContestBanner} id="banner-image" alt="" />
+            <div className="contest-header">
+              <div className="contest-title">Flens Photography Contest</div>
+              <div className="contest-slogan">
+                Join our photography contests and showcase your skills!
+              </div>
             </div>
           </div>
-        </div>
-        <div className="contest-tabs">
-          {tabs.map((tab, index) => (
-            <span
-              key={index}
-              className={`tab--${activeTab === index ? 'active' : 'inActive'}`}
-              onClick={() => handleChangeTab(index)}
-            >
-              {tab}
-            </span>
-          ))}
-        </div>
+          <div className="contest-tabs">
+            {tabs.map((tab, index) => (
+              <span
+                key={index}
+                className={`tab--${
+                  activeTab === index ? 'active' : 'inActive'
+                }`}
+                onClick={() => handleChangeTab(index)}
+              >
+                {tab}
+              </span>
+            ))}
+          </div>
 
-        <div className="contest-content">
-          {activeTab === 0 && <ContestInfo />}
-          {activeTab === 1 && <PhotoEntries />}
-          {activeTab === 2 && <PreviousWinner />}
+          <div className="contest-content">
+            {activeTab === 0 && <ContestInfo />}
+            {activeTab === 1 && <PhotoEntries />}
+            {activeTab === 2 && <PreviousWinner />}
+          </div>
         </div>
-      </div>
+      </Page>
     ),
-    [activeTab, handleChangeTab]
+    [activeTab, handleChangeTab, tabs]
   );
 };
 

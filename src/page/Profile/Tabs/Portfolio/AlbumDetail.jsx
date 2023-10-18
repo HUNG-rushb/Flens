@@ -1,4 +1,4 @@
-import Modal from '../../../../components/Modal/ModalCustom.jsx';
+import Modal from '../../../../components/Modal/Modal';
 import useModal from '../../../../hooks/useModal.jsx';
 import { handleFileChange } from '../../../../utils/useHandleFileChange.js';
 import './Portfolio.css';

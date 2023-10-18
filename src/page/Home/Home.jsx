@@ -1,4 +1,4 @@
-import Modal from '../../components/Modal/ModalCustom';
+import Modal from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
 import Spinner from '../../components/utils/Spinner';
 import { useAuthState } from '../../context/AuthContext';
@@ -43,7 +43,6 @@ const Home = () => {
       <Suspense fallback={null}>
         <div className="home-page">
           <LeftContent />
-
           <div className="center-container">
             <div className="center-content">
               <div className="upload-bar">

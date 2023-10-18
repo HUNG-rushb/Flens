@@ -1,0 +1,89 @@
+.contest-detail-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .contest-header {
+    position: relative;
+    background-color: #fbc4ab;
+    width: 100%;
+
+    #banner-image {
+      width: 100%;
+      max-height: 450px;
+      object-fit: contain;
+      opacity: 0.8;
+    }
+    .contest-title {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 32px;
+      font-weight: bold;
+      text-align: center;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      text-transform: uppercase;
+    }
+  }
+
+  .content-wrapper {
+    margin: 20px;
+    padding: 10px;
+
+    .description {
+      #subtitle {
+        font-weight: 600;
+        margin-bottom: 10px;
+        font-size: 20px;
+      }
+    }
+
+    .contest-date {
+      #subtitle {
+        font-weight: 600;
+        margin-bottom: 10px;
+        font-size: 20px;
+        margin-right: 10px;
+      }
+
+      .date-item {
+        margin-top: 5px;
+        span {
+          font-weight: 600;
+          margin-right: 10px;
+        }
+      }
+    }
+    .contest-prizes {
+      margin-top: 18px;
+
+      #subtitle {
+        font-weight: 600;
+        margin-bottom: 10px;
+        font-size: 20px;
+      }
+    }
+
+    .contest-uploader {
+      #subtitle {
+        font-weight: 600;
+        margin-bottom: 10px;
+        font-size: 20px;
+      }
+    }
+
+    .button-upload {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+
+      button {
+        width: 200px;
+      }
+    }
+  }
+}

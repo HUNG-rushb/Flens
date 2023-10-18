@@ -1,5 +1,5 @@
 import Avatar from '../../assets/images/avatar.jpg';
-import ModalCustom from '../../components/Modal/ModalCustom.jsx';
+import ModalCustom from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
 import useModal from '../../hooks/useModal';
 import StoryPage from '../Stories/StoryPage';
@@ -31,6 +31,15 @@ const Explore = () => {
   const [selectedOption, setSelectedOption] = useState(options[0].value);
   const { isShowing: showModal, toggle: toggleModal } = useModal();
   const navigate = useNavigate();
+
+  const searchValue = useMemo(
+    () => location?.state?.searchValue,
+    [location?.state?.searchValue]
+  );
+  const tagValue = useMemo(
+    () => location?.state?.tagValue,
+    [location?.state?.tagValue]
+  );
 
   const [imageToShow, setImageToShow] = useState('');
   const [selectedItem, setSelectedItem] = useState({});

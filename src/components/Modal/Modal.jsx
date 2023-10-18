@@ -1,4 +1,4 @@
-import ButtonCustom from '../../components/Button/ButtonCustom.jsx';
+import ButtonCustom from '../Button/ButtonCustom.jsx';
 import './Modal.css';
 import { Modal } from 'react-bootstrap';
 

@@ -18,8 +18,9 @@ const Post = ({
   setImageToReport,
   setItemShowDetail,
 }) => {
-  const [isDeletedPost, setIsDeletedPost] = useState(false);
   const navigate = useNavigate();
+  const [isDeletedPost, setIsDeletedPost] = useState(false);
+  const [showTechnicalInfor, setShowTechnicalInfor] = useState(false);
 
   const handleViewProfile = useCallback(() => {
     navigate(`/profile/${userId}`);
@@ -30,7 +31,16 @@ const Post = ({
     toggleImageDetail();
   }, [item, setItemShowDetail, toggleImageDetail]);
 
-  const [showTechnicalInfor, setShowTechnicalInfor] = useState(false);
+  const handleClickTag = useCallback(
+    (tag) => {
+      navigate('/explore/inspiration', {
+        state: {
+          tagValue: tag,
+        },
+      });
+    },
+    [navigate]
+  );
 
   useEffect(() => {
     if (isDeletedPost) {
@@ -95,7 +105,11 @@ const Post = ({
                 <div className="post-title">{item.title}</div>
                 <div className="hash-tags">
                   {item.tag.map((tag, index) => (
-                    <span id="tag" key={index}>
+                    <span
+                      id="tag"
+                      key={index}
+                      onClick={() => handleClickTag(tag)}
+                    >
                       #{tag}
                     </span>
                   ))}
@@ -117,6 +131,7 @@ const Post = ({
       </>
     ),
     [
+      handleClickTag,
       handleViewDetail,
       handleViewProfile,
       isDeletedPost,

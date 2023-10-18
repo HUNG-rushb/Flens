@@ -1,7 +1,7 @@
-import Modal from '../../components/Modal/ModalCustom.jsx';
+import Modal from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page.js';
 import useModal from '../../hooks/useModal.jsx';
-import './ReportManagement.scss';
+import './styles.scss';
 import TableReportData from './TableReportData.jsx';
 import React, { Suspense, useCallback, useMemo, useState } from 'react';
 import { CheckSquare, XSquare } from 'react-bootstrap-icons';

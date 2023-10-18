@@ -1,5 +1,5 @@
 import InputCustom from '../../../components/Input/Input.jsx';
-import ModalCustom from '../../../components/Modal/ModalCustom.jsx';
+import ModalCustom from '../../../components/Modal/Modal';
 import useModal from '../../../hooks/useModal.jsx';
 import AchievementComponent from './Biography/Achievements.jsx';
 import HobbyComponent from './Biography/Hobbies.jsx';
