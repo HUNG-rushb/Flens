@@ -4,7 +4,7 @@ import { CameraFill } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 
 const PersonalInforAndEdit = ({ userAllPostData }) => {
-  console.log(userAllPostData);
+  // console.log(userAllPostData);
   const navigate = useNavigate();
 
   const handleEditClick = () => {
@@ -47,7 +47,7 @@ const PersonalInforAndEdit = ({ userAllPostData }) => {
 
       <div className="camera">
         <CameraFill />
-        <span id='camera-text'>
+        <span id="camera-text">
           Cannon Eos 80D, Cannon Eos 700D, Nikon P1000, Polaroid 100L
           underwater.
         </span>

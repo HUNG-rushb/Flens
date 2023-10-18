@@ -1,4 +1,9 @@
 import { useAuthState } from '../../../context/AuthContext.js';
+import {
+  useGetUserFollowing,
+  useUpdateFollowing,
+  useUnfollowUser,
+} from '../../../graphql/useUser.js';
 import Activity from './ActivityTab.jsx';
 import Biography from './Biography.jsx';
 import Portfoio from './Portfolio.jsx';
@@ -6,18 +11,71 @@ import './Tabs.css';
 import { useCallback, useMemo, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import { ThreeDots } from 'react-bootstrap-icons';
-import { useLocation } from 'react-router-dom';
 
 const TabMenu = ({ userId, userProfileData, userAllPostData }) => {
-  const location = useLocation();
-  const { id: checkUserId } = useAuthState();
+  const { id: currentUserId } = useAuthState();
   const [isFollow, setIsFollow] = useState(false);
-  const checkPath = location.pathname.split('/');
-  const checkId = checkPath[2];
+  console.log({ isFollow });
 
-  const handleClickFollow = useCallback(() => {
-    setIsFollow((prev) => !prev);
-  }, []);
+  const { fetchedData: currentUserFollowings } = useGetUserFollowing(
+    {
+      userFollowingInfoData: { userId: currentUserId },
+    },
+    userId,
+    setIsFollow
+  );
+
+  const { updateFollowing } = useUpdateFollowing();
+  const { unfollowUser } = useUnfollowUser();
+
+  // console.log({ userId });
+  // console.log({ currentUserId });
+  // console.log({ userProfileData });
+
+  const handleClickFollow = useCallback(
+    async (event) => {
+      event.preventDefault();
+
+      console.log({ isFollow }, ' here');
+
+      if (isFollow) {
+        console.log('unfollow');
+
+        try {
+          await unfollowUser({
+            variables: {
+              unfollowUserData: {
+                userId: currentUserId,
+                followingId: userId,
+              },
+            },
+          });
+        } catch (e) {
+          throw e;
+        }
+
+        setIsFollow((prev) => !prev);
+      } else {
+        console.log('follow');
+
+        try {
+          await updateFollowing({
+            variables: {
+              updateFollowingData: {
+                userId: currentUserId,
+                followingId: userId,
+              },
+            },
+          });
+        } catch (e) {
+          throw e;
+        }
+
+        setIsFollow((prev) => !prev);
+      }
+    },
+    [isFollow]
+  );
 
   const handleClickMessageIntab = useCallback(() => {
     console.log('click message button');
@@ -42,14 +100,17 @@ const TabMenu = ({ userId, userProfileData, userAllPostData }) => {
             </Tab>
           </Tabs>
         </div>
-        {checkId !== checkUserId && (
+
+        {userId !== currentUserId && (
           <div className="follow-interactions">
             <div id="follow-unfollow-button" onClick={handleClickFollow}>
-              {!isFollow ? '+ Follow' : 'UnFollow'}
+              {!isFollow ? '+ Follow' : 'Unfollow'}
             </div>
+
             <div id="message-button-intab" onClick={handleClickMessageIntab}>
               Message
             </div>
+
             <div id="list-options-intab">
               <ThreeDots color="#f08080" />
             </div>
@@ -58,8 +119,8 @@ const TabMenu = ({ userId, userProfileData, userAllPostData }) => {
       </>
     ),
     [
-      checkId,
-      checkUserId,
+      userId,
+      currentUserId,
       handleClickFollow,
       handleClickMessageIntab,
       isFollow,

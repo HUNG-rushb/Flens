@@ -1,3 +1,9 @@
+import { useAuthState } from '../../../context/AuthContext';
+import {
+  useSuggestUserToFollow,
+  useUpdateFollowing,
+  useUnfollowUser,
+} from '../../../graphql/useUser';
 import { contests } from '../../Contest/contestTab/contestData';
 import './styles.scss';
 import React, { useCallback, useMemo, useState } from 'react';
@@ -9,26 +15,26 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-const followSuggestionList = [
-  {
-    image:
-      'https://images.pexels.com/photos/16024276/pexels-photo-16024276/free-photo-of-dan-ba-hoa-chan-dung-toc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-    name: 'User 1',
-    type: 'Followed you',
-  },
-  {
-    image:
-      'https://images.pexels.com/photos/13722001/pexels-photo-13722001.jpeg?auto=compress&cs=tinysrgb&w=600',
-    name: 'User 2',
-    type: 'Random',
-  },
-  {
-    image:
-      'https://images.pexels.com/photos/15379284/pexels-photo-15379284/free-photo-of-tr-ng-meo-con-meo-rau-ria.jpeg?auto=compress&cs=tinysrgb&w=600',
-    name: 'User 3',
-    type: 'Random',
-  },
-];
+// const followSuggestionList = [
+//   {
+//     image:
+//       'https://images.pexels.com/photos/16024276/pexels-photo-16024276/free-photo-of-dan-ba-hoa-chan-dung-toc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
+//     name: 'User 1',
+//     type: 'Followed you',
+//   },
+//   {
+//     image:
+//       'https://images.pexels.com/photos/13722001/pexels-photo-13722001.jpeg?auto=compress&cs=tinysrgb&w=600',
+//     name: 'User 2',
+//     type: 'Random',
+//   },
+//   {
+//     image:
+//       'https://images.pexels.com/photos/15379284/pexels-photo-15379284/free-photo-of-tr-ng-meo-con-meo-rau-ria.jpeg?auto=compress&cs=tinysrgb&w=600',
+//     name: 'User 3',
+//     type: 'Random',
+//   },
+// ];
 
 const tags = [
   'cannon',
@@ -43,6 +49,11 @@ const tags = [
 
 const RightContent = () => {
   const navigate = useNavigate();
+  const { id: userId } = useAuthState();
+  const { fetchedData: suggestedUserList } = useSuggestUserToFollow({
+    suggestUserToFollowData: { userId },
+  });
+  console.log({ suggestedUserList });
 
   const handleClickContest = useCallback(
     (item) => {
@@ -84,23 +95,36 @@ const RightContent = () => {
             </div>
             <div className="follow-suggestion-container">
               <span id="subtitle">Follow list suggestion:</span>
+
               <div className="follow-list-suggestion">
-                {followSuggestionList.map((item, index) => (
-                  <div className="follow-suggestion" key={index}>
+                {suggestedUserList?.suggestUserToFollow.map((item) => (
+                  <div className="follow-suggestion" key={item.id}>
                     <div className="content">
-                      <div className="content-wrapper">
-                        <img src={item.image} alt="" id="suggestion-image" />
+                      <div
+                        className="content-wrapper"
+                        onClick={() => {
+                          navigate(`/profile/${item.id}`);
+                        }}
+                      >
+                        <img
+                          src={item.profileImageURL}
+                          alt=""
+                          id="suggestion-image"
+                        />
                         <div className="subcontent-wrapper">
                           <span id="sugesstion-name">{item.name}</span>
-                          <span id="sugesstion-type">{item.type}</span>
+                          {/* <span id="sugesstion-type">{item.type}</span> */}
                         </div>
                       </div>
+
                       <PersonPlusFill
                         size={25}
                         color="#f08080"
                         id="add-friend-icon"
+                        onClick={() => {}}
                       />
                     </div>
+
                     <hr />
                   </div>
                 ))}
@@ -120,7 +144,7 @@ const RightContent = () => {
         </div>
       </div>
     ),
-    [handleClickContest]
+    [handleClickContest, suggestedUserList]
   );
 };
 

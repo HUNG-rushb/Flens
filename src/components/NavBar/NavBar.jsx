@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
   const dispatch = useAuthDispatch();
-  const { id, isAdmin } = useAuthState();
+  const { id, isAdmin, profileImageURL } = useAuthState();
   const isNotAuthenticated = id === '' && isAdmin === '';
   const [showDropdown, setShowDropdown] = useState(false);
   const location = useLocation();
@@ -230,7 +230,7 @@ const NavBar = () => {
                     </Nav.Link>
                     <Nav.Item>
                       <div ref={clickOutsideRef}>
-                      {fetchedData ? (
+                        {fetchedData ? (
                           <img
                             id="navbar-avatar"
                             src={fetchedData.userInfo.profileImageURL}
@@ -238,10 +238,11 @@ const NavBar = () => {
                             onClick={() => setShowDropdown(!showDropdown)}
                           />
                         ) : (
-                          <PersonCircle
-                            size={28}
+                          <img
+                            src={profileImageURL}
                             onClick={() => setShowDropdown(!showDropdown)}
-                            id="avtar-nav-bar"
+                            id="avatar"
+                            alt=""
                           />
                         )}
                         <div className="popover-avatar">

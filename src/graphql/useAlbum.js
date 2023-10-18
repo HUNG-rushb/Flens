@@ -6,7 +6,7 @@ export const useGetAllUserAlbum = (queryPayload, setAlbum) => {
     fetchPolicy: 'no-cache',
     variables: queryPayload,
     onCompleted: (data) => {
-      console.log(data);
+      // console.log(data);
       setAlbum(data.userAllAlbum[0]);
     },
   });
