@@ -18,7 +18,7 @@ const PostComment = ({ item }) => {
 
   const { isFetching, fetchedData, fetchError, refetch } = useGetAllPostComment(
     {
-      postInfo: { postId: item?.id },
+      postInfo: { postId: item ? item.id : '' },
     }
   );
 

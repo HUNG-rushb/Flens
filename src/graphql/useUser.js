@@ -3,8 +3,14 @@ import {
   VERIFY_USER,
   UPDATE_PROFILE,
   GET_PROFILE_IMAGE,
+  SUGGEST_USER_TO_FOLLOW,
+  UPDATE_FOLLOWING,
+  UNFOLLOW_USER,
+  GET_USER_FOLLOWING,
+  GET_USER_FOLLOWER,
 } from './queries/User.js';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
+import _ from 'lodash';
 
 export const useCreateUserLazy = (cache) => {
   const [createUser, { data, loading, error }] = useMutation(CREATE_USER);
@@ -59,6 +65,83 @@ export const useUserProfileImage = (queryPayload, cache) => {
   };
 };
 
+export const useSuggestUserToFollow = (queryPayload, cache) => {
+  const { data, loading, error } = useQuery(SUGGEST_USER_TO_FOLLOW, {
+    fetchPolicy: cache ? undefined : 'no-cache',
+    variables: queryPayload,
+  });
+
+  return {
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
+
+export const useGetUserFollowing = (queryPayload, userId, setFollow) => {
+  const { data, loading, error } = useQuery(GET_USER_FOLLOWING, {
+    fetchPolicy: 'no-cache',
+    variables: queryPayload,
+    onCompleted: (data) => {
+      // console.log(data.userFollowingInfo.userFollowing);
+      console.log(1);
+
+      setFollow(
+        _.find(data.userFollowingInfo.userFollowing, { id: userId })
+          ? true
+          : false
+      );
+    },
+  });
+
+  return {
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
+
+export const useGetUserFollower = (queryPayload, cache) => {
+  const { data, loading, error } = useQuery(GET_USER_FOLLOWER, {
+    fetchPolicy: cache ? undefined : 'no-cache',
+    variables: queryPayload,
+  });
+
+  return {
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
+
+export const useUpdateFollowing = () => {
+  const [updateFollowing, { data, loading, error }] = useMutation(
+    UPDATE_FOLLOWING,
+    {
+      fetchPolicy: 'no-cache',
+    }
+  );
+
+  return {
+    updateFollowing,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
+
+export const useUnfollowUser = () => {
+  const [unfollowUser, { data, loading, error }] = useMutation(UNFOLLOW_USER, {
+    fetchPolicy: 'no-cache',
+  });
+
+  return {
+    unfollowUser,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
 // export const useLazyApplication = (cache?: boolean): UseLazyApplicationHook => {
 //     const [getApplication, { data, loading, error }] = useLazyQuery<{ application: Application }, QueryApplicationArgs>(
 //         GET_APPLICATION,
