@@ -1,4 +1,4 @@
-import Button from '../../components/Button/ButtonCustom.jsx';
+import Button from '../../components/Button/Button';
 import { useAuthState } from '../../context/AuthContext.js';
 import { useCreateStoryLazy } from '../../graphql/useStory.js';
 import { uploadImageToAWS } from '../../hooks/useUploadImageToAWS.js';

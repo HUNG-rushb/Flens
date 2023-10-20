@@ -1,13 +1,13 @@
-import { useCallback, useEffect } from 'react';
-import ButtonCustom from '../../components/Button/ButtonCustom';
+import Button from '../../components/Button/Button';
 import Page from '../../components/utils/Page';
 import { useAuthState } from '../../context/AuthContext';
 import { useUserProfileImage } from '../../graphql/useUser';
 import LeftContent from './LeftContent.jsx';
 import './Notification.css';
+import { useCallback, useEffect } from 'react';
 import React, { Suspense } from 'react';
-import { HeartFill, ReplyFill } from 'react-bootstrap-icons';
 import { useState } from 'react';
+import { HeartFill, ReplyFill } from 'react-bootstrap-icons';
 
 const Notification = () => {
   const { id: userId } = useAuthState();
@@ -105,7 +105,7 @@ const Notification = () => {
       type: 3,
     },
   ];
-  
+
   const notificationsPerPage = 3;
   const [notifyToDisplay, setNotifyToDisplay] = useState(notificationsPerPage);
   const [isLoading, setIsLoading] = useState(false);
@@ -121,11 +121,11 @@ const Notification = () => {
     if (!isLoading && scrollPosition >= scrollHeight - 100) {
       setIsLoading(true);
       setTimeout(() => {
-        setNotifyToDisplay(prevCount => prevCount + notificationsPerPage);
+        setNotifyToDisplay((prevCount) => prevCount + notificationsPerPage);
         setIsLoading(false);
       }, 3000);
     }
-  },[isLoading]);
+  }, [isLoading]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -134,7 +134,7 @@ const Notification = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [handleScroll]);
-  
+
   return (
     <Page title={'Flens-Notification'}>
       <Suspense fallback={null}>
@@ -145,7 +145,7 @@ const Notification = () => {
           />
           <div className="notifi-right-content">
             <div className="notify-title">Notifications</div>
-           <div className="notifi-content">
+            <div className="notifi-content">
               {notifi_data.slice(0, notifyToDisplay).map((item) => {
                 return (
                   <div className="noti-card" key={item.id}>
@@ -181,8 +181,8 @@ const Notification = () => {
                       </div>
                       {item.type === 1 ? (
                         <div className="button-follow-back">
-                          <ButtonCustom
-                            text={'Follow back'}
+                          <Button
+                            text="Follow back"
                             type="default3"
                             onClick={handleClickFollowBack}
                           />
@@ -201,7 +201,7 @@ const Notification = () => {
                   </div>
                 );
               })}
-            </div> 
+            </div>
             {isLoading && <p>Loading ...</p>}
           </div>
         </div>

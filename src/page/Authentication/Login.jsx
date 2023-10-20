@@ -1,5 +1,5 @@
-import ButtonCustom from '../../components/Button/ButtonCustom';
-import InputCustom from '../../components/Input/Input';
+import Button from '../../components/Button/Button';
+import Input from '../../components/Input/Input';
 import Page from '../../components/utils/Page';
 import { useAuthDispatch } from '../../context/AuthContext';
 import { loginUser } from '../../context/actions/AuthActions';
@@ -77,7 +77,7 @@ const Login = () => {
 
               <div className="form-group mt-3">
                 <label>Email</label>
-                <InputCustom
+                <Input
                   type="text"
                   className="form-control mt-1"
                   onChange={(e) => setEmail(e.target.value)}
@@ -91,7 +91,7 @@ const Login = () => {
 
               <div className="form-group mt-3">
                 <label>Password</label>
-                <InputCustom
+                <Input
                   type="password"
                   className="form-control mt-1"
                   value={password}
@@ -104,11 +104,7 @@ const Login = () => {
               </div>
 
               <div className="d-grid gap-2 mt-3 mb-4">
-                <ButtonCustom
-                  text="Sign In"
-                  type="default"
-                  onClick={handleClick}
-                />
+                <Button text="Sign In" type="default" onClick={handleClick} />
               </div>
 
               <p>

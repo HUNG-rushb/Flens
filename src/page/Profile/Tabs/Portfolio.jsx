@@ -6,7 +6,7 @@ import FavouriteImage from './Portfolio/FavouriteImage';
 import LatestUploadImage from './Portfolio/LatestUploadImage';
 import { useMemo, useState } from 'react';
 
-const Portfoio = ({ userProfileData, userAllPostData }) => {
+const Portfoio = ({ userProfileData, posts }) => {
   const [componentToRender, setComponentToRender] = useState(0);
 
   return useMemo(
@@ -19,36 +19,36 @@ const Portfoio = ({ userProfileData, userAllPostData }) => {
               setComponentToRender={setComponentToRender}
             />
             <LatestUploadImage
-              userAllPostData={userAllPostData}
+              posts={posts}
               setComponentToRender={setComponentToRender}
             />
             <FavouriteImage
-              userAllPostData={userAllPostData}
+              posts={posts}
               setComponentToRender={setComponentToRender}
             />
           </div>
         )}
         {componentToRender === 1 && (
           <AlbumDetail
-            userAllPostData={userAllPostData}
+            posts={posts}
             setComponentToRender={setComponentToRender}
           />
         )}
         {componentToRender === 2 && (
           <AllLatestImage
-            userAllPostData={userAllPostData}
+            posts={posts}
             setComponentToRender={setComponentToRender}
           />
         )}
         {componentToRender === 3 && (
           <AllFavouriteImage
-            userAllPostData={userAllPostData}
+            posts={posts}
             setComponentToRender={setComponentToRender}
           />
         )}
       </>
     ),
-    [componentToRender, userAllPostData, userProfileData]
+    [componentToRender, posts, userProfileData]
   );
 };
 

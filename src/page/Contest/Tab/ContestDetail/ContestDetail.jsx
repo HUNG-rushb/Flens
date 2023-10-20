@@ -1,4 +1,4 @@
-import Button from '../../../../components/Button/ButtonCustom';
+import Button from '../../../../components/Button/Button';
 import Modal from '../../../../components/Modal/Modal';
 import useModal from '../../../../hooks/useModal';
 import './ContestDetail.scss';

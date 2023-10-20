@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FavouriteImage = ({ userAllPostData, setComponentToRender }) => {
+const FavouriteImage = ({ posts, setComponentToRender }) => {
   return (
     <div className="favourites">
       <div className="favourites-title">
@@ -10,8 +10,8 @@ const FavouriteImage = ({ userAllPostData, setComponentToRender }) => {
         </span>
       </div>
       <div className="favoutites-images">
-        {userAllPostData?.userInfo.posts.slice(0, 2).map((item) => (
-          <img key={item.id} src={item.image.url} alt="" />
+        {posts?.slice(0, 2).map((item) => (
+          <img key={'key' + item?.id} src={item?.node?.image.url} alt="" />
         ))}
       </div>
     </div>

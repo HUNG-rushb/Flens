@@ -1,26 +1,30 @@
-import ButtonCustom from '../../../../components/Button/ButtonCustom';
-import React from 'react';
+import Button from '../../../../components/Button/Button';
+import React, { useMemo } from 'react';
+import './styles.scss';
 
-const HobbyComponent = ({ hobbies, toggleShowModal, setCheckType }) => {
-  return (
-    <div className="bio-hobbies">
-      <div className="hobby-text">
-        <span>Hobby:</span>
-        <div className="badge-container">
-          {hobbies.map((item) => {
-            return <div key={item.id}>{item.value}</div>;
-          })}
+const Hobbies = ({ hobbies, toggleShowModal, setCheckType }) => {
+  return useMemo(
+    () => (
+      <div className="hobbies">
+        <div className="hobby-text">
+          <span>Hobby:</span>
+          <div className="badge-wrapper">
+            {hobbies.map((item) => {
+              return <div key={item.id}>{item.value}</div>;
+            })}
+          </div>
+        </div>
+        <div className="add-button">
+          <Button
+            text="Add hobby"
+            type="default2"
+            onClick={() => [toggleShowModal(), setCheckType(2)]}
+          />
         </div>
       </div>
-      <div className="hobby-btn">
-        <ButtonCustom
-          text={'Add hobby'}
-          type="default2"
-          onClick={() => [toggleShowModal(), setCheckType(2)]}
-        />
-      </div>
-    </div>
+    ),
+    [hobbies, setCheckType, toggleShowModal]
   );
 };
 
-export default HobbyComponent;
+export default Hobbies;

@@ -8,8 +8,8 @@ import useModal from '../../hooks/useModal';
 import { ReportContent } from '../ReportManagement/ReportImageContent';
 import './Home.scss';
 import LeftContent from './LeftContent/LeftContent.jsx';
-import Post from './Post/Post';
 import ImageDetail from './Post/ImageDetail';
+import Post from './Post/Post';
 import RightContent from './RightContent/RightContent.jsx';
 import { Suspense, useCallback, useState } from 'react';
 import { CameraFill, PencilSquare } from 'react-bootstrap-icons';
@@ -39,7 +39,7 @@ const Home = () => {
   }, [navigate]);
 
   return (
-    <Page title={'FLens-Home'}>
+    <Page title="FLens-Home">
       <Suspense fallback={null}>
         <div className="home-page">
           <LeftContent />
@@ -51,10 +51,7 @@ const Home = () => {
                     <CameraFill size={28} color="#F08080" id="upload-icon" />
                     Upload a photo
                   </div>
-                  <div
-                    className="upload-story"
-                    onClick={handleToUploadStory}
-                  >
+                  <div className="upload-story" onClick={handleToUploadStory}>
                     <PencilSquare size={28} color="#F08080" id="upload-icon" />
                     Publish a Story
                   </div>

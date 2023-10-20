@@ -1,5 +1,5 @@
-import ButtonCustom from '../../components/Button/ButtonCustom.jsx';
-import Page from '../../components/utils/Page.js';
+import Button from '../../components/Button/Button';
+import Page from '../../components/utils/Page';
 import { useAuthState } from '../../context/AuthContext.js';
 import { useGetAllUserAlbum } from '../../graphql/useAlbum.js';
 import {
@@ -443,16 +443,16 @@ const UploadImage = () => {
 
                       <div className="modal-buttons">
                         <div className="button-close">
-                          <ButtonCustom
-                            text={'Cancel'}
+                          <Button
+                            text="Cancel"
                             type="modal-close-btn"
                             onClick={(e) => handleCancelUpload(e)}
                           />
                         </div>
 
                         <div className="button-confirm">
-                          <ButtonCustom
-                            text={'Upload'}
+                          <Button
+                            text="Upload"
                             type="modal-save-btn"
                             onClick={(event) => handleConfirmUpload(event)}
                           />

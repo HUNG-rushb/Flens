@@ -1,4 +1,4 @@
-import ButtonCustom from '../../components/Button/ButtonCustom';
+import Button from '../../components/Button/Button';
 import Page from '../../components/utils/Page';
 import Spinner from '../../components/utils/Spinner';
 import { useCreateUserLazy } from '../../graphql/useUser';
@@ -80,7 +80,7 @@ const Register = () => {
                   className="form-control mt-1"
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Enter name"
-                  value={name}  
+                  value={name}
                 />
                 {errors.name && <span className="errors">{errors.name}</span>}
               </div>
@@ -118,8 +118,8 @@ const Register = () => {
               ) : (
                 <>
                   <div className="d-grid gap-2 mt-3">
-                    <ButtonCustom
-                      text={'Sign Up'}
+                    <Button
+                      text="Sign Up"
                       type="default"
                       onClick={handleClick}
                       disabled={isFetching}

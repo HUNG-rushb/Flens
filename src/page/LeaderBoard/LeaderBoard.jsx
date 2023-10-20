@@ -1,9 +1,9 @@
 import Avatar from '../../assets/images/avatar2.jpg';
-import InputCustom from '../../components/Input/Input';
-import SelectCustom from '../../components/Select/SelectCustom';
+import Input from '../../components/Input/Input';
+import Select from '../../components/Select/Select';
 import Page from '../../components/utils/Page';
 import './LeaderBoard.css';
-import Tittle from './LeaderBoard/Title';
+import Title from './LeaderBoard/Title';
 import React, {
   Suspense,
   useCallback,
@@ -106,17 +106,17 @@ const LeaderBoard = () => {
       <Page title={'Flens-Leaderboard'}>
         <Suspense fallback={null}>
           <div className="leaderboard">
-            <Tittle />
+            <Title />
             <div className="leaderboard-body-page">
               <div className="filter-and-search-part">
-                <SelectCustom
+                <Select
                   options={options}
                   className="select-bar"
                   selected={selected}
                   onChange={handleOnChangeSelected}
                 />
                 <div className="search-bar">
-                  <InputCustom
+                  <Input
                     type={'Text'}
                     placeholder="Search"
                     value={seachValue}

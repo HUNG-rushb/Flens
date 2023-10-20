@@ -1,5 +1,5 @@
 import React from 'react'
-import "./ButtonCustom.css"
+import "./Button.css"
 
 const Button = ({ text, type="", ...props }) => {
     return <button className={`Button button--${type}`} {...props} >

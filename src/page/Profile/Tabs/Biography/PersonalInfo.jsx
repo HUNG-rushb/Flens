@@ -1,10 +1,10 @@
-import ButtonCustom from '../../../../components/Button/ButtonCustom';
+import Button from '../../../../components/Button/Button';
 import { useEffect, useState } from 'react';
 import { CameraFill } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
+import './styles.scss';
 
-const PersonalInforAndEdit = ({ userAllPostData }) => {
-  // console.log(userAllPostData);
+const PersonalInfo = ({ posts }) => {
   const navigate = useNavigate();
 
   const handleEditClick = () => {
@@ -15,12 +15,12 @@ const PersonalInforAndEdit = ({ userAllPostData }) => {
 
   useEffect(() => {
     let level = 0;
-    userAllPostData?.userInfo.posts.map((item) => (level += item.points));
+    posts.map((item) => (level += item.points));
     setUserLevel(level);
-  }, [userAllPostData]);
+  }, [posts]);
 
   return (
-    <div className="bio-right">
+    <div className="bio-right-container">
       <div className="social-infor">
         <div>
           2<span>Following</span>
@@ -29,7 +29,7 @@ const PersonalInforAndEdit = ({ userAllPostData }) => {
           2<span>Followers</span>
         </div>
         <div>
-          {userLevel}
+          {userLevel || 0}
           <span>Level</span>
         </div>
       </div>
@@ -45,18 +45,18 @@ const PersonalInforAndEdit = ({ userAllPostData }) => {
         </div>
       </div>
 
-      <div className="camera">
-        <CameraFill />
+      <div className="camera-wrapper">
+        <CameraFill id='camera-icon' />
         <span id="camera-text">
           Cannon Eos 80D, Cannon Eos 700D, Nikon P1000, Polaroid 100L
           underwater.
         </span>
       </div>
-      <div className="edit-btn">
-        <ButtonCustom text={'Edit'} type="default2" onClick={handleEditClick} />
+      <div className="edit-button">
+        <Button text='Edit' type="default2" onClick={handleEditClick} />
       </div>
     </div>
   );
 };
 
-export default PersonalInforAndEdit;
+export default PersonalInfo;

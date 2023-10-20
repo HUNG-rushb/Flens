@@ -11,8 +11,11 @@ import './Tabs.css';
 import { useCallback, useMemo, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import { ThreeDots } from 'react-bootstrap-icons';
+import { useLocation } from 'react-router';
 
-const TabMenu = ({ userId, userProfileData, userAllPostData }) => {
+const TabMenu = ({ userId, userProfileData, posts, hasNextPage, loadNew }) => {
+  const location = useLocation();
+  const { id: checkUserId } = useAuthState();
   const { id: currentUserId } = useAuthState();
   const [isFollow, setIsFollow] = useState(false);
   console.log({ isFollow });
@@ -74,7 +77,7 @@ const TabMenu = ({ userId, userProfileData, userAllPostData }) => {
         setIsFollow((prev) => !prev);
       }
     },
-    [isFollow]
+    [currentUserId, isFollow, unfollowUser, updateFollowing, userId]
   );
 
   const handleClickMessageIntab = useCallback(() => {
@@ -87,16 +90,18 @@ const TabMenu = ({ userId, userProfileData, userAllPostData }) => {
         <div className="profile-tabs">
           <Tabs defaultActiveKey="Biography">
             <Tab eventKey="Activity" title="Activity">
-              <Activity userAllPostData={userAllPostData} />
-            </Tab>
-            <Tab eventKey="Portfolio" title="Portfolio">
-              <Portfoio
-                userProfileData={userProfileData}
-                userAllPostData={userAllPostData}
+              <Activity
+                posts={posts}
+                hasNextPage={hasNextPage}
+                loadNew={loadNew}
+                userId={userId}
               />
             </Tab>
+            <Tab eventKey="Portfolio" title="Portfolio">
+              <Portfoio userProfileData={userProfileData} posts={posts} />
+            </Tab>
             <Tab eventKey="Biography" title="Biography">
-              <Biography userId={userId} userAllPostData={userAllPostData} />
+              <Biography userId={userId} posts={posts} />
             </Tab>
           </Tabs>
         </div>
@@ -123,9 +128,10 @@ const TabMenu = ({ userId, userProfileData, userAllPostData }) => {
       currentUserId,
       handleClickFollow,
       handleClickMessageIntab,
+      hasNextPage,
       isFollow,
-      userAllPostData,
-      userId,
+      loadNew,
+      posts,
       userProfileData,
     ]
   );

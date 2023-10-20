@@ -1,5 +1,5 @@
 import { allImagesList } from '../ImageData';
-import './ExploreTab.scss';
+import './styles.scss';
 import React, { useMemo } from 'react';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';

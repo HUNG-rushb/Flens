@@ -3,7 +3,7 @@ import ModalCustom from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
 import useModal from '../../hooks/useModal';
 import StoryPage from '../Stories/StoryPage';
-import './Explore.scss';
+import './styles.scss';
 import HotTab from './ExploreTab/HotTab.jsx';
 import Inspiration from './ExploreTab/Inspiration';
 import NewestTab from './ExploreTab/NewestTab.jsx';
