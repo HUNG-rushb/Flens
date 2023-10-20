@@ -1,7 +1,7 @@
 import CoverImage from '../../assets/images/Profile/profileCoverImage.jpg';
 import Page from '../../components/utils/Page';
 import Spinner from '../../components/utils/Spinner';
-import { useGetAllUserPost } from '../../graphql/usePost';
+import { useGetNewFeed } from '../../graphql/usePost';
 import { useUserProfileImage } from '../../graphql/useUser';
 import './Profile.scss';
 import TabMenu from './Tabs/Tabs';
@@ -17,17 +17,13 @@ const Profile = () => {
   } = useUserProfileImage({
     userInfoData: { userId },
   });
-  const {
-    isFetching: isFetchingUserAllPost,
-    fetchedData: fetchUserAllPostData,
-    fetchError: fetchingUserAllPostError,
-  } = useGetAllUserPost({
-    getAllUserPostId: { userId },
-  });
+
+  const { posts, hasNextPage, isFetching, fetchError, loadNew } =
+    useGetNewFeed(userId);
 
   return useMemo(
     () => (
-      <Page title={'Flens-Profile'}>
+      <Page title="Flens-Profile">
         <Suspense>
           {isFetchingUserProfileData ? (
             <Spinner />
@@ -35,12 +31,12 @@ const Profile = () => {
             <div className="profile">
               <div className="overlay"></div>
               <img
-                id="coverImage"
                 src={
                   fetchingUserProfileData?.userInfo.backgroundImageURL
                     ? fetchingUserProfileData?.userInfo.backgroundImageURL
                     : CoverImage
                 }
+                id="coverImage"
                 alt=""
               />
               <div className="peronalInfor">
@@ -60,7 +56,9 @@ const Profile = () => {
               <TabMenu
                 userId={userId}
                 userProfileData={fetchingUserProfileData}
-                userAllPostData={fetchUserAllPostData}
+                posts={posts}
+                hasNextPage={hasNextPage}
+                loadNew={loadNew}
               />
             </div>
           )}
@@ -68,9 +66,11 @@ const Profile = () => {
       </Page>
     ),
     [
-      fetchUserAllPostData,
       fetchingUserProfileData,
+      hasNextPage,
       isFetchingUserProfileData,
+      loadNew,
+      posts,
       userId,
     ]
   );

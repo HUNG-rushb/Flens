@@ -1,7 +1,7 @@
-import Button from '../../components/Button/ButtonCustom';
+import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import Modal from '../../components/Modal/Modal';
-import Select from '../../components/Select/SelectCustom';
+import Select from '../../components/Select/Select';
 import Page from '../../components/utils/Page.js';
 import useModal from '../../hooks/useModal';
 import './styles.scss';
@@ -15,7 +15,7 @@ import React, {
 } from 'react';
 import { PencilSquare, XSquare } from 'react-bootstrap-icons';
 
-const Courses = () => {
+const CoursesManagement = () => {
   const category_options = useMemo(
     () => [
       { id: 1, value: 'Video courses' },
@@ -65,19 +65,13 @@ const Courses = () => {
 
   const [selectedStatus, setSelectedStatus] = useState(status_options[0].value);
   const [filteredData, setFilteredData] = useState(data);
-
   const { isShowing: showModal, toggle: toggleModal } = useModal();
-
-  const [targetCourses, settargetCourses] = useState({});
-
+  const [targetCourses, setTargetCourses] = useState({});
   const [editId, setEditId] = useState(0);
   const [editCoursesName, setEditCoursesName] = useState('');
   const [editCreatedDate, setEditCreatedDate] = useState('');
   const [editStatus, setEditStatus] = useState('');
   const [editAttendants, setEditAttendants] = useState(0);
-
-  const handleClickCreateCourses = useCallback(() => {}, []);
-
   const [checkEditOrDelete, setCheckEditOrDelete] = useState('');
 
   const modalTitle = useMemo(() => {
@@ -127,6 +121,9 @@ const Courses = () => {
       );
   }, [checkEditOrDelete, editAttendants, editCoursesName, editStatus]);
 
+  const handleClickCreateCourses = useCallback(() => {}, []);
+
+
   const handleClose = useCallback(() => {
     toggleModal();
     setCheckEditOrDelete('');
@@ -135,7 +132,7 @@ const Courses = () => {
   const handleClickEdit = useCallback(
     (item) => {
       setCheckEditOrDelete('edit');
-      settargetCourses(item);
+      setTargetCourses(item);
       setEditId(item.id);
       setEditCoursesName(item.coursesName);
       setEditCreatedDate(item.createDate);
@@ -149,7 +146,7 @@ const Courses = () => {
   const handleClickRemove = useCallback(
     (item) => {
       setCheckEditOrDelete('delete');
-      settargetCourses(item);
+      setTargetCourses(item);
       toggleModal();
     },
     [toggleModal]
@@ -206,7 +203,7 @@ const Courses = () => {
             <div className="title">Courses management</div>
             <div className="create-courses-btn">
               <Button
-                text={'Create a courses'}
+                text='Create a courses'
                 type="default2"
                 onClick={handleClickCreateCourses()}
               />
@@ -281,4 +278,4 @@ const Courses = () => {
   );
 };
 
-export default Courses;
+export default CoursesManagement;

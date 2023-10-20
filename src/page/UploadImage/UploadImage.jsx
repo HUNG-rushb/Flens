@@ -1,5 +1,5 @@
-import ButtonCustom from '../../components/Button/ButtonCustom.jsx';
-import Page from '../../components/utils/Page.js';
+import Button from '../../components/Button/Button';
+import Page from '../../components/utils/Page';
 import { useAuthState } from '../../context/AuthContext.js';
 import { useGetAllUserAlbum } from '../../graphql/useAlbum.js';
 import { useCreatePostLazy } from '../../graphql/usePost.js';
@@ -14,13 +14,7 @@ import {
 import './UploadImage.css';
 import { EXIF } from 'exif-js';
 // import Jimp from 'jimp';
-import React, {
-  Suspense,
-  useRef,
-  useState,
-  useMemo,
-  useCallback,
-} from 'react';
+import React, { Suspense, useRef, useState, useMemo, useCallback } from 'react';
 import { CloudArrowUp } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
 
@@ -434,16 +428,16 @@ const UploadImage = () => {
 
                       <div className="modal-buttons">
                         <div className="button-close">
-                          <ButtonCustom
-                            text={'Cancel'}
+                          <Button
+                            text="Cancel"
                             type="modal-close-btn"
                             onClick={(e) => handleCancelUpload(e)}
                           />
                         </div>
 
                         <div className="button-confirm">
-                          <ButtonCustom
-                            text={'Upload'}
+                          <Button
+                            text="Upload"
                             type="modal-save-btn"
                             onClick={(event) => handleConfirmUpload(event)}
                           />

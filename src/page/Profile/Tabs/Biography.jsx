@@ -1,12 +1,12 @@
-import InputCustom from '../../../components/Input/Input.jsx';
-import ModalCustom from '../../../components/Modal/Modal';
-import useModal from '../../../hooks/useModal.jsx';
-import AchievementComponent from './Biography/Achievements.jsx';
-import HobbyComponent from './Biography/Hobbies.jsx';
-import PersonalInforAndEdit from './Biography/PersonalInformationAndEdit.jsx';
+import Input from '../../../components/Input/Input';
+import Modal from '../../../components/Modal/Modal';
+import useModal from '../../../hooks/useModal';
+import Achievement from './Biography/Achievements';
+import Hobbies from './Biography/Hobbies';
+import PersonalInfo from './Biography/PersonalInfo';
 import { useCallback, useMemo, useState } from 'react';
 
-const Biography = ({ userId, userAllPostData }) => {
+const Biography = ({ userId, posts }) => {
   const { isShowing: showModal, toggle: toggleShowModal } = useModal();
   const [checkType, setCheckType] = useState(0);
   const [achievements, setAchievements] = useState([
@@ -54,10 +54,10 @@ const Biography = ({ userId, userAllPostData }) => {
 
   const modalContent = useCallback(() => {
     return (
-      <>
+      <div>
         {checkType === 1 ? (
-          <InputCustom
-            type={'text'}
+          <Input
+            type="text"
             value={initialValue.achievement}
             onChange={(e) =>
               setInitialValue({
@@ -67,8 +67,8 @@ const Biography = ({ userId, userAllPostData }) => {
             }
           />
         ) : (
-          <InputCustom
-            type={'text'}
+          <Input
+            type="text"
             value={initialValue.hobby}
             onChange={(e) =>
               setInitialValue({
@@ -78,7 +78,7 @@ const Biography = ({ userId, userAllPostData }) => {
             }
           />
         )}
-      </>
+      </div>
     );
   }, [
     achievements,
@@ -108,23 +108,20 @@ const Biography = ({ userId, userAllPostData }) => {
   return useMemo(
     () => (
       <div className="biography-tab">
-        <div className="bio-left">
-          <AchievementComponent
+        <div className="bio-left-container">
+          <Achievement
             achievements={achievements}
             toggleShowModal={toggleShowModal}
             setCheckType={setCheckType}
           />
-          <HobbyComponent
+          <Hobbies
             hobbies={hobbies}
             toggleShowModal={toggleShowModal}
             setCheckType={setCheckType}
           />
         </div>
-        <PersonalInforAndEdit
-          userId={userId}
-          userAllPostData={userAllPostData}
-        />
-        <ModalCustom
+        <PersonalInfo userId={userId} posts={posts} />
+        <Modal
           show={showModal}
           modalTitle={modalTitle}
           modalContent={modalContent()}
@@ -138,7 +135,7 @@ const Biography = ({ userId, userAllPostData }) => {
       toggleShowModal,
       hobbies,
       userId,
-      userAllPostData,
+      posts,
       showModal,
       handleCloseModal,
       modalTitle,

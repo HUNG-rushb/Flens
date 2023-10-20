@@ -1,53 +1,53 @@
 .profile {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    position: relative;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
 
-    .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,.4);
-    }
+  #coverImage {
+    height: 450px;
+    width: 100%;
+    object-fit: cover;
+    background-position: center;
+    background-size: cover;
+  }
 
-    #coverImage {
-        height: 450px;
-        width: 100%;
+  .peronalInfor {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+
+    .profileAvatar {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      margin-top: 100px;
+
+      img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        margin: 0 20px;
         object-fit: cover;
-        background-position: center;
-        background-size: cover;
       }
-
-      .peronalInfor {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-
-        .profileAvatar {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            margin-top: 100px;
-
-            img {
-                width: 200px;
-                height: 200px;
-                border-radius: 50%;
-                margin: 0 20px;
-                object-fit: cover;
-            }
-        }
-
-        #profile-name {
-            font-size: 26px;
-        }
     }
+
+    #profile-name {
+      font-size: 26px;
+    }
+  }
 }

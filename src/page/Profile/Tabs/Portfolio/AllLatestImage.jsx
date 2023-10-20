@@ -1,7 +1,6 @@
 import React from 'react';
 
-const AllLatestImage = ({ userAllPostData, setComponentToRender }) => {
-  console.log(userAllPostData);
+const AllLatestImage = ({ posts, setComponentToRender }) => {
   return (
     <div className="all-latest-image-container">
       <div>
@@ -13,7 +12,7 @@ const AllLatestImage = ({ userAllPostData, setComponentToRender }) => {
         <span id="all-latest-image-title">Latest upload image</span>
       </div>
       <div className="all-latest-images">
-        {userAllPostData.userInfo.posts.map((post) => (
+        {posts.map((post) => (
           <div className="all-latest-image" key={post.id}>
             <img src={post.image.url} alt="" />
           </div>

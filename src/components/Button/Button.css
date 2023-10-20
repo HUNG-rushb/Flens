@@ -48,13 +48,6 @@
   padding: 10px 15px;
 }
 
-.button--save-change-edit {
-  font-size: 15px;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
 .button--modal-close-btn, .button--modal-save-btn{
   border: 0;
   color: white;

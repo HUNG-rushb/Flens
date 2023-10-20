@@ -1,0 +1,226 @@
+.achievement {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+  margin-bottom: 10px;
+
+  .achievement-text {
+    display: flex;
+    flex-direction: column;
+    span {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .achievements-list {
+      div {
+        margin: 10px 0;
+      }
+    }
+  }
+
+  .add-button {
+    align-self: center;
+  }
+}
+
+.hobbies {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+  margin-bottom: 10px;
+
+  .hobby-text {
+    display: flex;
+    flex-direction: column;
+
+    span {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .badge-wrapper {
+      display: grid;
+      grid-template-columns: auto auto auto auto;
+      width: 100%;
+
+      div {
+        font-size: 16px;
+        font-weight: 600;
+        border: 2px solid #f08080;
+        color: #f08080;
+        border-radius: 10px;
+        margin: 10px;
+        padding: 10px 20px;
+        text-align: center;
+      }
+    }
+  }
+
+  .add-button {
+    align-self: center;
+  }
+}
+
+.bio-right-container {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 20px;
+
+  .social-infor {
+    display: flex;
+    padding: 30px 0px;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0px 20px;
+      font-weight: 600;
+
+      span {
+        font-weight: 400;
+      }
+    }
+  }
+
+  .personal-infor {
+    margin-bottom: 10px;
+
+    div {
+      padding: 5px 0px;
+
+      span {
+        font-weight: 600;
+      }
+    }
+  }
+
+  .camera-wrapper {
+    width: 70%;
+
+    #camera-icon {
+      margin-right: 10px;
+    }
+
+    #camera-text {
+      font-weight: 300;
+      font-size: 16px;
+    }
+  }
+
+  .edit-button {
+    margin: 20px 0;
+  }
+}
+
+.edit-profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+
+  .change-image-wrapper {
+    gap: 30px;
+    display: flex;
+
+    .change-avatar {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      #avatar {
+        border-radius: 50%;
+        object-fit: cover;
+        height: 200px;
+        width: 200px;
+        margin-bottom: 10px;
+        max-width: 400px;
+      }
+      .default-avatar {
+        margin-bottom: 10px;
+      }
+
+      .input-wrapper {
+        #input-image {
+          background-color: #f08080;
+          color: #fff;
+          padding: 5px 10px;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        input {
+          display: none;
+        }
+      }
+    }
+
+    .change-cover-image {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      #cover-image {
+        width: 400px;
+        max-width: 400px;
+        object-fit: cover;
+        max-height: 200px;
+        margin-bottom: 10px;
+      }
+
+      .input-wrapper {
+        #input-image {
+          background-color: #f08080;
+          color: #fff;
+          padding: 5px 10px;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        input {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .personal-content {
+    display: flex;
+    flex-direction: column;
+    margin: 40px 0 30px;
+    justify-content: left;
+    width: 60%;
+
+    div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding-left: 0;
+      padding-bottom: 5px;
+      align-items: center;
+
+      div {
+        width: 80%;
+      }
+
+      #submit-button {
+        margin-top: 20px;
+        padding: 5px 10px;
+        border: none;
+        background-color: #f08080;
+        font-size: 15px;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import './SelectCustom.css'
+import './Select.css'
 
 const SelectCustom = ({options, type, ...props}) => {
   return (

@@ -1,12 +1,13 @@
 import Modal from '../../../../components/Modal/Modal';
 import useModal from '../../../../hooks/useModal';
-import Post from '../../../Home/Post/Post';
 import ImageDetail from '../../../Home/Post/ImageDetail';
+import Post from '../../../Home/Post/Post';
 import { ReportContent } from '../../../ReportManagement/ReportImageContent';
 import './ActivityPosts.css';
 import React, { useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
-const ActivityPosts = ({ userAllPostData }) => {
+const ActivityPosts = ({ posts, hasNextPage, loadNew, userId }) => {
   const [imageToReport, setImageToReport] = useState('');
   const [itemShowDetail, setItemShowDetail] = useState(null);
   const { isShowing: showReport, toggle: toggleShowReport } = useModal();
@@ -14,13 +15,26 @@ const ActivityPosts = ({ userAllPostData }) => {
 
   return (
     <div className="profile-activity-container">
-      {/* <div className="activity-posts">
-        {userAllPostData &&
-          userAllPostData?.userInfo.posts.map((item) => {
+      <div className="activity-posts">
+        <InfiniteScroll
+          dataLength={posts?.length || 0}
+          next={() => {
+            loadNew();
+          }}
+          hasMore={hasNextPage}
+          loader={<h4>Loading...</h4>}
+          endMessage={
+            <p style={{ textAlign: 'center' }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
+        >
+          {posts?.map((item, idx) => {
             return (
               <Post
-                key={item.id}
-                item={item}
+                key={'post_' + idx}
+                item={item.node}
+                userId={userId}
                 showReport={showReport}
                 showImageDetail={showImageDetail}
                 toggleShowReport={toggleShowReport}
@@ -30,6 +44,7 @@ const ActivityPosts = ({ userAllPostData }) => {
               />
             );
           })}
+        </InfiniteScroll>
       </div>
       <ImageDetail
         item={itemShowDetail}
@@ -41,8 +56,7 @@ const ActivityPosts = ({ userAllPostData }) => {
         modalContent={<ReportContent image={imageToReport} />}
         handleClose={toggleShowReport}
         handleSavechanges={toggleShowReport}
-      /> */}
-      activity
+      />
     </div>
   );
 };

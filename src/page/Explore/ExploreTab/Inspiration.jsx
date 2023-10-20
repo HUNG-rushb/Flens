@@ -1,5 +1,4 @@
-import '../Explore.scss';
-import './ExploreTab.scss';
+import './styles.scss';
 import React, { useMemo } from 'react';
 import { images } from '../ImageData';
 

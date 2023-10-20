@@ -1,14 +1,14 @@
-import { useAuthState } from '../../../context/AuthContext.js';
-import Activity from './ActivityTab.jsx';
-import Biography from './Biography.jsx';
-import Portfoio from './Portfolio.jsx';
+import { useAuthState } from '../../../context/AuthContext';
+import Activity from './ActivityTab';
+import Biography from './Biography';
+import Portfoio from './Portfolio';
 import './Tabs.css';
 import { useCallback, useMemo, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import { ThreeDots } from 'react-bootstrap-icons';
 import { useLocation } from 'react-router-dom';
 
-const TabMenu = ({ userId, userProfileData, userAllPostData }) => {
+const TabMenu = ({ userId, userProfileData, posts, hasNextPage, loadNew }) => {
   const location = useLocation();
   const { id: checkUserId } = useAuthState();
   const [isFollow, setIsFollow] = useState(false);
@@ -29,16 +29,18 @@ const TabMenu = ({ userId, userProfileData, userAllPostData }) => {
         <div className="profile-tabs">
           <Tabs defaultActiveKey="Biography">
             <Tab eventKey="Activity" title="Activity">
-              <Activity userAllPostData={userAllPostData} />
-            </Tab>
-            <Tab eventKey="Portfolio" title="Portfolio">
-              <Portfoio
-                userProfileData={userProfileData}
-                userAllPostData={userAllPostData}
+              <Activity
+                posts={posts}
+                hasNextPage={hasNextPage}
+                loadNew={loadNew}
+                userId={userId}
               />
             </Tab>
+            <Tab eventKey="Portfolio" title="Portfolio">
+              <Portfoio userProfileData={userProfileData} posts={posts} />
+            </Tab>
             <Tab eventKey="Biography" title="Biography">
-              <Biography userId={userId} userAllPostData={userAllPostData} />
+              <Biography userId={userId} posts={posts} />
             </Tab>
           </Tabs>
         </div>
@@ -62,8 +64,10 @@ const TabMenu = ({ userId, userProfileData, userAllPostData }) => {
       checkUserId,
       handleClickFollow,
       handleClickMessageIntab,
+      hasNextPage,
       isFollow,
-      userAllPostData,
+      loadNew,
+      posts,
       userId,
       userProfileData,
     ]
