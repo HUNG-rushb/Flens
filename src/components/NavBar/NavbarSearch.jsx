@@ -1,3 +1,5 @@
+import { useAuthState } from '../../context/AuthContext';
+import { useSearchQuery } from '../../graphql/useSearch';
 import './NavBar.css';
 import React, { useCallback, useMemo, useState } from 'react';
 import {
@@ -11,17 +13,39 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 const NavbarSearch = () => {
+  const navigate = useNavigate();
+  const { id: userId } = useAuthState();
+  const { searchQuery } = useSearchQuery();
+
   const [isFocus, setIsFocus] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const navigate = useNavigate();
+  const [searchResult, setSearchResult] = useState({});
+  console.log({ searchResult });
 
-  const handleChange = (event) => {
+  const handleChange = async (event) => {
+    event.preventDefault();
     setSearchValue(event.target.value);
+
+    try {
+      const a = await searchQuery({
+        variables: {
+          searchQueryData: {
+            userId,
+            searchString: event.target.value,
+          },
+        },
+      });
+      console.log({ a });
+      setSearchResult(a.data.searchQuery);
+    } catch (e) {
+      throw e;
+    }
   };
 
   const handleSearch = useCallback(() => {
     setSearchValue('');
     setIsFocus(false);
+
     navigate('/explore/inspiration', {
       state: {
         searchValue: searchValue,
@@ -70,6 +94,14 @@ const NavbarSearch = () => {
         {isFocus && (
           <div className="popover-content">
             <p>{searchValue}</p>
+
+            {searchResult?.tags &&
+              searchResult.tags.map((tag) => <p key={tag.id}>{tag.name}</p>)}
+
+            {searchResult?.users &&
+              searchResult.users.map((user) => (
+                <p key={user.id}>{user.name}</p>
+              ))}
           </div>
         )}
       </Container>
