@@ -11,11 +11,8 @@ import './styles.scss';
 import { useCallback, useMemo, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import { ThreeDots } from 'react-bootstrap-icons';
-import { useLocation } from 'react-router';
 
 const TabMenu = ({ userId, userProfileData, posts, hasNextPage, loadNew }) => {
-  const location = useLocation();
-  const { id: checkUserId } = useAuthState();
   const { id: currentUserId } = useAuthState();
   const [isFollow, setIsFollow] = useState(false);
   console.log({ isFollow });
