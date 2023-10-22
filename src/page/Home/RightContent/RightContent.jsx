@@ -1,13 +1,10 @@
-
 import { useAuthState } from '../../../context/AuthContext';
 import {
   useSuggestUserToFollow,
   useUpdateFollowing,
   useUnfollowUser,
 } from '../../../graphql/useUser';
-
 import { contests } from '../../Contest/Tab/contestData';
-
 import './styles.scss';
 import React, { useCallback, useMemo } from 'react';
 import { PersonPlusFill } from 'react-bootstrap-icons';
@@ -61,6 +58,17 @@ const RightContent = () => {
   const handleClickContest = useCallback(
     (item) => {
       navigate(`/contest/${item.title}`);
+    },
+    [navigate]
+  );
+
+  const handleClickTag = useCallback(
+    (tag) => {
+      navigate('/explore/inspiration', {
+        state: {
+          tagValue: tag,
+        },
+      });
     },
     [navigate]
   );
@@ -137,7 +145,11 @@ const RightContent = () => {
               <span id="subtitle">Trending tags: </span>
               <div className="tags-list">
                 {tags.map((tag, index) => (
-                  <div className="tag" key={index}>
+                  <div
+                    className="tag"
+                    key={index}
+                    onClick={() => handleClickTag(tag)}
+                  >
                     #{tag}
                   </div>
                 ))}
@@ -147,7 +159,12 @@ const RightContent = () => {
         </div>
       </div>
     ),
-    [handleClickContest, suggestedUserList]
+    [
+      handleClickContest,
+      handleClickTag,
+      navigate,
+      suggestedUserList?.suggestUserToFollow,
+    ]
   );
 };
 

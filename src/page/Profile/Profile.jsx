@@ -3,13 +3,14 @@ import Page from '../../components/utils/Page';
 import Spinner from '../../components/utils/Spinner';
 import { useGetNewFeed } from '../../graphql/usePost';
 import { useUserProfileImage } from '../../graphql/useUser';
-import './Profile.scss';
+import './styles.scss';
 import TabMenu from './Tabs/Tabs';
 import { Suspense, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 const Profile = () => {
   const { userId } = useParams();
+  console.log(userId)
   const {
     isFetching: isFetchingUserProfileData,
     fetchedData: fetchingUserProfileData,

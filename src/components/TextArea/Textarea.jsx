@@ -4,7 +4,7 @@ const Textarea = ({ type, placeholder, ...props }) => {
   return (
     <textarea
       className={`TextArea Textarea--${type}`}
-      placeholder={placeholder}
+      placeholder={placeholder} 
       {...props}
     />
   );

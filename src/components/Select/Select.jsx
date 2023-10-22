@@ -1,6 +1,6 @@
 import './Select.css'
 
-const SelectCustom = ({options, type, ...props}) => {
+const Select = ({options, type, ...props}) => {
   return (
     <select className={`select-custom select--${type}`} {...props} >
       {options.map((item) => (
@@ -10,4 +10,4 @@ const SelectCustom = ({options, type, ...props}) => {
   );
 };
 
-export default SelectCustom;
+export default Select;

@@ -136,7 +136,7 @@ const Notification = () => {
   }, [handleScroll]);
 
   return (
-    <Page title={'Flens-Notification'}>
+    <Page title='Flens-Notification'>
       <Suspense fallback={null}>
         <div className="Notifi-page">
           <LeftContent

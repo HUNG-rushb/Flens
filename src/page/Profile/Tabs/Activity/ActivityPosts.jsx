@@ -3,7 +3,7 @@ import useModal from '../../../../hooks/useModal';
 import ImageDetail from '../../../Home/Post/ImageDetail';
 import Post from '../../../Home/Post/Post';
 import { ReportContent } from '../../../ReportManagement/ReportImageContent';
-import './ActivityPosts.css';
+import './styles.scss';
 import React, { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 

@@ -1,4 +1,4 @@
-import Textarea from '../../../components/TextArea/Textarea';
+import Textarea from '../../../components/Textarea/Textarea';
 import { useAuthState } from '../../../context/AuthContext';
 import {
   useGetAllPostComment,

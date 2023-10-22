@@ -1,9 +1,8 @@
-import Avatar from '../../assets/images/avatar2.jpg';
 import Input from '../../components/Input/Input';
 import Select from '../../components/Select/Select';
 import Page from '../../components/utils/Page';
 import './LeaderBoard.css';
-import Title from './LeaderBoard/Title';
+import { boardData } from './LeaderBoard/data';
 import React, {
   Suspense,
   useCallback,
@@ -11,44 +10,6 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-
-const data = [
-  {
-    id: 1,
-    img: Avatar,
-    name: 'Tom',
-    country: 'New York, USA',
-    numberOfFollowers: 200,
-  },
-  {
-    id: 2,
-    img: Avatar,
-    name: 'John',
-    country: 'Ho Chi Minh, Vietnam',
-    numberOfFollowers: 140,
-  },
-  {
-    id: 3,
-    img: Avatar,
-    name: 'Anna',
-    country: 'Seoul, Korea',
-    numberOfFollowers: 120,
-  },
-  {
-    id: 4,
-    img: Avatar,
-    name: 'Bob',
-    country: 'Tokyo, Japan',
-    numberOfFollowers: 100,
-  },
-  {
-    id: 5,
-    img: Avatar,
-    name: 'Hank',
-    country: 'London, UK',
-    numberOfFollowers: 90,
-  },
-];
 
 const LeaderBoard = () => {
   const options = useMemo(
@@ -62,7 +23,7 @@ const LeaderBoard = () => {
     []
   );
   const [selected, setSelected] = useState(options[0].value);
-  const [filteredData, setFilteredData] = useState(data);
+  const [filteredData, setFilteredData] = useState(boardData);
   const [seachValue, setSearchValue] = useState('');
 
   const handleOnChangeSelected = useCallback((event) => {
@@ -75,14 +36,14 @@ const LeaderBoard = () => {
 
   const filteredSelected = useCallback(() => {
     if (selected === 'All') setSelected('');
-    const filteredSelected = data.filter((item) =>
+    const filteredSelected = boardData.filter((item) =>
       item.country.includes(selected)
     );
     setFilteredData(filteredSelected);
   }, [selected]);
 
   const filteredSearchValue = useCallback(() => {
-    const filtedSearchValue = data.filter(
+    const filtedSearchValue = boardData.filter(
       (item) =>
         item.country.includes(seachValue) ||
         item.name.includes(seachValue) ||
@@ -103,10 +64,17 @@ const LeaderBoard = () => {
 
   return useMemo(
     () => (
-      <Page title={'Flens-Leaderboard'}>
+      <Page title="Flens-Leaderboard">
         <Suspense fallback={null}>
           <div className="leaderboard">
-            <Title />
+            <div className="leaderboard-title-page">
+              <span>Flens Leaderboard</span>
+              <p>
+                Find your standings, based on your activity the past 30 days
+              </p>
+              <span>Followers</span>
+              <p>Photographers you are following</p>
+            </div>
             <div className="leaderboard-body-page">
               <div className="filter-and-search-part">
                 <Select
@@ -117,7 +85,7 @@ const LeaderBoard = () => {
                 />
                 <div className="search-bar">
                   <Input
-                    type={'Text'}
+                    type="Text"
                     placeholder="Search"
                     value={seachValue}
                     onChange={handleOnChangeSearch}

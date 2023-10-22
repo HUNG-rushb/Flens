@@ -1,4 +1,4 @@
-import ModalCustom from '../../../../components/Modal/Modal';
+import Modal from '../../../../components/Modal/Modal';
 import { useAuthState } from '../../../../context/AuthContext';
 import { useCreateAlbumLazy } from '../../../../graphql/useAlbum';
 import { useGetAllUserAlbum } from '../../../../graphql/useAlbum';
@@ -90,10 +90,10 @@ const AlbumImage = ({ userProfileData, setComponentToRender }) => {
           </div>
         )}
 
-        <ModalCustom
+        <Modal
           show={openCreateAlbum}
-          modalTitle={'Create new album'}
-          submitText={'Create'}
+          modalTitle='Create new album'
+          submitText='Create'
           modalContent={modalContent()}
           handleClose={handleClose}
           handleSavechanges={handleCreateAlbum}

@@ -1,7 +1,6 @@
 import Button from '../../../../components/Button/Button';
 import Modal from '../../../../components/Modal/Modal';
 import useModal from '../../../../hooks/useModal';
-import './ContestDetail.scss';
 import {
   birthdayContest,
   fashionContest,
@@ -10,21 +9,23 @@ import {
   foodContest,
   landscapeContest,
 } from '../contestData';
+import './ContestDetail.scss';
+import SubmitionContent from './SubmitionContent';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import SubmitionContent from './SubmitionContent';
 
 const ContestDetail = () => {
   const location = useLocation();
-  const checkPath = location.pathname.split('/');
-  const contestType = checkPath[2];
+  const propsContest = useMemo(
+    () => location?.state.selectedContest,
+    [location?.state.selectedContest]
+  );
   const [selectedContest, setSelectedContest] = useState([]);
-
   const { isShowing: showModal, toggle: toggleModal } = useModal();
 
   useEffect(() => {
     let contest = [];
-    switch (contestType) {
+    switch (propsContest.title) {
       case 'birthday':
         contest = birthdayContest;
         break;
@@ -47,7 +48,7 @@ const ContestDetail = () => {
         contest = birthdayContest;
     }
     setSelectedContest(contest);
-  }, [contestType]);
+  }, [propsContest.title]);
 
   return useMemo(
     () => (
@@ -92,21 +93,17 @@ const ContestDetail = () => {
             </div>
 
             <div className="button-upload">
-              <Button
-                text={'Join now!'}
-                type="default"
-                onClick={toggleModal}
-              />
+              <Button text='Join now!' type="default" onClick={toggleModal} />
             </div>
           </div>
         </div>
         <Modal
           show={showModal}
-          modalTitle='Submit entry'
+          modalTitle="Submit entry"
           modalContent={<SubmitionContent />}
           handleClose={toggleModal}
           handleSavechanges={toggleModal}
-          size='lg'
+          size="lg"
         />
       </>
     ),

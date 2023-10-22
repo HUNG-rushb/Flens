@@ -1,4 +1,4 @@
-import TextareaCustom from '../../../components/TextArea/Textarea';
+import TextareaCustom from '../../../components/Textarea/Textarea';
 import { useAuthState } from '../../../context/AuthContext';
 import { useCreateCommentLazy } from '../../../graphql/usePost';
 import { handleKeyPressComment } from '../../../utils/handleKeyPressComment';

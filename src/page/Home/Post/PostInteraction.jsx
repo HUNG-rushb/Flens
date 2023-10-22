@@ -62,7 +62,7 @@ const PostInteraction = ({
       }
       setAnimationWhenClick(true);
     },
-    [interactPost, isLiked, item?.id, userId]
+    [interactPost, isLiked, item?.id, item?.userId.id, updateLevel, userId]
   );
 
   const handleReportImage = useCallback(() => {
@@ -151,10 +151,12 @@ const PostInteraction = ({
                   Report
                 </li>
 
-                <li onClick={handleDeletePost}>
-                  <Trash color="red" />
-                  Delete this photo
-                </li>
+                {item?.userId.id === userId && (
+                  <li onClick={handleDeletePost}>
+                    <Trash color="red" />
+                    Delete this photo
+                  </li>
+                )}
               </ul>
             </div>
           </div>
@@ -163,13 +165,15 @@ const PostInteraction = ({
       </div>
     ),
     [
-      animationWhenClick,
-      countNumberOfLikes,
-      handleDeletePost,
-      handleReportImage,
       handleLikePost,
       isLiked,
+      animationWhenClick,
+      countNumberOfLikes,
       showListActions,
+      handleReportImage,
+      item?.userId.id,
+      userId,
+      handleDeletePost,
     ]
   );
 };

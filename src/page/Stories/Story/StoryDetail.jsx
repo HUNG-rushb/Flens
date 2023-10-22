@@ -1,10 +1,10 @@
-import Spinner from '../../../components/utils/Spinner.js';
-import { useAuthState } from '../../../context/AuthContext.js';
-import { useGetStoryInfo } from '../../../graphql/useStory.js';
-import { useDeleteStory, useInteractStory } from '../../../graphql/useStory.js';
-import unixToDateTime from '../../../utils/unixToDateTime.js';
-import StoryComment from '../../Home/Post/StoryComment.jsx';
-import './StoryDetail.scss';
+import Spinner from '../../../components/utils/Spinner';
+import { useAuthState } from '../../../context/AuthContext';
+import { useGetStoryInfo } from '../../../graphql/useStory';
+import { useDeleteStory, useInteractStory } from '../../../graphql/useStory';
+import unixToDateTime from '../../../utils/unixToDateTime';
+import StoryComment from '../../Home/Post/StoryComment';
+import './styles.scss';
 import { useEffect, useRef, useState } from 'react';
 import {
   Heart,

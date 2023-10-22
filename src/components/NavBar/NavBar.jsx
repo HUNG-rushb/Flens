@@ -228,6 +228,9 @@ const NavBar = () => {
                     <Nav.Link as={Link} to="/statistic">
                       <Clipboard2Data size={28} />
                     </Nav.Link>
+                    <Nav.Link as={Link} to="/contest-management">
+                      Contest
+                    </Nav.Link>
                     <Nav.Item>
                       <div ref={clickOutsideRef}>
                         {fetchedData ? (
@@ -259,9 +262,6 @@ const NavBar = () => {
                               </li>
                               <li>
                                 <a href="/statistic">Statistic</a>
-                              </li>
-                              <li>
-                                <a href="/aboutUs">About Us</a>
                               </li>
                               <li>
                                 <div onClick={() => handleLogout()}>

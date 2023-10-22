@@ -253,6 +253,7 @@ const UploadImage = () => {
       tags,
       takenWhen,
       title,
+      updateLevel,
       uploadImageToAWS,
       userId,
     ]

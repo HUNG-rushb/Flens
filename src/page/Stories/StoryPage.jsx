@@ -1,6 +1,6 @@
 import { useGetAllStories } from '../../graphql/useStory';
 import unixToDateTime from '../../utils/unixToDateTime';
-import './StoryPage.scss';
+import './styles.scss';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Heart, HeartFill, ThreeDots } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';

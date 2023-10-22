@@ -1,6 +1,6 @@
 import Page from '../../components/utils/Page.js';
-import './Statistic.scss';
-import React, { Suspense, useCallback, useMemo } from 'react';
+import './styles.scss';
+import React, { Suspense, useMemo } from 'react';
 import Chart from 'react-apexcharts';
 import { Tab, Tabs } from 'react-bootstrap';
 

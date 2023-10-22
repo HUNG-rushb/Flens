@@ -90,8 +90,12 @@ a.nav-link:hover {
 }
 
 #avtar-nav-bar {
-  opacity: 1;
+  max-width: 35px;
+  height: 35px;
+  object-fit: cover;
+  border-radius: 50%;
   cursor: pointer;
+  opacity: 1;
 }
 
 #avtar-nav-bar:hover {
@@ -161,7 +165,8 @@ li div:hover {
 }
 
 #navbar-avatar {
-  max-width: 35px;
+  max-width: 35px !important;
+  width: 35px;
   height: 35px;
   object-fit: cover;
   border-radius: 50%;
@@ -170,5 +175,19 @@ li div:hover {
 }
 
 #navbar-avatar:hover {
+  opacity: 0.7;
+}
+
+.nav-item div img {
+  max-width: 35px !important;
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.nav-item div img:hover {
   opacity: 0.7;
 }

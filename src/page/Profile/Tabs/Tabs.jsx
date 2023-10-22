@@ -4,10 +4,10 @@ import {
   useUpdateFollowing,
   useUnfollowUser,
 } from '../../../graphql/useUser.js';
-import Activity from './ActivityTab.jsx';
+import Activity from './Activity.jsx';
 import Biography from './Biography.jsx';
 import Portfoio from './Portfolio.jsx';
-import './Tabs.css';
+import './styles.scss';
 import { useCallback, useMemo, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import { ThreeDots } from 'react-bootstrap-icons';

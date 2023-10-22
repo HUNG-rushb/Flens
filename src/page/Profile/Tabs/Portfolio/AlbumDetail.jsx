@@ -101,7 +101,7 @@ const AlbumDetail = ({ setComponentToRender }) => {
       </div>
       <Modal
         show={openUploadImage}
-        modalTitle={'Upload image to album'}
+        modalTitle='Upload image to album'
         modalContent={modalContent()}
         handleClose={() => [toggleUploadImage(), setPreviewImage(null)]}
         handleSavechanges={handleConfirmUpload}
