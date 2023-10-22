@@ -3,14 +3,13 @@ import Page from '../../components/utils/Page';
 import Spinner from '../../components/utils/Spinner';
 import { useAuthState } from '../../context/AuthContext';
 import { useGetNewFeed } from '../../graphql/usePost';
-import { useGetAllUserPost } from '../../graphql/usePost';
 import useModal from '../../hooks/useModal';
 import { ReportContent } from '../ReportManagement/ReportImageContent';
 import './Home.scss';
-import LeftContent from './LeftContent/LeftContent.jsx';
+import LeftContent from './LeftContent/LeftContent';
 import ImageDetail from './Post/ImageDetail';
 import Post from './Post/Post';
-import RightContent from './RightContent/RightContent.jsx';
+import RightContent from './RightContent/RightContent';
 import { Suspense, useCallback, useState } from 'react';
 import { CameraFill, PencilSquare } from 'react-bootstrap-icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -41,70 +40,78 @@ const Home = () => {
   return (
     <Page title="FLens-Home">
       <Suspense fallback={null}>
-        <div className="home-page">
-          <LeftContent />
-          <div className="center-container">
-            <div className="center-content">
-              <div className="upload-bar">
-                <div className="content">
-                  <div className="upload-image" onClick={handleToUploadImage}>
-                    <CameraFill size={28} color="#F08080" id="upload-icon" />
-                    Upload a photo
-                  </div>
-                  <div className="upload-story" onClick={handleToUploadStory}>
-                    <PencilSquare size={28} color="#F08080" id="upload-icon" />
-                    Publish a Story
+        {isFetching ? (
+          <Spinner />
+        ) : (
+          <div className="home-page">
+            <LeftContent />
+            <div className="center-container">
+              <div className="center-content">
+                <div className="upload-bar">
+                  <div className="content">
+                    <div className="upload-image" onClick={handleToUploadImage}>
+                      <CameraFill size={28} color="#F08080" id="upload-icon" />
+                      Upload a photo
+                    </div>
+                    <div className="upload-story" onClick={handleToUploadStory}>
+                      <PencilSquare
+                        size={28}
+                        color="#F08080"
+                        id="upload-icon"
+                      />
+                      Publish a Story
+                    </div>
                   </div>
                 </div>
+
+                <InfiniteScroll
+                  dataLength={posts.length}
+                  next={() => {
+                    loadNew();
+                  }}
+                  hasMore={hasNextPage}
+                  loader={<h4>Loading...</h4>}
+                  endMessage={
+                    <p style={{ textAlign: 'center' }}>
+                      <b>Yay! You have seen it all</b>
+                    </p>
+                  }
+                >
+                  {posts.map((item, idx) => {
+                    return (
+                      <Post
+                        key={'post_' + idx}
+                        item={item.node}
+                        userId={userId}
+                        showReport={showReport}
+                        showImageDetail={showImageDetail}
+                        toggleShowReport={toggleShowReport}
+                        setImageToReport={setImageToReport}
+                        toggleImageDetail={toggleImageDetail}
+                        setItemShowDetail={setItemShowDetail}
+                      />
+                    );
+                  })}
+                </InfiniteScroll>
               </div>
-
-              <InfiniteScroll
-                dataLength={posts.length}
-                next={() => {
-                  loadNew();
-                }}
-                hasMore={hasNextPage}
-                loader={<h4>Loading...</h4>}
-                endMessage={
-                  <p style={{ textAlign: 'center' }}>
-                    <b>Yay! You have seen it all</b>
-                  </p>
-                }
-              >
-                {posts.map((item, idx) => {
-                  return (
-                    <Post
-                      key={'post_' + idx}
-                      item={item.node}
-                      userId={userId}
-                      showReport={showReport}
-                      showImageDetail={showImageDetail}
-                      toggleShowReport={toggleShowReport}
-                      setImageToReport={setImageToReport}
-                      toggleImageDetail={toggleImageDetail}
-                      setItemShowDetail={setItemShowDetail}
-                    />
-                  );
-                })}
-              </InfiniteScroll>
             </div>
+
+            <RightContent />
+
+            <ImageDetail
+              item={itemShowDetail}
+              showImageDetail={showImageDetail}
+              handleCloseImageDetail={toggleImageDetail}
+            />
+
+            <Modal
+              show={showReport}
+              modalContent={<ReportContent image={imageToReport} />}
+              handleClose={toggleShowReport}
+              handleSavechanges={toggleShowReport}
+            />
           </div>
-
-          <RightContent />
-
-          <ImageDetail
-            item={itemShowDetail}
-            showImageDetail={showImageDetail}
-            handleCloseImageDetail={toggleImageDetail}
-          />
-
-          <Modal
-            show={showReport}
-            modalContent={<ReportContent image={imageToReport} />}
-            handleClose={toggleShowReport}
-            handleSavechanges={toggleShowReport}
-          />
-        </div>
+        )}
       </Suspense>
     </Page>
   );

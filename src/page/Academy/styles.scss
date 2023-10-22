@@ -1,18 +1,21 @@
 .academy {
   padding: 30px;
-}
 
-.academy-title-page span {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  font-size: 30px;
-  font-weight: 600;
-}
+  .academy-title-page {
+    span {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      font-size: 30px;
+      font-weight: 600;
+    }
 
-.academy-title-page p {
-  text-align: center;
-  padding: 10px 0;
+    p {
+      text-align: center;
+      padding: 10px 0;
+    }
+  }
+
 }
 
 .video-courses-component,

@@ -67,7 +67,7 @@ const Login = () => {
   };
 
   return (
-    <Page title={'Flens-Login'}>
+    <Page title='Flens-Login'>
       <Suspense fallback={null}>
         <div className="login-page">
           <form className="Login-form">
