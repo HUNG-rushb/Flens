@@ -5,6 +5,7 @@ import { useGetAllUserAlbum } from '../../graphql/useAlbum.js';
 import {
   useCreatePostLazy,
   useUpdatePointPostingLazy,
+  useCreateTag,
 } from '../../graphql/usePost.js';
 import useModal from '../../hooks/useModal.jsx';
 import useUploadImageToAWS from '../../hooks/useUploadImageToAWS.js';
@@ -94,6 +95,7 @@ const UploadImage = () => {
     useCreatePostLazy();
 
   const { updateLevel } = useUpdatePointPostingLazy();
+  const { createTag } = useCreateTag();
 
   const uploadImageToAWS = useUploadImageToAWS();
 
@@ -225,6 +227,20 @@ const UploadImage = () => {
             updatePointPostingData: {
               userId,
               xp: 50,
+            },
+          },
+        });
+
+        await createTag({
+          variables: {
+            createTagData: {
+              name: [
+                ...new Set(
+                  tags
+                    .map((a) => a.value)
+                    .map((element) => element.toLowerCase())
+                ),
+              ],
             },
           },
         });

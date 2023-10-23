@@ -8,8 +8,9 @@ import {
   INTERACT_POST,
   UPDATE_POINT_POSTING,
 } from './queries/Post.js';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
-import { useCallback, useEffect, useState } from 'react';
+import { CREATE_TAG } from './queries/Tag.js';
+import { useQuery, useMutation } from '@apollo/client';
+import { useCallback, useState } from 'react';
 
 export const useCreatePostLazy = (cache) => {
   const [createPost, { data, loading, error }] = useMutation(CREATE_POST, {
@@ -18,6 +19,19 @@ export const useCreatePostLazy = (cache) => {
 
   return {
     createPost,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
+
+export const useCreateTag = () => {
+  const [createTag, { data, loading, error }] = useMutation(CREATE_TAG, {
+    fetchPolicy: 'no-cache',
+  });
+
+  return {
+    createTag,
     isFetching: loading,
     fetchedData: data,
     fetchError: error,
