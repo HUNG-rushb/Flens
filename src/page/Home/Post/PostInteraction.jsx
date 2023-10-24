@@ -10,6 +10,7 @@ import {
   Reply,
   ThreeDots,
   HeartFill,
+  FileEarmarkLock,
 } from 'react-bootstrap-icons';
 
 const PostInteraction = ({
@@ -18,6 +19,7 @@ const PostInteraction = ({
   showReport,
   toggleShowReport,
   setIsDeletedPost,
+  setPrivatePost,
 }) => {
   const { id: userId } = useAuthState();
   const clickOutsideRef = useRef(null);
@@ -30,7 +32,6 @@ const PostInteraction = ({
   const { deletePost } = useDeletePost();
   const { interactPost } = useInteractPost();
   const { updateLevel } = useUpdatePointPostingLazy();
-  console.log({ item });
 
   const handleLikePost = useCallback(
     async (event) => {
@@ -92,6 +93,10 @@ const PostInteraction = ({
     [deletePost, setIsDeletedPost, item?.id]
   );
 
+  const handleChangePrivatePost = useCallback(() => {
+    setPrivatePost((prev) => !prev);
+  },[setPrivatePost]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -150,11 +155,16 @@ const PostInteraction = ({
                   <Flag color="blue" />
                   Report
                 </li>
-
                 {item?.userId.id === userId && (
                   <li onClick={handleDeletePost}>
                     <Trash color="red" />
                     Delete this photo
+                  </li>
+                )}
+                {item?.userId.id === userId && (
+                  <li onClick={handleChangePrivatePost}>
+                    <FileEarmarkLock color="black" />
+                    Set private
                   </li>
                 )}
               </ul>
@@ -164,17 +174,7 @@ const PostInteraction = ({
         <hr style={{ border: '1px solid #F08080' }} />
       </div>
     ),
-    [
-      handleLikePost,
-      isLiked,
-      animationWhenClick,
-      countNumberOfLikes,
-      showListActions,
-      handleReportImage,
-      item?.userId.id,
-      userId,
-      handleDeletePost,
-    ]
+    [handleLikePost, isLiked, animationWhenClick, countNumberOfLikes, showListActions, handleReportImage, item?.userId.id, userId, handleDeletePost, handleChangePrivatePost]
   );
 };
 
