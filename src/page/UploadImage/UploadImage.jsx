@@ -60,6 +60,7 @@ const UploadImage = () => {
   const { isShowing: showUpload, toggle: toggleShowUpload } = useModal();
 
   const [title, setTitle] = useState('');
+  const [caption, setCaption] = useState('');
   const [aperture, setAperture] = useState('');
   const [lens, setLens] = useState('');
   const [takenWhen, setTakenWhen] = useState('');
@@ -297,6 +298,12 @@ const UploadImage = () => {
         setField: setTitle,
       },
       {
+        label: 'Caption',
+        placeholder: 'Input caption for this image',
+        field: caption,
+        setField: setCaption,
+      },
+      {
         label: 'Camera',
         placeholder: 'Input Camera',
         field: camera,
@@ -348,6 +355,7 @@ const UploadImage = () => {
     [
       aperture,
       camera,
+      caption,
       copyright,
       focalLength,
       iso,

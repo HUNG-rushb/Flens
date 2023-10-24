@@ -22,25 +22,28 @@ const NavbarSearch = () => {
   const [searchResult, setSearchResult] = useState({});
   console.log({ searchResult });
 
-  const handleChange = async (event) => {
-    event.preventDefault();
-    setSearchValue(event.target.value);
+  const handleChange = useCallback(
+    async (event) => {
+      event.preventDefault();
+      setSearchValue(event.target.value);
 
-    try {
-      const a = await searchQuery({
-        variables: {
-          searchQueryData: {
-            userId,
-            searchString: event.target.value,
+      try {
+        const a = await searchQuery({
+          variables: {
+            searchQueryData: {
+              userId,
+              searchString: event.target.value,
+            },
           },
-        },
-      });
-      console.log({ a });
-      setSearchResult(a.data.searchQuery);
-    } catch (e) {
-      throw e;
-    }
-  };
+        });
+        console.log({ a });
+        setSearchResult(a.data.searchQuery);
+      } catch (e) {
+        throw e;
+      }
+    },
+    [searchQuery, userId]
+  );
 
   const handleSearch = useCallback(() => {
     setSearchValue('');
@@ -106,7 +109,14 @@ const NavbarSearch = () => {
         )}
       </Container>
     ),
-    [handleKeyDown, isFocus, searchValue]
+    [
+      handleChange,
+      handleKeyDown,
+      isFocus,
+      searchResult.tags,
+      searchResult.users,
+      searchValue,
+    ]
   );
 };
 
