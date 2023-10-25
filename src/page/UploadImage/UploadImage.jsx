@@ -198,6 +198,8 @@ const UploadImage = () => {
             createPostData: {
               userId,
               title,
+              caption: '',
+              isVisible: true,
               aperture,
               lens,
               takenWhen,

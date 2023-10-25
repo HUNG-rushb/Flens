@@ -46,11 +46,13 @@ const ActivityPosts = ({ posts, hasNextPage, loadNew, userId }) => {
           })}
         </InfiniteScroll>
       </div>
+
       <ImageDetail
         item={itemShowDetail}
         showImageDetail={showImageDetail}
         handleCloseImageDetail={toggleImageDetail}
       />
+
       <Modal
         show={showReport}
         modalContent={<ReportContent image={imageToReport} />}

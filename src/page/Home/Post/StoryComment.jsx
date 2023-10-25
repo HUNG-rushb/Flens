@@ -1,4 +1,4 @@
-import TextareaCustom from '../../../components/Textarea/Textarea';
+import TextArea from '../../../components/TextArea/TextArea';
 import { useAuthState } from '../../../context/AuthContext';
 import { useCreateCommentLazy } from '../../../graphql/usePost';
 import { handleKeyPressComment } from '../../../utils/handleKeyPressComment';
@@ -60,7 +60,7 @@ const StoryComment = ({ item, refetchStory }) => {
       <form className="comments-wrapper" onSubmit={handleSubmitComment}>
         <div className="comment-header">
           <img src={profileImageURL} alt="" id="comment-avatar" />
-          <TextareaCustom
+          <TextArea
             type={'comment'}
             placeholder={'Add a comment'}
             id={`textarea-comment-${storyID}`}

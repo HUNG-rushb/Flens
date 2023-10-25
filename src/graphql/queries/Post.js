@@ -27,6 +27,7 @@ export const CREATE_POST = gql`
       createdAt
       points
       title
+      isVisible
       updatedAt
 
       categoryId {
@@ -59,6 +60,8 @@ export const GET_ALL_USER_POST = gql`
         id
         points
         title
+        caption
+        isVisible
         createdAt
 
         userId {
@@ -93,6 +96,8 @@ export const GET_NEW_FEED = gql`
           id
           points
           title
+          caption
+          isVisible
           createdAt
           userLikedPost
           tag
@@ -185,10 +190,21 @@ export const DELETE_POST = gql`
   }
 `;
 
+// !!!!!!!!!!
 export const REPORT_POST = gql`
   mutation InteractPost($interactPostData: InteractPostInput!) {
     interactPost(data: $interactPostData) {
       points
+    }
+  }
+`;
+
+export const CHANGE_VISIBLE_POST = gql`
+  mutation UpdatePost($changeVisiblePostData: UpdatePostInput!) {
+    updatePost(data: $changeVisiblePostData) {
+      id
+      title
+      isVisible
     }
   }
 `;

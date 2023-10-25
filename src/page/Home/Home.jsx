@@ -10,7 +10,7 @@ import LeftContent from './LeftContent/LeftContent';
 import ImageDetail from './Post/ImageDetail';
 import Post from './Post/Post';
 import RightContent from './RightContent/RightContent';
-import { Suspense, useCallback, useEffect, useState } from 'react';
+import { Suspense, useCallback, useState } from 'react';
 import { CameraFill, PencilSquare } from 'react-bootstrap-icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate } from 'react-router';
@@ -26,8 +26,7 @@ const Home = () => {
 
   const { posts, hasNextPage, isFetching, fetchError, loadNew } =
     useGetNewFeed(userId);
-
-  const [customPosts, setCustomPosts] = useState([]);
+  console.log({ posts });
 
   const navigate = useNavigate();
 
@@ -38,13 +37,6 @@ const Home = () => {
   const handleToUploadStory = useCallback(() => {
     navigate('/uploadStory');
   }, [navigate]);
-
-  useEffect(() => {
-    const custom = posts.map((item) => {
-      return { ...item.node, isPrivatePost: false };
-    });
-    setCustomPosts(custom);
-  }, [posts]);
 
   return (
     <Page title="FLens-Home">
@@ -86,11 +78,11 @@ const Home = () => {
                     </p>
                   }
                 >
-                  {customPosts.map((item, idx) => {
+                  {posts.map((item, idx) => {
                     return (
                       <Post
                         key={'post_' + idx}
-                        item={item}
+                        item={item.node}
                         userId={userId}
                         showReport={showReport}
                         showImageDetail={showImageDetail}

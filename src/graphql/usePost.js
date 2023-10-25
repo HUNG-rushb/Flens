@@ -6,9 +6,10 @@ import {
   GET_NEW_FEED,
   DELETE_POST,
   INTERACT_POST,
+  CHANGE_VISIBLE_POST,
   UPDATE_POINT_POSTING,
 } from './queries/Post.js';
-import { CREATE_TAG } from './queries/Tag.js';
+import { CREATE_TAG, SUGGEST_TAG } from './queries/Tag.js';
 import { useQuery, useMutation } from '@apollo/client';
 import { useCallback, useState } from 'react';
 
@@ -139,6 +140,25 @@ export const useDeletePost = () => {
   };
 };
 
+export const useChangeVisiblePost = (setPublic) => {
+  const [updatePost, { data, loading, error }] = useMutation(
+    CHANGE_VISIBLE_POST,
+    {
+      fetchPolicy: 'no-cache',
+      onCompleted: (data) => {
+        setPublic(data.updatePost.isVisible);
+      },
+    }
+  );
+
+  return {
+    updatePost,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
+
 export const useInteractPost = () => {
   const [interactPost, { data, loading, error, refetch }] = useMutation(
     INTERACT_POST,
@@ -156,6 +176,18 @@ export const useInteractPost = () => {
   };
 };
 
+export const useSuggestTag = () => {
+  const { data, loading, error } = useQuery(SUGGEST_TAG, {
+    fetchPolicy: 'no-cache',
+    // variables: queryPayload,
+  });
+
+  return {
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
 // !!!!!!!!!!!!
 // !!!!!!!!!!!!
 // !!!!!!!!!!!!
