@@ -115,7 +115,7 @@ const NavbarSearch = () => {
                 onFocus={() => {
                   setIsFocus(true);
                 }}
-                ref={clickOutsideRef}
+                // ref={clickOutsideRef}
               >
                 <FormControl
                   type="search"
