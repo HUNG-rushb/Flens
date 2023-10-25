@@ -69,6 +69,9 @@ const UploadImage = () => {
   const [shutterSpeed, setShutterSpeed] = useState('');
   const [iso, setIso] = useState('');
   const [copyright, setCopyright] = useState('');
+  const [isPublic, setIsPublic] = useState(true);
+
+  console.log(isPublic);
 
   const [tags, setTags] = useState([]);
   const [tag, setTag] = useState({
@@ -262,6 +265,7 @@ const UploadImage = () => {
       categories,
       copyright,
       createPost,
+      createTag,
       fetchError,
       focalLength,
       iso,
@@ -401,6 +405,10 @@ const UploadImage = () => {
     ]
   );
 
+  const handleChangeMode = () => {
+    setIsPublic((prev) => !prev);
+  };
+
   return useMemo(
     () => (
       <Page title="Flens-Upload">
@@ -446,6 +454,36 @@ const UploadImage = () => {
                             item.setField
                           )
                         )}
+                        <div>
+                          <label>Mode</label>
+                          <div className="post-mode">
+                            <label>
+                              Public
+                              <div id="input-radio">
+                                <input
+                                  type="radio"
+                                  name="mode"
+                                  value="Public"
+                                  checked={isPublic}
+                                  onChange={handleChangeMode}
+                                />
+                              </div>
+                            </label>
+
+                            <label>
+                              Private
+                              <div id="input-radio">
+                                <input
+                                  type="radio"
+                                  name="mode"
+                                  value="Private"
+                                  checked={!isPublic}
+                                  onChange={handleChangeMode}
+                                />
+                              </div>
+                            </label>
+                          </div>
+                        </div>
 
                         {renderInputTags(
                           'Tags',
@@ -501,6 +539,7 @@ const UploadImage = () => {
       handleFileChange,
       handleKeyDown,
       inputData,
+      isPublic,
       previewImage,
       showUpload,
       tag,
