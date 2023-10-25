@@ -8,3 +8,11 @@ export const CREATE_TAG = gql`
     }
   }
 `;
+
+export const SUGGEST_TAG = gql`
+  query SuggestTags {
+    suggestTags {
+      name
+    }
+  }
+`;

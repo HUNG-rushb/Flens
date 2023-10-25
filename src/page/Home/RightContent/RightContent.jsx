@@ -1,4 +1,5 @@
 import { useAuthState } from '../../../context/AuthContext';
+import { useSuggestTag } from '../../../graphql/usePost';
 import {
   useSuggestUserToFollow,
   useUpdateFollowing,
@@ -22,38 +23,17 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 //     name: 'User 1',
 //     type: 'Followed you',
 //   },
-//   {
-//     image:
-//       'https://images.pexels.com/photos/13722001/pexels-photo-13722001.jpeg?auto=compress&cs=tinysrgb&w=600',
-//     name: 'User 2',
-//     type: 'Random',
-//   },
-//   {
-//     image:
-//       'https://images.pexels.com/photos/15379284/pexels-photo-15379284/free-photo-of-tr-ng-meo-con-meo-rau-ria.jpeg?auto=compress&cs=tinysrgb&w=600',
-//     name: 'User 3',
-//     type: 'Random',
-//   },
 // ];
-
-const tags = [
-  'cannon',
-  'model',
-  'sky',
-  'technology',
-  'coffee',
-  'festival',
-  'pet',
-  'color',
-];
 
 const RightContent = () => {
   const navigate = useNavigate();
   const { id: userId } = useAuthState();
+  const { fetchedData: suggestedTag } = useSuggestTag();
+  // console.log({ suggestedTag });
   const { fetchedData: suggestedUserList } = useSuggestUserToFollow({
     suggestUserToFollowData: { userId },
   });
-  console.log({ suggestedUserList });
+  // console.log({ suggestedUserList });
 
   const handleClickContest = useCallback(
     (item) => {
@@ -144,15 +124,16 @@ const RightContent = () => {
             <div className="trending-tags-container">
               <span id="subtitle">Trending tags: </span>
               <div className="tags-list">
-                {tags.map((tag, index) => (
-                  <div
-                    className="tag"
-                    key={index}
-                    onClick={() => handleClickTag(tag)}
-                  >
-                    #{tag}
-                  </div>
-                ))}
+                {suggestedTag &&
+                  suggestedTag.suggestTags.map((tag, index) => (
+                    <div
+                      className="tag"
+                      key={index}
+                      onClick={() => handleClickTag(tag.name)}
+                    >
+                      #{tag.name}
+                    </div>
+                  ))}
               </div>
             </div>
           </div>

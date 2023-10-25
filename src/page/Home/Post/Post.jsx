@@ -21,7 +21,6 @@ const Post = ({
   const navigate = useNavigate();
   const [isDeletedPost, setIsDeletedPost] = useState(false);
   const [showTechnicalInfor, setShowTechnicalInfor] = useState(false);
-  const [privatePost, setPrivatePost] = useState(item?.isPrivatePost);
 
   const handleViewProfile = useCallback(() => {
     navigate(`/profile/${userId}`);
@@ -52,7 +51,7 @@ const Post = ({
   return useMemo(
     () => (
       <>
-        {isDeletedPost || privatePost ? (
+        {isDeletedPost ? (
           <></>
         ) : (
           <div className="posts-wrapper">
@@ -122,7 +121,6 @@ const Post = ({
                   setImageToReport={setImageToReport}
                   toggleShowReport={toggleShowReport}
                   setIsDeletedPost={setIsDeletedPost}
-                  setPrivatePost={setPrivatePost}
                 />
 
                 <PostComment item={item} />
@@ -138,7 +136,7 @@ const Post = ({
       handleViewProfile,
       isDeletedPost,
       item,
-      privatePost,
+
       setImageToReport,
       showImageDetail,
       showReport,

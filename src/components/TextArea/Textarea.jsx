@@ -1,13 +1,13 @@
 import './Textarea.css';
 
-const Textarea = ({ type, placeholder, ...props }) => {
+const TextArea = ({ type, placeholder, ...props }) => {
   return (
     <textarea
       className={`TextArea Textarea--${type}`}
-      placeholder={placeholder} 
+      placeholder={placeholder}
       {...props}
     />
   );
 };
 
-export default Textarea;
+export default TextArea;

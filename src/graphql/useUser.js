@@ -84,7 +84,6 @@ export const useGetUserFollowing = (queryPayload, userId, setFollow) => {
     variables: queryPayload,
     onCompleted: (data) => {
       // console.log(data.userFollowingInfo.userFollowing);
-      console.log(1);
 
       setFollow(
         _.find(data.userFollowingInfo.userFollowing, { id: userId })

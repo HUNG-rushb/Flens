@@ -28,6 +28,9 @@ const NavbarSearch = () => {
   const [searchValue, setSearchValue] = useState('');
   const [searchResult, setSearchResult] = useState({});
 
+  // console.log({ searchResult });
+
+
   const handleChange = useCallback(
     async (event) => {
       event.preventDefault();
