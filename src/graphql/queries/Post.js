@@ -54,34 +54,47 @@ export const CREATE_POST = gql`
 `;
 
 export const GET_ALL_USER_POST = gql`
-  query UserInfo($getAllUserPostId: UserInfoInput!) {
-    userInfo(data: $getAllUserPostId) {
-      posts {
-        id
-        points
-        title
-        caption
-        isVisible
-        createdAt
+  query GetAllUserPosts($userId: String, $after: String) {
+    getAllUserPosts(userId: $userId, after: $after) {
+      edges {
+        cursor
+        node {
+          id
+          points
+          title
+          caption
+          isVisible
+          createdAt
+          userLikedPost
+          tag
 
-        userId {
-          profileImageURL
-          name
-        }
+          userId {
+            profileImageURL
+            name
+            id
+          }
 
-        image {
-          url
-          imageInfoId {
-            ISO
-            aperture
-            camera
-            copyRight
-            focalLength
-            lens
-            shutterSpeed
-            takenWhen
+          image {
+            url
+            imageInfoId {
+              ISO
+              aperture
+              camera
+              copyRight
+              focalLength
+              lens
+              shutterSpeed
+              takenWhen
+            }
           }
         }
+      }
+
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+        startCursor
+        endCursor
       }
     }
   }

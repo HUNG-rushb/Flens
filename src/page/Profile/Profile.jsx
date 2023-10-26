@@ -1,7 +1,7 @@
 import CoverImage from '../../assets/images/Profile/profileCoverImage.jpg';
 import Page from '../../components/utils/Page';
 import Spinner from '../../components/utils/Spinner';
-import { useGetNewFeed } from '../../graphql/usePost';
+import { useGetNewFeed, useGetAllUserPost } from '../../graphql/usePost';
 import { useUserProfileImage } from '../../graphql/useUser';
 import TabMenu from './Tabs/Tabs';
 import './styles.scss';
@@ -10,7 +10,6 @@ import { useParams } from 'react-router-dom';
 
 const Profile = () => {
   const { userId } = useParams();
-  console.log(userId);
 
   const {
     isFetching: isFetchingUserProfileData,
@@ -21,7 +20,8 @@ const Profile = () => {
   });
 
   const { posts, hasNextPage, isFetching, fetchError, loadNew } =
-    useGetNewFeed(userId);
+    useGetAllUserPost(userId);
+  console.log({ posts });
 
   return useMemo(
     () => (

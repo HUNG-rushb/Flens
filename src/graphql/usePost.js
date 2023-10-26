@@ -84,16 +84,30 @@ export const useGetNewFeed = (userId) => {
   };
 };
 
-export const useGetAllUserPost = (queryPayload, cache) => {
-  const { data, loading, error } = useQuery(GET_ALL_USER_POST, {
-    fetchPolicy: cache ? undefined : 'no-cache',
-    variables: queryPayload,
+export const useGetAllUserPost = (userId) => {
+  const { data, loading, error, fetchMore } = useQuery(GET_ALL_USER_POST, {
+    fetchPolicy: 'network-only',
+    variables: {
+      userId,
+    },
   });
 
+  const loadNew = useCallback(async () => {
+    const fetchMoreData = await fetchMore({
+      variables: {
+        after: data.getAllUserPosts.pageInfo.endCursor,
+      },
+    });
+    // console.log({ fetchMoreData });
+  }, [data]);
+
   return {
+    posts: data?.getAllUserPosts?.edges ?? [],
+    hasNextPage: data?.getAllUserPosts?.pageInfo?.hasNextPage ?? true,
     isFetching: loading,
     fetchedData: data,
     fetchError: error,
+    loadNew,
   };
 };
 

@@ -15,7 +15,7 @@ import { ThreeDots } from 'react-bootstrap-icons';
 const TabMenu = ({ userId, userProfileData, posts, hasNextPage, loadNew }) => {
   const { id: currentUserId } = useAuthState();
   const [isFollow, setIsFollow] = useState(false);
-  console.log({ isFollow });
+  // console.log({ isFollow });
 
   const { fetchedData: currentUserFollowings } = useGetUserFollowing(
     {
@@ -94,9 +94,11 @@ const TabMenu = ({ userId, userProfileData, posts, hasNextPage, loadNew }) => {
                 userId={userId}
               />
             </Tab>
+
             <Tab eventKey="Portfolio" title="Portfolio">
               <Portfoio userProfileData={userProfileData} posts={posts} />
             </Tab>
+
             <Tab eventKey="Biography" title="Biography">
               <Biography userId={userId} posts={posts} />
             </Tab>
