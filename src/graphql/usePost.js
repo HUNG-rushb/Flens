@@ -8,6 +8,7 @@ import {
   INTERACT_POST,
   CHANGE_VISIBLE_POST,
   UPDATE_POINT_POSTING,
+  GET_ALL_USER_POST_INFO,
 } from './queries/Post.js';
 import { CREATE_TAG, SUGGEST_TAG } from './queries/Tag.js';
 import { useQuery, useMutation } from '@apollo/client';
@@ -93,13 +94,15 @@ export const useGetAllUserPost = (userId) => {
   });
 
   const loadNew = useCallback(async () => {
-    const fetchMoreData = await fetchMore({
+    const a = await fetchMore({
       variables: {
         after: data.getAllUserPosts.pageInfo.endCursor,
       },
     });
-    // console.log({ fetchMoreData });
+    console.log({ a });
   }, [data]);
+
+  console.log({ data }, 1426487346);
 
   return {
     posts: data?.getAllUserPosts?.edges ?? [],
@@ -108,6 +111,19 @@ export const useGetAllUserPost = (userId) => {
     fetchedData: data,
     fetchError: error,
     loadNew,
+  };
+};
+
+export const useGetAllUserPostInfo = (queryPayload) => {
+  const { data, loading, error } = useQuery(GET_ALL_USER_POST_INFO, {
+    fetchPolicy: 'no-cache',
+    variables: queryPayload,
+  });
+
+  return {
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
   };
 };
 

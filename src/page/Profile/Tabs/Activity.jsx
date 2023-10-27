@@ -1,19 +1,14 @@
 import ActivityPosts from './Activity/ActivityPosts';
 import { useMemo } from 'react';
 
-const Activity = ({ posts, hasNextPage, loadNew, userId }) => {
+const Activity = ({}) => {
   return useMemo(
     () => (
       <div className="activity-tab">
-        <ActivityPosts
-          posts={posts}
-          hasNextPage={hasNextPage}
-          loadNew={loadNew}
-          userId={userId}
-        />
+        <ActivityPosts />
       </div>
     ),
-    [hasNextPage, loadNew, posts, userId]
+    []
   );
 };
 

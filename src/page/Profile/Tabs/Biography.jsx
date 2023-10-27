@@ -120,7 +120,9 @@ const Biography = ({ userId, posts }) => {
             setCheckType={setCheckType}
           />
         </div>
+
         <PersonalInfo userId={userId} posts={posts} />
+
         <Modal
           show={showModal}
           modalTitle={modalTitle}

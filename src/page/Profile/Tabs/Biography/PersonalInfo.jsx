@@ -1,8 +1,8 @@
 import Button from '../../../../components/Button/Button';
+import './styles.scss';
 import { useEffect, useState } from 'react';
 import { CameraFill } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
-import './styles.scss';
 
 const PersonalInfo = ({ posts }) => {
   const navigate = useNavigate();
@@ -11,17 +11,9 @@ const PersonalInfo = ({ posts }) => {
     navigate('/editProfile');
   };
 
-  const [userLevel, setUserLevel] = useState(0);
-
-  useEffect(() => {
-    let level = 0;
-    posts.map((item) => (level += item.points));
-    setUserLevel(level);
-  }, [posts]);
-
   return (
     <div className="bio-right-container">
-      <div className="social-infor">
+      {/* <div className="social-infor">
         <div>
           2<span>Following</span>
         </div>
@@ -54,7 +46,7 @@ const PersonalInfo = ({ posts }) => {
       </div>
       <div className="edit-button">
         <Button text='Edit' type="default2" onClick={handleEditClick} />
-      </div>
+      </div> */}
     </div>
   );
 };

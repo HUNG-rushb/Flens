@@ -83,7 +83,7 @@ const Home = () => {
                       <Post
                         key={'post_' + idx}
                         item={item.node}
-                        userId={userId}
+                        userId={item.node.userId.id}
                         showReport={showReport}
                         showImageDetail={showImageDetail}
                         toggleShowReport={toggleShowReport}

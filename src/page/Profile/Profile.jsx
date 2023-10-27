@@ -1,7 +1,7 @@
 import CoverImage from '../../assets/images/Profile/profileCoverImage.jpg';
 import Page from '../../components/utils/Page';
 import Spinner from '../../components/utils/Spinner';
-import { useGetNewFeed, useGetAllUserPost } from '../../graphql/usePost';
+import { useGetAllUserPostInfo } from '../../graphql/usePost';
 import { useUserProfileImage } from '../../graphql/useUser';
 import TabMenu from './Tabs/Tabs';
 import './styles.scss';
@@ -19,9 +19,10 @@ const Profile = () => {
     userInfoData: { userId },
   });
 
-  const { posts, hasNextPage, isFetching, fetchError, loadNew } =
-    useGetAllUserPost(userId);
-  console.log({ posts });
+  const { isFetching, fetchedData, fetchError } = useGetAllUserPostInfo({
+    getAllUserPostId: { userId },
+  });
+  console.log({ fetchedData });
 
   return useMemo(
     () => (
@@ -55,26 +56,18 @@ const Profile = () => {
                   </p>
                 </div>
               </div>
+
               <TabMenu
+                posts={fetchedData}
                 userId={userId}
                 userProfileData={fetchingUserProfileData}
-                posts={posts}
-                hasNextPage={hasNextPage}
-                loadNew={loadNew}
               />
             </div>
           )}
         </Suspense>
       </Page>
     ),
-    [
-      fetchingUserProfileData,
-      hasNextPage,
-      isFetchingUserProfileData,
-      loadNew,
-      posts,
-      userId,
-    ]
+    [fetchingUserProfileData, isFetchingUserProfileData, userId, fetchedData]
   );
 };
 
