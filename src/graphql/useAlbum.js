@@ -1,7 +1,7 @@
 import { CREATE_ALBUM, GET_ALL_USER_ALBUM } from './queries/Album.js';
 import { useQuery, useMutation } from '@apollo/client';
 
-export const useGetAllUserAlbum = (queryPayload, setAlbum) => {
+export const useGetAllUserAlbum = (queryPayload, setAlbum = () => {}) => {
   const { data, loading, error, refetch } = useQuery(GET_ALL_USER_ALBUM, {
     fetchPolicy: 'no-cache',
     variables: queryPayload,

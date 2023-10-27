@@ -1,25 +1,5 @@
 import { gql } from '@apollo/client';
 
-// export const GET_POST_INFORMATION = gql`
-//   query getPostInformation {
-//     post {
-//       postId
-//       username
-//       time
-//       postInfor {
-//         title
-//         content
-//         camera
-//         focalLength
-//         shutterSpeed
-//         iso
-//         date
-//         hashtag
-//       }
-//     }
-//   }
-// `;
-
 export const CREATE_POST = gql`
   mutation CreatePost($createPostData: CreatePostInput!) {
     createPost(data: $createPostData) {
@@ -54,34 +34,47 @@ export const CREATE_POST = gql`
 `;
 
 export const GET_ALL_USER_POST = gql`
-  query UserInfo($getAllUserPostId: UserInfoInput!) {
-    userInfo(data: $getAllUserPostId) {
-      posts {
-        id
-        points
-        title
-        caption
-        isVisible
-        createdAt
+  query GetAllUserPosts($userId: String, $after: String) {
+    getAllUserPosts(userId: $userId, after: $after) {
+      edges {
+        cursor
+        node {
+          id
+          points
+          title
+          caption
+          isVisible
+          createdAt
+          userLikedPost
+          tag
 
-        userId {
-          profileImageURL
-          name
-        }
+          userId {
+            profileImageURL
+            name
+            id
+          }
 
-        image {
-          url
-          imageInfoId {
-            ISO
-            aperture
-            camera
-            copyRight
-            focalLength
-            lens
-            shutterSpeed
-            takenWhen
+          image {
+            url
+            imageInfoId {
+              ISO
+              aperture
+              camera
+              copyRight
+              focalLength
+              lens
+              shutterSpeed
+              takenWhen
+            }
           }
         }
+      }
+
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+        startCursor
+        endCursor
       }
     }
   }
@@ -129,6 +122,38 @@ export const GET_NEW_FEED = gql`
         hasNextPage
         startCursor
         endCursor
+      }
+    }
+  }
+`;
+
+export const GET_ALL_USER_POST_INFO = gql`
+  query UserInfo($getAllUserPostId: UserInfoInput!) {
+    userInfo(data: $getAllUserPostId) {
+      posts {
+        id
+        points
+        title
+        caption
+        isVisible
+        createdAt
+        userId {
+          profileImageURL
+          name
+        }
+        image {
+          url
+          imageInfoId {
+            ISO
+            aperture
+            camera
+            copyRight
+            focalLength
+            lens
+            shutterSpeed
+            takenWhen
+          }
+        }
       }
     }
   }

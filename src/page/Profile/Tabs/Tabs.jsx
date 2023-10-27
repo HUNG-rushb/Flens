@@ -12,10 +12,10 @@ import { useCallback, useMemo, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import { ThreeDots } from 'react-bootstrap-icons';
 
-const TabMenu = ({ userId, userProfileData, posts, hasNextPage, loadNew }) => {
+const TabMenu = ({ userId, userProfileData, posts }) => {
   const { id: currentUserId } = useAuthState();
   const [isFollow, setIsFollow] = useState(false);
-  console.log({ isFollow });
+  // console.log({ isFollow });
 
   const { fetchedData: currentUserFollowings } = useGetUserFollowing(
     {
@@ -27,10 +27,6 @@ const TabMenu = ({ userId, userProfileData, posts, hasNextPage, loadNew }) => {
 
   const { updateFollowing } = useUpdateFollowing();
   const { unfollowUser } = useUnfollowUser();
-
-  // console.log({ userId });
-  // console.log({ currentUserId });
-  // console.log({ userProfileData });
 
   const handleClickFollow = useCallback(
     async (event) => {
@@ -87,16 +83,13 @@ const TabMenu = ({ userId, userProfileData, posts, hasNextPage, loadNew }) => {
         <div className="profile-tabs">
           <Tabs defaultActiveKey="Biography">
             <Tab eventKey="Activity" title="Activity">
-              <Activity
-                posts={posts}
-                hasNextPage={hasNextPage}
-                loadNew={loadNew}
-                userId={userId}
-              />
+              <Activity />
             </Tab>
+
             <Tab eventKey="Portfolio" title="Portfolio">
               <Portfoio userProfileData={userProfileData} posts={posts} />
             </Tab>
+
             <Tab eventKey="Biography" title="Biography">
               <Biography userId={userId} posts={posts} />
             </Tab>
@@ -125,10 +118,6 @@ const TabMenu = ({ userId, userProfileData, posts, hasNextPage, loadNew }) => {
       currentUserId,
       handleClickFollow,
       handleClickMessageIntab,
-      hasNextPage,
-      isFollow,
-      loadNew,
-      posts,
       userProfileData,
     ]
   );

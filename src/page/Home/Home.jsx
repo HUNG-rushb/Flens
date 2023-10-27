@@ -26,7 +26,7 @@ const Home = () => {
 
   const { posts, hasNextPage, isFetching, fetchError, loadNew } =
     useGetNewFeed(userId);
-  console.log({ posts });
+  // console.log({ posts });
 
   const navigate = useNavigate();
 
@@ -83,7 +83,7 @@ const Home = () => {
                       <Post
                         key={'post_' + idx}
                         item={item.node}
-                        userId={userId}
+                        userId={item.node.userId.id}
                         showReport={showReport}
                         showImageDetail={showImageDetail}
                         toggleShowReport={toggleShowReport}

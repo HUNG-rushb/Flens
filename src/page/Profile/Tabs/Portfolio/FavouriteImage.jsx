@@ -9,9 +9,14 @@ const FavouriteImage = ({ posts, setComponentToRender }) => {
           See all
         </span>
       </div>
+
       <div className="favoutites-images">
-        {posts?.slice(0, 2).map((item) => (
-          <img key={'key' + item?.id} src={item?.node?.image.url} alt="" />
+        {posts?.slice(0, 2).map((item, idx) => (
+          <img
+            key={'key' + item?.id + idx}
+            src={item?.node?.image.url}
+            alt=""
+          />
         ))}
       </div>
     </div>

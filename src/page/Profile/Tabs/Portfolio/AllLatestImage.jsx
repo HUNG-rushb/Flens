@@ -8,9 +8,11 @@ const AllLatestImage = ({ posts, setComponentToRender }) => {
           Back
         </button>
       </div>
+
       <div className="all-latest-image-header">
         <span id="all-latest-image-title">Latest upload image</span>
       </div>
+
       <div className="all-latest-images">
         {posts.map((post) => (
           <div className="all-latest-image" key={post.id}>
