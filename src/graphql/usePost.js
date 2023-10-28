@@ -8,6 +8,7 @@ import {
   INTERACT_POST,
   CHANGE_VISIBLE_POST,
   UPDATE_POINT_POSTING,
+  GET_ALL_USER_POST_INFO,
 } from './queries/Post.js';
 import { CREATE_TAG, SUGGEST_TAG } from './queries/Tag.js';
 import { useQuery, useMutation } from '@apollo/client';
@@ -84,9 +85,38 @@ export const useGetNewFeed = (userId) => {
   };
 };
 
-export const useGetAllUserPost = (queryPayload, cache) => {
-  const { data, loading, error } = useQuery(GET_ALL_USER_POST, {
-    fetchPolicy: cache ? undefined : 'no-cache',
+export const useGetAllUserPost = (userId) => {
+  const { data, loading, error, fetchMore } = useQuery(GET_ALL_USER_POST, {
+    fetchPolicy: 'network-only',
+    variables: {
+      userId,
+    },
+  });
+
+  const loadNew = useCallback(async () => {
+    const a = await fetchMore({
+      variables: {
+        after: data.getAllUserPosts.pageInfo.endCursor,
+      },
+    });
+    console.log({ a });
+  }, [data]);
+
+  console.log({ data }, 1426487346);
+
+  return {
+    posts: data?.getAllUserPosts?.edges ?? [],
+    hasNextPage: data?.getAllUserPosts?.pageInfo?.hasNextPage ?? true,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+    loadNew,
+  };
+};
+
+export const useGetAllUserPostInfo = (queryPayload) => {
+  const { data, loading, error } = useQuery(GET_ALL_USER_POST_INFO, {
+    fetchPolicy: 'no-cache',
     variables: queryPayload,
   });
 

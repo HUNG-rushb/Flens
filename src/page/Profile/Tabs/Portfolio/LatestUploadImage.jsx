@@ -11,13 +11,15 @@ const LatestUploadImage = ({ posts, setComponentToRender }) => {
           Latest upload
           {posts ? ` (${posts?.length})` : ''}
         </span>
+
         <span id="see-all-button" onClick={handleClickSeeAll}>
           See all
         </span>
       </div>
+
       <div className="latest-upload-images">
-        {posts?.slice(0, 3).map((item) => (
-          <img key={'key'+item?.id} src={item?.node.image.url} alt="" />
+        {posts?.slice(0, 3).map((item, idx) => (
+          <img key={'key' + item?.id + idx} src={item?.node.image.url} alt="" />
         ))}
       </div>
     </div>
