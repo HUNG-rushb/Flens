@@ -1,7 +1,7 @@
 import ActivityPosts from './Activity/ActivityPosts';
 import { useMemo } from 'react';
 
-const Activity = ({}) => {
+const Activity = () => {
   return useMemo(
     () => (
       <div className="activity-tab">

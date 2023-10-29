@@ -1,4 +1,5 @@
 import Modal from '../../../../components/Modal/Modal';
+import { useAuthState } from '../../../../context/AuthContext';
 import { useGetAllUserPost } from '../../../../graphql/usePost';
 import useModal from '../../../../hooks/useModal';
 import ImageDetail from '../../../Home/Post/ImageDetail';
@@ -11,13 +12,15 @@ import { useParams } from 'react-router';
 
 const ActivityPosts = () => {
   const { userId } = useParams();
+  const { id: currentUserId } = useAuthState();
+
   const [imageToReport, setImageToReport] = useState('');
   const [itemShowDetail, setItemShowDetail] = useState(null);
   const { isShowing: showReport, toggle: toggleShowReport } = useModal();
   const { isShowing: showImageDetail, toggle: toggleImageDetail } = useModal();
 
   const { posts, hasNextPage, isFetching, fetchError, loadNew } =
-    useGetAllUserPost(userId);
+    useGetAllUserPost(userId, currentUserId);
   console.log({ posts });
 
   return (
