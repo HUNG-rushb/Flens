@@ -3,11 +3,9 @@ import ModalCustom from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
 import useModal from '../../hooks/useModal';
 import StoryPage from '../Stories/StoryPage';
-import './styles.scss';
-import HotTab from './ExploreTab/HotTab.jsx';
 import Inspiration from './ExploreTab/Inspiration';
-import NewestTab from './ExploreTab/NewestTab.jsx';
 import SimilarImageDetail from './ExploreTab/SimilarImageDetail.jsx';
+import './styles.scss';
 import React, {
   Suspense,
   useCallback,
@@ -27,7 +25,7 @@ const options = [
 const Explore = () => {
   const [activeTab, setActiveTab] = useState(0);
   const location = useLocation();
-  const tabs = useMemo(() => ['inspiration', 'hot', 'newest', 'stories'], []);
+  const tabs = useMemo(() => ['inspiration', 'stories'], []);
   const [selectedOption, setSelectedOption] = useState(options[0].value);
   const { isShowing: showModal, toggle: toggleModal } = useModal();
   const navigate = useNavigate();
@@ -59,7 +57,7 @@ const Explore = () => {
   useEffect(() => {
     options[0].isChecked = true;
     if (location.pathname === '/explore/stories') {
-      setActiveTab(3);
+      setActiveTab(1);
     }
   }, [location]);
 
@@ -110,9 +108,7 @@ const Explore = () => {
                   setImageToShow={setImageToShow}
                 />
               )}
-              {activeTab === 1 && <HotTab />}
-              {activeTab === 2 && <NewestTab />}
-              {activeTab === 3 && <StoryPage />}
+              {activeTab === 1 && <StoryPage />}
             </div>
           </div>
           <ModalCustom
@@ -120,7 +116,7 @@ const Explore = () => {
             handleClose={toggleModal}
             handleSavechanges={toggleModal}
             modalContent={modalContent()}
-            size={'xl'}
+            size="xl"
             hideButton={true}
           />
         </Suspense>

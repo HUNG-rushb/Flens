@@ -5,7 +5,13 @@ import PostComment from './PostComment.jsx';
 import PostInteraction from './PostInteraction.jsx';
 import PostTechnical from './PostTechnical.jsx';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons';
+import {
+  EyeFill,
+  EyeSlashFill,
+  GlobeAsiaAustralia,
+  PersonFill,
+  LockFill,
+} from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
 
 const Post = ({
@@ -21,6 +27,7 @@ const Post = ({
   const navigate = useNavigate();
   const [isDeletedPost, setIsDeletedPost] = useState(false);
   const [showTechnicalInfor, setShowTechnicalInfor] = useState(false);
+  const [postMode, setPostMode] = useState('public');
 
   const handleViewProfile = useCallback(() => {
     navigate(`/profile/${userId}`);
@@ -41,6 +48,14 @@ const Post = ({
     },
     [navigate]
   );
+
+  const renderPostModeIcon = useCallback(() => {
+    if (postMode === 'public')
+      return <GlobeAsiaAustralia size={15} color="#f08080" />;
+    else if (postMode === 'private')
+      return <LockFill size={16} color="#f08080" />;
+    else return <PersonFill size={18} color="#f08080" />;
+  }, [postMode]);
 
   useEffect(() => {
     if (isDeletedPost) {
@@ -65,7 +80,10 @@ const Post = ({
               <div>
                 <span id="username">{item.userId.name}</span>
                 uploaded a photo
-                <div id="date">{unixToDateTime(item.createdAt)}</div>
+                <div id="date">
+                  {unixToDateTime(item.createdAt)}
+                  {renderPostModeIcon()}
+                </div>
               </div>
             </div>
 
@@ -121,6 +139,8 @@ const Post = ({
                   setImageToReport={setImageToReport}
                   toggleShowReport={toggleShowReport}
                   setIsDeletedPost={setIsDeletedPost}
+                  setPostMode={setPostMode}
+                  postMode={postMode}
                 />
 
                 <PostComment item={item} />
@@ -136,7 +156,7 @@ const Post = ({
       handleViewProfile,
       isDeletedPost,
       item,
-
+      renderPostModeIcon,
       setImageToReport,
       showImageDetail,
       showReport,

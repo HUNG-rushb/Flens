@@ -50,3 +50,32 @@ li span {
   width: 150%;
   margin-top: 10px;
 }
+
+.change-post-mode-wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
+#change-mode-label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#mode-radio {
+  width: 100%;
+  border-radius: 50%;
+}
+
+#mode-radio input {
+  height: 17px;
+  border-radius: 50%;
+  background-color: transparent;
+  box-shadow: none;
+  color: #f08080;
+}
+
+#mode-radio input:checked {
+  color: #f08080;
+}
