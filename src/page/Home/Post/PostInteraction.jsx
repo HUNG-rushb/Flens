@@ -1,3 +1,4 @@
+import Modal from '../../../components/Modal/Modal';
 import { useAuthState } from '../../../context/AuthContext';
 import { useDeletePost } from '../../../graphql/usePost';
 import {
@@ -5,6 +6,7 @@ import {
   useChangeVisiblePost,
 } from '../../../graphql/usePost';
 import { useUpdatePointPostingLazy } from '../../../graphql/usePost';
+import useModal from '../../../hooks/useModal';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Flag,
@@ -13,7 +15,7 @@ import {
   Reply,
   ThreeDots,
   HeartFill,
-  FileEarmarkLock,
+  GearFill,
 } from 'react-bootstrap-icons';
 
 const PostInteraction = ({
@@ -22,6 +24,8 @@ const PostInteraction = ({
   showReport,
   toggleShowReport,
   setIsDeletedPost,
+  setPostMode,
+  postMode,
 }) => {
   const { id: userId } = useAuthState();
   const clickOutsideRef = useRef(null);
@@ -36,6 +40,29 @@ const PostInteraction = ({
   const { interactPost } = useInteractPost();
   const { updateLevel } = useUpdatePointPostingLazy();
   const { updatePost } = useChangeVisiblePost(setIsPublic);
+  const { isShowing: showModal, toggle: toggleShow } = useModal();
+
+  const modeValue = useMemo(() => ['public', 'private', 'follower-only'], []);
+  const modalContent = useCallback(() => {
+    return (
+      <div className="change-post-mode-wrapper">
+        {modeValue.map((item, index) => (
+          <label id="change-mode-label" key={index}>
+            {item}
+            <div id="mode-radio">
+              <input
+                type="radio"
+                name="post-mode"
+                value={item}
+                checked={postMode === item}
+                onChange={() => setPostMode(item)}
+              />
+            </div>
+          </label>
+        ))}
+      </div>
+    );
+  }, [modeValue, postMode, setPostMode]);
 
   const handleLikePost = useCallback(
     async (event) => {
@@ -95,23 +122,25 @@ const PostInteraction = ({
         throw e;
       }
     },
-    [deletePost, setIsDeletedPost]
+    [deletePost, item?.id, setIsDeletedPost]
   );
 
-  const handleChangePrivatePost = useCallback(
+  const handleChangeMode = useCallback(
     async (event) => {
       event.preventDefault();
 
-      await updatePost({
-        variables: {
-          changeVisiblePostData: {
-            postId: item?.id,
-            isVisible: !isPublic,
-          },
-        },
-      });
+      // await updatePost({
+      //   variables: {
+      //     changeVisiblePostData: {
+      //       postId: item?.id,
+      //       isVisible: !isPublic,
+      //     },
+      //   },
+      // });
+      console.log(postMode);
+      toggleShow();
     },
-    [isPublic]
+    [postMode, toggleShow]
   );
 
   useEffect(() => {
@@ -181,9 +210,9 @@ const PostInteraction = ({
                 )}
 
                 {item?.userId.id === userId && (
-                  <li onClick={handleChangePrivatePost}>
-                    <FileEarmarkLock color="black" />
-                    Make this photo {isPublic ? 'private' : 'public'}
+                  <li onClick={toggleShow}>
+                    <GearFill color="black" />
+                    Setting mode
                   </li>
                 )}
               </ul>
@@ -191,6 +220,13 @@ const PostInteraction = ({
           </div>
         </div>
         <hr style={{ border: '1px solid #F08080' }} />
+        <Modal
+          show={showModal}
+          modalTitle="Change your post mode"
+          modalContent={modalContent()}
+          handleClose={toggleShow}
+          handleSavechanges={handleChangeMode}
+        />
       </div>
     ),
     [
@@ -203,7 +239,10 @@ const PostInteraction = ({
       item?.userId.id,
       userId,
       handleDeletePost,
-      handleChangePrivatePost,
+      toggleShow,
+      showModal,
+      modalContent,
+      handleChangeMode,
     ]
   );
 };
