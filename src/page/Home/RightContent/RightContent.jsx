@@ -144,6 +144,7 @@ const RightContent = () => {
       handleClickContest,
       handleClickTag,
       navigate,
+      suggestedTag,
       suggestedUserList?.suggestUserToFollow,
     ]
   );

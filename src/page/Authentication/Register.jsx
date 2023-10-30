@@ -6,6 +6,7 @@ import './Login.css';
 import hash from 'hash-it';
 import React, { Suspense, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { checkValidate } from '../../utils/checkValidate';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -17,32 +18,9 @@ const Register = () => {
   const { createUser, isFetching, fetchedData, fetchError } =
     useCreateUserLazy();
 
-  const checkValidate = () => {
-    const validationErrors = {};
-
-    if (name === '') {
-      validationErrors.name = 'Name is required.';
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (email === '') {
-      validationErrors.email = 'Email is required.';
-    }
-    if (!emailRegex.test(email)) {
-      validationErrors.email = 'Invalid email address.';
-    }
-    if (password === '') {
-      validationErrors.password = 'Password is required.';
-    }
-    if (password.length < 6) {
-      validationErrors.password = 'Password must be at least 6 characters.';
-    }
-    return validationErrors;
-  };
-
   const handleClick = async (e) => {
     e.preventDefault();
-    const validationErrors = checkValidate();
+    const validationErrors = checkValidate(name, email, password);
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);

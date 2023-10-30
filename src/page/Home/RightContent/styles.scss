@@ -26,9 +26,11 @@
     position: relative;
     overflow: hidden;
     z-index: 1;
+
     .right-content {
       height: 100%;
       overflow-y: scroll;
+      
       .special-contest {
         max-width: 240px;
 
@@ -53,10 +55,10 @@
 
               #special-contest-image {
                 max-width: 240px;
-                height: 100%;
                 object-fit: cover;
                 opacity: 0.8;
                 cursor: pointer;
+                width: 100%;
               }
               #special-contest-image:hover {
                 opacity: 1;
