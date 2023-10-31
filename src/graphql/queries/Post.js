@@ -229,7 +229,7 @@ export const CHANGE_VISIBLE_POST = gql`
     updatePost(data: $changeVisiblePostData) {
       id
       title
-      isVisible
+      postViewStatus
     }
   }
 `;

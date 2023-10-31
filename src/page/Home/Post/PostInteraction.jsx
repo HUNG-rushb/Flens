@@ -24,13 +24,14 @@ const PostInteraction = ({
   showReport,
   toggleShowReport,
   setIsDeletedPost,
-  setPostMode,
-  postMode,
+  setPostVisibility,
+  postVisibility,
 }) => {
   const { id: userId } = useAuthState();
   const clickOutsideRef = useRef(null);
 
-  const [isPublic, setIsPublic] = useState(item?.isVisible);
+  const [currentPostVisibility, setCurrentPostVisibility] =
+    useState(postVisibility);
   const [isLiked, setIsLiked] = useState(item?.userLikedPost.includes(userId));
   const [countNumberOfLikes, setCountNumberOfLikes] = useState(item?.points);
 
@@ -39,30 +40,39 @@ const PostInteraction = ({
   const { deletePost } = useDeletePost();
   const { interactPost } = useInteractPost();
   const { updateLevel } = useUpdatePointPostingLazy();
-  const { updatePost } = useChangeVisiblePost(setIsPublic);
+  const { updatePost } = useChangeVisiblePost(
+    setCurrentPostVisibility,
+    setPostVisibility
+  );
   const { isShowing: showModal, toggle: toggleShow } = useModal();
 
-  const modeValue = useMemo(() => ['public', 'private', 'follower-only'], []);
+  const visibilityValue = useMemo(
+    () => ['PUBLIC', 'PRIVATE', 'ONLY_FOLLOWERS'],
+    []
+  );
+
   const modalContent = useCallback(() => {
     return (
       <div className="change-post-mode-wrapper">
-        {modeValue.map((item, index) => (
-          <label id="change-mode-label" key={index}>
+        {visibilityValue.map((item, index) => (
+          <label id="change-mode-label" key={item + index}>
             {item}
             <div id="mode-radio">
               <input
                 type="radio"
                 name="post-mode"
                 value={item}
-                checked={postMode === item}
-                onChange={() => setPostMode(item)}
+                checked={currentPostVisibility === item}
+                onChange={() => {
+                  setCurrentPostVisibility(item);
+                }}
               />
             </div>
           </label>
         ))}
       </div>
     );
-  }, [modeValue, postMode, setPostMode]);
+  }, [visibilityValue, currentPostVisibility, setCurrentPostVisibility]);
 
   const handleLikePost = useCallback(
     async (event) => {
@@ -129,18 +139,24 @@ const PostInteraction = ({
     async (event) => {
       event.preventDefault();
 
-      // await updatePost({
-      //   variables: {
-      //     changeVisiblePostData: {
-      //       postId: item?.id,
-      //       isVisible: !isPublic,
-      //     },
-      //   },
-      // });
-      console.log(postMode);
+      try {
+        await updatePost({
+          variables: {
+            changeVisiblePostData: {
+              postId: item?.id,
+              postViewStatus: currentPostVisibility,
+            },
+          },
+        });
+
+        setPostVisibility(currentPostVisibility);
+      } catch (e) {
+        throw e;
+      }
+
       toggleShow();
     },
-    [postMode, toggleShow]
+    [postVisibility, currentPostVisibility, toggleShow]
   );
 
   useEffect(() => {
@@ -210,7 +226,12 @@ const PostInteraction = ({
                 )}
 
                 {item?.userId.id === userId && (
-                  <li onClick={toggleShow}>
+                  <li
+                    onClick={() => {
+                      setShowListActions(true);
+                      toggleShow();
+                    }}
+                  >
                     <GearFill color="black" />
                     Setting mode
                   </li>
@@ -219,12 +240,17 @@ const PostInteraction = ({
             </div>
           </div>
         </div>
+
         <hr style={{ border: '1px solid #F08080' }} />
+
         <Modal
           show={showModal}
-          modalTitle="Change your post mode"
+          modalTitle="Change your post visibility"
           modalContent={modalContent()}
-          handleClose={toggleShow}
+          handleClose={() => {
+            setCurrentPostVisibility(postVisibility);
+            toggleShow();
+          }}
           handleSavechanges={handleChangeMode}
         />
       </div>

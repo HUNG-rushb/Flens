@@ -178,13 +178,17 @@ export const useDeletePost = () => {
   };
 };
 
-export const useChangeVisiblePost = (setPublic) => {
+export const useChangeVisiblePost = (
+  setCurrentPostVisibility,
+  setPostVisibilityInPost
+) => {
   const [updatePost, { data, loading, error }] = useMutation(
     CHANGE_VISIBLE_POST,
     {
       fetchPolicy: 'no-cache',
       onCompleted: (data) => {
-        setPublic(data.updatePost.isVisible);
+        setCurrentPostVisibility(data.updatePost.postViewStatus);
+        setPostVisibilityInPost(data.updatePost.postViewStatus);
       },
     }
   );

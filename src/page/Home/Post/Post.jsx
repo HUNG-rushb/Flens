@@ -24,10 +24,11 @@ const Post = ({
   setImageToReport,
   setItemShowDetail,
 }) => {
+  console.log({ item });
   const navigate = useNavigate();
   const [isDeletedPost, setIsDeletedPost] = useState(false);
   const [showTechnicalInfor, setShowTechnicalInfor] = useState(false);
-  const [postMode, setPostMode] = useState('public');
+  const [postVisibility, setPostVisibility] = useState(item.postViewStatus);
 
   const handleViewProfile = useCallback(() => {
     navigate(`/profile/${userId}`);
@@ -50,12 +51,12 @@ const Post = ({
   );
 
   const renderPostModeIcon = useCallback(() => {
-    if (postMode === 'public')
+    if (postVisibility === 'PUBLIC')
       return <GlobeAsiaAustralia size={15} color="#f08080" />;
-    else if (postMode === 'private')
+    else if (postVisibility === 'PRIVATE')
       return <LockFill size={16} color="#f08080" />;
     else return <PersonFill size={18} color="#f08080" />;
-  }, [postMode]);
+  }, [postVisibility]);
 
   useEffect(() => {
     if (isDeletedPost) {
@@ -140,8 +141,8 @@ const Post = ({
                   setImageToReport={setImageToReport}
                   toggleShowReport={toggleShowReport}
                   setIsDeletedPost={setIsDeletedPost}
-                  setPostMode={setPostMode}
-                  postMode={postMode}
+                  setPostVisibility={setPostVisibility}
+                  postVisibility={postVisibility}
                 />
 
                 <PostComment item={item} />
