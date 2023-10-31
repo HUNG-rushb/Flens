@@ -32,7 +32,7 @@ const TabMenu = ({ userId, userProfileData, posts }) => {
     async (event) => {
       event.preventDefault();
 
-      console.log({ isFollow }, ' here');
+      // console.log({ isFollow }, ' here');
 
       if (isFollow) {
         console.log('unfollow');

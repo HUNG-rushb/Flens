@@ -16,15 +16,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-// const followSuggestionList = [
-//   {
-//     image:
-//       'https://images.pexels.com/photos/16024276/pexels-photo-16024276/free-photo-of-dan-ba-hoa-chan-dung-toc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-//     name: 'User 1',
-//     type: 'Followed you',
-//   },
-// ];
-
 const RightContent = () => {
   const navigate = useNavigate();
   const { id: userId } = useAuthState();
@@ -34,6 +25,7 @@ const RightContent = () => {
     suggestUserToFollowData: { userId },
   });
   // console.log({ suggestedUserList });
+  const { updateFollowing, loading, error } = useUpdateFollowing();
 
   const handleClickContest = useCallback(
     (item) => {
@@ -52,6 +44,21 @@ const RightContent = () => {
     },
     [navigate]
   );
+
+  const handleFollow = useCallback(async (followingId) => {
+    try {
+      await updateFollowing({
+        variables: {
+          updateFollowingData: {
+            userId,
+            followingId,
+          },
+        },
+      });
+    } catch (e) {
+      throw e;
+    }
+  }, []);
 
   return useMemo(
     () => (
@@ -107,13 +114,20 @@ const RightContent = () => {
                           {/* <span id="sugesstion-type">{item.type}</span> */}
                         </div>
                       </div>
-
-                      <PersonPlusFill
-                        size={25}
-                        color="#f08080"
-                        id="add-friend-icon"
-                        onClick={() => {}}
-                      />
+                      // !!!!!! tách ra component mới
+                      {loading ? (
+                        <p>Loading</p>
+                      ) : (
+                        <PersonPlusFill
+                          size={25}
+                          color="#f08080"
+                          id="add-friend-icon"
+                          onClick={() => {
+                            handleFollow(item.id);
+                          }}
+                        />
+                      )}
+                      // !!!!!! tách ra component mới
                     </div>
 
                     <hr />
@@ -146,6 +160,7 @@ const RightContent = () => {
       navigate,
       suggestedTag,
       suggestedUserList?.suggestUserToFollow,
+      loading,
     ]
   );
 };
