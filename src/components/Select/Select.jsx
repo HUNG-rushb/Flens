@@ -2,7 +2,7 @@ import './Select.css'
 
 const Select = ({options, type, ...props}) => {
   return (
-    <select className={`select-custom select--${type}`} {...props} >
+    <select className={`select select--${type}`} {...props} >
       {options.map((item) => (
         <option key={item.id}>{item.value}</option>
       ))}

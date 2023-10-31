@@ -1,7 +1,7 @@
 import Input from '../../components/Input/Input';
 import Select from '../../components/Select/Select';
 import Page from '../../components/utils/Page';
-import './LeaderBoard.css';
+import './styles.scss';
 import { boardData } from './LeaderBoard/data';
 import React, {
   Suspense,
@@ -66,20 +66,19 @@ const LeaderBoard = () => {
     () => (
       <Page title="Flens-Leaderboard">
         <Suspense fallback={null}>
-          <div className="leaderboard">
-            <div className="leaderboard-title-page">
-              <span>Flens Leaderboard</span>
+          <div className="leader-board">
+            <div className="title-wrapper">
+              <span id='title'>Flens Leaderboard</span>
               <p>
                 Find your standings, based on your activity the past 30 days
               </p>
-              <span>Followers</span>
+              <span id='title'>Followers</span>
               <p>Photographers you are following</p>
             </div>
-            <div className="leaderboard-body-page">
-              <div className="filter-and-search-part">
+            <div className="leader-board-content">
+              <div className="filter-and-search">
                 <Select
                   options={options}
-                  className="select-bar"
                   selected={selected}
                   onChange={handleOnChangeSelected}
                 />
@@ -92,7 +91,7 @@ const LeaderBoard = () => {
                   />
                 </div>
               </div>
-              <div className="table-part">
+              <div className="table-content">
                 <table>
                   <thead>
                     <tr>

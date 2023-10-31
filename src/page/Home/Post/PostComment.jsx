@@ -1,4 +1,4 @@
-import TextArea from '../../../components/TextArea/TextArea';
+import Textarea from '../../../components/Textarea/Textarea';
 import { useAuthState } from '../../../context/AuthContext';
 import {
   useGetAllPostComment,
@@ -69,7 +69,7 @@ const PostComment = ({ item }) => {
       <form className="comments-wrapper" onSubmit={handleSubmitComment}>
         <div className="comment-header">
           <img src={profileImageURL} alt="" id="comment-avatar" />
-          <TextArea
+          <Textarea
             type={'comment'}
             placeholder={'Add a comment'}
             id={`textarea-comment-${commentID}`}

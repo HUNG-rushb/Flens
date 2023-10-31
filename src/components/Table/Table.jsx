@@ -14,13 +14,13 @@ const Table = ({
     <table>
       <thead>
         <tr>
-          {title.map((value, index) => {
+          {title?.map((value, index) => {
             return <td key={index}>{value}</td>;
           })}
         </tr>
       </thead>
       <tbody>
-        {body.map((item, index) => {
+        {body?.map((item, index) => {
           return (
             <tr key={item.id}>
               <td>{index + 1}</td>
