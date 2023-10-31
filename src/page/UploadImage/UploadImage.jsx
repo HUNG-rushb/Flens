@@ -69,9 +69,7 @@ const UploadImage = () => {
   const [shutterSpeed, setShutterSpeed] = useState('');
   const [iso, setIso] = useState('');
   const [copyright, setCopyright] = useState('');
-  const [isPublic, setIsPublic] = useState(true);
-
-  console.log(isPublic);
+  const [viewStatus, setViewStatus] = useState('PUBLIC');
 
   const [tags, setTags] = useState([]);
   const [tag, setTag] = useState({
@@ -201,8 +199,8 @@ const UploadImage = () => {
             createPostData: {
               userId,
               title,
-              caption: '',
-              isVisible: true,
+              caption,
+              postViewStatus: viewStatus,
               aperture,
               lens,
               takenWhen,
@@ -405,9 +403,12 @@ const UploadImage = () => {
     ]
   );
 
-  const handleChangeMode = () => {
-    setIsPublic((prev) => !prev);
-  };
+  const handleChangeMode = useCallback(
+    (viewStatus) => {
+      setViewStatus(viewStatus);
+    },
+    [viewStatus]
+  );
 
   return useMemo(
     () => (
@@ -463,9 +464,12 @@ const UploadImage = () => {
                                 <input
                                   type="radio"
                                   name="mode"
-                                  value="Public"
-                                  checked={isPublic}
-                                  onChange={handleChangeMode}
+                                  // value="Public"
+                                  checked={viewStatus === 'PUBLIC'}
+                                  onChange={(e) => {
+                                    // e.preventDefault();
+                                    handleChangeMode('PUBLIC');
+                                  }}
                                 />
                               </div>
                             </label>
@@ -476,9 +480,28 @@ const UploadImage = () => {
                                 <input
                                   type="radio"
                                   name="mode"
-                                  value="Private"
-                                  checked={!isPublic}
-                                  onChange={handleChangeMode}
+                                  // value="Private"
+                                  checked={viewStatus === 'PRIVATE'}
+                                  onChange={(e) => {
+                                    // e.preventDefault();
+                                    handleChangeMode('PRIVATE');
+                                  }}
+                                />
+                              </div>
+                            </label>
+
+                            <label>
+                              Only Followers
+                              <div id="input-radio">
+                                <input
+                                  type="radio"
+                                  name="mode"
+                                  // value="Private"
+                                  checked={viewStatus === 'ONLY_FOLLOWERS'}
+                                  onChange={(e) => {
+                                    // e.preventDefault();
+                                    handleChangeMode('ONLY_FOLLOWERS');
+                                  }}
                                 />
                               </div>
                             </label>
@@ -539,7 +562,7 @@ const UploadImage = () => {
       handleFileChange,
       handleKeyDown,
       inputData,
-      isPublic,
+      viewStatus,
       previewImage,
       showUpload,
       tag,

@@ -114,6 +114,7 @@ const Biography = ({ userId, posts }) => {
             toggleShowModal={toggleShowModal}
             setCheckType={setCheckType}
           />
+
           <Hobbies
             hobbies={hobbies}
             toggleShowModal={toggleShowModal}

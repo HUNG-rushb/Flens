@@ -7,7 +7,7 @@ export const CREATE_POST = gql`
       createdAt
       points
       title
-      isVisible
+      postViewStatus
       updatedAt
 
       categoryId {
@@ -43,7 +43,7 @@ export const GET_ALL_USER_POST = gql`
           points
           title
           caption
-          isVisible
+          postViewStatus
           createdAt
           userLikedPost
           tag
@@ -81,8 +81,8 @@ export const GET_ALL_USER_POST = gql`
 `;
 
 export const GET_NEW_FEED = gql`
-  query GetNewFeed($userId: String, $after: String) {
-    getNewFeed(userId: $userId, after: $after) {
+  query GetNewFeed($userId: String, $after: String, $timeCall: Int) {
+    getNewFeed(userId: $userId, after: $after, timeCall: $timeCall) {
       edges {
         cursor
         node {
@@ -90,7 +90,7 @@ export const GET_NEW_FEED = gql`
           points
           title
           caption
-          isVisible
+          postViewStatus
           createdAt
           userLikedPost
           tag
@@ -135,7 +135,7 @@ export const GET_ALL_USER_POST_INFO = gql`
         points
         title
         caption
-        isVisible
+        postViewStatus
         createdAt
         userId {
           profileImageURL

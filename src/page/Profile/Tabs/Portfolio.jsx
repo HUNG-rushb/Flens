@@ -18,14 +18,14 @@ const Portfoio = ({ userProfileData, posts }) => {
               userProfileData={userProfileData}
               setComponentToRender={setComponentToRender}
             />
-            <LatestUploadImage
+            {/* <LatestUploadImage
               posts={posts}
               setComponentToRender={setComponentToRender}
             />
             <FavouriteImage
               posts={posts}
               setComponentToRender={setComponentToRender}
-            />
+            /> */}
           </div>
         )}
         {componentToRender === 1 && (
