@@ -1,5 +1,6 @@
 import unixToDateTime from '../../../utils/unixToDateTime.js';
 import { successfullNoty } from '../../../utils/useNotify.js';
+import ActionList from './ActionList';
 import './Post.scss';
 import PostComment from './PostComment.jsx';
 import PostInteraction from './PostInteraction.jsx';
@@ -72,20 +73,31 @@ const Post = ({
         ) : (
           <div className="posts-wrapper">
             <div className="post-header">
-              <img
-                src={item.userId.profileImageURL}
-                onClick={handleViewProfile}
-                id="avatar"
-                alt=""
-              />
-              <div>
-                <span id="username">{item.userId.name}</span>
-                uploaded a photo
-                <div id="date">
-                  {unixToDateTime(item.createdAt)}
-                  {renderPostModeIcon()}
+              <div className="left-header-wrapper">
+                <img
+                  src={item.userId.profileImageURL}
+                  onClick={handleViewProfile}
+                  id="avatar"
+                  alt=""
+                />
+                <div>
+                  <span id="username">{item.userId.name}</span>
+                  uploaded a photo
+                  <div id="date">
+                    {unixToDateTime(item.createdAt)}
+                    {renderPostModeIcon()}
+                  </div>
                 </div>
               </div>
+              <ActionList
+                item={item}
+                showReport={showReport}
+                setImageToReport={setImageToReport}
+                toggleShowReport={toggleShowReport}
+                setIsDeletedPost={setIsDeletedPost}
+                setPostVisibility={setPostVisibility}
+                postVisibility={postVisibility}
+              />
             </div>
 
             <div className="post-content-wrapper">
@@ -135,16 +147,7 @@ const Post = ({
                   ))}
                 </div>
 
-                <PostInteraction
-                  item={item}
-                  showReport={showReport}
-                  setImageToReport={setImageToReport}
-                  toggleShowReport={toggleShowReport}
-                  setIsDeletedPost={setIsDeletedPost}
-                  setPostVisibility={setPostVisibility}
-                  postVisibility={postVisibility}
-                />
-
+                <PostInteraction item={item} />
                 <PostComment item={item} />
               </div>
             </div>
@@ -158,6 +161,7 @@ const Post = ({
       handleViewProfile,
       isDeletedPost,
       item,
+      postVisibility,
       renderPostModeIcon,
       setImageToReport,
       showImageDetail,

@@ -1,78 +1,16 @@
-import Modal from '../../../components/Modal/Modal';
 import { useAuthState } from '../../../context/AuthContext';
-import { useDeletePost } from '../../../graphql/usePost';
-import {
-  useInteractPost,
-  useChangeVisiblePost,
-} from '../../../graphql/usePost';
+import { useInteractPost } from '../../../graphql/usePost';
 import { useUpdatePointPostingLazy } from '../../../graphql/usePost';
-import useModal from '../../../hooks/useModal';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import {
-  Flag,
-  Heart,
-  Trash,
-  Reply,
-  ThreeDots,
-  HeartFill,
-  GearFill,
-} from 'react-bootstrap-icons';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Heart, HeartFill, Reply } from 'react-bootstrap-icons';
 
-const PostInteraction = ({
-  item,
-  setImageToReport,
-  showReport,
-  toggleShowReport,
-  setIsDeletedPost,
-  setPostVisibility,
-  postVisibility,
-}) => {
+const PostInteraction = ({ item }) => {
   const { id: userId } = useAuthState();
-  const clickOutsideRef = useRef(null);
-
-  const [currentPostVisibility, setCurrentPostVisibility] =
-    useState(postVisibility);
   const [isLiked, setIsLiked] = useState(item?.userLikedPost.includes(userId));
   const [countNumberOfLikes, setCountNumberOfLikes] = useState(item?.points);
-
-  const [showListActions, setShowListActions] = useState(true);
   const [animationWhenClick, setAnimationWhenClick] = useState(false);
-  const { deletePost } = useDeletePost();
   const { interactPost } = useInteractPost();
   const { updateLevel } = useUpdatePointPostingLazy();
-  const { updatePost } = useChangeVisiblePost(
-    setCurrentPostVisibility,
-    setPostVisibility
-  );
-  const { isShowing: showModal, toggle: toggleShow } = useModal();
-
-  const visibilityValue = useMemo(
-    () => ['PUBLIC', 'PRIVATE', 'ONLY_FOLLOWERS'],
-    []
-  );
-
-  const modalContent = useCallback(() => {
-    return (
-      <div className="change-post-mode-wrapper">
-        {visibilityValue.map((item, index) => (
-          <label id="change-mode-label" key={item + index}>
-            {item}
-            <div id="mode-radio">
-              <input
-                type="radio"
-                name="post-mode"
-                value={item}
-                checked={currentPostVisibility === item}
-                onChange={() => {
-                  setCurrentPostVisibility(item);
-                }}
-              />
-            </div>
-          </label>
-        ))}
-      </div>
-    );
-  }, [visibilityValue, currentPostVisibility, setCurrentPostVisibility]);
 
   const handleLikePost = useCallback(
     async (event) => {
@@ -107,75 +45,6 @@ const PostInteraction = ({
     [interactPost, isLiked, item?.id, item?.userId.id, updateLevel, userId]
   );
 
-  // !!!!!!!!!!!!!!
-  const handleReportImage = useCallback(() => {
-    setShowListActions(true);
-    setImageToReport(item?.image.url);
-    toggleShowReport(showReport);
-  }, [item?.image.url, setImageToReport, showReport, toggleShowReport]);
-
-  const handleDeletePost = useCallback(
-    async (event) => {
-      event.preventDefault();
-
-      try {
-        await deletePost({
-          variables: {
-            deletePostData: {
-              postId: item?.id,
-            },
-          },
-        });
-
-        setIsDeletedPost(true);
-      } catch (e) {
-        throw e;
-      }
-    },
-    [deletePost, item?.id, setIsDeletedPost]
-  );
-
-  const handleChangeMode = useCallback(
-    async (event) => {
-      event.preventDefault();
-
-      try {
-        await updatePost({
-          variables: {
-            changeVisiblePostData: {
-              postId: item?.id,
-              postViewStatus: currentPostVisibility,
-            },
-          },
-        });
-
-        setPostVisibility(currentPostVisibility);
-      } catch (e) {
-        throw e;
-      }
-
-      toggleShow();
-    },
-    [postVisibility, currentPostVisibility, toggleShow]
-  );
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        clickOutsideRef.current &&
-        !clickOutsideRef.current.contains(event.target)
-      ) {
-        setShowListActions(true);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
   useEffect(() => {
     if (animationWhenClick) {
       setTimeout(() => {
@@ -187,7 +56,7 @@ const PostInteraction = ({
   return useMemo(
     () => (
       <div>
-        <div className="post-interaction" ref={clickOutsideRef}>
+        <div className="post-interaction">
           <div className="heart-icon-wrapper" onClick={handleLikePost}>
             {isLiked === false ? (
               <Heart
@@ -203,73 +72,12 @@ const PostInteraction = ({
             )}
             <span id="likes-number">{countNumberOfLikes}</span>
           </div>
-
-          <div className="right-action-wrapper">
-            <Reply size={30} id="reply-icon" />
-            <ThreeDots
-              size={30}
-              onClick={() => setShowListActions((prev) => !prev)}
-              id="other-action-icon"
-            />
-            <div className="list-actions" hidden={showListActions}>
-              <ul>
-                <li onClick={handleReportImage}>
-                  <Flag color="blue" />
-                  Report
-                </li>
-
-                {item?.userId.id === userId && (
-                  <li onClick={handleDeletePost}>
-                    <Trash color="red" />
-                    Delete this photo
-                  </li>
-                )}
-
-                {item?.userId.id === userId && (
-                  <li
-                    onClick={() => {
-                      setShowListActions(true);
-                      toggleShow();
-                    }}
-                  >
-                    <GearFill color="black" />
-                    Setting mode
-                  </li>
-                )}
-              </ul>
-            </div>
-          </div>
+          <Reply size={30} id="reply-icon" />
         </div>
-
         <hr style={{ border: '1px solid #F08080' }} />
-
-        <Modal
-          show={showModal}
-          modalTitle="Change your post visibility"
-          modalContent={modalContent()}
-          handleClose={() => {
-            setCurrentPostVisibility(postVisibility);
-            toggleShow();
-          }}
-          handleSavechanges={handleChangeMode}
-        />
       </div>
     ),
-    [
-      handleLikePost,
-      isLiked,
-      animationWhenClick,
-      countNumberOfLikes,
-      showListActions,
-      handleReportImage,
-      item?.userId.id,
-      userId,
-      handleDeletePost,
-      toggleShow,
-      showModal,
-      modalContent,
-      handleChangeMode,
-    ]
+    [handleLikePost, isLiked, animationWhenClick, countNumberOfLikes]
   );
 };
 
