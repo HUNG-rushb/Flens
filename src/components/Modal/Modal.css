@@ -79,3 +79,44 @@ li span {
 #mode-radio input:checked {
   color: #f08080;
 }
+
+.follow-list-wrapper {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto ;
+  gap: 5px;
+}
+
+.follow-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 200px;
+  width: 100%;
+  margin-bottom: 10px;
+  border: 1px solid #f08080;
+  padding: 20px 0;
+  border-radius: 10px;
+  gap: 5px;
+}
+
+#follow-list-avatar {
+  border-radius: 50%;
+  max-width: 120px;
+}
+
+#follow-back-button {
+  border: none;
+  border-radius: 5px;
+  background-color: #f08080;
+  color: white;
+  padding: 3px 45px;
+}
+
+#unfollow-button {
+  border: 1px solid #f08080;
+  border-radius: 5px;
+  background-color: white;
+  color: #f08080;
+  padding: 3px 36px;
+}
