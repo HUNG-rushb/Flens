@@ -1,7 +1,7 @@
 import banner from '../../assets/images/Contest/contest_banner.png';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
-import Textarea from '../../components/Textarea/Textarea';
+import TextArea from '../../components/TextArea/TextArea';
 import Page from '../../components/utils/Page';
 import { useAuthState } from '../../context/AuthContext';
 import { useUserProfileImage } from '../../graphql/useUser';
@@ -113,7 +113,7 @@ const ContestManagement = () => {
                 </div>
                 <div className="form-item">
                   <label>Contest description</label>
-                  <Textarea
+                  <TextArea
                     placeholder="Enter contest description"
                     rows="3"
                     name="description"
