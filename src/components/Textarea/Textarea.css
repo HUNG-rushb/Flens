@@ -1,0 +1,33 @@
+textarea {
+    width: 100%;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: none !important;
+    margin: 5px;
+    outline: none;
+}
+
+.Textarea--comment {
+    padding: 7px 10px;
+    margin: 0 10px;
+    overflow-y: hidden;
+    border: 2px solid #f08080;
+
+}
+
+.Textarea--uploadBar {
+    margin: 0;
+    background-color: #fff;
+    height: 90px;
+}
+
+.Textarea--uploadBar::placeholder {
+    font-size: large;
+}
+
+.Textarea--comment::placeholder{
+    font-size: 14px;
+}
