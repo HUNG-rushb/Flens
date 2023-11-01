@@ -1,12 +1,21 @@
 import React, { useMemo } from 'react';
 
-const table_title = ['No', 'Name', 'Time', 'Reason', 'Reporter', '#', '#'];
+const table_title = [
+  'No',
+  'Name',
+  'Time',
+  'Link post',
+  'Reason',
+  'Reporter',
+  '#',
+  '#',
+];
 
 const TableReportManagement = ({
   body,
-  handleClickAccept,
+  handleAccept,
   Check,
-  handleClickReject,
+  handleReject,
   X,
 }) => {
   return useMemo(
@@ -26,6 +35,7 @@ const TableReportManagement = ({
                 <td>{index + 1}</td>
                 <td>{item.name}</td>
                 <td>{item.time}</td>
+                <td>{item.linkPost}</td>
                 <td>{item.reason}</td>
                 <td>{item.reporter}</td>
                 <td>
@@ -33,7 +43,7 @@ const TableReportManagement = ({
                     id="check-icon"
                     color="blue"
                     size={30}
-                    onClick={() => handleClickAccept(item)}
+                    onClick={() => handleAccept(item)}
                   />
                 </td>
                 <td>
@@ -41,7 +51,7 @@ const TableReportManagement = ({
                     id="remove-icon"
                     color="red"
                     size={30}
-                    onClick={() => handleClickReject(item)}
+                    onClick={() => handleReject(item)}
                   />
                 </td>
               </tr>
@@ -50,7 +60,7 @@ const TableReportManagement = ({
         </tbody>
       </table>
     ),
-    [body, handleClickAccept, handleClickReject]
+    [body, handleAccept, handleReject]
   );
 };
 

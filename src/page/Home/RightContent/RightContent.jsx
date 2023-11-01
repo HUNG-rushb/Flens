@@ -1,14 +1,10 @@
 import { useAuthState } from '../../../context/AuthContext';
 import { useSuggestTag } from '../../../graphql/usePost';
-import {
-  useSuggestUserToFollow,
-  useUpdateFollowing,
-  useUnfollowUser,
-} from '../../../graphql/useUser';
+import { useSuggestUserToFollow } from '../../../graphql/useUser';
 import { contests } from '../../Contest/Tab/contestData';
+import FollowUserIcon from './FollowUserIcon';
 import './styles.scss';
 import React, { useCallback, useMemo } from 'react';
-import { PersonPlusFill } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
 import { Autoplay, Pagination } from 'swiper';
 import 'swiper/css';
@@ -25,7 +21,6 @@ const RightContent = () => {
     suggestUserToFollowData: { userId },
   });
   // console.log({ suggestedUserList });
-  const { updateFollowing, loading, error } = useUpdateFollowing();
 
   const handleClickContest = useCallback(
     (item) => {
@@ -44,21 +39,6 @@ const RightContent = () => {
     },
     [navigate]
   );
-
-  const handleFollow = useCallback(async (followingId) => {
-    try {
-      await updateFollowing({
-        variables: {
-          updateFollowingData: {
-            userId,
-            followingId,
-          },
-        },
-      });
-    } catch (e) {
-      throw e;
-    }
-  }, []);
 
   return useMemo(
     () => (
@@ -93,46 +73,36 @@ const RightContent = () => {
             </div>
             <div className="follow-suggestion-container">
               <span id="subtitle">Follow list suggestion:</span>
-
               <div className="follow-list-suggestion">
-                {suggestedUserList?.suggestUserToFollow.map((item) => (
-                  <div className="follow-suggestion" key={item.id}>
-                    <div className="content">
-                      <div
-                        className="content-wrapper"
-                        onClick={() => {
-                          navigate(`/profile/${item.id}`);
-                        }}
-                      >
-                        <img
-                          src={item.profileImageURL}
-                          alt=""
-                          id="suggestion-image"
-                        />
-                        <div className="subcontent-wrapper">
-                          <span id="sugesstion-name">{item.name}</span>
-                          {/* <span id="sugesstion-type">{item.type}</span> */}
-                        </div>
-                      </div>
-                      // !!!!!! tách ra component mới
-                      {loading ? (
-                        <p>Loading</p>
-                      ) : (
-                        <PersonPlusFill
-                          size={25}
-                          color="#f08080"
-                          id="add-friend-icon"
+                {suggestedUserList?.suggestUserToFollow
+                  .slice(0, 3)
+                  .map((item) => (
+                    <div className="follow-suggestion" key={item.id}>
+                      <div className="content">
+                        <div
+                          className="content-wrapper"
                           onClick={() => {
-                            handleFollow(item.id);
+                            navigate(`/profile/${item.id}`);
                           }}
+                        >
+                          <img
+                            src={item.profileImageURL}
+                            alt=""
+                            id="suggestion-image"
+                          />
+                          <div className="subcontent-wrapper">
+                            <span id="sugesstion-name">{item.name}</span>
+                            {/* <span id="sugesstion-type">{item.type}</span> */}
+                          </div>
+                        </div>
+                        <FollowUserIcon
+                          userId={userId}
+                          targetUserId={item.id}
                         />
-                      )}
-                      // !!!!!! tách ra component mới
+                      </div>
+                      <hr />
                     </div>
-
-                    <hr />
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
             <div className="trending-tags-container">
@@ -160,7 +130,7 @@ const RightContent = () => {
       navigate,
       suggestedTag,
       suggestedUserList?.suggestUserToFollow,
-      loading,
+      userId,
     ]
   );
 };

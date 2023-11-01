@@ -54,6 +54,7 @@
               #main-image {
                 transform: scale(1.4);
                 max-width: 100%;
+                min-width: 800px;
                 width: 100%;
                 object-fit: contain;
                 transition: transform 0.3s ease;

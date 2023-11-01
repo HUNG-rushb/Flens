@@ -1,8 +1,8 @@
 import Modal from '../../components/Modal/Modal';
-import Page from '../../components/utils/Page.js';
-import useModal from '../../hooks/useModal.jsx';
+import Page from '../../components/utils/Page';
+import useModal from '../../hooks/useModal';
+import TableReportData from './TableReportData';
 import './styles.scss';
-import TableReportData from './TableReportData.jsx';
 import React, { Suspense, useCallback, useMemo, useState } from 'react';
 import { CheckSquare, XSquare } from 'react-bootstrap-icons';
 
@@ -13,6 +13,7 @@ const ReportManagement = () => {
       name: 'Nguyen Van A',
       link: 'https://flens.com/nguyenvana',
       time: 'Thus 23:40',
+      linkPost: 'https://link-post',
       reason: 'Upload content containing violent, offensive.',
       reporter: 'Nguyen Van B',
     },
@@ -21,6 +22,7 @@ const ReportManagement = () => {
       name: 'Nguyen Van B',
       link: 'https://flens.com/nguyenvanb',
       time: 'Fri 23:40',
+      linkPost: 'https://link-post',
       reason: 'Comment with offensive content.',
       reporter: 'Nguyen Van A',
     },
@@ -29,6 +31,7 @@ const ReportManagement = () => {
       name: 'Nguyen Van A',
       link: 'https://flens.com/nguyenvana',
       time: 'Thus 23:40',
+      linkPost: 'https://link-post',
       reason: 'Upload content containing violent, offensive.',
       reporter: 'Nguyen Van B',
     },
@@ -37,33 +40,30 @@ const ReportManagement = () => {
       name: 'Nguyen Van B',
       link: 'https://flens.com/nguyenvanb',
       time: 'Fri 23:40',
+      linkPost: 'https://link-post',
       reason: 'Comment with offensive content.',
       reporter: 'Nguyen Van A',
     },
   ]);
 
-  const { isShowing: showAcceptReport, toggle: toggleAcceptReport } =
-    useModal();
-  const { isShowing: showRejectReport, toggle: toggleRejectReport } =
-    useModal();
+  const [action, setAction] = useState('');
+  const { isShowing: showModal, toggle: toggleModal } = useModal();
   const [targetItem, settargetItem] = useState({});
 
-  const acceptReportTitle = useMemo(() => {
-    return `ban user "${targetItem.name}" witd id ${targetItem.id}?`;
-  }, [targetItem]);
+  const modalTitle = useMemo(() => {
+    return action === 'Accept'
+      ? `ban user "${targetItem.name}" witd id ${targetItem.id}?`
+      : `Reject report id ${targetItem.id}`;
+  }, [action, targetItem.id, targetItem.name]);
 
-  const rejectReportTitle = useMemo(() => {
-    return `Reject report id ${targetItem.id}`;
-  }, [targetItem]);
-
-  const acceptReportContent = useMemo(() => {
-    return (
+  const modalContent = useCallback(() => {
+    return action === 'Accept' ? (
       <div key={targetItem.id} className="bodyContent">
         <div>
           <span>Link: </span>
           {targetItem.link}
         </div>
-        <div> 
+        <div>
           <span>Reason:</span> {targetItem.reason}
         </div>
         <div>
@@ -71,65 +71,72 @@ const ReportManagement = () => {
           {targetItem.reporter}
         </div>
       </div>
+    ) : (
+      'This report will be removed, please be carefull with your decision'
     );
-  }, [targetItem]);
+  }, [
+    action,
+    targetItem.id,
+    targetItem.link,
+    targetItem.reason,
+    targetItem.reporter,
+  ]);
 
-  const rejectReportContent = useMemo(() => {
-    return 'This report will be removed, please be carefull with your decision';
-  }, []);
-
-  const handleAcceptReport = useCallback(
+  const handleAccept = useCallback(
     (item) => {
+      setAction('Accept');
       settargetItem(item);
-      toggleAcceptReport(true);
+      toggleModal();
     },
-    [toggleAcceptReport]
+    [setAction, toggleModal]
   );
 
-  const handleRejectReport = useCallback(
+  const handleReject = useCallback(
     (item) => {
+      setAction('Reject');
       settargetItem(item);
-      toggleRejectReport(true);
+      toggleModal();
     },
-    [toggleRejectReport]
+    [setAction, toggleModal]
   );
-
-  const handleClose = useCallback(() => {
-    showAcceptReport ? toggleAcceptReport(false) : toggleRejectReport(false);
-  }, [showAcceptReport, toggleAcceptReport, toggleRejectReport]);
 
   const handleSubmit = useCallback(() => {
-    setData(data.filter((item) => item !== targetItem));
-    showAcceptReport ? toggleAcceptReport(false) : toggleRejectReport(false);
-  }, [data, targetItem, showAcceptReport, toggleAcceptReport, toggleRejectReport]);
+    if (action === 'Accept') {
+      setData(data.filter((item) => item !== targetItem));
+      toggleModal();
+    } else {
+      setData(data.filter((item) => item !== targetItem));
+      toggleModal();
+    }
+  }, [action, data, targetItem, toggleModal]);
+
+  const handleClose = useCallback(() => {
+    toggleModal();
+  }, [toggleModal]);
 
   return useMemo(
     () => (
-      <Page title={'Flens-Reports'}>
+      <Page title="Flens-Report management">
         <Suspense fallback={null}>
           <div className="report-management">
             <div className="title">Report Management</div>
             <div className="body-page">
               <TableReportData
                 body={data}
-                handleClickAccept={handleAcceptReport}
+                handleAccept={handleAccept}
                 Check={CheckSquare}
-                handleClickReject={handleRejectReport}
+                handleReject={handleReject}
                 X={XSquare}
               />
             </div>
           </div>
           <Modal
-            show={showAcceptReport ? showAcceptReport : showRejectReport}
-            handleClose={handleClose}
-            modalTitle={
-              showAcceptReport ? acceptReportTitle : rejectReportTitle
-            }
-            modalContent={
-              showAcceptReport ? acceptReportContent : rejectReportContent
-            }
+            size="md"
+            show={showModal}
+            modalTitle={modalTitle}
+            modalContent={modalContent()}
             handleSavechanges={handleSubmit}
-            size={'md'}
+            handleClose={handleClose}
             confirmButtonMessage="Submit"
           />
         </Suspense>
@@ -137,14 +144,11 @@ const ReportManagement = () => {
     ),
     [
       data,
-      showAcceptReport,
-      showRejectReport,
-      acceptReportTitle,
-      rejectReportTitle,
-      acceptReportContent,
-      rejectReportContent,
-      handleAcceptReport,
-      handleRejectReport,
+      handleAccept,
+      handleReject,
+      showModal,
+      modalTitle,
+      modalContent,
       handleClose,
       handleSubmit,
     ]
