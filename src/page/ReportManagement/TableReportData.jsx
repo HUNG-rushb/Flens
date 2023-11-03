@@ -1,15 +1,6 @@
 import React, { useMemo } from 'react';
 
-const table_title = [
-  'No',
-  'Name',
-  'Time',
-  'Link post',
-  'Reason',
-  'Reporter',
-  '#',
-  '#',
-];
+const table_title = ['No', 'Name', 'Time', 'Reason', 'Reporter', 'Action'];
 
 const TableReportManagement = ({
   body,
@@ -45,8 +36,7 @@ const TableReportManagement = ({
                     size={30}
                     onClick={() => handleAccept(item)}
                   />
-                </td>
-                <td>
+
                   <X
                     id="remove-icon"
                     color="red"
