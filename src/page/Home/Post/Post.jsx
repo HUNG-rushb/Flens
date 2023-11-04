@@ -25,7 +25,7 @@ const Post = ({
   setImageToReport,
   setItemShowDetail,
 }) => {
-  console.log({ item });
+  // console.log({ item });
   const navigate = useNavigate();
   const [isDeletedPost, setIsDeletedPost] = useState(false);
   const [showTechnicalInfor, setShowTechnicalInfor] = useState(false);

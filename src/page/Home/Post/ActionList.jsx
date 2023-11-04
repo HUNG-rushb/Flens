@@ -14,8 +14,9 @@ const MoreActionList = ({
   setPostVisibility,
   postVisibility,
 }) => {
-  const clickOutsideRef = useRef(null);
   const { id: userId } = useAuthState();
+
+  const clickOutsideRef = useRef(null);
   const [showListActions, setShowListActions] = useState(true);
   const { isShowing: showModal, toggle: toggleShow } = useModal();
   const [currentPostVisibility, setCurrentPostVisibility] =
@@ -25,13 +26,6 @@ const MoreActionList = ({
     []
   );
   const { deletePost } = useDeletePost();
-
-  const handleReportImage = useCallback(() => {
-    setShowListActions(true);
-    setImageToReport(item?.image.url);
-    toggleShowReport(showReport);
-  }, [item?.image.url, setImageToReport, showReport, toggleShowReport]);
-
   const { updatePost } = useChangeVisiblePost(
     setCurrentPostVisibility,
     setPostVisibility
@@ -58,28 +52,16 @@ const MoreActionList = ({
     [deletePost, item?.id, setIsDeletedPost]
   );
 
-  const modalContent = useCallback(() => {
-    return (
-      <div className="change-post-mode-wrapper">
-        {visibilityValue.map((item, index) => (
-          <label id="change-mode-label" key={item + index}>
-            {item}
-            <div id="mode-radio">
-              <input
-                type="radio"
-                name="post-mode"
-                value={item}
-                checked={currentPostVisibility === item}
-                onChange={() => {
-                  setCurrentPostVisibility(item);
-                }}
-              />
-            </div>
-          </label>
-        ))}
-      </div>
-    );
-  }, [visibilityValue, currentPostVisibility, setCurrentPostVisibility]);
+  const handleReportImage = useCallback(() => {
+    setShowListActions(true);
+    setImageToReport((prev) => ({
+      ...prev,
+      image: item?.image.url,
+      postId: item?.id,
+      userId: item?.userId.id,
+    }));
+    toggleShowReport(showReport);
+  }, [item, setImageToReport, showReport, toggleShowReport]);
 
   const handleChangeMode = useCallback(
     async (event) => {
@@ -104,6 +86,29 @@ const MoreActionList = ({
     },
     [toggleShow, updatePost, item?.id, currentPostVisibility, setPostVisibility]
   );
+
+  const modalContent = useCallback(() => {
+    return (
+      <div className="change-post-mode-wrapper">
+        {visibilityValue.map((item, index) => (
+          <label id="change-mode-label" key={item + index}>
+            {item}
+            <div id="mode-radio">
+              <input
+                type="radio"
+                name="post-mode"
+                value={item}
+                checked={currentPostVisibility === item}
+                onChange={() => {
+                  setCurrentPostVisibility(item);
+                }}
+              />
+            </div>
+          </label>
+        ))}
+      </div>
+    );
+  }, [visibilityValue, currentPostVisibility, setCurrentPostVisibility]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {

@@ -17,14 +17,12 @@ const ModalCustom = ({
       <Modal.Header closeButton>
         <Modal.Title>{modalTitle}</Modal.Title>
       </Modal.Header>
+
       <Modal.Body>{modalContent}</Modal.Body>
+
       {!hideButton && (
         <Modal.Footer>
-          <Button
-            text={'Close'}
-            type="modal-close-btn"
-            onClick={handleClose}
-          />
+          <Button text={'Close'} type="modal-close-btn" onClick={handleClose} />
           <Button
             text={submitText}
             type="modal-save-btn submit"

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 const content = [
   {
@@ -23,19 +23,38 @@ const content = [
   },
 ];
 
-export const ReportContent = ({ image }) => {
+export const ReportContent = ({ image, setImageToReport = () => {} }) => {
+  const [reason, setReason] = useState('');
+  console.log({ reason });
+
+  useEffect(() => {
+    setImageToReport((prev) => ({
+      ...prev,
+      reason,
+    }));
+  }, [reason]);
+
   return useMemo(
     () => (
       <div className="report-photo-container">
         <img src={image} alt="" />
+
         <div className="right-report-photo">
           <span>Report this photo with reason:</span>
+
           <ul>
             {content.map((item) => {
               return (
                 <div key={item.id}>
                   <li>
-                    <input type="checkbox" /> <span>{item.content}</span>
+                    <input
+                      type="radio"
+                      checked={reason === item.content}
+                      onChange={() => {
+                        setReason(item.content);
+                      }}
+                    />
+                    <span>{item.content}</span>
                   </li>
                 </div>
               );
@@ -44,6 +63,6 @@ export const ReportContent = ({ image }) => {
         </div>
       </div>
     ),
-    [image]
+    [image, reason]
   );
 };

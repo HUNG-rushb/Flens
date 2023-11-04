@@ -3,6 +3,7 @@ import Page from '../../components/utils/Page';
 import Spinner from '../../components/utils/Spinner';
 import { useAuthState } from '../../context/AuthContext';
 import { useGetNewFeed } from '../../graphql/usePost';
+import { useCreateReport } from '../../graphql/useReport';
 import useModal from '../../hooks/useModal';
 import { ReportContent } from '../ReportManagement/ReportImageContent';
 import './Home.scss';
@@ -16,10 +17,17 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate } from 'react-router';
 
 const Home = () => {
+  const navigate = useNavigate();
   const { isShowing: showReport, toggle: toggleShowReport } = useModal();
   const { isShowing: showImageDetail, toggle: toggleImageDetail } = useModal();
 
-  const [imageToReport, setImageToReport] = useState('');
+  const [imageToReport, setImageToReport] = useState({
+    image: '',
+    postId: '',
+    userId: '',
+    reason: '',
+  });
+  console.log({ imageToReport });
   const [itemShowDetail, setItemShowDetail] = useState(null);
 
   const { id: userId } = useAuthState();
@@ -28,7 +36,7 @@ const Home = () => {
     useGetNewFeed(userId);
   // console.log({ posts });
 
-  const navigate = useNavigate();
+  const { createReport } = useCreateReport();
 
   const handleToUploadImage = useCallback(() => {
     navigate('/upload');
@@ -37,6 +45,23 @@ const Home = () => {
   const handleToUploadStory = useCallback(() => {
     navigate('/uploadStory');
   }, [navigate]);
+
+  const reportPost = async () => {
+    try {
+      await createReport({
+        variables: {
+          createReportData: {
+            postId: imageToReport.postId,
+            userId: imageToReport.userId,
+            reason: imageToReport.reason,
+            userReported: userId,
+          },
+        },
+      });
+
+      toggleShowReport();
+    } catch (e) {}
+  };
 
   return (
     <Page title="FLens-Home">
@@ -107,9 +132,14 @@ const Home = () => {
 
             <Modal
               show={showReport}
-              modalContent={<ReportContent image={imageToReport} />}
+              modalContent={
+                <ReportContent
+                  image={imageToReport.image}
+                  setImageToReport={setImageToReport}
+                />
+              }
               handleClose={toggleShowReport}
-              handleSavechanges={toggleShowReport}
+              handleSavechanges={reportPost}
             />
           </div>
         )}
