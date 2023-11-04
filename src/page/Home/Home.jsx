@@ -25,9 +25,9 @@ const Home = () => {
     image: '',
     postId: '',
     userId: '',
-    reason: '',
+    reason: 'Copyright infringement',
   });
-  console.log({ imageToReport });
+
   const [itemShowDetail, setItemShowDetail] = useState(null);
 
   const { id: userId } = useAuthState();

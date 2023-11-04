@@ -24,7 +24,7 @@ const content = [
 ];
 
 export const ReportContent = ({ image, setImageToReport = () => {} }) => {
-  const [reason, setReason] = useState('');
+  const [reason, setReason] = useState('Copyright infringement');
   console.log({ reason });
 
   useEffect(() => {
