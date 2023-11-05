@@ -12,7 +12,7 @@ import {
 } from './queries/Post.js';
 import { CREATE_TAG, SUGGEST_TAG } from './queries/Tag.js';
 import { useQuery, useMutation } from '@apollo/client';
-import { useCallback, useState, useRef } from 'react';
+import { useCallback } from 'react';
 
 export const useCreatePostLazy = (cache) => {
   const [createPost, { data, loading, error }] = useMutation(CREATE_POST, {
@@ -57,16 +57,14 @@ export const useUpdatePointPostingLazy = (cache) => {
 };
 
 export const useGetNewFeed = (userId) => {
-  const timeCall = useRef(1);
-  console.log({ timeCall }, 'in hook');
-
   const { data, loading, error, fetchMore } = useQuery(GET_NEW_FEED, {
     fetchPolicy: 'network-only',
     variables: {
       userId,
+      timeCall: 0,
     },
-    // onCompleted: () => {
-    //   // setTimeCall((prev) => prev + 1);
+    // onCompleted: (data) => {
+    //   console.log(data);
     // },
   });
 
@@ -74,12 +72,12 @@ export const useGetNewFeed = (userId) => {
     const fetchMoreData = await fetchMore({
       variables: {
         after: data.getNewFeed.pageInfo.endCursor,
-        timeCall: timeCall.current,
+        timeCall: data.getNewFeed.timeCall,
       },
     });
 
-    timeCall.current += 1;
     // console.log({ fetchMoreData });
+    // console.log(fetchMoreData.data.getNewFeed.edges.length);
   }, [data]);
 
   return {
@@ -109,8 +107,6 @@ export const useGetAllUserPost = (userId, currentUserId) => {
     });
     console.log({ a });
   }, [data]);
-
-  console.log({ data }, 1426487346);
 
   return {
     posts: data?.getAllUserPosts?.edges ?? [],

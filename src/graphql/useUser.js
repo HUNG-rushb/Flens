@@ -83,8 +83,7 @@ export const useGetUserFollowing = (queryPayload, userId, setFollow) => {
     fetchPolicy: 'no-cache',
     variables: queryPayload,
     onCompleted: (data) => {
-      console.log({ userId });
-      console.log(data.userFollowingInfo.userFollowing);
+      // console.log(data.userFollowingInfo.userFollowing);
 
       setFollow(
         _.find(data.userFollowingInfo.userFollowing, { id: userId })

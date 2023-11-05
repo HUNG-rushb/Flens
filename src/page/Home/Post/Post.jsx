@@ -133,7 +133,7 @@ const Post = ({
                     )}
                   </div>
                 </div>
-                <div className="post-title">{item.postViewStatus}</div>
+
                 <div className="post-title">{item.title}</div>
                 <div className="hash-tags">
                   {item.tag.map((tag, index) => (

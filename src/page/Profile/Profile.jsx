@@ -125,7 +125,7 @@ const Profile = () => {
                     alt=""
                   />
 
-                  <p id="profile-name">
+                  <div id="profile-name">
                     {fetchingUserProfileData?.userInfo.name
                       ? String(
                           fetchingUserProfileData?.userInfo.name
@@ -152,7 +152,7 @@ const Profile = () => {
                         0 Followers
                       </span>
                     </div>
-                  </p>
+                  </div>
                 </div>
               </div>
 

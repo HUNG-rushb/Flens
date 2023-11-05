@@ -34,8 +34,16 @@ export const CREATE_POST = gql`
 `;
 
 export const GET_ALL_USER_POST = gql`
-  query GetAllUserPosts($userId: String, $after: String) {
-    getAllUserPosts(userId: $userId, after: $after) {
+  query GetAllUserPosts(
+    $userId: String
+    $currentUserId: String
+    $after: String
+  ) {
+    getAllUserPosts(
+      userId: $userId
+      currentUserId: $currentUserId
+      after: $after
+    ) {
       edges {
         cursor
         node {
@@ -123,6 +131,8 @@ export const GET_NEW_FEED = gql`
         startCursor
         endCursor
       }
+
+      timeCall
     }
   }
 `;
