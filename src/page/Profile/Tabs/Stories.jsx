@@ -1,15 +1,15 @@
-import ActivityPosts from './Activity/ActivityPosts';
+import ProfileStories from './Stories/Stories';
 import { useMemo } from 'react';
 
-const Activity = () => {
+const Stories = () => {
   return useMemo(
     () => (
       <div className="activity-tab">
-        <ActivityPosts />
+        <ProfileStories />
       </div>
     ),
     []
   );
 };
 
-export default Activity;
+export default Stories;

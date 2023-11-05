@@ -30,7 +30,6 @@ const NavbarSearch = () => {
 
   // console.log({ searchResult });
 
-
   const handleChange = useCallback(
     async (event) => {
       event.preventDefault();
@@ -110,7 +109,7 @@ const NavbarSearch = () => {
 
   return useMemo(
     () => (
-      <Container>
+      <Container ref={clickOutsideRef}>
         <Row className="navbar-search-row">
           <Col>
             <Form className="d-flex">
@@ -118,7 +117,6 @@ const NavbarSearch = () => {
                 onFocus={() => {
                   setIsFocus(true);
                 }}
-                // ref={clickOutsideRef}
               >
                 <FormControl
                   type="search"

@@ -23,6 +23,8 @@ import Statistic from '../page/Statistic/Statistic.jsx';
 import CoursesManagement from '../page/CoursesManagement/CoursesManagement.jsx';
 import ContestManagement from '../page/ContestManagement/ContestManagement.jsx';
 
+import UploadImageDetail from '../page/UploadImage/UploadDetail/UploadImageDetail.jsx'
+
 const routes = [
   // user route
   {
@@ -156,6 +158,12 @@ const routes = [
   {
     path: '/*',
     element: <NotFound />,
+    exact: false,
+    isPrivate: false,
+  },
+  {
+    path: '/a',
+    element: <UploadImageDetail />,
     exact: false,
     isPrivate: false,
   }

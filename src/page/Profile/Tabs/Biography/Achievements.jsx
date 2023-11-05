@@ -1,13 +1,8 @@
-import Button from '../../../../components/Button/Button';
+import './styles.scss';
 import React, { useMemo } from 'react';
 import { AwardFill } from 'react-bootstrap-icons';
-import './styles.scss';
 
-const Achievement = ({
-  achievements,
-  toggleShowModal,
-  setCheckType,
-}) => {
+const Achievement = ({ achievements }) => {
   return useMemo(
     () => (
       <div className="achievement">
@@ -30,16 +25,9 @@ const Achievement = ({
             )}
           </div>
         </div>
-        <div className="add-button">
-          <Button
-            text="Add achievement"
-            type="default2"
-            onClick={() => [toggleShowModal(), setCheckType(1)]}
-          />
-        </div>
       </div>
     ),
-    [achievements, setCheckType, toggleShowModal]
+    [achievements]
   );
 };
 

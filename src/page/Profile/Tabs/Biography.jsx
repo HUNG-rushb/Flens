@@ -47,46 +47,20 @@ const Biography = ({ userId, posts }) => {
     value: '',
   });
 
-  const modalTitle = useMemo(
-    () => (checkType === 1 ? 'Input new achievement' : 'Input new hobby'),
-    [checkType]
-  );
-
   const modalContent = useCallback(() => {
     return (
-      <div>
-        {checkType === 1 ? (
-          <Input
-            type="text"
-            value={initialValue.achievement}
-            onChange={(e) =>
-              setInitialValue({
-                id: achievements[achievements.length - 1].id + 1,
-                value: e.target.value,
-              })
-            }
-          />
-        ) : (
-          <Input
-            type="text"
-            value={initialValue.hobby}
-            onChange={(e) =>
-              setInitialValue({
-                id: hobbies[hobbies.length - 1].id + 1,
-                value: e.target.value,
-              })
-            }
-          />
-        )}
-      </div>
+      <Input
+        type="text"
+        value={initialValue.hobby}
+        onChange={(e) =>
+          setInitialValue({
+            id: hobbies[hobbies.length - 1].id + 1,
+            value: e.target.value,
+          })
+        }
+      />
     );
-  }, [
-    achievements,
-    checkType,
-    hobbies,
-    initialValue.achievement,
-    initialValue.hobby,
-  ]);
+  }, [hobbies, initialValue.hobby]);
 
   const handleCloseModal = useCallback(() => {
     toggleShowModal();
@@ -109,11 +83,7 @@ const Biography = ({ userId, posts }) => {
     () => (
       <div className="biography-tab">
         <div className="bio-left-container">
-          <Achievement
-            achievements={achievements}
-            toggleShowModal={toggleShowModal}
-            setCheckType={setCheckType}
-          />
+          <Achievement achievements={achievements} />
 
           <Hobbies
             hobbies={hobbies}
@@ -121,12 +91,10 @@ const Biography = ({ userId, posts }) => {
             setCheckType={setCheckType}
           />
         </div>
-
         <PersonalInfo userId={userId} posts={posts} />
-
         <Modal
           show={showModal}
-          modalTitle={modalTitle}
+          modalTitle="Input new hobby"
           modalContent={modalContent()}
           handleClose={handleCloseModal}
           handleSavechanges={submitModal}
@@ -141,7 +109,6 @@ const Biography = ({ userId, posts }) => {
       posts,
       showModal,
       handleCloseModal,
-      modalTitle,
       modalContent,
       submitModal,
     ]

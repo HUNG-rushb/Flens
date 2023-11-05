@@ -2,8 +2,14 @@ import Modal from '../../../components/Modal/Modal';
 import { useAuthState } from '../../../context/AuthContext';
 import { useChangeVisiblePost, useDeletePost } from '../../../graphql/usePost';
 import useModal from '../../../hooks/useModal';
+import { successfullNoty } from '../../../utils/useNotify';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Flag, Trash, ThreeDots, GearFill } from 'react-bootstrap-icons';
+import {
+  FlagFill,
+  Trash3Fill,
+  ThreeDots,
+  EyeFill,
+} from 'react-bootstrap-icons';
 
 const MoreActionList = ({
   item,
@@ -25,7 +31,7 @@ const MoreActionList = ({
     () => ['PUBLIC', 'PRIVATE', 'ONLY_FOLLOWERS'],
     []
   );
-  const { deletePost } = useDeletePost();
+  const { deletePost, isFetching: loading } = useDeletePost();
   const { updatePost } = useChangeVisiblePost(
     setCurrentPostVisibility,
     setPostVisibility
@@ -34,7 +40,6 @@ const MoreActionList = ({
   const handleDeletePost = useCallback(
     async (event) => {
       event.preventDefault();
-
       try {
         await deletePost({
           variables: {
@@ -43,8 +48,8 @@ const MoreActionList = ({
             },
           },
         });
-
         setIsDeletedPost(true);
+        successfullNoty('Delete post successfull !!!');
       } catch (e) {
         throw e;
       }
@@ -66,7 +71,6 @@ const MoreActionList = ({
   const handleChangeMode = useCallback(
     async (event) => {
       event.preventDefault();
-
       try {
         await updatePost({
           variables: {
@@ -76,7 +80,7 @@ const MoreActionList = ({
             },
           },
         });
-
+        successfullNoty('Change post visibility successfull !!!');
         setPostVisibility(currentPostVisibility);
       } catch (e) {
         throw e;
@@ -137,13 +141,13 @@ const MoreActionList = ({
           <div className="list-actions" hidden={showListActions}>
             <ul>
               <li onClick={handleReportImage}>
-                <Flag color="blue" />
-                Report
+                <FlagFill color="blue" />
+                Report this photo
               </li>
 
               {item?.userId.id === userId && (
                 <li onClick={handleDeletePost}>
-                  <Trash color="red" />
+                  <Trash3Fill color="#FF2E2E" />
                   Delete this photo
                 </li>
               )}
@@ -155,7 +159,7 @@ const MoreActionList = ({
                     toggleShow();
                   }}
                 >
-                  <GearFill color="black" />
+                  <EyeFill color="#097969" />
                   Setting mode
                 </li>
               )}
