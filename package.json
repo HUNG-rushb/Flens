@@ -82,7 +82,8 @@
             "start": "react-scripts start",
             "test": "react-scripts test",
             "eject": "react-scripts eject",
-            "build": "webpack build --config webpack.config.cjs --stats-children",
+            "webpack_build": "webpack build --config webpack.config.cjs --stats-children",
+            "build": "webpack",
             "serve": "webpack serve --config webpack.config.cjs"
       },
       "eslintConfig": {

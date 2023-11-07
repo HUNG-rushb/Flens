@@ -8,7 +8,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const { ModuleFederationPlugin } = require('webpack').container;
-const Dotenv = require('dotenv-webpack');
+// const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   mode: 'development',

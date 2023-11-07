@@ -1,44 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
-import "./Message.css";
+import { useAuthState } from '../../context/AuthContext';
+import './Message.css';
+// import { ChatApp } from 'chatApp/ChatApp';
+import React, { useState, useEffect, useRef } from 'react';
 
-function AutoResizableTextarea() {
-  const [text, setText] = useState("");
-  const textareaRef = useRef(null);
+// https://dev.to/devsmitra/the-complete-guide-to-micro-frontend-with-reactjs-for-2022-36b2
 
-  useEffect(() => {
-    autoResizeTextarea();
-  }, [text]);
+// import chatApp
 
-  const handleInput = (event) => {
-    setText(event.target.value);
-  };
+const MessageChatApp = () => {
+  const { id: userId } = useAuthState();
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      setText((prevText) => prevText + "\n");
-      e.preventDefault();
-      console.log('s')
-    }
-  };
+  // return <ChatApp userId={userId} />;
+};
 
-  const autoResizeTextarea = () => {
-    const textarea = textareaRef.current;
-    if (textarea) {
-      textarea.style.height = "auto";
-      textarea.style.height = textarea.scrollHeight + "px";
-    }
-  };
-
-  return (
-    <textarea
-      ref={textareaRef}
-      className="auto-resizable-textarea"
-      placeholder="Type something and press Enter..."
-      value={text}
-      onInput={handleInput}
-      onKeyDown={handleKeyDown}
-    />
-  );
-}
-
-export default AutoResizableTextarea;
+export default MessageChatApp;

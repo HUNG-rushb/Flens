@@ -57,11 +57,21 @@ export const GET_PROFILE_IMAGE = gql`
 export const SUGGEST_USER_TO_FOLLOW = gql`
   query SuggestUserToFollow(
     $suggestUserToFollowData: SuggestUserToFollowInput!
+    $limit: Int
   ) {
-    suggestUserToFollow(data: $suggestUserToFollowData) {
-      id
-      profileImageURL
-      name
+    suggestUserToFollow(data: $suggestUserToFollowData, limit: $limit) {
+      edges {
+        cursor
+        node {
+          backgroundImageURL
+          name
+          profileImageURL
+          id
+          level {
+            currentLevel
+          }
+        }
+      }
     }
   }
 `;

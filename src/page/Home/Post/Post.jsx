@@ -151,7 +151,7 @@ const Post = ({
                 </div>
 
                 <PostInteraction item={item} />
-                <PostComment item={item} />
+                {item && <PostComment item={item} />}
               </div>
             </div>
           </div>

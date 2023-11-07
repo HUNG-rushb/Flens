@@ -30,15 +30,50 @@ export const GET_ALL_CONTESTS = gql`
 `;
 
 export const GET_CONTEST_INFO = gql`
-  query AllContests {
-    allContests {
+  query ContestInfo($contestInfoData: ContestInfoInput!) {
+    contestInfo(data: $contestInfoData) {
       id
       name
+      contestImageURL
       description
       prize
       startDate
       endDate
-      contestImageURL
+    }
+  }
+`;
+
+export const GET_CONTEST_POSTS = gql`
+  query ContestPosts($contestPostsData: ContestPostsInput!) {
+    contestPosts(data: $contestPostsData) {
+      id
+      points
+      title
+      caption
+      postViewStatus
+      createdAt
+      userLikedPost
+      tag
+
+      userId {
+        profileImageURL
+        name
+        id
+      }
+
+      image {
+        url
+        imageInfoId {
+          ISO
+          aperture
+          camera
+          copyRight
+          focalLength
+          lens
+          shutterSpeed
+          takenWhen
+        }
+      }
     }
   }
 `;
