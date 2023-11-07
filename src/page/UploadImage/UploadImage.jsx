@@ -261,6 +261,7 @@ const UploadImage = () => {
       albums,
       aperture,
       camera,
+      caption,
       categories,
       copyright,
       createPost,
@@ -278,6 +279,7 @@ const UploadImage = () => {
       updateLevel,
       uploadImageToAWS,
       userId,
+      viewStatus,
     ]
   );
 
@@ -404,12 +406,9 @@ const UploadImage = () => {
     ]
   );
 
-  const handleChangeMode = useCallback(
-    (viewStatus) => {
-      setViewStatus(viewStatus);
-    },
-    [viewStatus]
-  );
+  const handleChangeMode = useCallback((viewStatus) => {
+    setViewStatus(viewStatus);
+  }, []);
 
   return useMemo(
     () => (
@@ -419,17 +418,17 @@ const UploadImage = () => {
             <div className="upload-image-content">
               <div className="upload-image-title">
                 <CloudArrowUp size={45} color="#f08080" />
-                <span>Upload</span>
+                <span>Flens - Upload Photo</span>
               </div>
 
-              <div className="upload-image-text">Drop a photo here</div>
+              <div className="upload-image-text">Select a photo !</div>
               <div className="upload-image-input">
                 <label
                   className="custom-file-input"
                   type="button"
                   onClick={() => fileInputRef.current.click()}
                 >
-                  Upload a photo
+                  Choose a photo from your device
                 </label>
 
                 <input
@@ -557,17 +556,18 @@ const UploadImage = () => {
       </Page>
     ),
     [
-      InputDataBySelect,
-      handleCancelUpload,
-      handleConfirmUpload,
       handleFileChange,
-      handleKeyDown,
+      showUpload,
+      previewImage,
       inputData,
       viewStatus,
-      previewImage,
-      showUpload,
-      tag,
       tags,
+      tag,
+      handleKeyDown,
+      InputDataBySelect,
+      handleChangeMode,
+      handleCancelUpload,
+      handleConfirmUpload,
     ]
   );
 };

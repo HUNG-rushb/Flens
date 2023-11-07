@@ -4,9 +4,10 @@ import {
   useUpdateFollowing,
   useUnfollowUser,
 } from '../../../graphql/useUser.js';
-import Activity from './Activity.jsx';
 import Biography from './Biography.jsx';
 import Portfoio from './Portfolio.jsx';
+import Posts from './Posts.jsx';
+import Stories from './Stories';
 import './styles.scss';
 import { useCallback, useMemo, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
@@ -82,8 +83,12 @@ const TabMenu = ({ userId, userProfileData, posts }) => {
       <>
         <div className="profile-tabs">
           <Tabs defaultActiveKey="Biography">
-            <Tab eventKey="Activity" title="Activity">
-              <Activity />
+            <Tab eventKey="Posts" title="Posts">
+              <Posts />
+            </Tab>
+
+            <Tab eventKey="Stories" title="Stories">
+              <Stories />
             </Tab>
 
             <Tab eventKey="Portfolio" title="Portfolio">
@@ -114,11 +119,13 @@ const TabMenu = ({ userId, userProfileData, posts }) => {
       </>
     ),
     [
+      userProfileData,
+      posts,
       userId,
       currentUserId,
       handleClickFollow,
+      isFollow,
       handleClickMessageIntab,
-      userProfileData,
     ]
   );
 };

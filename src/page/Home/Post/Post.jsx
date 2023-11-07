@@ -7,8 +7,8 @@ import PostInteraction from './PostInteraction.jsx';
 import PostTechnical from './PostTechnical.jsx';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  EyeFill,
-  EyeSlashFill,
+  Camera2,
+  X,
   GlobeAsiaAustralia,
   PersonFill,
   LockFill,
@@ -109,23 +109,26 @@ const Post = ({
                     onClick={handleViewDetail}
                     alt=""
                   />
-                  {showTechnicalInfor && (
-                    <div className="technical-container">
-                      <PostTechnical
-                        item={item}
-                        showImageDetail={showImageDetail}
-                      />
-                    </div>
-                  )}
+                  <div
+                    className={`technical-container ${
+                      showTechnicalInfor ? 'slide-in' : 'slide-out'
+                    }`}
+                  >
+                    <PostTechnical
+                      item={item}
+                      showImageDetail={showImageDetail}
+                      showTechnicalInfor={showTechnicalInfor}
+                    />
+                  </div>
                   <div className="technical-infor-icon">
                     {!showTechnicalInfor ? (
-                      <EyeFill
-                        size={28}
+                      <Camera2
+                        size={25}
                         color="#f08080"
                         onClick={() => setShowTechnicalInfor(true)}
                       />
                     ) : (
-                      <EyeSlashFill
+                      <X
                         size={28}
                         color="#f08080"
                         onClick={() => setShowTechnicalInfor(false)}
