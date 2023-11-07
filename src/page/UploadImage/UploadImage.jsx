@@ -200,6 +200,7 @@ const UploadImage = () => {
               userId,
               title,
               caption,
+              contestId: '',
               postViewStatus: viewStatus,
               aperture,
               lens,

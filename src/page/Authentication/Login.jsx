@@ -59,7 +59,8 @@ const Login = () => {
           profileImageURL: user.data.verifyUser.profileImageURL,
         });
 
-        navigate('/');
+        if (user.data.verifyUser.isAdmin) navigate('/report-management');
+        else navigate('/');
       } catch (error) {
         console.log(error);
       }
@@ -67,7 +68,7 @@ const Login = () => {
   };
 
   return (
-    <Page title='Flens-Login'>
+    <Page title="Flens-Login">
       <Suspense fallback={null}>
         <div className="login-page">
           <form className="Login-form">

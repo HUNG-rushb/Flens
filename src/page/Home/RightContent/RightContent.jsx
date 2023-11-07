@@ -1,4 +1,5 @@
 import { useAuthState } from '../../../context/AuthContext';
+import { useGetAllContest } from '../../../graphql/useContest';
 import { useSuggestTag } from '../../../graphql/usePost';
 import { useSuggestUserToFollow } from '../../../graphql/useUser';
 import { contests } from '../../Contest/Tab/contestData';
@@ -22,9 +23,12 @@ const RightContent = () => {
   });
   // console.log({ suggestedUserList });
 
+  const { fetchedData: allContests } = useGetAllContest();
+  console.log({ allContests });
+
   const handleClickContest = useCallback(
     (item) => {
-      navigate(`/contest/${item.title}`);
+      navigate(`/contest/${item.id}`);
     },
     [navigate]
   );
@@ -59,18 +63,23 @@ const RightContent = () => {
                 }}
                 modules={[Autoplay, Pagination]}
               >
-                {contests.map((item, index) => (
+                {allContests?.allContests.map((item, index) => (
                   <SwiperSlide key={index}>
                     <div onClick={() => handleClickContest(item)}>
-                      <img src={item.image} alt="" id="special-contest-image" />
+                      <img
+                        src={item.contestImageURL}
+                        alt=""
+                        id="special-contest-image"
+                      />
                       <span id="special-contest-title">
-                        {item.title} contest
+                        {item.name} contest
                       </span>
                     </div>
                   </SwiperSlide>
                 ))}
               </Swiper>
             </div>
+
             <div className="follow-suggestion-container">
               <span id="subtitle">Follow list suggestion:</span>
               <div className="follow-list-suggestion">

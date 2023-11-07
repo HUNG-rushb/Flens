@@ -4,25 +4,21 @@ import Input from '../../components/Input/Input';
 import Textarea from '../../components/Textarea/Textarea';
 import Page from '../../components/utils/Page';
 import { useAuthState } from '../../context/AuthContext';
+import { useCreateContest } from '../../graphql/useContest';
 import { useUserProfileImage } from '../../graphql/useUser';
+import useUploadImageToAWS from '../../hooks/useUploadImageToAWS';
 import { handleFileChange } from '../../utils/useHandleFileChange';
 import './styles.scss';
 import { Suspense, useCallback, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 const ContestManagement = () => {
+  const navigate = useNavigate();
   const { id: userId } = useAuthState();
-  const {
-    isFetching: isFetchingUserProfileData,
-    fetchedData: userData,
-    fetchError: fetchUserProfileError,
-  } = useUserProfileImage({
-    userInfoData: { userId },
-  });
-
   const fileInputRef = useRef(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
-
+  console.log({ selectedFile });
   const [contestData, setContestData] = useState({
     title: '',
     description: '',
@@ -34,6 +30,17 @@ const ContestManagement = () => {
       thirdPrize: '',
     },
   });
+
+  const {
+    isFetching: isFetchingUserProfileData,
+    fetchedData: userData,
+    fetchError: fetchUserProfileError,
+  } = useUserProfileImage({
+    userInfoData: { userId },
+  });
+
+  const { createContest } = useCreateContest();
+  const uploadImageToAWS = useUploadImageToAWS();
 
   const handleInputChange = useCallback(
     (e) => {
@@ -61,10 +68,32 @@ const ContestManagement = () => {
   );
 
   const handleSubmit = useCallback(
-    (event) => {
+    async (event) => {
       event.preventDefault();
-      const data = { ...contestData, image: previewImage };
-      console.log(data);
+
+      const imgURL = await uploadImageToAWS({ selectedFile });
+      // console.log({ imgURL });
+
+      try {
+        await createContest({
+          variables: {
+            createContestdata: {
+              name: contestData.title,
+              contestImageURL: imgURL.Location,
+              description: contestData.description,
+
+              startDate: contestData.startDate,
+              endDate: contestData.endDate,
+
+              prize: '',
+            },
+          },
+        });
+
+        navigate('/');
+      } catch (e) {
+        throw e;
+      }
     },
     [contestData, previewImage]
   );
@@ -87,6 +116,7 @@ const ContestManagement = () => {
                     onChange={handleInputChange}
                   />
                 </div>
+
                 <div className="form-item">
                   <label>Contest Image</label>
                   <div className="contest-image-wrapper">
@@ -111,6 +141,7 @@ const ContestManagement = () => {
                     />
                   </div>
                 </div>
+
                 <div className="form-item">
                   <label>Contest description</label>
                   <Textarea
@@ -121,6 +152,7 @@ const ContestManagement = () => {
                     onChange={handleInputChange}
                   />
                 </div>
+
                 <div className="form-item">
                   <label>Contest deadline</label>
                   <ul id="deadline-wrapper">
@@ -144,6 +176,7 @@ const ContestManagement = () => {
                     </li>
                   </ul>
                 </div>
+
                 <div className="form-item">
                   <label>Contest Price</label>
                   <ul id="prize-wrapper">
