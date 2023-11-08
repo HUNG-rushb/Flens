@@ -2,6 +2,7 @@ import Modal from '../../../components/Modal/Modal';
 import { useAuthState } from '../../../context/AuthContext';
 import { useChangeVisiblePost, useDeletePost } from '../../../graphql/usePost';
 import useModal from '../../../hooks/useModal';
+import Loading from '../../../utils/useLoading';
 import { successfullNoty } from '../../../utils/useNotify';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
@@ -31,7 +32,7 @@ const MoreActionList = ({
     () => ['PUBLIC', 'PRIVATE', 'ONLY_FOLLOWERS'],
     []
   );
-  const { deletePost, isFetching: loading } = useDeletePost();
+  const { deletePost, isFetching: deleteLoading } = useDeletePost();
   const { updatePost } = useChangeVisiblePost(
     setCurrentPostVisibility,
     setPostVisibility
@@ -166,6 +167,7 @@ const MoreActionList = ({
             </ul>
           </div>
         </div>
+        <Loading loading={deleteLoading} />
         <Modal
           show={showModal}
           modalTitle="Change your post visibility"
@@ -179,6 +181,7 @@ const MoreActionList = ({
       </>
     ),
     [
+      deleteLoading,
       handleChangeMode,
       handleDeletePost,
       handleReportImage,
