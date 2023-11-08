@@ -11,7 +11,7 @@ import LeftContent from './LeftContent/LeftContent';
 import ImageDetail from './Post/ImageDetail';
 import Post from './Post/Post';
 import RightContent from './RightContent/RightContent';
-import { Suspense, useCallback, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import { CameraFill, PencilSquare } from 'react-bootstrap-icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate } from 'react-router';
@@ -63,6 +63,10 @@ const Home = () => {
       toggleShowReport();
     } catch (e) {}
   };
+
+  useEffect(() => {
+    if (posts?.length === 1) loadNew();
+  }, [posts]);
 
   return (
     <Page title="FLens-Home">
