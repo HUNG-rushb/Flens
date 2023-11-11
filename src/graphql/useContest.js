@@ -5,6 +5,7 @@ import {
   GET_CONTEST_POSTS,
 } from './queries/Contest.js';
 import { useQuery, useMutation } from '@apollo/client';
+import { useCallback } from 'react';
 
 export const useCreateContest = () => {
   const [createContest, { data, loading, error }] = useMutation(
@@ -48,15 +49,29 @@ export const useGetContestInfo = (queryPayload) => {
   };
 };
 
-export const useGetContestPosts = (queryPayload) => {
-  const { data, loading, error } = useQuery(GET_CONTEST_POSTS, {
-    fetchPolicy: 'no-cache',
-    variables: queryPayload,
+export const useGetContestPosts = (contestId) => {
+  const { data, loading, error, fetchMore } = useQuery(GET_CONTEST_POSTS, {
+    fetchPolicy: 'network-only',
+    variables: {
+      contestId,
+    },
   });
 
+  const loadNew = useCallback(async () => {
+    const a = await fetchMore({
+      variables: {
+        after: data.contestPosts.pageInfo.endCursor,
+      },
+    });
+    console.log({ a });
+  }, [data]);
+
   return {
+    posts: data?.contestPosts?.edges ?? [],
+    hasNextPage: data?.contestPosts?.pageInfo?.hasNextPage ?? true,
     isFetching: loading,
     fetchedData: data,
     fetchError: error,
+    loadNew,
   };
 };

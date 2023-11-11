@@ -30,8 +30,8 @@ module.exports = {
       name: 'social',
       filename: 'remoteEntry.js',
       remotes: {
-        chatApp: 'chat@http://localhost:6001/remoteEntry.js',
-        // chatApp:
+        chat: 'chat@http://localhost:6001/remoteEntry.js',
+        // chat:
         //   'chat@https://main.d1tavnpfnfnpjs.amplifyapp.com/remoteEntry.js',
       },
     }),
@@ -40,6 +40,7 @@ module.exports = {
       favicon: './public/favicon.ico',
       template: './public/index.html',
       filename: 'index.html',
+      manifest: './public/manifest.json',
     }),
     // new Dotenv(),
   ],

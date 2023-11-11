@@ -23,7 +23,7 @@ import React, { Suspense, useRef, useState, useMemo, useCallback } from 'react';
 import { CloudArrowUp } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
 
-const UploadImage = () => {
+const UploadImage = ({ contestId = '' }) => {
   const options = useMemo(
     () => [
       { name: 'All categories', id: '64ecb68380295e50c958e547' },
@@ -201,7 +201,7 @@ const UploadImage = () => {
               userId,
               title,
               caption,
-              contestId: '',
+              contestId: contestId,
               postViewStatus: viewStatus,
               aperture,
               lens,
