@@ -103,8 +103,7 @@ const Explore = () => {
             <div className="tab-content">
               {activeTab === 0 && (
                 <Inspiration
-                  showModal={showModal}
-                  toggleModal={toggleModal}
+s                  toggleModal={toggleModal}
                   setImageToShow={setImageToShow}
                 />
               )}
