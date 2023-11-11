@@ -1,5 +1,6 @@
 import Modal from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
+import { useGetAllReport } from '../../graphql/useReport';
 import useModal from '../../hooks/useModal';
 import TableReportData from './TableReportData';
 import './styles.scss';
@@ -49,6 +50,8 @@ const ReportManagement = () => {
   const [action, setAction] = useState('');
   const { isShowing: showModal, toggle: toggleModal } = useModal();
   const [targetItem, settargetItem] = useState({});
+  const { fetchedData: allReports } = useGetAllReport();
+  console.log({ allReports });
 
   const modalTitle = useMemo(() => {
     return action === 'Accept'
@@ -122,7 +125,7 @@ const ReportManagement = () => {
             <div className="title">Report Management</div>
             <div className="body-page">
               <TableReportData
-                body={data}
+                body={allReports ? allReports.allReports : []}
                 handleAccept={handleAccept}
                 Check={CheckSquare}
                 handleReject={handleReject}
@@ -151,6 +154,7 @@ const ReportManagement = () => {
       modalContent,
       handleClose,
       handleSubmit,
+      allReports,
     ]
   );
 };

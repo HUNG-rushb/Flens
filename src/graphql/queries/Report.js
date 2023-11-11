@@ -22,6 +22,8 @@ export const GET_ALL_REPORTS = gql`
       reason
       userId
       userReported
+      updatedAt
+      createdAt
     }
   }
 `;

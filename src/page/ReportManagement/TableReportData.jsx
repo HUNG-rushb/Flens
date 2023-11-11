@@ -1,6 +1,17 @@
+import unixToDateTime from '../../utils/unixToDateTime';
 import React, { useMemo } from 'react';
+import { useNavigate } from 'react-router';
 
-const table_title = ['No', 'Name', 'Time', 'Reason', 'Reporter', 'Action'];
+const table_title = [
+  'No',
+  'Reporter',
+  'User',
+  'Time',
+  'Link',
+  'Reason',
+  'Status',
+  'Action',
+];
 
 const TableReportManagement = ({
   body,
@@ -9,6 +20,8 @@ const TableReportManagement = ({
   handleReject,
   X,
 }) => {
+  const navigate = useNavigate();
+
   return useMemo(
     () => (
       <table>
@@ -19,31 +32,38 @@ const TableReportManagement = ({
             })}
           </tr>
         </thead>
+
         <tbody>
           {body.map((item, index) => {
             return (
               <tr key={item.id}>
                 <td>{index + 1}</td>
-                <td>{item.name}</td>
-                <td>{item.time}</td>
-                <td>{item.linkPost}</td>
+                <td>{item.userId}</td>
+                <td>{item.userReported}</td>
+                <td>{unixToDateTime(item.createdAt)}</td>
+                <td>{item.postId}</td>
                 <td>{item.reason}</td>
-                <td>{item.reporter}</td>
-                <td>
-                  <Check
-                    id="check-icon"
-                    color="blue"
-                    size={30}
-                    onClick={() => handleAccept(item)}
-                  />
+                <td>{item.isFinished ? 'Done' : 'To be decided'}</td>
 
-                  <X
-                    id="remove-icon"
-                    color="red"
-                    size={30}
-                    onClick={() => handleReject(item)}
-                  />
-                </td>
+                {item.isFinished ? (
+                  <td></td>
+                ) : (
+                  <td>
+                    <Check
+                      id="check-icon"
+                      color="blue"
+                      size={30}
+                      onClick={() => handleAccept(item)}
+                    />
+
+                    <X
+                      id="remove-icon"
+                      color="red"
+                      size={30}
+                      onClick={() => handleReject(item)}
+                    />
+                  </td>
+                )}
               </tr>
             );
           })}

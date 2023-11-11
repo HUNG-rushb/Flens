@@ -257,3 +257,17 @@ export const UPDATE_POINT_POSTING = gql`
     }
   }
 `;
+
+export const EXPLORE_POST = gql`
+  mutation UpdateLevel($updatePointPostingData: UpdateLevelInput!) {
+    updateLevel(data: $updatePointPostingData) {
+      currentLevel
+      currentXP
+      id
+      userId {
+        name
+        id
+      }
+    }
+  }
+`;
