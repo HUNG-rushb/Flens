@@ -194,7 +194,6 @@ const PostComment = ({ item, userLevel }) => {
             <></>
           )}
         </div>
-        <Loading loading={isFetching || isFetchingComment} />
       </div>
     ),
     [
@@ -204,8 +203,6 @@ const PostComment = ({ item, userLevel }) => {
       handleSubmitComment,
       allComment,
       indexComment,
-      isFetching,
-      isFetchingComment,
       userLevel,
       replyToComment,
       replyComment,
