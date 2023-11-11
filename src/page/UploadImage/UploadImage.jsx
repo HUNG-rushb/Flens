@@ -264,6 +264,7 @@ const UploadImage = ({ contestId = '' }) => {
       camera,
       caption,
       categories,
+      contestId,
       copyright,
       createPost,
       createTag,
