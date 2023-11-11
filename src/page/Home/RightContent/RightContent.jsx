@@ -28,7 +28,7 @@ const RightContent = () => {
 
   const handleClickContest = useCallback(
     (item) => {
-      navigate(`/contest/${item.id}/${item.name}`);
+      navigate(`/contest/${item.id}`);
     },
     [navigate]
   );

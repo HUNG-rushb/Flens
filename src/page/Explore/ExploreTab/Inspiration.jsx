@@ -1,6 +1,6 @@
+import { images } from '../ImageData';
 import './styles.scss';
 import React, { useMemo } from 'react';
-import { images } from '../ImageData';
 
 const Inspiration = ({ toggleModal, setImageToShow }) => {
   const countNumberColumn = useMemo(() => images.length / 3, []);
@@ -17,6 +17,7 @@ const Inspiration = ({ toggleModal, setImageToShow }) => {
         onClick={() => [setImageToShow(image.image), toggleModal()]}
       />
     ));
+
   const secondColumn = images
     .slice(countNumberColumn, countNumberColumn * 2)
     .map((image) => (
@@ -29,6 +30,7 @@ const Inspiration = ({ toggleModal, setImageToShow }) => {
         onClick={() => [setImageToShow(image.image), toggleModal()]}
       />
     ));
+
   const thirdColumn = images
     .slice(countNumberColumn * 2, countNumberColumn * 3)
     .map((image) => (
@@ -43,7 +45,7 @@ const Inspiration = ({ toggleModal, setImageToShow }) => {
     ));
   return useMemo(
     () => (
-      <div className='inspiration-container'>
+      <div className="inspiration-container">
         <div className="inspiration-content">
           <div className="first-column-image">{firstColum}</div>
           <div className="second-column-image">{secondColumn}</div>

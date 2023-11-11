@@ -44,35 +44,48 @@ export const GET_CONTEST_INFO = gql`
 `;
 
 export const GET_CONTEST_POSTS = gql`
-  query ContestPosts($contestPostsData: ContestPostsInput!) {
-    contestPosts(data: $contestPostsData) {
-      id
-      points
-      title
-      caption
-      postViewStatus
-      createdAt
-      userLikedPost
-      tag
+  query ContestPosts($contestId: String, $after: String) {
+    contestPosts(contestId: $contestId, after: $after) {
+      edges {
+        cursor
+        node {
+          id
+          points
+          title
+          caption
+          postViewStatus
+          createdAt
+          userLikedPost
+          tag
+          contestId
 
-      userId {
-        profileImageURL
-        name
-        id
+          userId {
+            profileImageURL
+            name
+            id
+          }
+
+          image {
+            url
+            imageInfoId {
+              ISO
+              aperture
+              camera
+              copyRight
+              focalLength
+              lens
+              shutterSpeed
+              takenWhen
+            }
+          }
+        }
       }
 
-      image {
-        url
-        imageInfoId {
-          ISO
-          aperture
-          camera
-          copyRight
-          focalLength
-          lens
-          shutterSpeed
-          takenWhen
-        }
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
       }
     }
   }

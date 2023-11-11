@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router';
 
 const Home = () => {
   const navigate = useNavigate();
+  const { id: userId } = useAuthState();
   const { isShowing: showReport, toggle: toggleShowReport } = useModal();
   const { isShowing: showImageDetail, toggle: toggleImageDetail } = useModal();
 
@@ -29,8 +30,6 @@ const Home = () => {
   });
 
   const [itemShowDetail, setItemShowDetail] = useState(null);
-
-  const { id: userId } = useAuthState();
 
   const { posts, hasNextPage, isFetching, fetchError, loadNew } =
     useGetNewFeed(userId);

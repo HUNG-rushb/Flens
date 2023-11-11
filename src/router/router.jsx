@@ -19,7 +19,7 @@ import EditProfile from '../page/Profile/Tabs/Biography/EditProfile.jsx';
 import ReportManagement from '../page/ReportManagement/ReportManagement.jsx';
 import Statistic from '../page/Statistic/Statistic.jsx';
 import StoryDetail from '../page/Stories/Story/StoryDetail.jsx';
-import UploadImageDetail from '../page/UploadImage/UploadDetail/UploadImageDetail.jsx';
+// import UploadImageDetail from '../page/UploadImage/UploadDetail/UploadImageDetail.jsx';
 import UploadImage from '../page/UploadImage/UploadImage.jsx';
 import UploadStory from '../page/UploadStory/UploadStory.jsx';
 
@@ -156,12 +156,6 @@ const routes = [
   {
     path: '/*',
     element: <NotFound />,
-    exact: false,
-    isPrivate: false,
-  },
-  {
-    path: '/a',
-    element: <UploadImageDetail />,
     exact: false,
     isPrivate: false,
   },
