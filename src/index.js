@@ -20,6 +20,7 @@ const client = new ApolloClient({
         fields: {
           getNewFeed: relayStylePagination(),
           getAllUserPosts: relayStylePagination(),
+          contestPosts: relayStylePagination(),
         },
       },
     },

@@ -5,15 +5,12 @@ import {
   useGetContestPosts,
 } from '../../../../graphql/useContest';
 import useModal from '../../../../hooks/useModal';
+import Post from '../../../Home/Post/Post';
 import './ContestDetail.scss';
 import SubmitionContent from './SubmitionContent';
 import { EXIF } from 'exif-js';
-import React, {
-  useRef,
-  useCallback,
-  useMemo,
-  useState,
-} from 'react';
+import React, { useRef, useCallback, useMemo, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useParams } from 'react-router-dom';
 
 const ContestDetail = () => {
@@ -23,7 +20,7 @@ const ContestDetail = () => {
     contestInfoData: { contestId },
   });
   console.log({ contestInfo });
-  const { posts, hasNextPage, isFetching, fetchError, loadNew } =
+  const { posts, hasNextPage, isFetching, fetchError, loadNew, refetch } =
     useGetContestPosts(contestId);
   console.log({ posts });
 
@@ -31,7 +28,7 @@ const ContestDetail = () => {
 
   const handleCloseModal = useCallback(() => {
     toggleModal();
-  }, [toggleModal]);
+  }, [toggleModal, showModal]);
 
   const options = useMemo(
     () => [
@@ -206,35 +203,41 @@ const ContestDetail = () => {
               />
             </div>
 
-            {/* <InfiniteScroll
-                  dataLength={posts.length}
-                  next={() => {
-                    loadNew();
-                  }}
-                  hasMore={hasNextPage}
-                  loader={<h4>Loading...</h4>}
-                  endMessage={
-                    <p style={{ textAlign: 'center' }}>
-                      <b>Yay! You have seen it all</b>
-                    </p>
-                  }
-                >
-                  {posts.map((item, idx) => {
-                    return (
-                      <Post
-                        key={'post_' + idx}
-                        item={item.node}
-                        userId={item.node.userId.id}
-                        showReport={showReport}
-                        showImageDetail={showImageDetail}
-                        toggleShowReport={toggleShowReport}
-                        setImageToReport={setImageToReport}
-                        toggleImageDetail={toggleImageDetail}
-                        setItemShowDetail={setItemShowDetail}
-                      />
-                    );
-                  })}
-                </InfiniteScroll> */}
+            {posts?.length ? (
+              <InfiniteScroll
+                dataLength={posts.length}
+                next={() => {
+                  loadNew();
+                }}
+                hasMore={hasNextPage}
+                loader={<h4>Loading...</h4>}
+                endMessage={
+                  <p style={{ textAlign: 'center' }}>
+                    <b>Yay! You have seen it all</b>
+                  </p>
+                }
+              >
+                {posts.map((item, idx) => {
+                  return (
+                    <Post
+                      key={'post_' + idx}
+                      item={item.node}
+                      userId={item.node.userId.id}
+                      // showReport={showReport}
+                      // showImageDetail={showImageDetail}
+                      // toggleShowReport={toggleShowReport}
+                      // setImageToReport={setImageToReport}
+                      // toggleImageDetail={toggleImageDetail}
+                      // setItemShowDetail={setItemShowDetail}
+                    />
+                  );
+                })}
+              </InfiniteScroll>
+            ) : (
+              <p style={{ textAlign: 'center' }}>
+                <b>Be the first one to join</b>
+              </p>
+            )}
           </div>
         </div>
 
@@ -280,6 +283,7 @@ const ContestDetail = () => {
               setAlbums={setAlbums}
               previewImage={previewImage}
               selectedFile={selectedFile}
+              refetch={refetch}
             />
           }
           size="xl"
@@ -288,6 +292,7 @@ const ContestDetail = () => {
       </>
     ),
     [
+      posts,
       album,
       albums,
       aperture,

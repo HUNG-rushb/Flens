@@ -64,7 +64,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (posts?.length === 1) loadNew();
+    if (posts?.length <= 1) loadNew();
   }, [loadNew, posts]);
 
   return (
