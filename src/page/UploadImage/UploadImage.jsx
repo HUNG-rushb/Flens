@@ -9,6 +9,7 @@ import {
 } from '../../graphql/usePost.js';
 import useModal from '../../hooks/useModal.jsx';
 import useUploadImageToAWS from '../../hooks/useUploadImageToAWS.js';
+import Loading from '../../utils/useLoading';
 import { successfullNoty } from '../../utils/useNotify.js';
 import {
   renderAddItemBySelect,
@@ -552,6 +553,7 @@ const UploadImage = () => {
               </div>
             </div>
           </div>
+          <Loading loading={isFetching} />
         </Suspense>
       </Page>
     ),
@@ -565,6 +567,7 @@ const UploadImage = () => {
       tag,
       handleKeyDown,
       InputDataBySelect,
+      isFetching,
       handleChangeMode,
       handleCancelUpload,
       handleConfirmUpload,

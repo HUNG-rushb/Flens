@@ -30,6 +30,7 @@ const Post = ({
   const [isDeletedPost, setIsDeletedPost] = useState(false);
   const [showTechnicalInfor, setShowTechnicalInfor] = useState(false);
   const [postVisibility, setPostVisibility] = useState(item.postViewStatus);
+  const userLevel = useMemo(() => item?.userLevel || 'New', [item?.userLevel]);
 
   const handleViewProfile = useCallback(() => {
     navigate(`/profile/${userId}`);
@@ -74,12 +75,15 @@ const Post = ({
           <div className="posts-wrapper">
             <div className="post-header">
               <div className="left-header-wrapper">
-                <img
-                  src={item.userId.profileImageURL}
-                  onClick={handleViewProfile}
-                  id="avatar"
-                  alt=""
-                />
+                <div className="avatar-wrapper">
+                  <img
+                    src={item.userId.profileImageURL}
+                    onClick={handleViewProfile}
+                    id="avatar"
+                    alt=""
+                  />
+                  <div className="user-level">{userLevel}</div>
+                </div>
                 <div>
                   <span id="username">{item.userId.name}</span>
                   uploaded a photo
@@ -151,7 +155,7 @@ const Post = ({
                 </div>
 
                 <PostInteraction item={item} />
-                {item && <PostComment item={item} />}
+                {item && <PostComment item={item} userLevel={userLevel} />}
               </div>
             </div>
           </div>
@@ -171,6 +175,7 @@ const Post = ({
       showReport,
       showTechnicalInfor,
       toggleShowReport,
+      userLevel,
     ]
   );
 };

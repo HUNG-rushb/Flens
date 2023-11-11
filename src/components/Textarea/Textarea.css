@@ -10,24 +10,26 @@ textarea {
     outline: none;
 }
 
+/* comment */
 .Textarea--comment {
     padding: 7px 10px;
     margin: 0 10px;
     overflow-y: hidden;
     border: 2px solid #f08080;
-
-}
-
-.Textarea--uploadBar {
-    margin: 0;
-    background-color: #fff;
-    height: 90px;
-}
-
-.Textarea--uploadBar::placeholder {
-    font-size: large;
 }
 
 .Textarea--comment::placeholder{
     font-size: 14px;
+}
+
+/* reply comment  */
+.Textarea--reply-comment {
+    padding: 0 10px;
+    margin: 0 10px;
+    overflow-y: hidden;
+    border: 2px solid #f08080;
+}
+
+.Textarea--reply-comment::placeholder{
+    font-size: 12px;
 }
