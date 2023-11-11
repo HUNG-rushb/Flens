@@ -65,7 +65,7 @@ const Home = () => {
 
   useEffect(() => {
     if (posts?.length === 1) loadNew();
-  }, [posts]);
+  }, [loadNew, posts]);
 
   return (
     <Page title="FLens-Home">
