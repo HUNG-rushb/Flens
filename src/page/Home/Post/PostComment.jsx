@@ -167,22 +167,24 @@ const PostComment = ({ item, userLevel }) => {
                     </button>
                   </div>
                 )}
-                {!replyToComment && <div className="reply-comment-wrapper">
-                  <img src={reply.avatar} alt="" id="reply-comment-avatar" />
-                  <span id="reply-comment-username">
-                    {reply.username} <span id="user-level">{userLevel}</span>
-                  </span>
-                  <div id="reply-comment-content">{reply.content}</div>
-                  <div className="reply-comment-infor">
-                    <span
-                      id="reply-text"
-                      onClick={() => handleClickReplyToReply(i.id)}
-                    >
-                      Reply
+                {!replyToComment && (
+                  <div className="reply-comment-wrapper">
+                    <img src={reply.avatar} alt="" id="reply-comment-avatar" />
+                    <span id="reply-comment-username">
+                      {reply.username} <span id="user-level">{userLevel}</span>
                     </span>
-                    <span id="comment-date">{reply.date}</span>
+                    <div id="reply-comment-content">{reply.content}</div>
+                    <div className="reply-comment-infor">
+                      <span
+                        id="reply-text"
+                        onClick={() => handleClickReplyToReply(i.id)}
+                      >
+                        Reply
+                      </span>
+                      <span id="comment-date">{reply.date}</span>
+                    </div>
                   </div>
-                </div>}
+                )}
               </div>
             ))}
 

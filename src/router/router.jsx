@@ -15,6 +15,7 @@ import NotFound from '../page/NotFound/404NotFound.jsx';
 import Notification from '../page/Notification/Notification.jsx';
 import Profile from '../page/Profile/Profile.jsx';
 import EditProfile from '../page/Profile/Tabs/Biography/EditProfile.jsx';
+import TagSearchResult from '../page/TagSearchResult/SearchTagResult.jsx'
 // admin
 import ReportManagement from '../page/ReportManagement/ReportManagement.jsx';
 import Statistic from '../page/Statistic/Statistic.jsx';
@@ -124,6 +125,12 @@ const routes = [
   {
     path: '/contest/:contestId',
     element: <ContestDetail />,
+    exact: true,
+    isPrivate: true,
+  },
+  {
+    path: '/tag/:tagId',
+    element: <TagSearchResult />,
     exact: true,
     isPrivate: true,
   },

@@ -1,21 +1,13 @@
-import Avatar from '../../assets/images/avatar.jpg';
+import { useLocation } from 'react-router-dom';
 import Modal from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
 import useModal from '../../hooks/useModal';
-import StoryPage from '../Stories/StoryPage';
-import Inspiration from './ExploreTab/Inspiration';
-import SimilarImageDetail from './ExploreTab/SimilarImageDetail.jsx';
-import './styles.scss';
-import React, {
-  Suspense,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { images } from '../Explore/ImageData';
+import SimilarImageDetail from './SimilarImageDetail';
+import { Suspense, useCallback, useMemo, useState } from 'react';
+import Masonry from 'react-layout-masonry';
 
-const Explore = () => {
+const SearchTagResult = () => {
   const options = useMemo(
     () => [
       { name: 'All categories', id: '64ecb68380295e50c958e547' },
@@ -44,51 +36,19 @@ const Explore = () => {
     []
   );
 
-  const [activeTab, setActiveTab] = useState(0);
-  const location = useLocation();
-  const tabs = useMemo(() => ['inspiration', 'stories'], []);
   const [selectedOption, setSelectedOption] = useState(options[0].value);
   const { isShowing: showModal, toggle: toggleModal } = useModal();
-  const navigate = useNavigate();
+  const [selectedItem, setSelectedItem] = useState({});
+  const location = useLocation()
 
   const searchValue = useMemo(
     () => location?.state?.searchValue,
     [location?.state?.searchValue]
   );
-  const tagValue = useMemo(
-    () => location?.state?.tagValue,
-    [location?.state?.tagValue]
-  );
-
-  const [imageToShow, setImageToShow] = useState('');
-  const [selectedItem, setSelectedItem] = useState({});
 
   const modalContent = useCallback(() => {
     return <SimilarImageDetail imageDetail={selectedItem} />;
   }, [selectedItem]);
-
-  const handleChangeTab = useCallback(
-    (index, tab) => {
-      setActiveTab(index);
-      navigate(`/explore/${tab}`);
-    },
-    [navigate]
-  );
-
-  useEffect(() => {
-    options[0].isChecked = true;
-    if (location.pathname === '/explore/stories') {
-      setActiveTab(1);
-    }
-  }, [location, options]);
-
-  useEffect(() => {
-    setSelectedItem({
-      username: 'Thanh',
-      avatar: Avatar,
-      image: imageToShow,
-    });
-  }, [imageToShow]);
 
   return useMemo(
     () => (
@@ -107,29 +67,27 @@ const Explore = () => {
                   ))}
                 </select>
               </div>
-              <div className="explore-tabs">
-                {tabs.map((tab, index) => (
-                  <span
-                    key={index}
-                    className={`tab tab--${
-                      activeTab === index ? 'active' : 'inActive'
-                    }`}
-                    onClick={() => handleChangeTab(index, tab)}
-                  >
-                    {tab}
-                  </span>
-                ))}
-              </div>
+            <p style={{textAlign:"center", width:"100%", fontSize:"18px"}}>search result of Hagtag: <b>#{searchValue}</b></p>
+
             </div>
             <div className="tab-content">
-              {activeTab === 0 && (
-                <Inspiration
-                  selectedOption={selectedOption}
-                  toggleModal={toggleModal}
-                  setImageToShow={setImageToShow}
-                />
-              )}
-              {activeTab === 1 && <StoryPage />}
+              <Masonry columns={3} gap={16} className="inspiration-container">
+                {images.map((item) => {
+                  return (
+                    <span key={item.id}>
+                      <img
+                        alt=""
+                        src={item.image}
+                        width="100%"
+                        onClick={() => [
+                          toggleModal(),
+                          setSelectedItem(item),
+                        ]}
+                      />
+                    </span>
+                  );
+                })}
+              </Masonry>
             </div>
           </div>
           <Modal
@@ -143,17 +101,8 @@ const Explore = () => {
         </Suspense>
       </Page>
     ),
-    [
-      selectedOption,
-      options,
-      tabs,
-      activeTab,
-      toggleModal,
-      showModal,
-      modalContent,
-      handleChangeTab,
-    ]
+    [modalContent, options, searchValue, selectedOption, showModal, toggleModal]
   );
 };
 
-export default Explore;
+export default SearchTagResult;

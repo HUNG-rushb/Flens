@@ -55,7 +55,7 @@ const NavbarSearch = () => {
 
   const handleSearch = useCallback(() => {
     setSearchValue('');
-    navigate('/explore/inspiration', {
+    navigate(`/tag/${searchValue}`, {
       state: {
         searchValue: searchValue,
       },
