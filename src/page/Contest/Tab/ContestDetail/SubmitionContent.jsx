@@ -55,6 +55,7 @@ const SubmitionContent = ({
   previewImage,
   selectedFile,
   handleCloseModal,
+  refetch,
 }) => {
   const navigate = useNavigate();
   const { id: userId } = useAuthState();
@@ -170,13 +171,16 @@ const SubmitionContent = ({
             },
           },
         });
+
+        refetch();
         successfullNoty('upload Contest entry sucessfull!');
+        handleCloseModal();
       } catch (e) {
         throw e;
       }
 
       if (!fetchError) {
-        navigate('/');
+        navigate(`/contest/${contestId}`);
       }
     },
     [
@@ -202,6 +206,7 @@ const SubmitionContent = ({
       updateLevel,
       uploadImageToAWS,
       userId,
+      handleCloseModal,
     ]
   );
 

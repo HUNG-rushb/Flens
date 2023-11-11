@@ -50,12 +50,15 @@ export const useGetContestInfo = (queryPayload) => {
 };
 
 export const useGetContestPosts = (contestId) => {
-  const { data, loading, error, fetchMore } = useQuery(GET_CONTEST_POSTS, {
-    fetchPolicy: 'network-only',
-    variables: {
-      contestId,
-    },
-  });
+  const { data, loading, error, fetchMore, refetch } = useQuery(
+    GET_CONTEST_POSTS,
+    {
+      fetchPolicy: 'network-only',
+      variables: {
+        contestId,
+      },
+    }
+  );
 
   const loadNew = useCallback(async () => {
     const a = await fetchMore({
@@ -73,5 +76,6 @@ export const useGetContestPosts = (contestId) => {
     fetchedData: data,
     fetchError: error,
     loadNew,
+    refetch,
   };
 };
