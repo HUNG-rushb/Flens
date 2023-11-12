@@ -23,15 +23,15 @@ export const Container = styled.div`
   height: calc(100vh - 70px);
   width: 100vw;
   justify-content: center;
-align-items: center;
+  align-items: center;
 `;
 
 export const LoadingSpinner = () => {
-    return (
-        <Container>
-            <Spinner />
-        </Container>
-    )
-}
+  return (
+    <Container>
+      <Spinner />
+    </Container>
+  );
+};
 
 export default LoadingSpinner;
