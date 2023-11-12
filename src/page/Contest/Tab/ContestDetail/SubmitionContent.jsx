@@ -1,6 +1,7 @@
 import Button from '../../../../components/Button/Button';
 import { useAuthState } from '../../../../context/AuthContext.js';
 import { useGetAllUserAlbum } from '../../../../graphql/useAlbum.js';
+import { useUserJoinContext } from '../../../../graphql/useContest';
 import {
   useCreatePostLazy,
   useUpdatePointPostingLazy,
@@ -56,24 +57,22 @@ const SubmitionContent = ({
   selectedFile,
   handleCloseModal,
   refetch,
+  contestInfoRefetch,
 }) => {
   const navigate = useNavigate();
   const { id: userId } = useAuthState();
-
   const { fetchedData: userAlbums } = useGetAllUserAlbum(
     {
       userAllAlbumData: { userId },
     },
     setAlbum
   );
-
   const { createPost, isFetching, fetchedData, fetchError } =
     useCreatePostLazy();
-
   const { updateLevel } = useUpdatePointPostingLazy();
   const { createTag } = useCreateTag();
-
   const uploadImageToAWS = useUploadImageToAWS();
+  const { userJoinContest } = useUserJoinContext();
 
   const handleKeyDown = useCallback(
     (event) => {
@@ -124,7 +123,7 @@ const SubmitionContent = ({
               userId,
               title,
               caption,
-              contestId: contestId,
+              contestId,
               postViewStatus: 'PUBLIC',
               aperture,
               lens,
@@ -172,7 +171,18 @@ const SubmitionContent = ({
           },
         });
 
+        await userJoinContest({
+          variables: {
+            userJoinContestData: {
+              contestId,
+              userId,
+            },
+          },
+        });
+
+        contestInfoRefetch();
         refetch();
+
         successfullNoty('upload Contest entry sucessfull!');
         handleCloseModal();
       } catch (e) {

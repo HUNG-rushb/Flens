@@ -1,5 +1,6 @@
 import Button from '../../../../components/Button/Button';
 import Modal from '../../../../components/Modal/Modal';
+import { useAuthState } from '../../../../context/AuthContext';
 import {
   useGetContestInfo,
   useGetContestPosts,
@@ -15,14 +16,16 @@ import { useParams } from 'react-router-dom';
 
 const ContestDetail = () => {
   const { contestId } = useParams();
+  const { id: userId } = useAuthState();
   const fileInputRef = useRef(null);
-  const { fetchedData: contestInfo } = useGetContestInfo({
-    contestInfoData: { contestId },
-  });
-  console.log({ contestInfo });
+  const { fetchedData: contestInfo, refetch: contestInfoRefetch } =
+    useGetContestInfo({
+      contestInfoData: { contestId },
+    });
+  // console.log({ contestInfo });
   const { posts, hasNextPage, isFetching, fetchError, loadNew, refetch } =
-    useGetContestPosts(contestId);
-  console.log({ posts });
+    useGetContestPosts(contestId, userId);
+  // console.log({ posts });
 
   const { isShowing: showModal, toggle: toggleModal } = useModal();
 
@@ -88,7 +91,6 @@ const ContestDetail = () => {
 
   const handleFileChange = useCallback(
     (event) => {
-      // console.log(Jimp);
       const file = event.target.files[0];
 
       const reader = new FileReader();
@@ -186,21 +188,24 @@ const ContestDetail = () => {
               <p>Mr/Ms. {contestInfo?.uploader}</p>
             </div> */}
 
-            {/* <div className="button-upload">
-              <Button text="Join now!" type="default" onClick={toggleModal} />
-            </div> */}
             <div className="upload-image-input">
-              <Button
-                text="Join now!"
-                type="default"
-                onClick={() => fileInputRef.current.click()}
-              />
-              <input
-                type="file"
-                id="fileInput"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-              />
+              {contestInfo?.contestInfo.userJoined.includes(userId) ? (
+                <p> You've joined</p>
+              ) : (
+                <>
+                  <Button
+                    text="Join now!"
+                    type="default"
+                    onClick={() => fileInputRef.current.click()}
+                  />
+                  <input
+                    type="file"
+                    id="fileInput"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                  />
+                </>
+              )}
             </div>
 
             {posts?.length ? (
@@ -284,6 +289,7 @@ const ContestDetail = () => {
               previewImage={previewImage}
               selectedFile={selectedFile}
               refetch={refetch}
+              contestInfoRefetch={contestInfoRefetch}
             />
           }
           size="xl"
@@ -321,6 +327,7 @@ const ContestDetail = () => {
       tags,
       takenWhen,
       title,
+      contestInfoRefetch,
     ]
   );
 };

@@ -8,9 +8,19 @@ export const CREATE_CONTEST = gql`
       prize
       contestImageURL
       description
+      userJoined
 
       startDate
       endDate
+    }
+  }
+`;
+
+export const USER_JOIN_CONTEST = gql`
+  mutation UserJoinContest($userJoinContestData: UserJoinContestInput!) {
+    userJoinContest(data: $userJoinContestData) {
+      userJoined
+      name
     }
   }
 `;
@@ -39,13 +49,14 @@ export const GET_CONTEST_INFO = gql`
       prize
       startDate
       endDate
+      userJoined
     }
   }
 `;
 
 export const GET_CONTEST_POSTS = gql`
-  query ContestPosts($contestId: String, $after: String) {
-    contestPosts(contestId: $contestId, after: $after) {
+  query ContestPosts($contestId: String, $userId: String, $after: String) {
+    contestPosts(contestId: $contestId, userId: $userId, after: $after) {
       edges {
         cursor
         node {

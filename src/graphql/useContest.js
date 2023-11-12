@@ -3,6 +3,7 @@ import {
   GET_ALL_CONTESTS,
   GET_CONTEST_INFO,
   GET_CONTEST_POSTS,
+  USER_JOIN_CONTEST,
 } from './queries/Contest.js';
 import { useQuery, useMutation } from '@apollo/client';
 import { useCallback } from 'react';
@@ -23,6 +24,22 @@ export const useCreateContest = () => {
   };
 };
 
+export const useUserJoinContext = () => {
+  const [userJoinContest, { data, loading, error }] = useMutation(
+    USER_JOIN_CONTEST,
+    {
+      fetchPolicy: 'no-cache',
+    }
+  );
+
+  return {
+    userJoinContest,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
+
 export const useGetAllContest = (queryPayload) => {
   const { data, loading, error } = useQuery(GET_ALL_CONTESTS, {
     fetchPolicy: 'no-cache',
@@ -37,7 +54,7 @@ export const useGetAllContest = (queryPayload) => {
 };
 
 export const useGetContestInfo = (queryPayload) => {
-  const { data, loading, error } = useQuery(GET_CONTEST_INFO, {
+  const { data, loading, error, refetch } = useQuery(GET_CONTEST_INFO, {
     fetchPolicy: 'no-cache',
     variables: queryPayload,
   });
@@ -46,16 +63,18 @@ export const useGetContestInfo = (queryPayload) => {
     isFetching: loading,
     fetchedData: data,
     fetchError: error,
+    refetch,
   };
 };
 
-export const useGetContestPosts = (contestId) => {
+export const useGetContestPosts = (contestId, userId) => {
   const { data, loading, error, fetchMore, refetch } = useQuery(
     GET_CONTEST_POSTS,
     {
       fetchPolicy: 'network-only',
       variables: {
         contestId,
+        userId,
       },
     }
   );
