@@ -42,7 +42,6 @@ const SubmitionContent = ({
   contestInfor,
   dispatch,
 }) => {
-  console.log('contestInfor', contestInfor);
   const navigate = useNavigate();
   const { id: userId } = useAuthState();
   const { fetchedData: userAlbums } = useGetAllUserAlbum(

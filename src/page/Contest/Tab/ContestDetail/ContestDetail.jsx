@@ -223,7 +223,7 @@ const ContestDetail = () => {
 
             <div className="upload-image-input">
               {contestInfo?.contestInfo?.userJoined?.includes(userId) ? (
-                <p> You've joined</p>
+                <p> You've already joined this contest.</p>
               ) : (
                 <>
                   <Button
