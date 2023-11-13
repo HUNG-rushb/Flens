@@ -51,15 +51,6 @@ const Explore = () => {
   const { isShowing: showModal, toggle: toggleModal } = useModal();
   const navigate = useNavigate();
 
-  const searchValue = useMemo(
-    () => location?.state?.searchValue,
-    [location?.state?.searchValue]
-  );
-  const tagValue = useMemo(
-    () => location?.state?.tagValue,
-    [location?.state?.tagValue]
-  );
-
   const [imageToShow, setImageToShow] = useState('');
   const [selectedItem, setSelectedItem] = useState({});
 
@@ -133,11 +124,11 @@ const Explore = () => {
             </div>
           </div>
           <Modal
+            size="xl"
             show={showModal}
             handleClose={toggleModal}
             handleSavechanges={toggleModal}
             modalContent={modalContent()}
-            size="xl"
             hideButton={true}
           />
         </Suspense>

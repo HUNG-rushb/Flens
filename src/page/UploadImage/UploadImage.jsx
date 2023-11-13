@@ -1,6 +1,10 @@
 import Button from '../../components/Button/Button';
 import Page from '../../components/utils/Page';
 import { useAuthState } from '../../context/AuthContext.js';
+import {
+  PostInfoReducer,
+  initialPostInfo,
+} from '../../context/reducer/PostReducer';
 import { useGetAllUserAlbum } from '../../graphql/useAlbum.js';
 import {
   useCreatePostLazy,
@@ -19,7 +23,14 @@ import {
 import './UploadImage.css';
 import { EXIF } from 'exif-js';
 // import Jimp from 'jimp';
-import React, { Suspense, useRef, useState, useMemo, useCallback } from 'react';
+import React, {
+  Suspense,
+  useRef,
+  useState,
+  useMemo,
+  useCallback,
+  useReducer,
+} from 'react';
 import { CloudArrowUp } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
 
@@ -60,17 +71,8 @@ const UploadImage = ({ contestId = '' }) => {
   const [previewImage, setPreviewImage] = useState(null);
   const { isShowing: showUpload, toggle: toggleShowUpload } = useModal();
 
-  const [title, setTitle] = useState('');
-  const [caption, setCaption] = useState('');
-  const [aperture, setAperture] = useState('');
-  const [lens, setLens] = useState('');
-  const [takenWhen, setTakenWhen] = useState('');
-  const [camera, setCamera] = useState('');
-  const [focalLength, setFocalLength] = useState('');
-  const [shutterSpeed, setShutterSpeed] = useState('');
-  const [iso, setIso] = useState('');
-  const [copyright, setCopyright] = useState('');
   const [viewStatus, setViewStatus] = useState('PUBLIC');
+  const [postInfor, dispatch] = useReducer(PostInfoReducer, initialPostInfo);
 
   const [tags, setTags] = useState([]);
   const [tag, setTag] = useState({
@@ -139,7 +141,6 @@ const UploadImage = ({ contestId = '' }) => {
 
   const handleFileChange = useCallback(
     (event) => {
-      // console.log(Jimp);
       const file = event.target.files[0];
 
       const reader = new FileReader();
@@ -156,28 +157,56 @@ const UploadImage = ({ contestId = '' }) => {
           });
         });
 
-        setTitle(file.name.substring(0, file.name.indexOf('.')));
-        setCamera(exifData.Model ? exifData.Model.toString() : '');
-        setAperture(exifData.FNumber ? exifData.FNumber.toString() : '');
-        setShutterSpeed(
-          exifData.ShutterSpeedValue
-            ? '1/' +
+        const exifInfo = [
+          {
+            field: 'title',
+            value: file.name.substring(0, file.name.indexOf('.')),
+          },
+          {
+            field: 'camera',
+            value: exifData.Model ? exifData.Model.toString() : '',
+          },
+          {
+            field: 'aperture',
+            value: exifData.FNumber ? exifData.FNumber.toString() : '',
+          },
+          {
+            field: 'shutterSpeed',
+            value: exifData.ShutterSpeedValue
+              ? '1/' +
                 Math.trunc(
                   1 / Math.pow(2, -exifData.ShutterSpeedValue)
                 ).toString()
-            : ''
-        );
-
-        setFocalLength(
-          exifData.FocalLength ? exifData.FocalLength.toString() : ''
-        );
-        setTakenWhen(
-          exifData.DateTimeOriginal ? exifData.DateTimeOriginal.toString() : ''
-        );
-        setIso(
-          exifData.ISOSpeedRatings ? exifData.ISOSpeedRatings.toString() : ''
-        );
-        setCopyright(exifData.Copyright ? exifData.Copyright.toString() : '');
+              : '',
+          },
+          {
+            field: 'focalLength',
+            value: exifData.FocalLength ? exifData.FocalLength.toString() : '',
+          },
+          {
+            field: 'takenWhen',
+            value: exifData.DateTimeOriginal
+              ? exifData.DateTimeOriginal.toString()
+              : '',
+          },
+          {
+            field: 'iso',
+            value: exifData.ISOSpeedRatings
+              ? exifData.ISOSpeedRatings.toString()
+              : '',
+          },
+          {
+            field: 'copyright',
+            value: exifData.Copyright ? exifData.Copyright.toString() : '',
+          },
+        ];
+        exifInfo.forEach(({ field, value }) => {
+          dispatch({
+            type: 'UPDATE_POST_FIELD',
+            field,
+            value,
+          });
+        });
       };
 
       reader.readAsDataURL(file);
@@ -199,18 +228,18 @@ const UploadImage = ({ contestId = '' }) => {
           variables: {
             createPostData: {
               userId,
-              title,
-              caption,
+              title: postInfor.title,
+              caption: postInfor.caption,
               contestId: contestId,
               postViewStatus: viewStatus,
-              aperture,
-              lens,
-              takenWhen,
-              camera,
-              focalLength,
-              shutterSpeed,
-              ISO: iso,
-              copyRight: copyright,
+              aperture: postInfor.aperture,
+              lens: postInfor.lens,
+              takenWhen: postInfor.takenWhen,
+              camera: postInfor.camera,
+              focalLength: postInfor.focalLength,
+              shutterSpeed: postInfor.shutterSpeed,
+              ISO: postInfor.iso,
+              copyRight: postInfor.copyright,
               imageHash: '',
               imageURL: result.Location,
 
@@ -260,24 +289,24 @@ const UploadImage = ({ contestId = '' }) => {
     },
     [
       albums,
-      aperture,
-      camera,
-      caption,
       categories,
       contestId,
-      copyright,
       createPost,
       createTag,
       fetchError,
-      focalLength,
-      iso,
-      lens,
       navigate,
+      postInfor.aperture,
+      postInfor.camera,
+      postInfor.caption,
+      postInfor.copyright,
+      postInfor.focalLength,
+      postInfor.iso,
+      postInfor.lens,
+      postInfor.shutterSpeed,
+      postInfor.takenWhen,
+      postInfor.title,
       selectedFile,
-      shutterSpeed,
       tags,
-      takenWhen,
-      title,
       updateLevel,
       uploadImageToAWS,
       userId,
@@ -303,75 +332,65 @@ const UploadImage = ({ contestId = '' }) => {
       {
         label: 'Title',
         placeholder: 'Input title for this image',
-        field: title,
-        setField: setTitle,
+        value: postInfor.title,
       },
       {
         label: 'Caption',
         placeholder: 'Input caption for this image',
-        field: caption,
-        setField: setCaption,
+        value: postInfor.caption,
       },
       {
         label: 'Camera',
         placeholder: 'Input Camera',
-        field: camera,
-        setField: setCamera,
+        value: postInfor.camera,
       },
       {
         label: 'Lens',
         placeholder: 'Input Lens',
-        field: lens,
-        setField: setLens,
+        value: postInfor.lens,
       },
       {
         label: 'Aperture',
         placeholder: 'Input Aperture',
-        field: aperture,
-        setField: setAperture,
+        value: postInfor.aperture,
       },
       {
         label: 'Shutter speed',
         placeholder: 'Input Shutter speed',
-        field: shutterSpeed,
-        setField: setShutterSpeed,
+        value: postInfor.shutterSpeed,
       },
       {
         label: 'Focal length',
         placeholder: 'Input Focal length',
-        field: focalLength,
-        setField: setFocalLength,
+        value: postInfor.focalLength,
       },
       {
         label: 'ISO',
         placeholder: 'Input ISO',
-        field: iso,
-        setField: setIso,
+        value: postInfor.iso,
       },
       {
         label: 'Taken when',
         placeholder: 'Taken when',
-        field: takenWhen,
-        setField: setTakenWhen,
+        value: postInfor.takenWhen,
       },
       {
         label: 'Copyright',
         placeholder: 'Input CopyRight',
-        field: copyright,
-        setField: setCopyright,
+        value: postInfor.copyright,
       },
     ],
     [
-      aperture,
-      camera,
-      caption,
-      copyright,
-      focalLength,
-      iso,
-      lens,
-      shutterSpeed,
-      takenWhen,
-      title,
+      postInfor.aperture,
+      postInfor.camera,
+      postInfor.caption,
+      postInfor.copyright,
+      postInfor.focalLength,
+      postInfor.iso,
+      postInfor.lens,
+      postInfor.shutterSpeed,
+      postInfor.takenWhen,
+      postInfor.title,
     ]
   );
 
@@ -453,8 +472,8 @@ const UploadImage = ({ contestId = '' }) => {
                           renderInputField(
                             item.label,
                             item.placeholder,
-                            item.field,
-                            item.setField
+                            item.value,
+                            dispatch
                           )
                         )}
                         <div>

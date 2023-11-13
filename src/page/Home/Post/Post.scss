@@ -270,8 +270,6 @@
           margin: 0 10px;
 
           #comment-avatar {
-            max-width: 40px !important;
-            height: 40px;
             border-radius: 50%;
             object-fit: cover;
           }
@@ -298,8 +296,6 @@
             padding-top: 10px;
 
             #comment-avatar {
-              width: 35px !important;
-              height: 35px;
               border-radius: 50%;
               object-fit: cover;
             }
@@ -350,13 +346,7 @@
               flex-direction: row;
               align-items: center;
               margin-left: 46px;
-
-              #reply-comment-avatar {
-                max-width: 30px !important;
-                height: 30px;
-                border-radius: 50%;
-                object-fit: cover;
-              }
+              margin-top: 5px;
 
               #submit-button {
                 background: none;
@@ -374,11 +364,9 @@
             }
 
             .reply-comment-wrapper {
-              margin:10px 0 0 46px;
+              margin:5px 0 0 46px;
 
               #reply-comment-avatar {
-                width: 30px !important;
-                height: 30px;
                 border-radius: 50%;
                 object-fit: cover;
               }

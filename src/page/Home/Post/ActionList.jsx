@@ -10,6 +10,7 @@ import {
   Trash3Fill,
   ThreeDots,
   EyeFill,
+  PencilSquare,
 } from 'react-bootstrap-icons';
 
 const MoreActionList = ({
@@ -92,6 +93,10 @@ const MoreActionList = ({
     [toggleShow, updatePost, item?.id, currentPostVisibility, setPostVisibility]
   );
 
+  const handleEditImage = () => {
+    // handle edit image
+  }
+
   const modalContent = useCallback(() => {
     return (
       <div className="change-post-mode-wrapper">
@@ -141,18 +146,24 @@ const MoreActionList = ({
           />
           <div className="list-actions" hidden={showListActions}>
             <ul>
-              <li onClick={handleReportImage}>
-                <FlagFill color="blue" />
-                Report this photo
-              </li>
-
+              {item?.userId.id !== userId && (
+                <li onClick={handleReportImage}>
+                  <FlagFill color="blue" />
+                  Report post
+                </li>
+              )}
+              {item?.userId.id === userId && (
+                <li onClick={handleEditImage}>
+                  <PencilSquare color="green" />
+                  Edit post
+                </li>
+              )}
               {item?.userId.id === userId && (
                 <li onClick={handleDeletePost}>
                   <Trash3Fill color="#FF2E2E" />
-                  Delete this photo
+                  Delete post
                 </li>
               )}
-
               {item?.userId.id === userId && (
                 <li
                   onClick={() => {
@@ -161,7 +172,7 @@ const MoreActionList = ({
                   }}
                 >
                   <EyeFill color="#097969" />
-                  Setting mode
+                  Change visibility
                 </li>
               )}
             </ul>

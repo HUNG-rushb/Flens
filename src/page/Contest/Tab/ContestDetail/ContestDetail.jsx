@@ -2,6 +2,10 @@ import Button from '../../../../components/Button/Button';
 import Modal from '../../../../components/Modal/Modal';
 import { useAuthState } from '../../../../context/AuthContext';
 import {
+  initialContestInfo,
+  ContestInfoReducer,
+} from '../../../../context/reducer/ContestReducer';
+import {
   useGetContestInfo,
   useGetContestPosts,
 } from '../../../../graphql/useContest';
@@ -10,7 +14,13 @@ import Post from '../../../Home/Post/Post';
 import './ContestDetail.scss';
 import SubmitionContent from './SubmitionContent';
 import { EXIF } from 'exif-js';
-import React, { useRef, useCallback, useMemo, useState } from 'react';
+import React, {
+  useRef,
+  useCallback,
+  useMemo,
+  useState,
+  useReducer,
+} from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useParams } from 'react-router-dom';
 
@@ -31,7 +41,7 @@ const ContestDetail = () => {
 
   const handleCloseModal = useCallback(() => {
     toggleModal();
-  }, [toggleModal, showModal]);
+  }, [toggleModal]);
 
   const options = useMemo(
     () => [
@@ -64,16 +74,11 @@ const ContestDetail = () => {
   const [previewImage, setPreviewImage] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const [title, setTitle] = useState('');
-  const [caption, setCaption] = useState('');
-  const [aperture, setAperture] = useState('');
-  const [lens, setLens] = useState('');
-  const [takenWhen, setTakenWhen] = useState('');
-  const [camera, setCamera] = useState('');
-  const [focalLength, setFocalLength] = useState('');
-  const [shutterSpeed, setShutterSpeed] = useState('');
-  const [iso, setIso] = useState('');
-  const [copyright, setCopyright] = useState('');
+  const [contestInfor, dispatch] = useReducer(
+    ContestInfoReducer,
+    initialContestInfo
+  );
+
   const [tags, setTags] = useState([]);
   const [tag, setTag] = useState({
     id: 0,
@@ -107,28 +112,56 @@ const ContestDetail = () => {
           });
         });
 
-        setTitle(file.name.substring(0, file.name.indexOf('.')));
-        setCamera(exifData.Model ? exifData.Model.toString() : '');
-        setAperture(exifData.FNumber ? exifData.FNumber.toString() : '');
-        setShutterSpeed(
-          exifData.ShutterSpeedValue
-            ? '1/' +
+        const exifInfo = [
+          {
+            field: 'title',
+            value: file.name.substring(0, file.name.indexOf('.')),
+          },
+          {
+            field: 'camera',
+            value: exifData.Model ? exifData.Model.toString() : '',
+          },
+          {
+            field: 'aperture',
+            value: exifData.FNumber ? exifData.FNumber.toString() : '',
+          },
+          {
+            field: 'shutterSpeed',
+            value: exifData.ShutterSpeedValue
+              ? '1/' +
                 Math.trunc(
                   1 / Math.pow(2, -exifData.ShutterSpeedValue)
                 ).toString()
-            : ''
-        );
-
-        setFocalLength(
-          exifData.FocalLength ? exifData.FocalLength.toString() : ''
-        );
-        setTakenWhen(
-          exifData.DateTimeOriginal ? exifData.DateTimeOriginal.toString() : ''
-        );
-        setIso(
-          exifData.ISOSpeedRatings ? exifData.ISOSpeedRatings.toString() : ''
-        );
-        setCopyright(exifData.Copyright ? exifData.Copyright.toString() : '');
+              : '',
+          },
+          {
+            field: 'focalLength',
+            value: exifData.FocalLength ? exifData.FocalLength.toString() : '',
+          },
+          {
+            field: 'takenWhen',
+            value: exifData.DateTimeOriginal
+              ? exifData.DateTimeOriginal.toString()
+              : '',
+          },
+          {
+            field: 'iso',
+            value: exifData.ISOSpeedRatings
+              ? exifData.ISOSpeedRatings.toString()
+              : '',
+          },
+          {
+            field: 'copyright',
+            value: exifData.Copyright ? exifData.Copyright.toString() : '',
+          },
+        ];
+        exifInfo.forEach(({ field, value }) => {
+          dispatch({
+            type: 'UPDATE_CONTEST_FIELD',
+            field,
+            value,
+          });
+        });
       };
 
       reader.readAsDataURL(file);
@@ -189,7 +222,7 @@ const ContestDetail = () => {
             </div> */}
 
             <div className="upload-image-input">
-              {contestInfo?.contestInfo.userJoined.includes(userId) ? (
+              {contestInfo?.contestInfo?.userJoined?.includes(userId) ? (
                 <p> You've joined</p>
               ) : (
                 <>
@@ -254,26 +287,6 @@ const ContestDetail = () => {
               contestId={contestId}
               handleCloseModal={handleCloseModal}
               options={options}
-              title={title}
-              setTitle={setTitle}
-              caption={caption}
-              setCaption={setCaption}
-              aperture={aperture}
-              setAperture={setAperture}
-              lens={lens}
-              setLens={setLens}
-              takenWhen={takenWhen}
-              setTakenWhen={setTakenWhen}
-              focalLength={focalLength}
-              setFocalLength={setFocalLength}
-              shutterSpeed={shutterSpeed}
-              setShutterSpeed={setShutterSpeed}
-              iso={iso}
-              setIso={setIso}
-              copyright={copyright}
-              setCopyright={setCopyright}
-              camera={camera}
-              setCamera={setCamera}
               tags={tags}
               setTags={setTags}
               tag={tag}
@@ -290,6 +303,8 @@ const ContestDetail = () => {
               selectedFile={selectedFile}
               refetch={refetch}
               contestInfoRefetch={contestInfoRefetch}
+              contestInfor={contestInfor}
+              dispatch={dispatch}
             />
           }
           size="xl"
@@ -298,36 +313,32 @@ const ContestDetail = () => {
       </>
     ),
     [
+      contestInfo?.contestInfo.contestImageURL,
+      contestInfo?.contestInfo.name,
+      contestInfo?.contestInfo.description,
+      contestInfo?.contestInfo.startDate,
+      contestInfo?.contestInfo.endDate,
+      contestInfo?.contestInfo?.userJoined,
+      userId,
+      handleFileChange,
       posts,
-      album,
-      albums,
-      aperture,
-      camera,
-      caption,
+      hasNextPage,
+      showModal,
+      contestId,
+      handleCloseModal,
+      options,
+      tags,
+      tag,
       categories,
       category,
-      contestId,
-      contestInfo?.contestInfo.contestImageURL,
-      contestInfo?.contestInfo.description,
-      contestInfo?.contestInfo.endDate,
-      contestInfo?.contestInfo.name,
-      contestInfo?.contestInfo.startDate,
-      copyright,
-      focalLength,
-      handleCloseModal,
-      handleFileChange,
-      iso,
-      lens,
-      options,
+      album,
+      albums,
       previewImage,
       selectedFile,
-      showModal,
-      shutterSpeed,
-      tag,
-      tags,
-      takenWhen,
-      title,
+      refetch,
       contestInfoRefetch,
+      contestInfor,
+      loadNew,
     ]
   );
 };

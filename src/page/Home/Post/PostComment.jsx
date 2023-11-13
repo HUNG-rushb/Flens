@@ -1,17 +1,15 @@
-import Textarea from '../../../components/Textarea/Textarea';
 import { useAuthState } from '../../../context/AuthContext';
 import {
   useGetAllPostComment,
-  useCreateCommentLazy, // useGetAllPostCommentLazy,
+  useCreateCommentLazy,
 } from '../../../graphql/usePost';
-import { handleKeyPressComment } from '../../../utils/handleKeyPressComment';
+import { renderCommentHeader } from '../../../utils/renderCommentHeader';
 import { relativeDays } from '../../../utils/unixToDateTime';
 import Loading from '../../../utils/useLoading';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Send } from 'react-bootstrap-icons';
 
 const PostComment = ({ item, userLevel }) => {
-  const { id: userId, profileImageURL } = useAuthState();
+  const { id: userId, profileImageURL: userAvatar } = useAuthState();
   const [allComment, setAllComment] = useState(null);
   const [comment, setComment] = useState('');
   const [indexComment, setIndexComment] = useState(3);
@@ -77,7 +75,7 @@ const PostComment = ({ item, userLevel }) => {
   };
 
   const reply = {
-    avatar: profileImageURL,
+    avatar: userAvatar,
     content: replyComment,
     date: 'todayssss',
     username: 'username',
@@ -93,118 +91,102 @@ const PostComment = ({ item, userLevel }) => {
 
   return useMemo(
     () => (
-      <div className="comments-wrapper">
-        <div className="comment-header">
-          <img src={profileImageURL} alt="" id="comment-avatar" />
-          <Textarea
-            type="comment"
-            placeholder="Add a comment"
-            id={`textarea-comment-${commentID}`}
-            value={comment}
-            rows={1}
-            onChange={handleCommentChange}
-            onKeyDown={(event) =>
-              handleKeyPressComment(
-                event,
-                commentID,
-                comment,
-                handleSubmitComment
-              )
-            }
-          />
-          <button id="submit-button" onClick={handleSubmitComment}>
-            <Send size={25} id="send-icon" />
-          </button>
-        </div>
-
-        <div className="comment-list">
-          {allComment &&
-            allComment.slice(0, indexComment).map((i, index) => (
-              <div className="comment-wrapper" key={i.id}>
-                <img
-                  src={i.userId.profileImageURL}
-                  alt=""
-                  id="comment-avatar"
-                />
-                <span id="comment-username">
-                  {i.userId.name} <span id="user-level">{userLevel}</span>
-                </span>
-                <div id="comment-content">{i.content}</div>
-                <div className="comment-infor">
-                  <span id="reply-text" onClick={() => handleClickReply(i.id)}>
-                    Reply
-                  </span>
-                  <span id="comment-date">{relativeDays(i.createdAt)}</span>
-                </div>
-                {replyToComment === i.id && (
-                  <div className="reply-comment-header">
-                    <img
-                      src={profileImageURL}
-                      alt=""
-                      id="reply-comment-avatar"
-                    />
-                    <Textarea
-                      type="reply-comment"
-                      placeholder="Add a comment"
-                      id={`textarea-comment-${commentID}`}
-                      value={replyComment}
-                      rows={1}
-                      onChange={handleReplyCommentChange}
-                      onKeyDown={(event) =>
-                        handleKeyPressComment(
-                          event,
-                          commentID,
-                          replyComment,
-                          handleSubmitRepyComment
-                        )
-                      }
-                    />
-                    <button
-                      id="submit-button"
-                      onClick={handleSubmitRepyComment}
-                    >
-                      <Send size={20} id="send-icon" />
-                    </button>
-                  </div>
-                )}
-                {!replyToComment && (
-                  <div className="reply-comment-wrapper">
-                    <img src={reply.avatar} alt="" id="reply-comment-avatar" />
-                    <span id="reply-comment-username">
-                      {reply.username} <span id="user-level">{userLevel}</span>
-                    </span>
-                    <div id="reply-comment-content">{reply.content}</div>
-                    <div className="reply-comment-infor">
-                      <span
-                        id="reply-text"
-                        onClick={() => handleClickReplyToReply(i.id)}
-                      >
-                        Reply
-                      </span>
-                      <span id="comment-date">{reply.date}</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-
-          {allComment?.length > 3 && allComment?.length > indexComment ? (
-            <div className="View-more-comments" onClick={showMoreComment}>
-              More comments
-            </div>
-          ) : (
-            <></>
+      <>
+        <div className="comments-wrapper">
+          {renderCommentHeader(
+            'comment',
+            userAvatar,
+            40,
+            comment,
+            commentID,
+            handleCommentChange,
+            handleSubmitComment,
+            25
           )}
+          <div className="comment-list">
+            {allComment &&
+              allComment.slice(0, indexComment).map((i, index) => (
+                <div className="comment-wrapper" key={index + i.id}>
+                  <img
+                    src={i.userId.profileImageURL}
+                    id="comment-avatar"
+                    height={40}
+                    width={40}
+                    alt=""
+                  />
+                  <span id="comment-username">
+                    {i.userId.name} <span id="user-level">{userLevel}</span>
+                  </span>
+                  <div id="comment-content">{i.content}</div>
+                  <div className="comment-infor">
+                    <span
+                      id="reply-text"
+                      onClick={() => handleClickReply(i.id)}
+                    >
+                      Reply
+                    </span>
+                    <span id="comment-date">{relativeDays(i.createdAt)}</span>
+                  </div>
+                  {replyToComment === i.id &&
+                    renderCommentHeader(
+                      'reply-comment',
+                      userAvatar,
+                      30,
+                      replyComment,
+                      commentID,
+                      handleReplyCommentChange,
+                      handleSubmitRepyComment,
+                      20
+                    )}
+
+                  {!replyToComment && (
+                    <div className="reply-comment-wrapper">
+                      <img
+                        src={reply.avatar}
+                        id="comment-avatar"
+                        height={30}
+                        width={30}
+                        alt=""
+                      />
+                      <span id="comment-username">
+                        {reply.username}{' '}
+                        <span id="user-level">{userLevel}</span>
+                      </span>
+                      <div id="reply-comment-content">{reply.content}</div>
+                      <div className="reply-comment-infor">
+                        <span
+                          id="reply-text"
+                          onClick={() => handleClickReplyToReply(i.id)}
+                        >
+                          Reply
+                        </span>
+                        <span id="comment-date">{reply.date}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+
+            {allComment?.length > 3 && allComment?.length > indexComment ? (
+              <div className="View-more-comments" onClick={showMoreComment}>
+                More comments
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
-      </div>
+        <Loading loading={isFetchingComment} />
+      </>
     ),
     [
-      profileImageURL,
-      commentID,
+      userAvatar,
       comment,
+      commentID,
       handleSubmitComment,
       allComment,
       indexComment,
+      isFetchingComment,
       userLevel,
       replyToComment,
       replyComment,

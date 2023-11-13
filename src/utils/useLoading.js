@@ -89,7 +89,7 @@ const Dot = styled.div`
   }
 `;
 
-const GloabalLoading = ({ loading }) => {
+const Loading = ({ loading }) => {
   return loading ? (
     <Overlay>
       <Content>
@@ -103,4 +103,4 @@ const GloabalLoading = ({ loading }) => {
   ) : null;
 };
 
-export default GloabalLoading;
+export default Loading;

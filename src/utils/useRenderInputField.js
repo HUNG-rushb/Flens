@@ -1,11 +1,24 @@
 // import { removeItemFromArray } from './removeItemFromArray.js';
+import { handleInputChange } from '../context/actions/ContestActions.js';
 
 export const removeItemFromArray = (removeId, array, setArray) => {
   const removeItem = array.filter((item) => item.id !== removeId);
   setArray(removeItem);
 };
 
-export const renderInputField = (label, placeholder, value, setValue) => {
+export const renderInputField = (label, placeholder, value, dispatch) => {
+  const convertLabel = () => {
+    const words = label?.split(' ');
+
+  words[0] = words[0]?.toLowerCase();
+
+  for (let i = 1; i < words?.length; i++) {
+    words[i] = words[i]?.charAt(0).toUpperCase() + words[i]?.slice(1);
+  }
+
+  return words.join('');
+  };
+
   switch (label) {
     case 'Aperture':
       value = value !== '' ? 'f/' + value : '';
@@ -26,7 +39,13 @@ export const renderInputField = (label, placeholder, value, setValue) => {
         type="text"
         placeholder={placeholder}
         value={value}
-        onChange={(event) => setValue(event.target.value)}
+        onChange={(event) =>
+          handleInputChange(
+            dispatch,
+            convertLabel() || '',
+            event.target.value
+          )
+        }
       />
     </div>
   );

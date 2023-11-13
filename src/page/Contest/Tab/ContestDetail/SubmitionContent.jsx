@@ -1,5 +1,6 @@
 import Button from '../../../../components/Button/Button';
 import { useAuthState } from '../../../../context/AuthContext.js';
+import { handleInputChange } from '../../../../context/actions/ContestActions';
 import { useGetAllUserAlbum } from '../../../../graphql/useAlbum.js';
 import { useUserJoinContext } from '../../../../graphql/useContest';
 import {
@@ -21,26 +22,6 @@ import { useNavigate } from 'react-router';
 const SubmitionContent = ({
   contestId,
   options,
-  title,
-  setTitle,
-  caption,
-  setCaption,
-  aperture,
-  setAperture,
-  lens,
-  setLens,
-  takenWhen,
-  setTakenWhen,
-  focalLength,
-  setFocalLength,
-  shutterSpeed,
-  setShutterSpeed,
-  iso,
-  setIso,
-  copyright,
-  setCopyright,
-  camera,
-  setCamera,
   tags,
   setTags,
   tag,
@@ -58,7 +39,10 @@ const SubmitionContent = ({
   handleCloseModal,
   refetch,
   contestInfoRefetch,
+  contestInfor,
+  dispatch,
 }) => {
+  console.log('contestInfor', contestInfor);
   const navigate = useNavigate();
   const { id: userId } = useAuthState();
   const { fetchedData: userAlbums } = useGetAllUserAlbum(
@@ -121,18 +105,18 @@ const SubmitionContent = ({
           variables: {
             createPostData: {
               userId,
-              title,
-              caption,
+              title: contestInfor.title,
+              caption: contestInfor.caption,
               contestId,
               postViewStatus: 'PUBLIC',
-              aperture,
-              lens,
-              takenWhen,
-              camera,
-              focalLength,
-              shutterSpeed,
-              ISO: iso,
-              copyRight: copyright,
+              aperture: contestInfor.aperture,
+              lens: contestInfor.lens,
+              takenWhen: contestInfor.takenWhen,
+              camera: contestInfor.camera,
+              focalLength: contestInfor.focalLength,
+              shutterSpeed: contestInfor.shutterSpeed,
+              ISO: contestInfor.iso,
+              copyRight: contestInfor.copyright,
               imageHash: '',
               imageURL: result.Location,
               categoryId: categories.map((a) => a.id),
@@ -194,29 +178,32 @@ const SubmitionContent = ({
       }
     },
     [
-      albums,
-      aperture,
-      camera,
-      caption,
-      categories,
-      contestId,
-      copyright,
-      createPost,
-      createTag,
-      fetchError,
-      focalLength,
-      iso,
-      lens,
-      navigate,
-      selectedFile,
-      shutterSpeed,
-      tags,
-      takenWhen,
-      title,
-      updateLevel,
       uploadImageToAWS,
+      selectedFile,
+      fetchError,
+      createPost,
       userId,
+      contestInfor.title,
+      contestInfor.caption,
+      contestInfor.aperture,
+      contestInfor.lens,
+      contestInfor.takenWhen,
+      contestInfor.camera,
+      contestInfor.focalLength,
+      contestInfor.shutterSpeed,
+      contestInfor.iso,
+      contestInfor.copyright,
+      contestId,
+      categories,
+      albums,
+      tags,
+      updateLevel,
+      createTag,
+      userJoinContest,
+      contestInfoRefetch,
+      refetch,
       handleCloseModal,
+      navigate,
     ]
   );
 
@@ -238,85 +225,65 @@ const SubmitionContent = ({
       {
         label: 'Title',
         placeholder: 'Input title for this image',
-        field: title,
-        setField: setTitle,
+        value: contestInfor.title,
       },
       {
         label: 'Caption',
         placeholder: 'Input caption for this image',
-        field: caption,
-        setField: setCaption,
+        value: contestInfor.caption,
       },
       {
         label: 'Camera',
         placeholder: 'Input Camera',
-        field: camera,
-        setField: setCamera,
+        value: contestInfor.camera,
       },
       {
         label: 'Lens',
         placeholder: 'Input Lens',
-        field: lens,
-        setField: setLens,
+        value: contestInfor.lens,
       },
       {
         label: 'Aperture',
         placeholder: 'Input Aperture',
-        field: aperture,
-        setField: setAperture,
+        value: contestInfor.aperture,
       },
       {
         label: 'Shutter speed',
         placeholder: 'Input Shutter speed',
-        field: shutterSpeed,
-        setField: setShutterSpeed,
+        value: contestInfor.shutterSpeed,
       },
       {
         label: 'Focal length',
         placeholder: 'Input Focal length',
-        field: focalLength,
-        setField: setFocalLength,
+        value: contestInfor.focalLength,
       },
       {
         label: 'ISO',
         placeholder: 'Input ISO',
-        field: iso,
-        setField: setIso,
+        value: contestInfor.iso,
       },
       {
         label: 'Taken when',
         placeholder: 'Taken when',
-        field: takenWhen,
-        setField: setTakenWhen,
+        value: contestInfor.takenWhen,
       },
       {
         label: 'Copyright',
         placeholder: 'Input CopyRight',
-        field: copyright,
-        setField: setCopyright,
+        value: contestInfor.copyright,
       },
     ],
     [
-      aperture,
-      camera,
-      caption,
-      copyright,
-      focalLength,
-      iso,
-      lens,
-      setAperture,
-      setCamera,
-      setCaption,
-      setCopyright,
-      setFocalLength,
-      setIso,
-      setLens,
-      setShutterSpeed,
-      setTakenWhen,
-      setTitle,
-      shutterSpeed,
-      takenWhen,
-      title,
+      contestInfor.aperture,
+      contestInfor.camera,
+      contestInfor.caption,
+      contestInfor.copyright,
+      contestInfor.focalLength,
+      contestInfor.iso,
+      contestInfor.lens,
+      contestInfor.shutterSpeed,
+      contestInfor.takenWhen,
+      contestInfor.title,
     ]
   );
 
@@ -370,8 +337,8 @@ const SubmitionContent = ({
                 renderInputField(
                   item.label,
                   item.placeholder,
-                  item.field,
-                  item.setField
+                  item.value,
+                  dispatch
                 )
               )}
               <div>
@@ -407,6 +374,14 @@ const SubmitionContent = ({
               )}
             </div>
 
+            {/* <input
+              type="text"
+              value={photoInfo.title}
+              onChange={(e) =>
+                handleInputChange(dispatch, 'title', e.target.value)
+              }
+            /> */}
+
             <div className="modal-buttons">
               <div className="button-close">
                 <Button
@@ -431,6 +406,7 @@ const SubmitionContent = ({
     ),
     [
       InputDataBySelect,
+      dispatch,
       handleCancelUpload,
       handleConfirmUpload,
       handleKeyDown,
