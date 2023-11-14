@@ -11,15 +11,18 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 const PostComment = ({ item, userLevel }) => {
   const { id: userId, profileImageURL: userAvatar } = useAuthState();
   const [allComment, setAllComment] = useState(null);
+  console.log('allComment', allComment);
   const [comment, setComment] = useState('');
   const [indexComment, setIndexComment] = useState(3);
-  const commentID = item?.id;
+  const postID = item?.id;
 
   const { isFetching, fetchedData, fetchError, refetch } = useGetAllPostComment(
     {
       postInfo: { postId: item ? item.id : '' },
     }
   );
+
+  const [commentId, setCommentId] = useState('')
 
   const [replyToComment, setReplyToComment] = useState(null);
   const [replyComment, setReplyComment] = useState('');
@@ -43,7 +46,7 @@ const PostComment = ({ item, userLevel }) => {
           variables: {
             createCommentData: {
               userId,
-              postId: item?.id,
+              postId: postID,
               // storyId: '000000000000000000000000',
               content: comment,
             },
@@ -55,7 +58,7 @@ const PostComment = ({ item, userLevel }) => {
       setComment('');
       refetch();
     },
-    [comment, createComment, item?.id, refetch, userId]
+    [comment, createComment, postID, refetch, userId]
   );
 
   const showMoreComment = () => {
@@ -66,8 +69,9 @@ const PostComment = ({ item, userLevel }) => {
     setComment(event.target.value);
   };
 
-  const handleClickReply = (commentId) => {
-    setReplyToComment(commentId);
+  const handleClickReply = (commentID) => {
+    setCommentId(commentID);
+    setReplyToComment(commentID);
   };
 
   const handleReplyCommentChange = (event) => {
@@ -80,10 +84,29 @@ const PostComment = ({ item, userLevel }) => {
     date: 'todayssss',
     username: 'username',
   };
-  const handleSubmitRepyComment = () => {
-    // handle submit reply comment
-    setReplyToComment(null);
-  };
+  const handleSubmitRepyComment = useCallback(
+    () => async (e) => {
+      e.preventDefault();
+      try {
+        await createComment({
+          variables: {
+            createCommentData: {
+              userId,
+              postId: postID,
+              content: replyComment,
+              id: commentId
+            },
+          },
+        });
+      } catch (e) {
+        throw e;
+      }
+      setReplyComment('');
+      refetch();
+      setReplyToComment(null);
+    },
+    [refetch, createComment, userId, postID, replyComment, commentId]
+  );
 
   const handleClickReplyToReply = () => {
     //handle click reply to reply
@@ -98,7 +121,7 @@ const PostComment = ({ item, userLevel }) => {
             userAvatar,
             40,
             comment,
-            commentID,
+            postID,
             handleCommentChange,
             handleSubmitComment,
             25
@@ -133,7 +156,7 @@ const PostComment = ({ item, userLevel }) => {
                       userAvatar,
                       30,
                       replyComment,
-                      commentID,
+                      postID,
                       handleReplyCommentChange,
                       handleSubmitRepyComment,
                       20
@@ -182,7 +205,7 @@ const PostComment = ({ item, userLevel }) => {
     [
       userAvatar,
       comment,
-      commentID,
+      postID,
       handleSubmitComment,
       allComment,
       indexComment,
@@ -190,6 +213,7 @@ const PostComment = ({ item, userLevel }) => {
       userLevel,
       replyToComment,
       replyComment,
+      handleSubmitRepyComment,
       reply.avatar,
       reply.username,
       reply.content,

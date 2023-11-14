@@ -146,7 +146,6 @@ const ReportManagement = () => {
       </Page>
     ),
     [
-      data,
       handleAccept,
       handleReject,
       showModal,

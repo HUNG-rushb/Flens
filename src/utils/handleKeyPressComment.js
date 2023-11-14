@@ -1,10 +1,10 @@
 export const handleKeyPressComment = async (
   event,
-  commentID,
+  postID,
   comment,
   handleSubmitComment
 ) => {
-  const textarea = document?.getElementById(`textarea-comment-${commentID}`);
+  const textarea = document?.getElementById(`textarea-comment-${postID}`);
   const { selectionStart, selectionEnd } = textarea;
   const value = textarea?.value;
 

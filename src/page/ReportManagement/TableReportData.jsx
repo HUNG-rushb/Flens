@@ -21,6 +21,7 @@ const TableReportManagement = ({
   X,
 }) => {
   const navigate = useNavigate();
+  console.log(body)
 
   return useMemo(
     () => (

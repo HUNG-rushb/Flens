@@ -12,6 +12,7 @@ import {
 import useModal from '../../../../hooks/useModal';
 import Post from '../../../Home/Post/Post';
 import './ContestDetail.scss';
+import RankingBoard from './RankingBoard';
 import SubmitionContent from './SubmitionContent';
 import { EXIF } from 'exif-js';
 import React, {
@@ -171,6 +172,47 @@ const ContestDetail = () => {
     [toggleModal]
   );
 
+  const data = useMemo(
+    () => [
+      {
+        id: 1,
+        username: 'user1',
+        avatar: 'https://via.placeholder.com/40x40',
+        linkPost: 'link post 1',
+        points: 150,
+      },
+      {
+        id: 2,
+        username: 'user2',
+        avatar: 'https://via.placeholder.com/40x40',
+        linkPost: 'link post 2',
+        points: 80,
+      },
+      {
+        id: 3,
+        username: 'user3',
+        avatar: 'https://via.placeholder.com/40x40',
+        linkPost: 'link post 3',
+        points: 70,
+      },
+      {
+        id: 4,
+        username: 'user4',
+        avatar: 'https://via.placeholder.com/40x40',
+        linkPost: 'link post 4',
+        points: 60,
+      },
+      {
+        id: 5,
+        username: 'user5',
+        avatar: 'https://via.placeholder.com/40x40',
+        linkPost: 'link post 5',
+        points: 50,
+      },
+    ],
+    []
+  );
+
   return useMemo(
     () => (
       <>
@@ -186,26 +228,29 @@ const ContestDetail = () => {
             </div>
           </div>
 
-          <div className="content-wrapper">
-            <div className="description">
-              <span id="subtitle">Description</span>
-              <p>{contestInfo?.contestInfo.description}</p>
-            </div>
+          <div className="below-content-wrapper">
+            <RankingBoard data={data} />
 
-            <div className="contest-date">
-              <span id="subtitle">Deadline</span>
-              <div className="date-item">
-                <span>Start date:</span>
-                {contestInfo?.contestInfo.startDate}
+            <div className="content-wrapper">
+              <div className="description">
+                <span id="subtitle">Description</span>
+                <p>{contestInfo?.contestInfo.description}</p>
               </div>
 
-              <div className="date-item">
-                <span>End date:</span>
-                {contestInfo?.contestInfo.endDate}
-              </div>
-            </div>
+              <div className="contest-date">
+                <span id="subtitle">Deadline</span>
+                <div className="date-item">
+                  <span>Start date:</span>
+                  {contestInfo?.contestInfo.startDate}
+                </div>
 
-            {/* <div className="contest-prizes">
+                <div className="date-item">
+                  <span>End date:</span>
+                  {contestInfo?.contestInfo.endDate}
+                </div>
+              </div>
+
+              {/* <div className="contest-prizes">
               <span id="subtitle">Prizes</span>
               <ul>
                 {contestInfo?.contestInfo.prizes?.map((prize, index) => (
@@ -221,61 +266,65 @@ const ContestDetail = () => {
               <p>Mr/Ms. {contestInfo?.uploader}</p>
             </div> */}
 
-            <div className="upload-image-input">
-              {contestInfo?.contestInfo?.userJoined?.includes(userId) ? (
-                <p> You've already joined this contest.</p>
+              <div className="upload-image-input">
+                {contestInfo?.contestInfo?.userJoined?.includes(userId) ? (
+                  <p> You've already joined this contest.</p>
+                ) : (
+                  <>
+                    <div className="join-button">
+                      <Button
+                        text="Join now!"
+                        type="default"
+                        onClick={() => fileInputRef.current.click()}
+                      />
+                    </div>
+                    <input
+                      type="file"
+                      id="fileInput"
+                      ref={fileInputRef}
+                      onChange={handleFileChange}
+                    />
+                  </>
+                )}
+              </div>
+              <hr/>
+
+              {posts?.length ? (
+                <InfiniteScroll
+                  dataLength={posts.length}
+                  next={() => {
+                    loadNew();
+                  }}
+                  hasMore={hasNextPage}
+                  loader={<h4>Loading...</h4>}
+                  endMessage={
+                    <p style={{ textAlign: 'center' }}>
+                      <b>Yay! You have seen it all</b>
+                    </p>
+                  }
+                >
+                  {posts.map((item, idx) => {
+                    return (
+                      <Post
+                        key={'post_' + idx}
+                        item={item.node}
+                        userId={item.node.userId.id}
+                        // showReport={showReport}
+                        // showImageDetail={showImageDetail}
+                        // toggleShowReport={toggleShowReport}
+                        // setImageToReport={setImageToReport}
+                        // toggleImageDetail={toggleImageDetail}
+                        // setItemShowDetail={setItemShowDetail}
+                      />
+                    );
+                  })}
+                </InfiniteScroll>
               ) : (
-                <>
-                  <Button
-                    text="Join now!"
-                    type="default"
-                    onClick={() => fileInputRef.current.click()}
-                  />
-                  <input
-                    type="file"
-                    id="fileInput"
-                    ref={fileInputRef}
-                    onChange={handleFileChange}
-                  />
-                </>
+                <p style={{ textAlign: 'center' }}>
+                  <b>Be the first one to join</b>
+                </p>
               )}
             </div>
-
-            {posts?.length ? (
-              <InfiniteScroll
-                dataLength={posts.length}
-                next={() => {
-                  loadNew();
-                }}
-                hasMore={hasNextPage}
-                loader={<h4>Loading...</h4>}
-                endMessage={
-                  <p style={{ textAlign: 'center' }}>
-                    <b>Yay! You have seen it all</b>
-                  </p>
-                }
-              >
-                {posts.map((item, idx) => {
-                  return (
-                    <Post
-                      key={'post_' + idx}
-                      item={item.node}
-                      userId={item.node.userId.id}
-                      // showReport={showReport}
-                      // showImageDetail={showImageDetail}
-                      // toggleShowReport={toggleShowReport}
-                      // setImageToReport={setImageToReport}
-                      // toggleImageDetail={toggleImageDetail}
-                      // setItemShowDetail={setItemShowDetail}
-                    />
-                  );
-                })}
-              </InfiniteScroll>
-            ) : (
-              <p style={{ textAlign: 'center' }}>
-                <b>Be the first one to join</b>
-              </p>
-            )}
           </div>
         </div>
 
@@ -339,6 +388,7 @@ const ContestDetail = () => {
       contestInfoRefetch,
       contestInfor,
       loadNew,
+      data,
     ]
   );
 };

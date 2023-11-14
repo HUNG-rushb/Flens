@@ -29,60 +29,115 @@
     }
   }
 
-  .content-wrapper {
-    margin: 20px;
-    padding: 10px;
+  .below-content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 30px;
+    width: 100%;
 
-    .description {
-      #subtitle {
-        font-weight: 600;
-        margin-bottom: 10px;
-        font-size: 20px;
-      }
-    }
+    .ranking-board-container {
+      width: 40%;
+      .ranking-board-content {
+        table {
+          width: 100%;
+          thead {
+            tr {
+              background-color: #f08080;
+              font-size: 16px;
+              color: white;
+              padding: 0 5px;
+              text-align: center;
+            }
+          }
+          tbody {
+            tr {
+              text-align: center;
+              td {
+                padding: 5px 0;
+              }
 
-    .contest-date {
-      #subtitle {
-        font-weight: 600;
-        margin-bottom: 10px;
-        font-size: 20px;
-        margin-right: 10px;
-      }
-
-      .date-item {
-        margin-top: 5px;
-        span {
-          font-weight: 600;
-          margin-right: 10px;
+              img {
+                border-radius: 50%;
+              }
+            }
+            tr:nth-child(even) {
+              background-color: #fcebd7;
+            }
+          } 
         }
       }
     }
-    .contest-prizes {
-      margin-top: 18px;
 
-      #subtitle {
-        font-weight: 600;
-        margin-bottom: 10px;
-        font-size: 20px;
+    .content-wrapper {
+      margin: 20px;
+      padding: 10px;
+      width: 60%;
+
+      .description {
+        #subtitle {
+          font-weight: 600;
+          margin-bottom: 10px;
+          font-size: 20px;
+        }
       }
-    }
 
-    .contest-uploader {
-      #subtitle {
-        font-weight: 600;
-        margin-bottom: 10px;
-        font-size: 20px;
+      .contest-date {
+        #subtitle {
+          font-weight: 600;
+          margin-bottom: 10px;
+          font-size: 20px;
+          margin-right: 10px;
+        }
+
+        .date-item {
+          margin-top: 5px;
+          span {
+            font-weight: 600;
+            margin-right: 10px;
+          }
+        }
+
       }
-    }
 
-    .button-upload {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
+      .upload-image-input {
+        margin-bottom: 20px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        .join-button {
+          width: 100%;
+          max-width: 400px;
+          margin: 10px 0;
 
-      button {
-        width: 200px;
+        }
+      }
+      .contest-prizes {
+        margin-top: 18px;
+
+        #subtitle {
+          font-weight: 600;
+          margin-bottom: 10px;
+          font-size: 20px;
+        }
+      }
+
+      .contest-uploader {
+        #subtitle {
+          font-weight: 600;
+          margin-bottom: 10px;
+          font-size: 20px;
+        }
+      }
+
+      .button-upload {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+
+        button {
+          width: 200px;
+        }
       }
     }
   }
