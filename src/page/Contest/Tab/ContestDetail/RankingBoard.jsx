@@ -20,7 +20,7 @@ const Ranking = ({ data }) => {
                 <tr key={item.id + index}>
                   <td>{index + 1}</td>
                   <td>
-                    <img src={item.avatar} alt="" />
+                    <img src={item.avatar} alt="" width={40} height={40} />
                     <span> {item.username}</span>
                   </td>
                   <td>{item.linkPost}</td>

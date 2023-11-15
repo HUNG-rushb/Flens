@@ -14,7 +14,7 @@ export function relativeDays(timestamp) {
   return rtf.format(daysDifference, 'day');
 }
 
-const unixToDateTime = (unixTimestamp) => {
+const unixToDateTime = (unixTimestamp, dateAndTimeOnly = false) => {
   const monthNames = [
     'January',
     'February',
@@ -30,7 +30,7 @@ const unixToDateTime = (unixTimestamp) => {
     'December',
   ];
 
-  const relative = relativeDays(unixTimestamp);
+  const relative =  relativeDays(unixTimestamp);
 
   const date = new Date(Number(unixTimestamp));
 
@@ -48,7 +48,7 @@ const unixToDateTime = (unixTimestamp) => {
   const month = monthNames[date.getMonth()];
   const day = date.getDate();
 
-  return `${relative}, ${month} ${day}-${year} ${time}`;
+  return dateAndTimeOnly? `${month}, ${day}-${year} ${time}` : `${relative}, ${month} ${day}-${year} ${time}`;
 };
 
 export default unixToDateTime;

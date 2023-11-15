@@ -1,4 +1,4 @@
-.report-management {
+.report-management-container {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -12,15 +12,16 @@
     justify-content: center;
   }
 
-  .body-page {
-    display: flex;
-    width: 90%;
+  .content-wrapper {
+    width: 100%;
+    padding: 20px 40px;
 
     #check-icon,
     #edit-icon,
     #remove-icon {
       opacity: 1;
       cursor: pointer;
+      margin-right: 5px;
     }
 
     #check-icon:hover,
@@ -33,21 +34,39 @@
       width: 100%;
       text-align: center;
       box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    }
 
-    tr > td {
-      padding: 10px 5px;
-      border-collapse: collapse;
-    }
+      thead {
+        tr {
+          background-color: #f8ad9d;
+          font-size: 19px;
+          font-weight: 600;
+          color: white;
 
-    thead > tr {
-      background-color: #f8ad9d;
-      font-size: 19px;
-      font-weight: 600;
-    }
-
-    tbody tr:nth-child(even) {
-      background-color: #fcebd7;
+          td {
+            padding: 5px;
+            border-collapse: collapse;
+          }
+        }
+      }
+      tbody {
+        tr {
+          td {
+            padding: 10px;
+            border-collapse: collapse;
+            img {
+              border-radius: 50%;
+            }
+          }
+        }
+        tr:nth-child(even) {
+          background-color: #fcebd7;
+        }
+        tr:hover {
+          background-color: #FBC4AB;
+          color: white;
+          cursor: pointer;
+        }
+      }
     }
   }
 }

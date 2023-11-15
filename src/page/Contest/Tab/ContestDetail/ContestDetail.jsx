@@ -179,7 +179,7 @@ const ContestDetail = () => {
         username: 'user1',
         avatar: 'https://via.placeholder.com/40x40',
         linkPost: 'link post 1',
-        points: 150,
+        points: 90,
       },
       {
         id: 2,

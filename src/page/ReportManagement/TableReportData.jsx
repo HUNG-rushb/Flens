@@ -14,14 +14,15 @@ const table_title = [
 ];
 
 const TableReportManagement = ({
-  body,
-  handleAccept,
-  Check,
-  handleReject,
   X,
+  body,
+  Check,
+  handleAccept,
+  handleReject,
+  handleViewDetail,
 }) => {
   const navigate = useNavigate();
-  console.log(body)
+  console.log(body);
 
   return useMemo(
     () => (
@@ -37,11 +38,29 @@ const TableReportManagement = ({
         <tbody>
           {body.map((item, index) => {
             return (
-              <tr key={item.id}>
+              <tr key={item.id} onClick={() => handleViewDetail(item)}>
                 <td>{index + 1}</td>
-                <td>{item.userId}</td>
-                <td>{item.userReported}</td>
-                <td>{unixToDateTime(item.createdAt)}</td>
+                {/* <td>{item.userId}</td> */}
+                <td>
+                  <img
+                    src="https://via.placeholder.com/40x40"
+                    alt=""
+                    width={40}
+                    height={40}
+                  />{' '}
+                  reporter name
+                </td>
+                {/* <td>{item.userReported}</td> */}
+                <td>
+                  <img
+                    src="https://via.placeholder.com/40x40"
+                    alt=""
+                    width={40}
+                    height={40}
+                  />{' '}
+                  reported name
+                </td>
+                <td>{unixToDateTime(item.createdAt, true)}</td>
                 <td>{item.postId}</td>
                 <td>{item.reason}</td>
                 <td>{item.isFinished ? 'Done' : 'To be decided'}</td>
@@ -71,7 +90,7 @@ const TableReportManagement = ({
         </tbody>
       </table>
     ),
-    [body, handleAccept, handleReject]
+    [body, handleAccept, handleReject, handleViewDetail]
   );
 };
 

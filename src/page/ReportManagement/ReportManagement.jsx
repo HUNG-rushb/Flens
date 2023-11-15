@@ -2,7 +2,8 @@ import Modal from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
 import { useGetAllReport } from '../../graphql/useReport';
 import useModal from '../../hooks/useModal';
-import TableReportData from './TableReportData';
+import Loading from '../../utils/useLoading';
+import TableReport from './TableReportData';
 import './styles.scss';
 import React, { Suspense, useCallback, useMemo, useState } from 'react';
 import { CheckSquare, XSquare } from 'react-bootstrap-icons';
@@ -50,40 +51,75 @@ const ReportManagement = () => {
   const [action, setAction] = useState('');
   const { isShowing: showModal, toggle: toggleModal } = useModal();
   const [targetItem, settargetItem] = useState({});
-  const { fetchedData: allReports } = useGetAllReport();
+  const { fetchedData: allReports, isFetching: loading } = useGetAllReport();
   console.log({ allReports });
 
   const modalTitle = useMemo(() => {
-    return action === 'Accept'
-      ? `ban user "${targetItem.name}" witd id ${targetItem.id}?`
-      : `Reject report id ${targetItem.id}`;
+    let title = '';
+    if (action === 'Accept') {
+      title = `ban user "${targetItem.name}" witd id ${targetItem.id}?`;
+    } else if (action === 'Reject') {
+      title = `Reject report id ${targetItem.id}`;
+    } else title = `Report id ${targetItem.id}`;
+    return title;
   }, [action, targetItem.id, targetItem.name]);
 
   const modalContent = useCallback(() => {
-    return action === 'Accept' ? (
-      <div key={targetItem.id} className="bodyContent">
-        <div>
-          <span>Link: </span>
-          {targetItem.link}
+    if (action === 'Accept') {
+      return (
+        <div key={targetItem.id} className="bodyContent">
+          <div>
+            <span>Link: </span>
+            {targetItem.link}
+          </div>
+          <div>
+            <span>Reason:</span> {targetItem.reason}
+          </div>
+          <div>
+            <span>Reporter: </span>
+            {targetItem.reporter}
+          </div>
         </div>
-        <div>
-          <span>Reason:</span> {targetItem.reason}
+      );
+    } else if (action === 'Reject') {
+      return 'This report will be removed, please be carefull with your decision';
+    } else
+      return (
+        <div key={targetItem.id} className="bodyContent">
+          <div>
+            <span>User:</span>{' '}
+            {targetItem.userId}
+          </div>
+          <div>
+            <span>Link: </span>
+            {targetItem.link}
+          </div>
+          <div>
+            <span>Report with reason:</span> {targetItem.reason}
+          </div>
+          <div>
+            <span>Reporter: </span>
+            {targetItem.reporter}
+          </div>
         </div>
-        <div>
-          <span>Reporter: </span>
-          {targetItem.reporter}
-        </div>
-      </div>
-    ) : (
-      'This report will be removed, please be carefull with your decision'
-    );
+      );
   }, [
     action,
     targetItem.id,
     targetItem.link,
     targetItem.reason,
     targetItem.reporter,
+    targetItem.userId,
   ]);
+
+  const handleViewDetail = useCallback(
+    (item) => {
+      setAction('view');
+      settargetItem(item);
+      toggleModal();
+    },
+    [toggleModal]
+  );
 
   const handleAccept = useCallback(
     (item) => {
@@ -107,8 +143,10 @@ const ReportManagement = () => {
     if (action === 'Accept') {
       setData(data.filter((item) => item !== targetItem));
       toggleModal();
-    } else {
+    } else if (action === 'Reject') {
       setData(data.filter((item) => item !== targetItem));
+      toggleModal();
+    } else {
       toggleModal();
     }
   }, [action, data, targetItem, toggleModal]);
@@ -121,18 +159,20 @@ const ReportManagement = () => {
     () => (
       <Page title="Flens-Report management">
         <Suspense fallback={null}>
-          <div className="report-management">
+          <div className="report-management-container">
             <div className="title">Report Management</div>
-            <div className="body-page">
-              <TableReportData
+            <div className="content-wrapper">
+              <TableReport
+                X={XSquare}
+                Check={CheckSquare}
                 body={allReports ? allReports.allReports : []}
                 handleAccept={handleAccept}
-                Check={CheckSquare}
                 handleReject={handleReject}
-                X={XSquare}
+                handleViewDetail={handleViewDetail}
               />
             </div>
           </div>
+          <Loading loading={loading} />
           <Modal
             size="md"
             show={showModal}
@@ -146,14 +186,16 @@ const ReportManagement = () => {
       </Page>
     ),
     [
+      allReports,
       handleAccept,
       handleReject,
+      handleViewDetail,
+      loading,
       showModal,
       modalTitle,
       modalContent,
-      handleClose,
       handleSubmit,
-      allReports,
+      handleClose,
     ]
   );
 };
