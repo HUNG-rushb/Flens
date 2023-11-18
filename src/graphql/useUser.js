@@ -8,6 +8,7 @@ import {
   UNFOLLOW_USER,
   GET_USER_FOLLOWING,
   GET_USER_FOLLOWER,
+  GET_ALL_USER_CHAT,
 } from './queries/User.js';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import _ from 'lodash';
@@ -141,18 +142,20 @@ export const useUnfollowUser = () => {
     fetchError: error,
   };
 };
-// export const useLazyApplication = (cache?: boolean): UseLazyApplicationHook => {
-//     const [getApplication, { data, loading, error }] = useLazyQuery<{ application: Application }, QueryApplicationArgs>(
-//         GET_APPLICATION,
-//         {
-//             fetchPolicy: cache ? undefined : 'no-cache'
-//         }
-//     );
 
-//     return {
-//         fetchApplication: ({ applicationId }) => getApplication({ variables: { applicationId } }),
-//         isFetchingApplication: loading,
-//         fetchedApplication: data?.application,
-//         fetchingApplicationError: error
-//     };
-// };
+export const useGetAllChatCurrentUser = (queryPayload) => {
+  const { data, loading, error } = useQuery(GET_ALL_USER_CHAT, {
+    fetchPolicy: 'no-cache',
+    variables: queryPayload,
+    onCompleted: (data) => {
+      console.log(data);
+    },
+  });
+
+  return {
+    isFetching: loading,
+    isNewChat: data?.chatInfoByUserId.length > 0 ? false : true,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
