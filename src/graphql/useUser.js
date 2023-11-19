@@ -8,9 +8,11 @@ import {
   UNFOLLOW_USER,
   GET_USER_FOLLOWING,
   GET_USER_FOLLOWER,
+  GET_ALL_USER_CHAT,
 } from './queries/User.js';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import _ from 'lodash';
+import { useState } from 'react';
 
 export const useCreateUserLazy = (cache) => {
   const [createUser, { data, loading, error }] = useMutation(CREATE_USER);
@@ -141,18 +143,23 @@ export const useUnfollowUser = () => {
     fetchError: error,
   };
 };
-// export const useLazyApplication = (cache?: boolean): UseLazyApplicationHook => {
-//     const [getApplication, { data, loading, error }] = useLazyQuery<{ application: Application }, QueryApplicationArgs>(
-//         GET_APPLICATION,
-//         {
-//             fetchPolicy: cache ? undefined : 'no-cache'
-//         }
-//     );
 
-//     return {
-//         fetchApplication: ({ applicationId }) => getApplication({ variables: { applicationId } }),
-//         isFetchingApplication: loading,
-//         fetchedApplication: data?.application,
-//         fetchingApplicationError: error
-//     };
-// };
+export const useGetAllChatCurrentUser = (queryPayload) => {
+  const [isNewChat, setIsNewChat] = useState(false);
+
+  const { data, loading, error } = useQuery(GET_ALL_USER_CHAT, {
+    fetchPolicy: 'no-cache',
+    variables: queryPayload,
+    onCompleted: (data) => {
+      console.log(data);
+      setIsNewChat(data.chatInfoByUserId.length === 0 ? true : false);
+    },
+  });
+
+  return {
+    isNewChat,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};

@@ -135,3 +135,16 @@ export const UNFOLLOW_USER = gql`
     }
   }
 `;
+
+export const GET_ALL_USER_CHAT = gql`
+  query ChatInfoByUserId($chatInfoByUserIdData: ChatInfoByUserIdInput!) {
+    chatInfoByUserId(data: $chatInfoByUserIdData) {
+      id
+      lastMessageAt
+      userIDs {
+        id
+        name
+      }
+    }
+  }
+`;

@@ -43,7 +43,7 @@ module.exports = {
       name: 'flens',
       filename: 'remoteEntry.js',
       remotes: {
-        chat: 'chat@http://localhost:6110/remoteEntry.js',
+        chat: 'chat@http://localhost:6120/remoteEntry.js',
         // chat:
         //   'chat@https://main.d1tavnpfnfnpjs.amplifyapp.com/remoteEntry.js',
       },
@@ -59,6 +59,10 @@ module.exports = {
           singleton: true,
           requiredVersion: packageJson.dependencies['react-dom'],
         },
+        // 'styled-components': {
+        //   singleton: true,
+        //   requiredVersion: packageJson.dependencies['styled-components'],
+        // },
       },
     }),
     new MiniCssExtractPlugin(),
@@ -122,19 +126,27 @@ module.exports = {
       },
     ],
   },
-  optimization: {
-    splitChunks: {
-      chunks: 'async',
-    },
-    // minimize: true,
-    // // moduleIds: true,
-    // // chunkIds: true,
+  // optimization: {
+  //   splitChunks: {
+  //     chunks: 'async',
+  //   },
 
-    // removeAvailableModules: true,
-    // flagIncludedChunks: true,
-    // // occurrenceOrder: false,
-    // usedExports: true,
-    // concatenateModules: true,
-    // sideEffects: false,
-  },
+  //   // runtimeChunk: false,
+  //   // minimize: true,
+  //   // // moduleIds: true,
+  //   // // chunkIds: true,
+
+  //   // removeAvailableModules: true,
+  //   // flagIncludedChunks: true,
+  //   // // occurrenceOrder: false,
+  //   // usedExports: true,
+  //   // concatenateModules: true,
+  //   // sideEffects: false,
+  // },
+
+  // resolve: {
+  //   alias: {
+  //     'styled-components': path.resolve('./node_modules', 'styled-components'),
+  //   },
+  // },
 };
