@@ -4,6 +4,7 @@ import {
   useUpdateFollowing,
   useUnfollowUser,
 } from '../../../graphql/useUser.js';
+import { useGetAllChatCurrentUser } from '../../../graphql/useUser.js';
 import Biography from './Biography.jsx';
 import Portfoio from './Portfolio.jsx';
 import Posts from './Posts.jsx';
@@ -12,7 +13,6 @@ import './styles.scss';
 import { useCallback, useMemo, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import { ThreeDots } from 'react-bootstrap-icons';
-// import { useNavigate } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
 const TabMenu = ({ userId, userProfileData, posts }) => {
@@ -31,6 +31,13 @@ const TabMenu = ({ userId, userProfileData, posts }) => {
 
   const { updateFollowing } = useUpdateFollowing();
   const { unfollowUser } = useUnfollowUser();
+
+  const { isNewChat } = useGetAllChatCurrentUser({
+    chatInfoByUserIdData: {
+      userIDs: [currentUserId, userId],
+    },
+  });
+  console.log({ isNewChat });
 
   const handleClickFollow = useCallback(
     async (event) => {
@@ -78,8 +85,8 @@ const TabMenu = ({ userId, userProfileData, posts }) => {
   );
 
   const handleClickMessageIntab = useCallback(() => {
-    navigate('/message', { state: { userId } });
-  }, []);
+    navigate('/message', { state: { userId, isNewChat } });
+  }, [isNewChat]);
 
   return useMemo(
     () => (

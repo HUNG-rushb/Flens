@@ -12,6 +12,7 @@ import {
 } from './queries/User.js';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import _ from 'lodash';
+import { useState } from 'react';
 
 export const useCreateUserLazy = (cache) => {
   const [createUser, { data, loading, error }] = useMutation(CREATE_USER);
@@ -144,17 +145,20 @@ export const useUnfollowUser = () => {
 };
 
 export const useGetAllChatCurrentUser = (queryPayload) => {
+  const [isNewChat, setIsNewChat] = useState(false);
+
   const { data, loading, error } = useQuery(GET_ALL_USER_CHAT, {
     fetchPolicy: 'no-cache',
     variables: queryPayload,
     onCompleted: (data) => {
       console.log(data);
+      setIsNewChat(data.chatInfoByUserId.length === 0 ? true : false);
     },
   });
 
   return {
+    isNewChat,
     isFetching: loading,
-    isNewChat: data?.chatInfoByUserId.length > 0 ? false : true,
     fetchedData: data,
     fetchError: error,
   };
