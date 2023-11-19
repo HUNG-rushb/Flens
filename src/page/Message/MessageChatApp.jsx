@@ -1,5 +1,5 @@
 import { useAuthState } from '../../context/AuthContext';
-import ChatApp from 'chat/ChatApp';
+// import ChatApp from 'chat/ChatApp';
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -16,21 +16,10 @@ const MessageChatApp = () => {
     'in message page of flens'
   );
 
-  // const [time, setTime] = useState(new Date());
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setTime(new Date());
-  //   }, 1000);
-
-  //   return () => clearInterval(interval);
-  // }, []);
-  // console.log({ time });
-
-  return (
-    <ChatApp userId={currentUserId} anotherUser={{ anotherUser, isNewChat }} />
-  );
-  // return <p>ok</p>;
+  // return (
+  //   <ChatApp userId={currentUserId} anotherUser={{ anotherUser, isNewChat }} />
+  // );
+  return <p>ok</p>;
 };
 
 export default MessageChatApp;
