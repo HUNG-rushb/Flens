@@ -107,17 +107,6 @@ const NavBar = () => {
                     </Nav.Link>
                     <Nav.Link
                       className={
-                        pathType === 'academy' ? 'active-nav-link' : ''
-                      }
-                      onClick={(e) => [
-                        e.preventDefault(),
-                        navigate('/academy'),
-                      ]}
-                    >
-                      Academy
-                    </Nav.Link>
-                    <Nav.Link
-                      className={
                         pathType === 'contest' ? 'active-nav-link' : ''
                       }
                       onClick={(e) => [
@@ -177,11 +166,6 @@ const NavBar = () => {
                                 onClick={() => setShowDropdown(!showDropdown)}
                               >
                                 <Link to={`/profile/${id}`}>Profile</Link>
-                              </li>
-                              <li
-                                onClick={() => setShowDropdown(!showDropdown)}
-                              >
-                                <a href="/academy">Academy</a>
                               </li>
                               <li
                                 onClick={() => setShowDropdown(!showDropdown)}

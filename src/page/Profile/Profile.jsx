@@ -2,10 +2,10 @@ import CoverImage from '../../assets/images/Profile/profileCoverImage.jpg';
 import Button from '../../components/Button/Button';
 import Modal from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
-import Spinner from '../../components/utils/Spinner';
 import { useGetAllUserPostInfo } from '../../graphql/usePost';
 import { useUserProfileImage } from '../../graphql/useUser';
 import useModal from '../../hooks/useModal';
+import Loading from '../../utils/useLoading';
 import TabMenu from './Tabs/Tabs';
 import './styles.scss';
 import { Suspense, useCallback, useMemo, useState } from 'react';
@@ -17,8 +17,8 @@ const Profile = () => {
   const [checkType, setCheckType] = useState('');
 
   const {
-    isFetching: isFetchingUserProfileData,
-    fetchedData: fetchingUserProfileData,
+    isFetching: fetchingProfileData,
+    fetchedData: UserProfileData,
     fetchError: fetchUserProfileError,
   } = useUserProfileImage({
     userInfoData: { userId },
@@ -104,80 +104,72 @@ const Profile = () => {
     () => (
       <Page title="Flens-Profile">
         <Suspense>
-          {isFetchingUserProfileData ? (
-            <Spinner />
-          ) : (
-            <div className="profile">
-              <div className="overlay"></div>
-              <img
-                src={
-                  fetchingUserProfileData?.userInfo.backgroundImageURL
-                    ? fetchingUserProfileData?.userInfo.backgroundImageURL
-                    : CoverImage
-                }
-                id="coverImage"
-                alt=""
-              />
-              <div className="peronalInfor">
-                <div className="profileAvatar">
-                  <img
-                    src={fetchingUserProfileData?.userInfo.profileImageURL}
-                    alt=""
-                  />
+          <div className="profile">
+            <div className="overlay"></div>
+            <img
+              src={
+                UserProfileData?.userInfo.backgroundImageURL
+                  ? UserProfileData?.userInfo.backgroundImageURL
+                  : CoverImage
+              }
+              id="coverImage"
+              alt=""
+            />
+            <div className="peronalInfor">
+              <div className="profileAvatar">
+                <img src={UserProfileData?.userInfo.profileImageURL} alt="" />
 
-                  <div id="profile-name">
-                    {fetchingUserProfileData?.userInfo.name
-                      ? String(
-                          fetchingUserProfileData?.userInfo.name
-                        ).toLocaleUpperCase()
-                      : 'Username'}
-                    <div className="follow-wrapper">
-                      <span
-                        id="sub-text"
-                        onClick={() => [
-                          setCheckType('Following'),
-                          toggleShowModal(),
-                        ]}
-                      >
-                        0 Following
-                      </span>
-                      <span id="sub-text">|</span>
-                      <span
-                        id="sub-text"
-                        onClick={() => [
-                          setCheckType('Follower'),
-                          toggleShowModal(),
-                        ]}
-                      >
-                        0 Followers
-                      </span>
-                    </div>
+                <div id="profile-name">
+                  {UserProfileData?.userInfo.name
+                    ? String(UserProfileData?.userInfo.name).toLocaleUpperCase()
+                    : 'Username'}
+                  <div className="follow-wrapper">
+                    <span
+                      id="sub-text"
+                      onClick={() => [
+                        setCheckType('Following'),
+                        toggleShowModal(),
+                      ]}
+                    >
+                      0 Following
+                    </span>
+                    <span id="sub-text">|</span>
+                    <span
+                      id="sub-text"
+                      onClick={() => [
+                        setCheckType('Follower'),
+                        toggleShowModal(),
+                      ]}
+                    >
+                      0 Followers
+                    </span>
                   </div>
                 </div>
               </div>
-
-              <TabMenu
-                posts={fetchedData}
-                userId={userId}
-                userProfileData={fetchingUserProfileData}
-              />
-              <Modal
-                size="xl"
-                hideButton
-                show={showModal}
-                modalTitle={modalTitle}
-                modalContent={modalContent()}
-                handleClose={toggleShowModal}
-                handleSavechanges={toggleShowModal}
-              />
             </div>
-          )}
+
+            <TabMenu
+              posts={fetchedData}
+              userId={userId}
+              userProfileData={UserProfileData}
+            />
+            <Modal
+              size="xl"
+              hideButton
+              show={showModal}
+              modalTitle={modalTitle}
+              modalContent={modalContent()}
+              handleClose={toggleShowModal}
+              handleSavechanges={toggleShowModal}
+            />
+            <Loading loading={fetchingProfileData} />
+          </div>
         </Suspense>
       </Page>
     ),
     [
-      isFetchingUserProfileData,
-      fetchingUserProfileData,
+      fetchingProfileData,
+      UserProfileData,
       fetchedData,
       userId,
       showModal,

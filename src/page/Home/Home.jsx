@@ -5,6 +5,7 @@ import { useAuthState } from '../../context/AuthContext';
 import { useGetNewFeed } from '../../graphql/usePost';
 import { useCreateReport } from '../../graphql/useReport';
 import useModal from '../../hooks/useModal';
+import Loading from '../../utils/useLoading';
 import { ReportContent } from '../ReportManagement/ReportImageContent';
 import './Home.scss';
 import LeftContent from './LeftContent/LeftContent';
@@ -133,7 +134,7 @@ const Home = () => {
               showImageDetail={showImageDetail}
               handleCloseImageDetail={toggleImageDetail}
             />
-
+            <Loading loading={isFetching} />
             <Modal
               show={showReport}
               modalContent={
