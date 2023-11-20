@@ -11,7 +11,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 const PostComment = ({ item, userLevel }) => {
   const { id: userId, profileImageURL: userAvatar } = useAuthState();
   const [allComment, setAllComment] = useState(null);
-  console.log('allComment', allComment);
+  // console.log('allComment', allComment);
   const [comment, setComment] = useState('');
   const [indexComment, setIndexComment] = useState(3);
   const postID = item?.id;
@@ -22,7 +22,7 @@ const PostComment = ({ item, userLevel }) => {
     }
   );
 
-  const [commentId, setCommentId] = useState('')
+  const [commentId, setCommentId] = useState('');
 
   const [replyToComment, setReplyToComment] = useState(null);
   const [replyComment, setReplyComment] = useState('');
@@ -94,7 +94,7 @@ const PostComment = ({ item, userLevel }) => {
               userId,
               postId: postID,
               content: replyComment,
-              id: commentId
+              id: commentId,
             },
           },
         });
