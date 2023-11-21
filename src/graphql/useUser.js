@@ -151,7 +151,7 @@ export const useGetAllChatCurrentUser = (queryPayload) => {
     fetchPolicy: 'no-cache',
     variables: queryPayload,
     onCompleted: (data) => {
-      console.log(data);
+      // console.log(data);
       setIsNewChat(data.chatInfoByUserId.length === 0 ? true : false);
     },
   });

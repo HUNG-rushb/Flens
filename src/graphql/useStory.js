@@ -5,8 +5,11 @@ import {
   GET_ALL_STORY_COMMENT,
   DELETE_STORY,
   INTERACT_STORY,
+  GET_STORY_PAGINATION,
+  GET_ALL_USER_STORY,
 } from './queries/Story.js';
 import { useQuery, useMutation } from '@apollo/client';
+import { useCallback } from 'react';
 
 export const useCreateStoryLazy = (cache) => {
   const [createStory, { data, loading, error }] = useMutation(CREATE_STORY, {
@@ -30,6 +33,61 @@ export const useGetAllStories = (cache) => {
     isFetching: loading,
     fetchedData: data,
     fetchError: error,
+  };
+};
+
+export const useGetExploreStory = (payload) => {
+  const { data, loading, error, fetchMore } = useQuery(GET_STORY_PAGINATION, {
+    fetchPolicy: 'network-only',
+    variables: payload,
+  });
+
+  const loadNew = useCallback(async () => {
+    const a = await fetchMore({
+      variables: {
+        after: data.getNewStories.pageInfo.endCursor,
+      },
+    });
+    // console.log({ a });
+  }, [data]);
+
+  return {
+    stories: data?.getNewStories?.edges ?? [],
+    hasNextPage: data?.getNewStories?.pageInfo?.hasNextPage ?? true,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+    loadNew,
+  };
+};
+
+export const useGetAllUserStory = (userId, currentUserId) => {
+  const { data, loading, error, fetchMore } = useQuery(GET_ALL_USER_STORY, {
+    fetchPolicy: 'network-only',
+    variables: {
+      userId,
+      currentUserId,
+      after: '',
+    },
+  });
+  console.log({ data });
+
+  const loadNew = useCallback(async () => {
+    const a = await fetchMore({
+      variables: {
+        after: data.getAllUserStories.pageInfo.endCursor,
+      },
+    });
+    console.log({ a });
+  }, [data]);
+
+  return {
+    stories: data?.getAllUserStories?.edges ?? [],
+    hasNextPage: data?.getAllUserStories?.pageInfo?.hasNextPage ?? true,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+    loadNew,
   };
 };
 

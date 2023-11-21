@@ -37,7 +37,7 @@ const TabMenu = ({ userId, userProfileData, posts }) => {
       userIDs: [currentUserId, userId],
     },
   });
-  console.log({ isNewChat });
+  // console.log({ isNewChat });
 
   const handleClickFollow = useCallback(
     async (event) => {
