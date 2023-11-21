@@ -16,7 +16,7 @@ const QuillEditorWithImage = () => {
 
   const [editorContent, setEditorContent] = useState('');
   const [storyImages, setStoryImages] = useState([]);
-  const [stortTitle, setStoryTitle] = useState('')
+  const [stortTitle, setStoryTitle] = useState('');
   const editorRef = useRef(null);
 
   const { createStory, isFetching, fetchedData, fetchError } =
@@ -51,7 +51,7 @@ const QuillEditorWithImage = () => {
       if (/^image\//.test(file.type)) {
         result = await uploadImageToAWS(file);
       } else {
-        console.warn('You could only upload images.');
+        console.warn('You can only upload images.');
       }
 
       console.log(result);
@@ -79,21 +79,22 @@ const QuillEditorWithImage = () => {
           createStoryData: {
             userId: userId,
             title: 'test',
+            storyViewStatus: 'PUBLIC',
             content: editorContent,
             images: storyImages,
           },
         },
       });
       toast.info('upload Story sucessfull!', {
-        position: "top-right",
+        position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
-        });
+        theme: 'light',
+      });
 
       // navigate('/');
     } catch (e) {
@@ -117,7 +118,7 @@ const QuillEditorWithImage = () => {
           id="story-title-input"
           placeholder="Enter your story title"
           value={stortTitle}
-          onChange={(e)=>setStoryTitle(e.target.value)}
+          onChange={(e) => setStoryTitle(e.target.value)}
         />
       </div>
       <ReactQuill
