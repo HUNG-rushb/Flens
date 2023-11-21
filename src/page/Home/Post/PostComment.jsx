@@ -22,7 +22,7 @@ const PostComment = ({ item, userLevel }) => {
     }
   );
 
-  const [commentId, setCommentId] = useState('')
+  const [commentId, setCommentId] = useState('');
 
   const [replyToComment, setReplyToComment] = useState(null);
   const [replyComment, setReplyComment] = useState('');
@@ -84,6 +84,7 @@ const PostComment = ({ item, userLevel }) => {
     date: 'todayssss',
     username: 'username',
   };
+
   const handleSubmitRepyComment = useCallback(
     () => async (e) => {
       e.preventDefault();
@@ -94,7 +95,7 @@ const PostComment = ({ item, userLevel }) => {
               userId,
               postId: postID,
               content: replyComment,
-              id: commentId
+              id: commentId,
             },
           },
         });
@@ -108,9 +109,53 @@ const PostComment = ({ item, userLevel }) => {
     [refetch, createComment, userId, postID, replyComment, commentId]
   );
 
-  const handleClickReplyToReply = () => {
-    //handle click reply to reply
-  };
+  const renderCommentItem = useCallback(
+    (allComment) => {
+      return allComment?.slice(0, indexComment).map((i, index) => (
+        <div className="comment-wrapper" key={index + i.id}>
+          <img
+            src={i.userId.profileImageURL}
+            id="comment-avatar"
+            height={40}
+            width={40}
+            alt=""
+          />
+          <span id="comment-username">
+            {i.userId.name} <span id="user-level">{userLevel}</span>
+          </span>
+
+          <div id="comment-content">{i.content}</div>
+          <div className="comment-infor">
+            <span id="reply-text" onClick={() => handleClickReply(i.id)}>
+              Reply
+            </span>
+            <span id="comment-date">{relativeDays(i.createdAt)}</span>
+          </div>
+          {replyToComment === i.id &&
+            renderCommentHeader(
+              'reply-comment',
+              userAvatar,
+              30,
+              replyComment,
+              postID,
+              handleReplyCommentChange,
+              handleSubmitRepyComment,
+              20
+            )}
+          {allComment.child && renderCommentItem(allComment.child)}
+        </div>
+      ));
+    },
+    [
+      handleSubmitRepyComment,
+      indexComment,
+      postID,
+      replyComment,
+      replyToComment,
+      userAvatar,
+      userLevel,
+    ]
+  );
 
   return useMemo(
     () => (
@@ -127,69 +172,7 @@ const PostComment = ({ item, userLevel }) => {
             25
           )}
           <div className="comment-list">
-            {allComment &&
-              allComment.slice(0, indexComment).map((i, index) => (
-                <div className="comment-wrapper" key={index + i.id}>
-                  <img
-                    src={i.userId.profileImageURL}
-                    id="comment-avatar"
-                    height={40}
-                    width={40}
-                    alt=""
-                  />
-                  <span id="comment-username">
-                    {i.userId.name} <span id="user-level">{userLevel}</span>
-                  </span>
-                  <div id="comment-content">{i.content}</div>
-                  <div className="comment-infor">
-                    <span
-                      id="reply-text"
-                      onClick={() => handleClickReply(i.id)}
-                    >
-                      Reply
-                    </span>
-                    <span id="comment-date">{relativeDays(i.createdAt)}</span>
-                  </div>
-                  {replyToComment === i.id &&
-                    renderCommentHeader(
-                      'reply-comment',
-                      userAvatar,
-                      30,
-                      replyComment,
-                      postID,
-                      handleReplyCommentChange,
-                      handleSubmitRepyComment,
-                      20
-                    )}
-
-                  {!replyToComment && (
-                    <div className="reply-comment-wrapper">
-                      <img
-                        src={reply.avatar}
-                        id="comment-avatar"
-                        height={30}
-                        width={30}
-                        alt=""
-                      />
-                      <span id="comment-username">
-                        {reply.username}{' '}
-                        <span id="user-level">{userLevel}</span>
-                      </span>
-                      <div id="reply-comment-content">{reply.content}</div>
-                      <div className="reply-comment-infor">
-                        <span
-                          id="reply-text"
-                          onClick={() => handleClickReplyToReply(i.id)}
-                        >
-                          Reply
-                        </span>
-                        <span id="comment-date">{reply.date}</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
-
+            {allComment && renderCommentItem(allComment)}
             {allComment?.length > 3 && allComment?.length > indexComment ? (
               <div className="View-more-comments" onClick={showMoreComment}>
                 More comments
@@ -210,14 +193,7 @@ const PostComment = ({ item, userLevel }) => {
       allComment,
       indexComment,
       isFetchingComment,
-      userLevel,
-      replyToComment,
-      replyComment,
-      handleSubmitRepyComment,
-      reply.avatar,
-      reply.username,
-      reply.content,
-      reply.date,
+      renderCommentItem,
     ]
   );
 };
