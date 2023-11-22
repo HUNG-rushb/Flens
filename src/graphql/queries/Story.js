@@ -6,6 +6,7 @@ export const CREATE_STORY = gql`
       id
       title
       points
+      storyViewStatus
 
       content
       images
@@ -25,6 +26,80 @@ export const GET_ALL_STORIES = gql`
       userId {
         name
         profileImageURL
+      }
+    }
+  }
+`;
+
+export const GET_STORY_PAGINATION = gql`
+  query GetNewStories($limit: Int, $after: String) {
+    getNewStories(limit: $limit, after: $after) {
+      pageInfo {
+        startCursor
+        hasPreviousPage
+        hasNextPage
+        endCursor
+      }
+      edges {
+        cursor
+        node {
+          id
+          images
+          points
+          storyViewStatus
+          title
+          updatedAt
+          userLikedStory
+          createdAt
+          content
+          userId {
+            id
+            name
+            profileImageURL
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_ALL_USER_STORY = gql`
+  query GetAllUserStories(
+    $userId: String
+    $currentUserId: String
+    $after: String
+  ) {
+    getAllUserStories(
+      userId: $userId
+      currentUserId: $currentUserId
+      after: $after
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          images
+          points
+          storyViewStatus
+          title
+          updatedAt
+          userLikedStory
+          createdAt
+          content
+
+          userId {
+            id
+            name
+            profileImageURL
+          }
+        }
+      }
+
+      pageInfo {
+        startCursor
+        hasPreviousPage
+        hasNextPage
+        endCursor
       }
     }
   }

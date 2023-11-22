@@ -22,7 +22,6 @@ import {
 } from '../../utils/useRenderInputField.js';
 import './UploadImage.css';
 import { EXIF } from 'exif-js';
-// import Jimp from 'jimp';
 import React, {
   Suspense,
   useRef,
@@ -240,7 +239,6 @@ const UploadImage = ({ contestId = '' }) => {
               shutterSpeed: postInfor.shutterSpeed,
               ISO: postInfor.iso,
               copyRight: postInfor.copyright,
-              imageHash: '',
               imageURL: result.Location,
 
               categoryId: categories.map((a) => a.id),
@@ -278,7 +276,7 @@ const UploadImage = ({ contestId = '' }) => {
             },
           },
         });
-        successfullNoty('upload image sucessfull!');
+        // successfullNoty('upload image sucessfull!');
       } catch (e) {
         throw e;
       }
