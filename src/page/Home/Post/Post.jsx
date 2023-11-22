@@ -1,3 +1,4 @@
+import Button from '../../../components/Button/Button.jsx';
 import unixToDateTime from '../../../utils/unixToDateTime.js';
 import { successfullNoty } from '../../../utils/useNotify.js';
 import ActionList from './ActionList';
@@ -17,6 +18,7 @@ import { useNavigate } from 'react-router';
 
 const Post = ({
   item,
+  index,
   userId,
   showImageDetail,
   toggleImageDetail,
@@ -25,12 +27,13 @@ const Post = ({
   setImageToReport,
   setItemShowDetail,
 }) => {
-  // console.log({ item });
+  console.log({ item });
   const navigate = useNavigate();
   const [isDeletedPost, setIsDeletedPost] = useState(false);
   const [showTechnicalInfor, setShowTechnicalInfor] = useState(false);
   const [postVisibility, setPostVisibility] = useState(item.postViewStatus);
   const userLevel = useMemo(() => item?.userLevel || 'New', [item?.userLevel]);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleViewProfile = useCallback(() => {
     navigate(`/profile/${userId}`);
@@ -60,6 +63,31 @@ const Post = ({
     else return <PersonFill size={18} color="#f08080" />;
   }, [postVisibility]);
 
+  const renderPopoverContent = useCallback(() => {
+    return (
+      <div className={index === 0 ? 'hover-avatar-first-item' : 'hover-avatar'}>
+        <div className="hover-content">
+          <img
+            src={item.userId.profileImageURL}
+            id="avatar-hover"
+            width={100}
+            height={100}
+            onClick={handleViewProfile}
+            alt=""
+          />
+          <div className="left-hover-content">
+            <p id="username" onClick={handleViewProfile}>
+              {item.userId.name}
+            </p>
+            <p>User level: 1</p>
+            <p style={{ fontWeight: 600 }}>100 Follower - Hung also followed</p>
+            <Button type="default2" text="Chat" />
+          </div>
+        </div>
+      </div>
+    );
+  }, [handleViewProfile, index, item.userId.name, item.userId.profileImageURL]);
+
   useEffect(() => {
     if (isDeletedPost) {
       successfullNoty('delete post sucessfull!');
@@ -75,13 +103,14 @@ const Post = ({
           <div className="posts-wrapper">
             <div className="post-header">
               <div className="left-header-wrapper">
-                <div className="avatar-wrapper">
-                  <img
-                    src={item.userId.profileImageURL}
-                    onClick={handleViewProfile}
-                    id="avatar"
-                    alt=""
-                  />
+                <div
+                  className="avatar-wrapper"
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
+                >
+                  <img src={item.userId.profileImageURL} id="avatar" alt="" />
+                  {isHovered && renderPopoverContent()}
+
                   <div className="user-level">{userLevel}</div>
                 </div>
                 <div>
@@ -165,10 +194,11 @@ const Post = ({
     [
       handleClickTag,
       handleViewDetail,
-      handleViewProfile,
       isDeletedPost,
+      isHovered,
       item,
       postVisibility,
+      renderPopoverContent,
       renderPostModeIcon,
       setImageToReport,
       showImageDetail,

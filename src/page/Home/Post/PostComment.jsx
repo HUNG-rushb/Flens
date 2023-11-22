@@ -111,27 +111,27 @@ const PostComment = ({ item, userLevel }) => {
 
   const renderCommentItem = useCallback(
     (allComment) => {
-      return allComment?.slice(0, indexComment).map((i, index) => (
-        <div className="comment-wrapper" key={index + i.id}>
+      return allComment?.slice(0, indexComment).map((item, index) => (
+        <div className="comment-wrapper" key={index + item.id}>
           <img
-            src={i.userId.profileImageURL}
+            src={item.userId.profileImageURL}
             id="comment-avatar"
             height={40}
             width={40}
             alt=""
           />
           <span id="comment-username">
-            {i.userId.name} <span id="user-level">{userLevel}</span>
+            {item.userId.name} <span id="user-level">{userLevel}</span>
           </span>
 
-          <div id="comment-content">{i.content}</div>
+          <div id="comment-content">{item.content}</div>
           <div className="comment-infor">
-            <span id="reply-text" onClick={() => handleClickReply(i.id)}>
+            <span id="reply-text" onClick={() => handleClickReply(item.id)}>
               Reply
             </span>
-            <span id="comment-date">{relativeDays(i.createdAt)}</span>
+            <span id="comment-date">{relativeDays(item.createdAt)}</span>
           </div>
-          {replyToComment === i.id &&
+          {replyToComment === item.id &&
             renderCommentHeader(
               'reply-comment',
               userAvatar,

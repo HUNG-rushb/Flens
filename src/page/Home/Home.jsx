@@ -112,6 +112,7 @@ const Home = () => {
                     return (
                       <Post
                         key={'post_' + idx}
+                        index={idx}
                         item={item.node}
                         userId={item.node.userId.id}
                         showReport={showReport}
