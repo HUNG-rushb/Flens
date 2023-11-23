@@ -259,14 +259,77 @@ export const UPDATE_POINT_POSTING = gql`
 `;
 
 export const EXPLORE_POST = gql`
-  mutation UpdateLevel($updatePointPostingData: UpdateLevelInput!) {
-    updateLevel(data: $updatePointPostingData) {
-      currentLevel
-      currentXP
-      id
-      userId {
-        name
-        id
+  query ExplorePosts($data: ExplorePostsInput, $limit: Int, $after: String) {
+    explorePosts(data: $data, limit: $limit, after: $after) {
+      pageInfo {
+        startCursor
+        hasPreviousPage
+        endCursor
+        hasNextPage
+      }
+
+      edges {
+        cursor
+        node {
+          caption
+          title
+          createdAt
+          id
+          points
+          userLikedPost
+          tag
+          postViewStatus
+          categoryId {
+            name
+          }
+          userId {
+            name
+            id
+            profileImageURL
+          }
+          image {
+            url
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const SIMILAR_POST = gql`
+  query SimilarPosts($data: SimilarPostsInput!, $limit: Int, $after: String) {
+    similarPosts(data: $data, limit: $limit, after: $after) {
+      pageInfo {
+        startCursor
+        hasPreviousPage
+        endCursor
+        hasNextPage
+      }
+
+      edges {
+        cursor
+        node {
+          caption
+          title
+          createdAt
+          id
+          points
+          userLikedPost
+          tag
+          postViewStatus
+          categoryId {
+            name
+          }
+          userId {
+            name
+            id
+            profileImageURL
+          }
+
+          image {
+            url
+          }
+        }
       }
     }
   }
