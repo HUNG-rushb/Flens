@@ -9,6 +9,8 @@ import {
   GET_USER_FOLLOWING,
   GET_USER_FOLLOWER,
   GET_ALL_USER_CHAT,
+  GET_ALL_USER_LEADERBOARD,
+  GET_ALL_USER_FOLLOWING_LEADERBOARD,
 } from './queries/User.js';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import _ from 'lodash';
@@ -158,6 +160,34 @@ export const useGetAllChatCurrentUser = (queryPayload) => {
 
   return {
     isNewChat,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
+
+export const useGetAllUserLeaderBoard = (cache) => {
+  const { data, loading, error } = useQuery(GET_ALL_USER_LEADERBOARD, {
+    fetchPolicy: cache ? undefined : 'no-cache',
+  });
+
+  return {
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
+
+export const useUserFollowingLeaderBoard = (queryPayload, cache) => {
+  const { data, loading, error } = useQuery(
+    GET_ALL_USER_FOLLOWING_LEADERBOARD,
+    {
+      fetchPolicy: cache ? undefined : 'no-cache',
+      variables: queryPayload,
+    }
+  );
+
+  return {
     isFetching: loading,
     fetchedData: data,
     fetchError: error,

@@ -1,8 +1,13 @@
 import Input from '../../components/Input/Input';
 import Select from '../../components/Select/Select';
 import Page from '../../components/utils/Page';
-import './styles.scss';
+import { useAuthState } from '../../context/AuthContext';
+import {
+  useGetAllUserLeaderBoard,
+  useUserFollowingLeaderBoard,
+} from '../../graphql/useUser';
 import { boardData } from './LeaderBoard/data';
+import './styles.scss';
 import React, {
   Suspense,
   useCallback,
@@ -10,8 +15,20 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import { TruckFlatbed } from 'react-bootstrap-icons';
+import { useNavigate } from 'react-router';
 
 const LeaderBoard = () => {
+  const navigate = useNavigate();
+  const { id: userId } = useAuthState();
+
+  const { fetchedData: userAllLeader } = useGetAllUserLeaderBoard(true);
+  const { fetchedData: userFollowingLeader } = useUserFollowingLeaderBoard({
+    data: { userId },
+  });
+  console.log({ userAllLeader });
+  console.log({ userFollowingLeader });
+
   const options = useMemo(
     () => [
       { id: 1, value: 'All' },
@@ -68,11 +85,11 @@ const LeaderBoard = () => {
         <Suspense fallback={null}>
           <div className="leader-board">
             <div className="title-wrapper">
-              <span id='title'>Flens Leaderboard</span>
+              <span id="title">Flens Leaderboard</span>
               <p>
                 Find your standings, based on your activity the past 30 days
               </p>
-              <span id='title'>Followers</span>
+              <span id="title">Followers</span>
               <p>Photographers you are following</p>
             </div>
             <div className="leader-board-content">
