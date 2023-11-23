@@ -1,20 +1,68 @@
+import Modal from '../../../../components/Modal/Modal';
 import { useAuthState } from '../../../../context/AuthContext';
+import { useCreateReport } from '../../../../graphql/useReport';
 import { useGetAllUserStory } from '../../../../graphql/useStory';
+import useModal from '../../../../hooks/useModal';
 import unixToDateTime from '../../../../utils/unixToDateTime';
+import Loading from '../../../../utils/useLoading';
+import { successfullNoty } from '../../../../utils/useNotify';
+import { ReportContent } from '../../../ReportManagement/ReportImageContent';
+import MoreActionList from '../../../Stories/ActionList';
 import './styles.scss';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useCallback } from 'react';
-import { Heart, HeartFill, ThreeDots } from 'react-bootstrap-icons';
+import { Heart, HeartFill, Reply } from 'react-bootstrap-icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router';
 
 const ProfileStories = () => {
-  const navigate = useNavigate();
   const { userId } = useParams();
   const { id: currentUserId } = useAuthState();
   const { stories, hasNextPage, isFetching, fetchError, loadNew } =
     useGetAllUserStory(userId, currentUserId);
+
+  const { isShowing: showReport, toggle: toggleShowReport } = useModal();
+  const [imageToReport, setImageToReport] = useState({
+    image: '',
+    postId: '',
+    userId: '',
+    reason: 'Copyright infringement',
+  });
+
+  const { createReport } = useCreateReport();
+
+  const [isDeletedStory, setIsDeletedStory] = useState(false);
+
+  const reportPost = useCallback(async () => {
+    try {
+      await createReport({
+        variables: {
+          createReportData: {
+            postId: imageToReport?.postId,
+            userId: imageToReport?.userId,
+            reason: imageToReport?.reason,
+            userReported: userId,
+          },
+        },
+      });
+
+      toggleShowReport();
+    } catch (e) {}
+  }, [
+    createReport,
+    imageToReport?.postId,
+    imageToReport?.reason,
+    imageToReport?.userId,
+    toggleShowReport,
+    userId,
+  ]);
+
+  useEffect(() => {
+    if (isDeletedStory) {
+      successfullNoty('delete story sucessfull!');
+    }
+  }, [isDeletedStory]);
 
   return useMemo(
     () => (
@@ -33,23 +81,62 @@ const ProfileStories = () => {
           }
         >
           {stories.map((item) => {
-            return <Story item={item} key={item.node.id} />;
+            return (
+              <Story
+                item={item}
+                showReport={showReport}
+                setImageToReport={setImageToReport}
+                toggleShowReport={toggleShowReport}
+                key={item?.node?.id}
+                setIsDeletedPost={setIsDeletedStory}
+              />
+            );
           })}
         </InfiniteScroll>
+        <Loading loading={isFetching} />
+        <Modal
+          show={showReport}
+          modalContent={
+            <ReportContent
+              image={imageToReport.image}
+              setImageToReport={setImageToReport}
+            />
+          }
+          handleClose={toggleShowReport}
+          handleSavechanges={reportPost}
+        />
       </div>
     ),
-    [stories]
+    [
+      hasNextPage,
+      imageToReport.image,
+      isFetching,
+      loadNew,
+      reportPost,
+      showReport,
+      stories,
+      toggleShowReport,
+    ]
   );
 };
 
 export default ProfileStories;
 
-const Story = ({ item }) => {
+const Story = ({
+  item,
+  showReport,
+  setImageToReport,
+  toggleShowReport,
+  setIsDeletedPost,
+}) => {
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
+  const [animationWhenClick, setAnimationWhenClick] = useState(false);
+  const [postVisibility, setPostVisibility] = useState(item.postViewStatus);
 
-  const handleClickLike = () => {
+  const handleLikeStory = () => {
     setIsLiked((prev) => !prev);
+    setAnimationWhenClick(true);
   };
 
   const handleViewDetail = useCallback(
@@ -61,29 +148,60 @@ const Story = ({ item }) => {
 
   const renderHeartIcon = useCallback(() => {
     return !isLiked ? (
-      <Heart size={28} onClick={handleClickLike} />
+      <Heart
+        size={28}
+        onClick={handleLikeStory}
+        id={!animationWhenClick ? 'heart-icon' : 'heart-icon-2'}
+      />
     ) : (
-      <HeartFill size={28} color="red" onClick={handleClickLike} />
+      <HeartFill
+        size={28}
+        color="red"
+        onClick={handleLikeStory}
+        id={!animationWhenClick ? 'heart-icon' : 'heart-icon-2'}
+      />
     );
-  }, [isLiked]);
+  }, [animationWhenClick, isLiked]);
+
+  useEffect(() => {
+    if (animationWhenClick) {
+      setTimeout(() => {
+        setAnimationWhenClick(false);
+      }, 1000);
+    }
+  }, [animationWhenClick]);
 
   return useMemo(
     () => (
       <div className="story">
         <div className="header">
-          <img
-            id="header-avatar"
-            alt=""
-            src={item.node.userId.profileImageURL}
-            onClick={() => navigate(`/profile/${item.node.userId.id}`)}
-          />
-          <div
-            className="sub-header"
-            onClick={() => handleViewDetail(item.node.id)}
-          >
-            <span id="fullname">{item.node.userId.name}</span>
-            <span>{unixToDateTime(item.node.createdAt)}</span>
+          <div className="header-wrapper">
+            <img
+              height={60}
+              width={60}
+              id="header-avatar"
+              src={item.node.userId.profileImageURL}
+              onClick={() => navigate(`/profile/${item.node.userId.id}`)}
+              alt=""
+            />
+
+            <div
+              className="sub-header"
+              onClick={() => handleViewDetail(item.node.id)}
+            >
+              <span id="fullname">{item.node.userId.name}</span>
+              <span>{unixToDateTime(item.node.createdAt)}</span>
+            </div>
           </div>
+          <MoreActionList
+            item={item}
+            showReport={showReport}
+            setImageToReport={setImageToReport}
+            toggleShowReport={toggleShowReport}
+            setIsDeletedPost={setIsDeletedPost}
+            setPostVisibility={setPostVisibility}
+            postVisibility={postVisibility}
+          />
         </div>
         <div className="description">
           <span id="title" onClick={() => handleViewDetail(item.node.id)}>
@@ -96,13 +214,25 @@ const Story = ({ item }) => {
             onClick={() => handleViewDetail(item.node.id)}
           />
           <div className="interaction">
-            {renderHeartIcon()}
-            <span id="points">{item.node.points}</span>
-            <ThreeDots size={28} />
+            <div className="like-wrapper">
+              {renderHeartIcon()}
+              <span id="points">{item.node.points}</span>
+            </div>
+            <Reply size={28} />
           </div>
         </div>
       </div>
     ),
-    [handleViewDetail, renderHeartIcon]
+    [
+      handleViewDetail,
+      item,
+      navigate,
+      postVisibility,
+      renderHeartIcon,
+      setImageToReport,
+      setIsDeletedPost,
+      showReport,
+      toggleShowReport,
+    ]
   );
 };

@@ -6,6 +6,14 @@
   margin-top: 20px;
 }
 
+.btn-upload-story button {
+  background-color: #f08080;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 30px;
+}
+
 .my-editing-area {
   height: 50vh;
 }
@@ -32,4 +40,44 @@
 
 #story-title-input{
   width: 30%;
+}
+
+.story-visibility {
+  width: 100%;
+  max-width: 500px;
+  margin-top: 20px;
+}
+
+.story-input-tags {
+  max-width: 500px;
+  margin-bottom: 20px;
+}
+
+.story-input-tags div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.all-tags {
+  display: flex;
+}
+
+.all-tags div{
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+}
+
+.story-input-tags input {
+  max-width: 290px;
+}
+
+.story-input-catrgories {
+  max-width: 500px;
+}
+
+.story-input-catrgories .sub-categories {
+  max-width: 290px;
+  width: 100%;
 }
