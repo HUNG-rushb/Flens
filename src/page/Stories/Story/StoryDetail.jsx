@@ -12,6 +12,7 @@ import {
   ThreeDots,
   Flag,
   Trash,
+  Reply,
 } from 'react-bootstrap-icons';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -116,12 +117,15 @@ const StoryDetail = () => {
   }
 
   return (
-      <div className="story-detail">
-        <div className="content">
-          <div className="user-infor">
+    <div className="story-detail">
+      <div className="content">
+        <div className="user-infor">
+          <div className="user-infor-wrapper">
             <img
-            id='user-avatar'
+              id="user-avatar"
               src={fetchedData?.storyInfo.userId.backgroundImageURL}
+              width={60}
+              height={60}
               alt=""
             />
             <div className="sub-user-infor">
@@ -129,39 +133,41 @@ const StoryDetail = () => {
               <span>{unixToDateTime(fetchedData?.storyInfo.createdAt)}</span>
             </div>
           </div>
-
-          <div
-            dangerouslySetInnerHTML={{ __html: fetchedData?.storyInfo.content }}
+          <ThreeDots
+            size={28}
+            onClick={() => setShowListOtherActions((prev) => !prev)}
           />
-
-          <div className="interaction" ref={clickOutsideRef}>
-            <div className="likes">
-              {renderHeartIcon()}
-              <span>{countNumberOfLikes}</span>
-            </div>
-            <ThreeDots
-              size={28}
-              onClick={() => setShowListOtherActions((prev) => !prev)}
-            />
-
-            <div className="list-other-actions" hidden={showListOtherActions}>
-              <ul>
-                <li onClick={handleReportStory}>
-                  <Flag color="blue" />
-                  Report this story
-                </li>
-                <li onClick={handleDeleteStory}>
-                  <Trash color="red" />
-                  Delete story
-                </li>
-              </ul>
-            </div>
+          <div className="list-other-actions" hidden={showListOtherActions}>
+            <ul>
+              <li onClick={handleReportStory}>
+                <Flag color="blue" />
+                Report this story
+              </li>
+              <li onClick={handleDeleteStory}>
+                <Trash color="red" />
+                Delete story
+              </li>
+            </ul>
           </div>
-          <hr />
-          <StoryComment item={fetchedData?.storyInfo} refetchStory={refetch} />
         </div>
+
+        <div
+          dangerouslySetInnerHTML={{ __html: fetchedData?.storyInfo.content }}
+          className="story-main-image"
+        />
+
+        <div className="interaction" ref={clickOutsideRef}>
+          <div className="likes">
+            {renderHeartIcon()}
+            <span>{countNumberOfLikes}</span>
+          </div>
+          <Reply size={28} />
+        </div>
+        <hr />
+        <StoryComment item={fetchedData?.storyInfo} refetchStory={refetch} />
       </div>
-    );
+    </div>
+  );
 };
 
 export default StoryDetail;

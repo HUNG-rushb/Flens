@@ -15,51 +15,29 @@
 
     .user-infor {
       display: flex;
+      justify-content: space-between;
       margin-bottom: 20px;
       gap: 10px;
-
-      #user-avatar {
-        height: 60px;
-        width: 60px;
-        object-fit: cover;
-        border-radius: 50%;
-      }
-
-      .sub-user-infor {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-
-        #username {
-          font-size: 18px;
-          font-weight: 600;
-        }
-      }
-    }
-
-    .interaction {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       position: relative;
 
-      .likes {
+
+      .user-infor-wrapper {
         display: flex;
-        align-items: center;
         gap: 10px;
-        margin-top: 10px;
-
-        svg {
-          cursor: pointer;
-          opacity: 1;
+        #user-avatar {
+          object-fit: cover;
+          border-radius: 50%;
         }
 
-        svg:hover {
-          opacity: 0.7;
-        }
+        .sub-user-infor {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
 
-        span {
-          font-size: 20px;
+          #username {
+            font-size: 18px;
+            font-weight: 600;
+          }
         }
       }
 
@@ -71,8 +49,8 @@
         z-index: 900;
         border-radius: 10px;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-        right: 5%;
-        top: 50%;
+        right: 0;
+        top: 0;
 
         ul {
           list-style-type: none;
@@ -96,7 +74,41 @@
           }
         }
       }
-    } 
+    }
+
+    .story-main-image {
+      p {
+        img {
+          width: 100%;
+        }
+      }
+    }
+
+    .interaction {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .likes {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+
+        svg {
+          cursor: pointer;
+          opacity: 1;
+        }
+
+        svg:hover {
+          opacity: 0.7;
+        }
+
+        span {
+          font-size: 20px;
+        }
+      }
+    }
 
     .comments-wrapper {
       .comment-header {
