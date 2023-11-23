@@ -9,6 +9,8 @@ import {
   CHANGE_VISIBLE_POST,
   UPDATE_POINT_POSTING,
   GET_ALL_USER_POST_INFO,
+  SIMILAR_POST,
+  EXPLORE_POST,
 } from './queries/Post.js';
 import { CREATE_TAG, SUGGEST_TAG } from './queries/Tag.js';
 import { useQuery, useMutation } from '@apollo/client';
@@ -226,23 +228,62 @@ export const useSuggestTag = () => {
     fetchError: error,
   };
 };
-// !!!!!!!!!!!!
-// !!!!!!!!!!!!
-// !!!!!!!!!!!!
-// export const useGetAllPostCommentLazy = (cache) => {
-//   const [getAllComment, { data, loading, error }] = useLazyQuery(
-//     GET_ALL_POST_COMMENT,
-//     {
-//       fetchPolicy: cache ? undefined : 'no-cache',
-//     }
-//   );
 
-//   return {
-//     getAllCommentLazy: (queryPayload) => {
-//       getAllComment(queryPayload);
-//     },
-//     isFetching: loading,
-//     fetchedData: data,
-//     fetchError: error,
-//   };
-// };
+export const useGetExplore = (queryPayload) => {
+  const { data, loading, error, fetchMore } = useQuery(EXPLORE_POST, {
+    fetchPolicy: 'network-only',
+    variables: queryPayload,
+    // onCompleted: (data) => {
+    //   console.log(data);
+    // },
+  });
+
+  const loadNew = useCallback(async () => {
+    console.log('load new');
+    const fetchMoreData = await fetchMore({
+      variables: {
+        after: data ? data.explorePosts.pageInfo.endCursor : '',
+      },
+    });
+
+    console.log({ fetchMoreData });
+  }, [data]);
+
+  return {
+    posts: data?.explorePosts?.edges ?? [],
+    hasNextPage: data?.explorePosts?.pageInfo?.hasNextPage ?? true,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+    loadNew,
+  };
+};
+
+export const useGetSimilarPost = (queryPayload) => {
+  const { data, loading, error, fetchMore } = useQuery(SIMILAR_POST, {
+    fetchPolicy: 'network-only',
+    variables: queryPayload,
+    // onCompleted: (data) => {
+    //   console.log(data);
+    // },
+  });
+
+  const loadNew = useCallback(async () => {
+    const fetchMoreData = await fetchMore({
+      variables: {
+        after: data ? data.similarPosts.pageInfo.endCursor : '',
+      },
+    });
+
+    // console.log({ fetchMoreData });
+  }, [data]);
+
+  return {
+    posts: data?.similarPosts?.edges ?? [],
+    hasNextPage: data?.similarPosts?.pageInfo?.hasNextPage ?? true,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+    loadNew,
+  };
+};

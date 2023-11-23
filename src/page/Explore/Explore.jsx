@@ -1,6 +1,7 @@
 import Avatar from '../../assets/images/avatar.jpg';
 import Modal from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
+import { useGetExplore } from '../../graphql/usePost';
 import useModal from '../../hooks/useModal';
 import StoryPage from '../Stories/StoryPage';
 import Inspiration from './ExploreTab/Inspiration';
@@ -43,20 +44,26 @@ const Explore = () => {
     ],
     []
   );
-
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
   const location = useLocation();
   const tabs = useMemo(() => ['inspiration', 'stories'], []);
   const [selectedOption, setSelectedOption] = useState(options[0].value);
   const { isShowing: showModal, toggle: toggleModal } = useModal();
-  const navigate = useNavigate();
-
-  const [imageToShow, setImageToShow] = useState('');
-  const [selectedItem, setSelectedItem] = useState({});
+  const [imageToShow, setImageToShow] = useState({});
+  // console.log({ imageToShow });
+  const { posts: explorePosts, hasNextPage, loadNew } = useGetExplore();
+  console.log({ explorePosts });
+  console.log({ hasNextPage });
 
   const modalContent = useCallback(() => {
-    return <SimilarImageDetail imageDetail={selectedItem} />;
-  }, [selectedItem]);
+    return (
+      <SimilarImageDetail
+        imageDetail={imageToShow}
+        setImageToShow={setImageToShow}
+      />
+    );
+  }, [imageToShow, setImageToShow]);
 
   const handleChangeTab = useCallback(
     (index, tab) => {
@@ -72,14 +79,6 @@ const Explore = () => {
       setActiveTab(1);
     }
   }, [location, options]);
-
-  useEffect(() => {
-    setSelectedItem({
-      username: 'Thanh',
-      avatar: Avatar,
-      image: imageToShow,
-    });
-  }, [imageToShow]);
 
   return useMemo(
     () => (
@@ -113,16 +112,20 @@ const Explore = () => {
               </div>
             </div>
             <div className="tab-content">
-              {activeTab === 0 && (
+              {activeTab === 0 && explorePosts?.length > 0 && (
                 <Inspiration
                   selectedOption={selectedOption}
                   toggleModal={toggleModal}
                   setImageToShow={setImageToShow}
+                  explorePosts={explorePosts}
+                  hasNextPage={hasNextPage}
+                  loadNew={loadNew}
                 />
               )}
               {activeTab === 1 && <StoryPage />}
             </div>
           </div>
+
           <Modal
             size="xl"
             show={showModal}
@@ -143,6 +146,8 @@ const Explore = () => {
       showModal,
       modalContent,
       handleChangeTab,
+      explorePosts,
+      hasNextPage,
     ]
   );
 };

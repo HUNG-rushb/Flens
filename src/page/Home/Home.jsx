@@ -35,7 +35,7 @@ const Home = () => {
   const { posts, hasNextPage, isFetching, fetchError, loadNew } =
     useGetNewFeed(userId);
   // console.log({ posts });
-  console.log(posts.length, 'total posts');
+  // console.log(posts.length, 'total posts');
 
   const { createReport } = useCreateReport();
 

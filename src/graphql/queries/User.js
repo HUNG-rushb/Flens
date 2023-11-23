@@ -148,3 +148,29 @@ export const GET_ALL_USER_CHAT = gql`
     }
   }
 `;
+
+export const GET_ALL_USER_LEADERBOARD = gql`
+  query GetAllUserLeaderboard {
+    getAllUserLeaderboard {
+      id
+      name
+      profileImageURL
+      level {
+        currentLevel
+      }
+    }
+  }
+`;
+
+export const GET_ALL_USER_FOLLOWING_LEADERBOARD = gql`
+  query GetUserFollowingLeaderBoard($data: UserFollowingLeaderInput!) {
+    getUserFollowingLeaderBoard(data: $data) {
+      id
+      name
+      profileImageURL
+      level {
+        currentLevel
+      }
+    }
+  }
+`;

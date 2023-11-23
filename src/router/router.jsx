@@ -81,7 +81,7 @@ const routes = [
     isPrivate: true,
   },
   {
-    path: '/leader-board',
+    path: '/leaderBoard',
     element: <LeaderBoard />,
     exact: true,
     isPrivate: true,

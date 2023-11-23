@@ -60,6 +60,12 @@ const client = new ApolloClient({
           getNewFeed: relayStylePagination(),
           getAllUserPosts: relayStylePagination(),
           contestPosts: relayStylePagination(),
+
+          getAllUserStories: relayStylePagination(),
+          getNewStories: relayStylePagination(),
+
+          explorePosts: relayStylePagination(),
+          similarPosts: relayStylePagination(),
         },
       },
     },
