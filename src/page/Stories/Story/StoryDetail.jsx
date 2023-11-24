@@ -1,11 +1,14 @@
-import Spinner from '../../../components/utils/Spinner';
 import { useAuthState } from '../../../context/AuthContext';
-import { useGetStoryInfo } from '../../../graphql/useStory';
-import { useDeleteStory, useInteractStory } from '../../../graphql/useStory';
+import {
+  useGetStoryInfo,
+  useDeleteStory,
+  useInteractStory,
+} from '../../../graphql/useStory';
 import unixToDateTime from '../../../utils/unixToDateTime';
+import Loading from '../../../utils/useLoading';
 import StoryComment from '../../Home/Post/StoryComment';
 import './styles.scss';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import {
   Heart,
   HeartFill,
@@ -14,8 +17,7 @@ import {
   Trash,
   Reply,
 } from 'react-bootstrap-icons';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const StoryDetail = () => {
   const navigate = useNavigate();
@@ -26,6 +28,7 @@ const StoryDetail = () => {
 
   const [isLiked, setIsLiked] = useState(false);
   const [countNumberOfLikes, setCountNumberOfLikes] = useState(0);
+  const [animationWhenClick, setAnimationWhenClick] = useState(false);
   const [showListOtherActions, setShowListOtherActions] = useState(true);
 
   const { isFetching, fetchedData, fetchError, refetch } = useGetStoryInfo(
@@ -42,56 +45,71 @@ const StoryDetail = () => {
   const { deleteStory } = useDeleteStory();
   const { interactStory } = useInteractStory();
 
-  const handleLikeStory = async (event) => {
-    event.preventDefault();
-
-    try {
-      const a = await interactStory({
-        variables: {
-          interactStoryData: {
-            storyId,
-            likedUserId: userId,
-            isLiked: !isLiked,
+  const handleLikeStory = useCallback(
+    async (event) => {
+      event.preventDefault();
+      setAnimationWhenClick(true);
+      try {
+        const a = await interactStory({
+          variables: {
+            interactStoryData: {
+              storyId,
+              likedUserId: userId,
+              isLiked: !isLiked,
+            },
           },
-        },
-      });
-      setIsLiked(!isLiked);
-      setCountNumberOfLikes(a.data.interactStory.points);
-    } catch (e) {
-      throw e;
-    }
-  };
+        });
+        setIsLiked(!isLiked);
+        setCountNumberOfLikes(a.data.interactStory.points);
+      } catch (e) {
+        throw e;
+      }
+    },
+    [interactStory, isLiked, storyId, userId]
+  );
 
   // !!!!!!!!!
   const handleReportStory = () => {
     setShowListOtherActions(true);
   };
 
-  const handleDeleteStory = async (event) => {
-    event.preventDefault();
+  const handleDeleteStory = useCallback(
+    async (event) => {
+      event.preventDefault();
 
-    try {
-      await deleteStory({
-        variables: {
-          deleteStoryData: {
-            storyId,
+      try {
+        await deleteStory({
+          variables: {
+            deleteStoryData: {
+              storyId,
+            },
           },
-        },
-      });
+        });
 
-      navigate('/explore/stories');
-    } catch (e) {
-      throw e;
-    }
-  };
+        navigate('/explore/stories');
+      } catch (e) {
+        throw e;
+      }
+    },
+    [deleteStory, navigate, storyId]
+  );
 
-  const renderHeartIcon = () => {
+  const renderHeartIcon = useCallback(() => {
     return !isLiked ? (
-      <Heart size={28} onClick={handleLikeStory} />
+      <Heart
+        size={28}
+        onClick={handleLikeStory}
+        id={!animationWhenClick ? 'heart-icon' : 'heart-icon-2'}
+      />
     ) : (
-      <HeartFill size={28} color="red" onClick={handleLikeStory} />
+      <HeartFill
+        size={28}
+        color="red"
+        onClick={handleLikeStory}
+        id={!animationWhenClick ? 'heart-icon' : 'heart-icon-2'}
+      />
     );
-  };
+  }, [animationWhenClick, handleLikeStory, isLiked]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -110,63 +128,88 @@ const StoryDetail = () => {
     };
   }, []);
 
-  if (fetchError) {
-    return <p>Error</p>;
-  } else if (isFetching) {
-    return <Spinner />;
-  }
+  useEffect(() => {
+    if (animationWhenClick) {
+      setTimeout(() => {
+        setAnimationWhenClick(false);
+      }, 1000);
+    }
+  }, [animationWhenClick]);
 
-  return (
-    <div className="story-detail">
-      <div className="content">
-        <div className="user-infor">
-          <div className="user-infor-wrapper">
-            <img
-              id="user-avatar"
-              src={fetchedData?.storyInfo.userId.backgroundImageURL}
-              width={60}
-              height={60}
-              alt=""
-            />
-            <div className="sub-user-infor">
-              <span id="username">{fetchedData?.storyInfo.userId.name}</span>
-              <span>{unixToDateTime(fetchedData?.storyInfo.createdAt)}</span>
+  return useMemo(
+    () => (
+      <>
+        <div className="story-detail">
+          <div className="content">
+            <div className="user-infor">
+              <div className="user-infor-wrapper">
+                <img
+                  id="user-avatar"
+                  src={fetchedData?.storyInfo.userId.backgroundImageURL}
+                  width={60}
+                  height={60}
+                  alt=""
+                />
+                <div className="sub-user-infor">
+                  <span id="username">
+                    {fetchedData?.storyInfo.userId.name}
+                  </span>
+                  <span>
+                    {unixToDateTime(fetchedData?.storyInfo?.createdAt || '')}
+                  </span>
+                </div>
+              </div>
+              <ThreeDots
+                size={28}
+                onClick={() => setShowListOtherActions((prev) => !prev)}
+              />
+              <div className="list-other-actions" hidden={showListOtherActions}>
+                <ul>
+                  <li onClick={handleReportStory}>
+                    <Flag color="blue" />
+                    Report this story
+                  </li>
+                  <li onClick={handleDeleteStory}>
+                    <Trash color="red" />
+                    Delete story
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
-          <ThreeDots
-            size={28}
-            onClick={() => setShowListOtherActions((prev) => !prev)}
-          />
-          <div className="list-other-actions" hidden={showListOtherActions}>
-            <ul>
-              <li onClick={handleReportStory}>
-                <Flag color="blue" />
-                Report this story
-              </li>
-              <li onClick={handleDeleteStory}>
-                <Trash color="red" />
-                Delete story
-              </li>
-            </ul>
+
+            <div
+              dangerouslySetInnerHTML={{
+                __html: fetchedData?.storyInfo.content,
+              }}
+              className="story-main-image"
+            />
+
+            <div className="interaction" ref={clickOutsideRef}>
+              <div className="likes">
+                {renderHeartIcon()}
+                <span id="total-likes">{countNumberOfLikes}</span>
+              </div>
+              <Reply size={28} />
+            </div>
+            <hr />
+            <StoryComment
+              item={fetchedData?.storyInfo}
+              refetchStory={refetch}
+            />
           </div>
         </div>
-
-        <div
-          dangerouslySetInnerHTML={{ __html: fetchedData?.storyInfo.content }}
-          className="story-main-image"
-        />
-
-        <div className="interaction" ref={clickOutsideRef}>
-          <div className="likes">
-            {renderHeartIcon()}
-            <span>{countNumberOfLikes}</span>
-          </div>
-          <Reply size={28} />
-        </div>
-        <hr />
-        <StoryComment item={fetchedData?.storyInfo} refetchStory={refetch} />
-      </div>
-    </div>
+        <Loading loading={isFetching} />
+      </>
+    ),
+    [
+      countNumberOfLikes,
+      fetchedData?.storyInfo,
+      handleDeleteStory,
+      isFetching,
+      refetch,
+      renderHeartIcon,
+      showListOtherActions,
+    ]
   );
 };
 
