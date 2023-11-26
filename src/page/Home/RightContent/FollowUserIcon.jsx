@@ -1,4 +1,6 @@
 import { useUpdateFollowing } from '../../../graphql/useUser';
+import ErrorPopup from '../../../utils/errorPopup';
+import Loading from '../../../utils/useLoading';
 import { useCallback, useMemo, useState } from 'react';
 import { PersonPlusFill, PersonFillCheck } from 'react-bootstrap-icons';
 
@@ -24,30 +26,27 @@ const FollowUserIcon = (userId, targetUserId) => {
     },
     [updateFollowing, userId]
   );
+
   return useMemo(
     () => (
       <>
-        {loading ? (
-          <p>Loading</p>
+        {isSuccessfullFollow ? (
+          <PersonFillCheck size={25} color="#f08080" id="add-friend-icon" />
         ) : (
-          <>
-            {isSuccessfullFollow ? (
-              <PersonFillCheck size={25} color="#f08080" id="add-friend-icon" />
-            ) : (
-              <PersonPlusFill
-                size={25}
-                color="#f08080"
-                id="add-friend-icon"
-                onClick={() => {
-                  handleFollow(targetUserId);
-                }}
-              />
-            )}
-          </>
+          <PersonPlusFill
+            size={25}
+            color="#f08080"
+            id="add-friend-icon"
+            onClick={() => {
+              handleFollow(targetUserId);
+            }}
+          />
         )}
+        <Loading loading={loading} />
+        {error?.message && <ErrorPopup message={error?.message} />}
       </>
     ),
-    [handleFollow, isSuccessfullFollow, loading, targetUserId]
+    [error?.message, handleFollow, isSuccessfullFollow, loading, targetUserId]
   );
 };
 

@@ -1,4 +1,3 @@
-import Avatar from '../../assets/images/avatar.jpg';
 import Modal from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
 import { useGetExplore } from '../../graphql/usePost';
@@ -142,12 +141,13 @@ const Explore = () => {
       options,
       tabs,
       activeTab,
+      explorePosts,
       toggleModal,
+      hasNextPage,
+      loadNew,
       showModal,
       modalContent,
       handleChangeTab,
-      explorePosts,
-      hasNextPage,
     ]
   );
 };

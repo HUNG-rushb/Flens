@@ -48,6 +48,24 @@
   padding: 10px 15px;
 }
 
+.button--default5 {
+  border: 0;
+  width: 60%;
+  padding: 10px 25px;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 26px;
+  border-radius: 10px;
+  text-align: center;
+  background-color: #f4978e;
+  opacity: 1;
+  transition-duration: 0.4s;
+  text-decoration: none;
+  overflow: hidden;
+  color: white;
+}
+
 .button--modal-close-btn, .button--modal-save-btn{
   border: 0;
   color: white;

@@ -32,7 +32,7 @@ export const ReportContent = ({ image, setImageToReport = () => {} }) => {
       ...prev,
       reason,
     }));
-  }, [reason]);
+  }, [reason, setImageToReport]);
 
   return useMemo(
     () => (

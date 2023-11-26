@@ -132,11 +132,12 @@ const RightContent = () => {
       </div>
     ),
     [
+      allContests?.allContests,
       handleClickContest,
       handleClickTag,
       navigate,
       suggestedTag,
-      suggestedUserList?.suggestUserToFollow,
+      suggestedUserList?.suggestUserToFollow.edges,
       userId,
     ]
   );

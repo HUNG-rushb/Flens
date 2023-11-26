@@ -1,12 +1,10 @@
-import Modal from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
 import Spinner from '../../components/utils/Spinner';
 import { useAuthState } from '../../context/AuthContext';
 import { useGetNewFeed } from '../../graphql/usePost';
-import { useCreateReport } from '../../graphql/useReport';
 import useModal from '../../hooks/useModal';
+import ErrorPopup from '../../utils/errorPopup';
 import Loading from '../../utils/useLoading';
-import { ReportContent } from '../ReportManagement/ReportImageContent';
 import './Home.scss';
 import LeftContent from './LeftContent/LeftContent';
 import ImageDetail from './Post/ImageDetail';
@@ -20,24 +18,11 @@ import { useNavigate } from 'react-router';
 const Home = () => {
   const navigate = useNavigate();
   const { id: userId } = useAuthState();
-  const { isShowing: showReport, toggle: toggleShowReport } = useModal();
   const { isShowing: showImageDetail, toggle: toggleImageDetail } = useModal();
-
-  const [imageToReport, setImageToReport] = useState({
-    image: '',
-    postId: '',
-    userId: '',
-    reason: 'Copyright infringement',
-  });
-
   const [itemShowDetail, setItemShowDetail] = useState(null);
 
   const { posts, hasNextPage, isFetching, fetchError, loadNew } =
     useGetNewFeed(userId);
-  // console.log({ posts });
-  // console.log(posts.length, 'total posts');
-
-  const { createReport } = useCreateReport();
 
   const handleToUploadImage = useCallback(() => {
     navigate('/upload');
@@ -46,23 +31,6 @@ const Home = () => {
   const handleToUploadStory = useCallback(() => {
     navigate('/uploadStory');
   }, [navigate]);
-
-  const reportPost = async () => {
-    try {
-      await createReport({
-        variables: {
-          createReportData: {
-            postId: imageToReport.postId,
-            userId: imageToReport.userId,
-            reason: imageToReport.reason,
-            userReported: userId,
-          },
-        },
-      });
-
-      toggleShowReport();
-    } catch (e) {}
-  };
 
   useEffect(() => {
     if (posts?.length <= 1) loadNew();
@@ -112,13 +80,8 @@ const Home = () => {
                     return (
                       <Post
                         key={'post_' + idx}
-                        index={idx}
                         item={item.node}
-                        userId={item.node.userId.id}
-                        showReport={showReport}
                         showImageDetail={showImageDetail}
-                        toggleShowReport={toggleShowReport}
-                        setImageToReport={setImageToReport}
                         toggleImageDetail={toggleImageDetail}
                         setItemShowDetail={setItemShowDetail}
                       />
@@ -127,26 +90,16 @@ const Home = () => {
                 </InfiniteScroll>
               </div>
             </div>
-
             <RightContent />
-
             <ImageDetail
               item={itemShowDetail}
               showImageDetail={showImageDetail}
               handleCloseImageDetail={toggleImageDetail}
             />
             <Loading loading={isFetching} />
-            <Modal
-              show={showReport}
-              modalContent={
-                <ReportContent
-                  image={imageToReport.image}
-                  setImageToReport={setImageToReport}
-                />
-              }
-              handleClose={toggleShowReport}
-              handleSavechanges={reportPost}
-            />
+            {fetchError?.message && (
+              <ErrorPopup message={fetchError?.message} />
+            )}
           </div>
         )}
       </Suspense>

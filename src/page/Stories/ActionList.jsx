@@ -1,5 +1,8 @@
+import Modal from '../../components/Modal/Modal';
 import { useAuthState } from '../../context/AuthContext';
 import { useChangeVisiblePost, useDeletePost } from '../../graphql/usePost';
+import useModal from '../../hooks/useModal';
+import Loading from '../../utils/useLoading';
 import { successfullNoty } from '../../utils/useNotify';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
@@ -9,9 +12,6 @@ import {
   EyeFill,
   PencilSquare,
 } from 'react-bootstrap-icons';
-import Modal from '../../components/Modal/Modal';
-import useModal from '../../hooks/useModal';
-import Loading from '../../utils/useLoading';
 
 const MoreActionList = ({
   item,
@@ -33,7 +33,7 @@ const MoreActionList = ({
     () => ['PUBLIC', 'PRIVATE', 'ONLY_FOLLOWERS'],
     []
   );
-  const { deletePost, isFetching: deleteLoading } = useDeletePost();
+  const { deletePost, isFetching } = useDeletePost();
   const { updatePost } = useChangeVisiblePost(
     setCurrentPostVisibility,
     setPostVisibility
@@ -50,8 +50,8 @@ const MoreActionList = ({
             },
           },
         });
-        setIsDeletedPost(true);
         successfullNoty('Delete post successfull !!!');
+        setIsDeletedPost(true);
       } catch (e) {
         throw e;
       }
@@ -85,7 +85,9 @@ const MoreActionList = ({
         successfullNoty('Change post visibility successfull !!!');
         setPostVisibility(currentPostVisibility);
       } catch (e) {
-        throw e;
+        // throw e;
+        console.log(e);
+        // <ErrorPopup message={e} />
       }
 
       toggleShow();
@@ -95,7 +97,7 @@ const MoreActionList = ({
 
   const handleEditImage = () => {
     // handle edit image
-  }
+  };
 
   const modalContent = useCallback(() => {
     return (
@@ -149,19 +151,19 @@ const MoreActionList = ({
               {item?.userId?.id !== userId && (
                 <li onClick={handleReportImage}>
                   <FlagFill color="blue" />
-                  Report post
+                  Report story
                 </li>
               )}
               {item?.userId?.id === userId && (
                 <li onClick={handleEditImage}>
                   <PencilSquare color="green" />
-                  Edit post
+                  Edit story
                 </li>
               )}
               {item?.userId?.id === userId && (
                 <li onClick={handleDeletePost}>
                   <Trash3Fill color="#FF2E2E" />
-                  Delete post
+                  Delete story
                 </li>
               )}
               {item?.userId?.id === userId && (
@@ -178,7 +180,7 @@ const MoreActionList = ({
             </ul>
           </div>
         </div>
-        <Loading loading={deleteLoading} />
+        <Loading loading={isFetching} />
         <Modal
           show={showModal}
           modalTitle="Change your post visibility"
@@ -192,7 +194,7 @@ const MoreActionList = ({
       </>
     ),
     [
-      deleteLoading,
+      isFetching,
       handleChangeMode,
       handleDeletePost,
       handleReportImage,
