@@ -56,14 +56,17 @@ const QuillEditorWithImage = () => {
   const [storyTitle, setStoryTitle] = useState('');
   const editorRef = useRef(null);
   const [viewStatus, setViewStatus] = useState('PUBLIC');
+  console.log({ viewStatus });
 
   const [tags, setTags] = useState([]);
+  console.log({ tags });
   const [tag, setTag] = useState({
     id: 0,
     value: '',
   });
 
   const [categories, setCategories] = useState([options[0]]);
+  console.log({ categories });
   const [category, setCategory] = useState(options[0]);
 
   const { createStory, isFetching, fetchedData, fetchError } =
@@ -160,9 +163,15 @@ const QuillEditorWithImage = () => {
           createStoryData: {
             userId: userId,
             title: 'test',
-            storyViewStatus: 'PUBLIC',
+            storyViewStatus: viewStatus,
             content: editorContent,
             images: storyImages,
+            categoryId: categories.map((a) => a.id),
+            tag: [
+              ...new Set(
+                tags.map((a) => a.value).map((element) => element.toLowerCase())
+              ),
+            ],
           },
         },
       });

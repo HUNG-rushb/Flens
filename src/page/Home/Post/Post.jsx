@@ -27,12 +27,11 @@ const Post = ({
   setImageToReport,
   setItemShowDetail,
 }) => {
-  console.log({ item });
+  // console.log({ item });
   const navigate = useNavigate();
   const [isDeletedPost, setIsDeletedPost] = useState(false);
   const [showTechnicalInfor, setShowTechnicalInfor] = useState(false);
   const [postVisibility, setPostVisibility] = useState(item.postViewStatus);
-  const userLevel = useMemo(() => item?.userLevel || 'New', [item?.userLevel]);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleViewProfile = useCallback(() => {
@@ -79,14 +78,17 @@ const Post = ({
             <p id="username" onClick={handleViewProfile}>
               {item.userId.name}
             </p>
-            <p>User level: 1</p>
-            <p style={{ fontWeight: 600 }}>100 Follower - Hung also followed</p>
+
+            <p>Level {item.userId.level.currentLevel}</p>
+
+            <p style={{ fontWeight: 600 }}>100 Follower</p>
+
             <Button type="default2" text="Chat" />
           </div>
         </div>
       </div>
     );
-  }, [handleViewProfile, index, item.userId.name, item.userId.profileImageURL]);
+  }, [handleViewProfile, index, item]);
 
   useEffect(() => {
     if (isDeletedPost) {
@@ -111,7 +113,9 @@ const Post = ({
                   <img src={item.userId.profileImageURL} id="avatar" alt="" />
                   {isHovered && renderPopoverContent()}
 
-                  <div className="user-level">{userLevel}</div>
+                  <div className="user-level">
+                    {item.userId.level.currentLevel}
+                  </div>
                 </div>
                 <div>
                   <span id="username">{item.userId.name}</span>
@@ -184,7 +188,12 @@ const Post = ({
                 </div>
 
                 <PostInteraction item={item} />
-                {item && <PostComment item={item} userLevel={userLevel} />}
+                {item && (
+                  <PostComment
+                    item={item}
+                    userLevel={item.userId.level.currentLevel}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -205,7 +214,6 @@ const Post = ({
       showReport,
       showTechnicalInfor,
       toggleShowReport,
-      userLevel,
     ]
   );
 };

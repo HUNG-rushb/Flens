@@ -1,4 +1,9 @@
-import { CREATE_REPORT, GET_ALL_REPORTS } from './queries/Report.js';
+import {
+  CREATE_REPORT,
+  GET_ALL_REPORTS,
+  UPDATE_REPORT_POST,
+  UPDATE_REPORT_STORY,
+} from './queries/Report.js';
 import { useQuery, useMutation } from '@apollo/client';
 
 export const useCreateReport = (cache) => {
@@ -21,6 +26,38 @@ export const useGetAllReport = (queryPayload) => {
   });
 
   return {
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
+
+export const useUpdateReportPost = (cache) => {
+  const [reportedPost, { data, loading, error }] = useMutation(
+    UPDATE_REPORT_POST,
+    {
+      fetchPolicy: cache ? undefined : 'no-cache',
+    }
+  );
+
+  return {
+    reportedPost,
+    isFetching: loading,
+    fetchedData: data,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+    fetchError: error,
+  };
+};
+
+export const useUpdateReportStory = (cache) => {
+  const [reportedStory, { data, loading, error }] = useMutation(
+    UPDATE_REPORT_STORY,
+    {
+      fetchPolicy: cache ? undefined : 'no-cache',
+    }
+  );
+
+  return {
+    reportedStory,
     isFetching: loading,
     fetchedData: data,
     fetchError: error,

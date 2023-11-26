@@ -4,6 +4,7 @@ import Spinner from '../../components/utils/Spinner';
 import { useAuthState } from '../../context/AuthContext';
 import { useGetNewFeed } from '../../graphql/usePost';
 import { useCreateReport } from '../../graphql/useReport';
+import { useUpdateReportPost } from '../../graphql/useReport';
 import useModal from '../../hooks/useModal';
 import Loading from '../../utils/useLoading';
 import { ReportContent } from '../ReportManagement/ReportImageContent';
@@ -31,6 +32,8 @@ const Home = () => {
   });
 
   const [itemShowDetail, setItemShowDetail] = useState(null);
+  const [reportedPosts, setReportedPosts] = useState([]);
+  console.log({ reportedPosts });
 
   const { posts, hasNextPage, isFetching, fetchError, loadNew } =
     useGetNewFeed(userId);
@@ -38,6 +41,7 @@ const Home = () => {
   // console.log(posts.length, 'total posts');
 
   const { createReport } = useCreateReport();
+  const { reportedPost } = useUpdateReportPost();
 
   const handleToUploadImage = useCallback(() => {
     navigate('/upload');
@@ -47,7 +51,9 @@ const Home = () => {
     navigate('/uploadStory');
   }, [navigate]);
 
-  const reportPost = async () => {
+  const reportPost = async (event) => {
+    event.preventDefault();
+
     try {
       await createReport({
         variables: {
@@ -59,6 +65,17 @@ const Home = () => {
           },
         },
       });
+
+      await reportedPost({
+        variables: {
+          data: {
+            postId: imageToReport.postId,
+            userId,
+          },
+        },
+      });
+
+      setReportedPosts([...reportedPosts, imageToReport.postId]);
 
       toggleShowReport();
     } catch (e) {}
@@ -90,7 +107,7 @@ const Home = () => {
                         color="#F08080"
                         id="upload-icon"
                       />
-                      Publish a Story
+                      Publish a story
                     </div>
                   </div>
                 </div>
@@ -109,9 +126,12 @@ const Home = () => {
                   }
                 >
                   {posts.map((item, idx) => {
+                    if (reportedPosts.includes(item.node.id))
+                      return <div key={item.node.id}></div>;
+
                     return (
                       <Post
-                        key={'post_' + idx}
+                        key={item.node.id}
                         index={idx}
                         item={item.node}
                         userId={item.node.userId.id}
@@ -135,7 +155,9 @@ const Home = () => {
               showImageDetail={showImageDetail}
               handleCloseImageDetail={toggleImageDetail}
             />
+
             <Loading loading={isFetching} />
+
             <Modal
               show={showReport}
               modalContent={

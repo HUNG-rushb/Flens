@@ -47,6 +47,10 @@ export const GET_STORY_PAGINATION = gql`
           images
           points
           storyViewStatus
+          tag
+          categoryId {
+            name
+          }
           title
           updatedAt
           userLikedStory
@@ -80,6 +84,10 @@ export const GET_ALL_USER_STORY = gql`
           id
           images
           points
+          tag
+          categoryId {
+            name
+          }
           storyViewStatus
           title
           updatedAt
