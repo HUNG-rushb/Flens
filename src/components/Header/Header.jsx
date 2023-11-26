@@ -11,7 +11,13 @@ import {
 } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 
-const Header = ({ item, setIsDeletedPost, setImageToReport }) => {
+const Header = ({
+  item,
+  setIsDeletedPost,
+  setImageToReport,
+  reportedPosts,
+  setReportedPosts,
+}) => {
   const navigate = useNavigate();
   const { id: userId } = useAuthState();
   const [postVisibility, setPostVisibility] = useState(item.postViewStatus);
@@ -84,6 +90,8 @@ const Header = ({ item, setIsDeletedPost, setImageToReport }) => {
           setIsDeletedPost={setIsDeletedPost}
           setPostVisibility={setPostVisibility}
           postVisibility={postVisibility}
+          reportedPosts={reportedPosts}
+          setReportedPosts={setReportedPosts}
         />
       </div>
     ),
@@ -93,9 +101,10 @@ const Header = ({ item, setIsDeletedPost, setImageToReport }) => {
       postVisibility,
       renderPopoverContent,
       renderPostModeIcon,
+      reportedPosts,
       setImageToReport,
       setIsDeletedPost,
-      setPostVisibility,
+      setReportedPosts,
       userLevel,
     ]
   );

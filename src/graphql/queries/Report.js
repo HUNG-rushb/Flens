@@ -28,6 +28,22 @@ export const GET_ALL_REPORTS = gql`
   }
 `;
 
+export const UPDATE_REPORT_POST = gql`
+  mutation ReportedPost($data: ReportPostInput!) {
+    reportedPost(data: $data) {
+      reportedUserIds
+    }
+  }
+`;
+
+export const UPDATE_REPORT_STORY = gql`
+  mutation ReportedStory($data: ReportStoryInput!) {
+    reportedStory(data: $data) {
+      reportedUserIds
+    }
+  }
+`;
+
 // export const GET_REPORT_INFO = gql`
 //   query StoryInfo($storyInfoData: StoryInfoInput!) {
 //     storyInfo(data: $storyInfoData) {

@@ -13,12 +13,12 @@ const Post = ({
   toggleImageDetail,
   setImageToReport,
   setItemShowDetail,
+  reportedPosts,
+  setReportedPosts,
 }) => {
-  console.log({ item });
   const navigate = useNavigate();
   const [isDeletedPost, setIsDeletedPost] = useState(false);
   const [showTechnicalInfor, setShowTechnicalInfor] = useState(false);
-  const userLevel = useMemo(() => item?.userLevel || 'New', [item?.userLevel]);
 
   const handleViewDetail = useCallback(() => {
     setItemShowDetail(item);
@@ -47,6 +47,8 @@ const Post = ({
               item={item}
               setIsDeletedPost={setIsDeletedPost}
               setImageToReport={setImageToReport}
+              reportedPosts={reportedPosts}
+              setReportedPosts={setReportedPosts}
             />
 
             <div className="post-content-wrapper">
@@ -100,7 +102,12 @@ const Post = ({
                 </div>
 
                 <PostInteraction item={item} />
-                {item && <PostComment item={item} userLevel={userLevel} />}
+                {item && (
+                  <PostComment
+                    item={item}
+                    userLevel={item.userId.level.currentLevel}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -112,10 +119,11 @@ const Post = ({
       handleViewDetail,
       isDeletedPost,
       item,
+      reportedPosts,
       setImageToReport,
+      setReportedPosts,
       showImageDetail,
       showTechnicalInfor,
-      userLevel,
     ]
   );
 };

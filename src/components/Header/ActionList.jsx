@@ -1,7 +1,7 @@
 import Modal from '../../components/Modal/Modal';
 import { useAuthState } from '../../context/AuthContext';
 import { useChangeVisiblePost, useDeletePost } from '../../graphql/usePost';
-import { useCreateReport } from '../../graphql/useReport';
+import { useCreateReport, useUpdateReportPost } from '../../graphql/useReport';
 import useModal from '../../hooks/useModal';
 import { ReportContent } from '../../page/ReportManagement/ReportImageContent';
 import Loading from '../../utils/useLoading';
@@ -20,9 +20,12 @@ const MoreActionList = ({
   setIsDeletedPost,
   setPostVisibility,
   postVisibility,
+  reportedPosts,
+  setReportedPosts,
 }) => {
   const { id: userId } = useAuthState();
   const clickOutsideRef = useRef(null);
+  const [action, setAction] = useState('');
   const [showListActions, setShowListActions] = useState(true);
   const { isShowing: showModal, toggle: toggleShowModal } = useModal();
   const [imageToReport, setImageToReport] = useState({
@@ -31,8 +34,8 @@ const MoreActionList = ({
     userId: '',
     reason: 'Copyright infringement',
   });
-  const [action, setAction] = useState('');
   const { createReport } = useCreateReport();
+  const { reportedPost } = useUpdateReportPost();
 
   const [currentPostVisibility, setCurrentPostVisibility] =
     useState(postVisibility);
@@ -71,6 +74,17 @@ const MoreActionList = ({
         },
       });
 
+      await reportedPost({
+        variables: {
+          data: {
+            postId: imageToReport.postId,
+            userId,
+          },
+        },
+      });
+
+      setReportedPosts([...reportedPosts, imageToReport.postId]);
+
       toggleShowModal();
     } catch (e) {}
   }, [
@@ -78,6 +92,9 @@ const MoreActionList = ({
     imageToReport.postId,
     imageToReport.reason,
     imageToReport.userId,
+    reportedPost,
+    reportedPosts,
+    setReportedPosts,
     toggleShowModal,
     userId,
   ]);

@@ -73,6 +73,7 @@
       },
       "scripts": {
             "start": "react-scripts start",
+            "dev": "set BROWSER=none&& react-scripts start",
             "test": "react-scripts test",
             "eject": "react-scripts eject",
             "webpack_build": "webpack build --config webpack.config.cjs",

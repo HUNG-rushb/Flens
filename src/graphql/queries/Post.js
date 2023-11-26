@@ -60,6 +60,9 @@ export const GET_ALL_USER_POST = gql`
             profileImageURL
             name
             id
+            level {
+              currentLevel
+            }
           }
 
           image {
@@ -107,6 +110,9 @@ export const GET_NEW_FEED = gql`
             profileImageURL
             name
             id
+            level {
+              currentLevel
+            }
           }
 
           image {
@@ -286,6 +292,9 @@ export const EXPLORE_POST = gql`
             name
             id
             profileImageURL
+            level {
+              currentLevel
+            }
           }
           image {
             url

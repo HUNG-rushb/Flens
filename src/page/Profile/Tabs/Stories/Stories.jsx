@@ -47,6 +47,15 @@ const ProfileStories = () => {
         },
       });
 
+      // await reportedPost({
+      //   variables: {
+      //     data: {
+      //       postId: imageToReport.postId,
+      //       userId,
+      //     },
+      //   },
+      // });
+
       toggleShowReport();
     } catch (e) {}
   }, [
@@ -93,7 +102,9 @@ const ProfileStories = () => {
             );
           })}
         </InfiniteScroll>
+
         <Loading loading={isFetching} />
+
         <Modal
           show={showReport}
           modalContent={

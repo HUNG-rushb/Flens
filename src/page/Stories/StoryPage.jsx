@@ -18,6 +18,7 @@ const StoryPage = () => {
   const { id: userId } = useAuthState();
   const { stories, hasNextPage, isFetching, fetchError, loadNew } =
     useGetExploreStory({ limit: 5, after: '' });
+  // console.log({ stories });
 
   const { isShowing: showReport, toggle: toggleShowReport } = useModal();
   const [imageToReport, setImageToReport] = useState({
@@ -43,6 +44,15 @@ const StoryPage = () => {
           },
         },
       });
+
+      // await reportedPost({
+      //   variables: {
+      //     data: {
+      //       postId: imageToReport.postId,
+      //       userId,
+      //     },
+      //   },
+      // });
 
       toggleShowReport();
     } catch (e) {}
@@ -90,7 +100,9 @@ const StoryPage = () => {
             );
           })}
         </InfiniteScroll>
+
         <Loading loading={isFetching} />
+
         <Modal
           show={showReport}
           modalContent={
@@ -124,6 +136,7 @@ const Story = ({
   toggleShowReport,
   setIsDeletedPost,
 }) => {
+  console.log({ item });
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
   const [animationWhenClick, setAnimationWhenClick] = useState(false);
@@ -203,12 +216,22 @@ const Story = ({
           <span id="title" onClick={() => handleViewDetail(item.node.id)}>
             {item.node.title}
           </span>
+
           <img
             id="image"
             alt=""
             src={item.node.images[0]}
             onClick={() => handleViewDetail(item.node.id)}
           />
+
+          <div>
+            {item.node.categoryId.map((category, idx) => (
+              <p key={idx}>{category.name}</p>
+            ))}
+          </div>
+
+          <div>{item.node.tag}</div>
+
           <div className="interaction">
             <div className="like-wrapper">
               {renderHeartIcon()}

@@ -74,6 +74,9 @@ export const GET_CONTEST_POSTS = gql`
             profileImageURL
             name
             id
+            level {
+              currentLevel
+            }
           }
 
           image {

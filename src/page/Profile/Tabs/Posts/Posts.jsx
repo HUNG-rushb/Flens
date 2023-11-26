@@ -36,8 +36,12 @@ const ProfilePosts = () => {
       <div className="statistic-posts">
         <p id="title">Your statistic:</p>
         <ul>
-          <li>You have posted <span id='special-text'>{totalPost}</span> posts ! </li>
-          <li>Total likes achieved: <span id='special-text'>{totalLike} </span></li>
+          <li>
+            You have posted <span id="special-text">{totalPost}</span> posts !{' '}
+          </li>
+          <li>
+            Total likes achieved: <span id="special-text">{totalLike} </span>
+          </li>
         </ul>
       </div>
       <div className="activity-posts">
@@ -81,7 +85,9 @@ const ProfilePosts = () => {
         showImageDetail={showImageDetail}
         handleCloseImageDetail={toggleImageDetail}
       />
+
       <Loading loading={isFetching} />
+
       <Modal
         show={showReport}
         modalContent={<ReportContent image={imageToReport} />}

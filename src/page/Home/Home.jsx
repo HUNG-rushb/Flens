@@ -20,6 +20,8 @@ const Home = () => {
   const { id: userId } = useAuthState();
   const { isShowing: showImageDetail, toggle: toggleImageDetail } = useModal();
   const [itemShowDetail, setItemShowDetail] = useState(null);
+  const [reportedPosts, setReportedPosts] = useState([]);
+  console.log({ reportedPosts });
 
   const { posts, hasNextPage, isFetching, fetchError, loadNew } =
     useGetNewFeed(userId);
@@ -58,7 +60,7 @@ const Home = () => {
                         color="#F08080"
                         id="upload-icon"
                       />
-                      Publish a Story
+                      Publish a story
                     </div>
                   </div>
                 </div>
@@ -77,6 +79,9 @@ const Home = () => {
                   }
                 >
                   {posts.map((item, idx) => {
+                    if (reportedPosts.includes(item.node.id))
+                      return <div key={item.node.id}></div>;
+
                     return (
                       <Post
                         key={'post_' + idx}
@@ -84,6 +89,8 @@ const Home = () => {
                         showImageDetail={showImageDetail}
                         toggleImageDetail={toggleImageDetail}
                         setItemShowDetail={setItemShowDetail}
+                        reportedPosts={reportedPosts}
+                        setReportedPosts={setReportedPosts}
                       />
                     );
                   })}
@@ -96,6 +103,7 @@ const Home = () => {
               showImageDetail={showImageDetail}
               handleCloseImageDetail={toggleImageDetail}
             />
+
             <Loading loading={isFetching} />
             {fetchError?.message && (
               <ErrorPopup message={fetchError?.message} />

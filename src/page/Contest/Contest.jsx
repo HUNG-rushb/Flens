@@ -1,5 +1,6 @@
 import ContestBanner from '../../assets/images/Contest/contestBanner.jpeg';
 import Page from '../../components/utils/Page';
+import { useGetAllContest } from '../../graphql/useContest';
 import ContestInfo from './Tab/ContestInfo';
 import PhotoEntries from './Tab/PhotoEntries';
 import PreviousWinner from './Tab/PreviousWinner';
@@ -7,6 +8,8 @@ import './styles.scss';
 import React, { useCallback, useMemo, useState } from 'react';
 
 const Contest = () => {
+  const { fetchedData: allContests } = useGetAllContest();
+  console.log({ allContests });
   const tabs = useMemo(
     () => ['Contest Info', 'Photo Entries', 'Previous Winners'],
     []
