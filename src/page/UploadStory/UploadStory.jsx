@@ -2,12 +2,14 @@ import Button from '../../components/Button/Button';
 import { useAuthState } from '../../context/AuthContext.js';
 import { useCreateStoryLazy } from '../../graphql/useStory.js';
 import { uploadImageToAWS } from '../../hooks/useUploadImageToAWS.js';
+import Loading from '../../utils/useLoading.js';
+import { successfullNoty } from '../../utils/useNotify.js';
 import {
   renderAddItemBySelect,
   renderInputTags,
 } from '../../utils/useRenderInputField.js';
 // import imageStoryHandler from '../../utils/imageStoryHandler.js';
-import './UploadStory.css';
+import './styles.scss';
 import React, {
   useState,
   useRef,
@@ -18,7 +20,6 @@ import React, {
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 
 const QuillEditorWithImage = () => {
   const options = useMemo(
@@ -154,8 +155,9 @@ const QuillEditorWithImage = () => {
     }
   }, [categories, category]);
 
-  const handleUploadStory = async (e) => {
-    e.preventDefault();
+  const handleUploadStory = useCallback(
+    async (e) => {
+      e.preventDefault();
 
     try {
       await createStory({
@@ -173,29 +175,20 @@ const QuillEditorWithImage = () => {
               ),
             ],
           },
-        },
-      });
-      toast.info('upload Story sucessfull!', {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
+        });
+        successfullNoty('upload Story sucessfull!');
+        // navigate('/');
+      } catch (e) {
+        throw e;
+      }
 
-      // navigate('/');
-    } catch (e) {
-      throw e;
-    }
-
-    // console.log(fetchError);
-    if (!fetchError) {
-      navigate('/explore/stories');
-    }
-  };
+      // console.log(fetchError);
+      if (!fetchError) {
+        navigate('/explore/stories');
+      }
+    },
+    [createStory, editorContent, fetchError, navigate, storyImages, userId]
+  );
 
   console.log(editorContent);
 
@@ -214,116 +207,128 @@ const QuillEditorWithImage = () => {
     [categories, category, handleSelectCategory, options]
   );
 
-  return (
-    <div className="upload-story-page">
-      <div className="story-title">
-        <label htmlFor="">Story title</label>
-        <input
-          type="text"
-          id="story-title-input"
-          placeholder="Enter your story title"
-          value={storyTitle}
-          onChange={(e) => setStoryTitle(e.target.value)}
-        />
-      </div>
-      <ReactQuill
-        ref={editorRef}
-        value={editorContent}
-        onChange={setEditorContent}
-        modules={{
-          toolbar: {
-            container: [
-              [{ header: [1, 2, 3, 4, 5, 6, false] }],
-              ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-              [{ align: [] }],
-              [{ list: 'ordered' }, { list: 'bullet' }],
-              ['link', 'image'],
-              ['clean'],
-            ],
-            handlers: {
-              image: imageStoryHandler,
-            },
-          },
-        }}
-        placeholder={'Write your story'}
-        theme="snow"
-      />
+  return useMemo(
+    () => (
+      <>
+        <div className="upload-story-container">
+          <div className="story-title">
+            <label htmlFor="">Story title</label>
+            <input
+              type="text"
+              id="story-title-input"
+              placeholder="Enter your story title"
+              value={storyTitle}
+              onChange={(e) => setStoryTitle(e.target.value)}
+            />
+          </div>
+          <ReactQuill
+            ref={editorRef}
+            value={editorContent}
+            onChange={setEditorContent}
+            modules={{
+              toolbar: {
+                container: [
+                  [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                  ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                  [{ align: [] }],
+                  [{ list: 'ordered' }, { list: 'bullet' }],
+                  ['link', 'image'],
+                  ['clean'],
+                ],
+                handlers: {
+                  image: imageStoryHandler,
+                },
+              },
+            }}
+            placeholder="Write your story"
+            theme="snow"
+          />
 
-      <div className="story-visibility">
-        <label>Visibility</label>
-        <div className="post-mode">
-          <label>
-            Public
-            <div id="input-radio">
-              <input
-                type="radio"
-                name="mode"
-                // value="Public"
-                checked={viewStatus === 'PUBLIC'}
-                onChange={(e) => {
-                  // e.preventDefault();
-                  handleChangeMode('PUBLIC');
-                }}
-              />
-            </div>
-          </label>
+          <div className="story-visibility">
+            <label>Visibility</label>
+            <div className="post-mode">
+              <label>
+                Public
+                <div id="input-radio">
+                  <input
+                    type="radio"
+                    name="mode"
+                    checked={viewStatus === 'PUBLIC'}
+                    onChange={() => {
+                      handleChangeMode('PUBLIC');
+                    }}
+                  />
+                </div>
+              </label>
 
-          <label>
-            Private
-            <div id="input-radio">
-              <input
-                type="radio"
-                name="mode"
-                // value="Private"
-                checked={viewStatus === 'PRIVATE'}
-                onChange={(e) => {
-                  // e.preventDefault();
-                  handleChangeMode('PRIVATE');
-                }}
-              />
-            </div>
-          </label>
+              <label>
+                Private
+                <div id="input-radio">
+                  <input
+                    type="radio"
+                    name="mode"
+                    checked={viewStatus === 'PRIVATE'}
+                    onChange={() => {
+                      handleChangeMode('PRIVATE');
+                    }}
+                  />
+                </div>
+              </label>
 
-          <label>
-            Only Followers
-            <div id="input-radio">
-              <input
-                type="radio"
-                name="mode"
-                // value="Private"
-                checked={viewStatus === 'ONLY_FOLLOWERS'}
-                onChange={(e) => {
-                  // e.preventDefault();
-                  handleChangeMode('ONLY_FOLLOWERS');
-                }}
-              />
+              <label>
+                Only Followers
+                <div id="input-radio">
+                  <input
+                    type="radio"
+                    name="mode"
+                    checked={viewStatus === 'ONLY_FOLLOWERS'}
+                    onChange={() => {
+                      handleChangeMode('ONLY_FOLLOWERS');
+                    }}
+                  />
+                </div>
+              </label>
             </div>
-          </label>
+          </div>
+          <div className="story-input-tags">
+            {renderInputTags('Tags', tags, setTags, tag, setTag, handleKeyDown)}
+          </div>
+          <div className="story-input-catrgories">
+            {InputDataBySelect.map((item) =>
+              renderAddItemBySelect(
+                item.label,
+                item.Array,
+                item.setArray,
+                item.value,
+                item.setValue,
+                item.options,
+                item.handleSelect
+              )
+            )}
+          </div>
+
+          <div className="upload-button">
+            <Button text="Upload Story" onClick={handleUploadStory}>
+              Publish Story
+            </Button>
+          </div>
         </div>
-      </div>
-      <div className="story-input-tags">
-        {renderInputTags('Tags', tags, setTags, tag, setTag, handleKeyDown)}
-      </div>
-      <div className="story-input-catrgories">
-        {InputDataBySelect.map((item) =>
-          renderAddItemBySelect(
-            item.label,
-            item.Array,
-            item.setArray,
-            item.value,
-            item.setValue,
-            item.options,
-            item.handleSelect
-          )
-        )}
-      </div>
-
-      <div className="btn-upload-story">
-        <Button text="Upload Story" onClick={handleUploadStory}>
-          Publish Story
-        </Button>
-      </div>
-    </div>
+        <Loading loading={isFetching} />
+      </>
+    ),
+    [
+      InputDataBySelect,
+      editorContent,
+      handleChangeMode,
+      handleKeyDown,
+      handleUploadStory,
+      imageStoryHandler,
+      isFetching,
+      storyTitle,
+      tag,
+      tags,
+      viewStatus,
+    ]
   );
 };
 
