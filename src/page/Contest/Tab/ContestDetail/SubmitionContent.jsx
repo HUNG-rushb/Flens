@@ -116,7 +116,6 @@ const SubmitionContent = ({
               shutterSpeed: contestInfor.shutterSpeed,
               ISO: contestInfor.iso,
               copyRight: contestInfor.copyright,
-              imageHash: '',
               imageURL: result.Location,
               categoryId: categories.map((a) => a.id),
               albumId: albums.map((a) => a.id),

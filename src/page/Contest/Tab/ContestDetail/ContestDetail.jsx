@@ -33,10 +33,10 @@ const ContestDetail = () => {
     useGetContestInfo({
       contestInfoData: { contestId },
     });
-  // console.log({ contestInfo });
+  console.log({ contestInfo });
   const { posts, hasNextPage, isFetching, fetchError, loadNew, refetch } =
     useGetContestPosts(contestId, userId);
-  // console.log({ posts });
+  console.log({ posts });
 
   const { isShowing: showModal, toggle: toggleModal } = useModal();
 
@@ -172,47 +172,6 @@ const ContestDetail = () => {
     [toggleModal]
   );
 
-  const data = useMemo(
-    () => [
-      {
-        id: 1,
-        username: 'user1',
-        avatar: 'https://via.placeholder.com/40x40',
-        linkPost: 'link post 1',
-        points: 90,
-      },
-      {
-        id: 2,
-        username: 'user2',
-        avatar: 'https://via.placeholder.com/40x40',
-        linkPost: 'link post 2',
-        points: 80,
-      },
-      {
-        id: 3,
-        username: 'user3',
-        avatar: 'https://via.placeholder.com/40x40',
-        linkPost: 'link post 3',
-        points: 70,
-      },
-      {
-        id: 4,
-        username: 'user4',
-        avatar: 'https://via.placeholder.com/40x40',
-        linkPost: 'link post 4',
-        points: 60,
-      },
-      {
-        id: 5,
-        username: 'user5',
-        avatar: 'https://via.placeholder.com/40x40',
-        linkPost: 'link post 5',
-        points: 50,
-      },
-    ],
-    []
-  );
-
   return useMemo(
     () => (
       <>
@@ -229,7 +188,7 @@ const ContestDetail = () => {
           </div>
 
           <div className="below-content-wrapper">
-            <RankingBoard data={data} />
+            {posts && <RankingBoard contestId={contestId} />}
 
             <div className="content-wrapper">
               <div className="description">
@@ -287,7 +246,7 @@ const ContestDetail = () => {
                   </>
                 )}
               </div>
-              <hr/>
+              <hr />
 
               {posts?.length ? (
                 <InfiniteScroll
@@ -303,10 +262,10 @@ const ContestDetail = () => {
                     </p>
                   }
                 >
-                  {posts.map((item, idx) => {
+                  {posts.map((item) => {
                     return (
                       <Post
-                        key={'post_' + idx}
+                        key={item.node.id}
                         item={item.node}
                         userId={item.node.userId.id}
                         // showReport={showReport}
@@ -330,7 +289,7 @@ const ContestDetail = () => {
 
         <Modal
           show={showModal}
-          modalTitle="Submit Contest entry"
+          modalTitle="Submit your photo"
           modalContent={
             <SubmitionContent
               contestId={contestId}
@@ -362,12 +321,7 @@ const ContestDetail = () => {
       </>
     ),
     [
-      contestInfo?.contestInfo.contestImageURL,
-      contestInfo?.contestInfo.name,
-      contestInfo?.contestInfo.description,
-      contestInfo?.contestInfo.startDate,
-      contestInfo?.contestInfo.endDate,
-      contestInfo?.contestInfo?.userJoined,
+      contestInfo,
       userId,
       handleFileChange,
       posts,
@@ -388,7 +342,6 @@ const ContestDetail = () => {
       contestInfoRefetch,
       contestInfor,
       loadNew,
-      data,
     ]
   );
 };

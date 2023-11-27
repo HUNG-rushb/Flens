@@ -1,6 +1,14 @@
+import { useGetTop5Posts } from '../../../../graphql/useContest';
 import React from 'react';
 
-const Ranking = ({ data }) => {
+const Ranking = ({ contestId }) => {
+  console.log({ contestId });
+
+  const { fetchedData: top5, refetch } = useGetTop5Posts({
+    data: { contestId },
+  });
+  console.log({ top5 });
+
   return (
     <div className="ranking-board-container">
       <div className="ranking-board-content">
@@ -14,21 +22,28 @@ const Ranking = ({ data }) => {
               <td>Points</td>
             </tr>
           </thead>
-          <tbody>
-            {data.map((item, index) => {
-              return (
-                <tr key={item.id + index}>
-                  <td>{index + 1}</td>
-                  <td>
-                    <img src={item.avatar} alt="" width={40} height={40} />
-                    <span> {item.username}</span>
-                  </td>
-                  <td>{item.linkPost}</td>
-                  <td>{item.points}</td>
-                </tr>
-              );
-            })}
-          </tbody>
+          {top5 && (
+            <tbody>
+              {top5.getTopPostContest.map((item, index) => {
+                return (
+                  <tr key={item.id}>
+                    <td>{index + 1}</td>
+                    <td>
+                      <img
+                        src={item.userId.profileImageURL}
+                        alt=""
+                        width={40}
+                        height={40}
+                      />
+                      <span> {item.userId.name}</span>
+                    </td>
+                    <td>{item.id}</td>
+                    <td>{item.points}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          )}
         </table>
       </div>
     </div>
