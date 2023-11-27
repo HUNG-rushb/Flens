@@ -11,16 +11,10 @@ import {
 } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 
-const Header = ({
-  item,
-  setIsDeletedPost,
-  setImageToReport,
-  reportedPosts,
-  setReportedPosts,
-}) => {
+const Header = ({ type = 'post', item, setIsDeleted, setReportedList }) => {
   const navigate = useNavigate();
   const { id: userId } = useAuthState();
-  const [postVisibility, setPostVisibility] = useState(item.postViewStatus);
+  const [postVisibility, setPostVisibility] = useState(item?.postViewStatus);
   const [isHovered, setIsHovered] = useState(false);
   const userLevel = useMemo(() => item?.userLevel || 'New', [item?.userLevel]);
 
@@ -41,7 +35,7 @@ const Header = ({
       <div className="hover-avatar">
         <div className="hover-content">
           <img
-            src={item.userId.profileImageURL}
+            src={item?.userId.profileImageURL}
             id="avatar-hover"
             width={100}
             height={100}
@@ -50,7 +44,7 @@ const Header = ({
           />
           <div className="left-hover-content">
             <p id="username" onClick={handleViewProfile}>
-              {item.userId.name}
+              {item?.userId.name}
             </p>
             <p>User level: 1</p>
             <p style={{ fontWeight: 600 }}>100 Follower - Hung also followed</p>
@@ -59,7 +53,7 @@ const Header = ({
         </div>
       </div>
     );
-  }, [handleViewProfile, item.userId.name, item.userId.profileImageURL]);
+  }, [handleViewProfile, item?.userId.name, item?.userId.profileImageURL]);
 
   return useMemo(
     () => (
@@ -70,41 +64,45 @@ const Header = ({
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            <img src={item.userId.profileImageURL} id="avatar" alt="" />
+            <img
+              src={item?.userId.profileImageURL}
+              width={60}
+              height={60}
+              id="avatar"
+              alt=""
+            />
             {isHovered && renderPopoverContent()}
 
             <div className="user-level">{userLevel}</div>
           </div>
           <div>
-            <span id="username">{item.userId.name}</span>
-            uploaded a photo
+            <span id="username">{item?.userId.name}</span>
+            uploaded a {type}
             <div id="date">
-              {unixToDateTime(item.createdAt)}
+              {unixToDateTime(item?.createdAt || '')}
               {renderPostModeIcon()}
             </div>
           </div>
         </div>
         <ActionList
+          type={type}
           item={item}
-          setImageToReport={setImageToReport}
-          setIsDeletedPost={setIsDeletedPost}
+          setIsDeleted={setIsDeleted}
           setPostVisibility={setPostVisibility}
           postVisibility={postVisibility}
-          reportedPosts={reportedPosts}
-          setReportedPosts={setReportedPosts}
+          setReportedList={setReportedList}
         />
       </div>
     ),
     [
+      type,
       isHovered,
       item,
       postVisibility,
       renderPopoverContent,
       renderPostModeIcon,
-      reportedPosts,
-      setImageToReport,
-      setIsDeletedPost,
-      setReportedPosts,
+      setIsDeleted,
+      setReportedList,
       userLevel,
     ]
   );

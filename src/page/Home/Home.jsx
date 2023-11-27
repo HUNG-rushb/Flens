@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router';
 const Home = () => {
   const navigate = useNavigate();
   const { id: userId } = useAuthState();
-  const { isShowing: showImageDetail, toggle: toggleImageDetail } = useModal();
+  const { isShowing: showDetail, toggle: toggleShowDetail } = useModal();
   const [itemShowDetail, setItemShowDetail] = useState(null);
   const [reportedPosts, setReportedPosts] = useState([]);
   console.log({ reportedPosts });
@@ -86,11 +86,10 @@ const Home = () => {
                       <Post
                         key={'post_' + idx}
                         item={item.node}
-                        showImageDetail={showImageDetail}
-                        toggleImageDetail={toggleImageDetail}
+                        showImageDetail={showDetail}
+                        toggleImageDetail={toggleShowDetail}
                         setItemShowDetail={setItemShowDetail}
-                        reportedPosts={reportedPosts}
-                        setReportedPosts={setReportedPosts}
+                        setReportedList={setReportedPosts}
                       />
                     );
                   })}
@@ -100,8 +99,8 @@ const Home = () => {
             <RightContent />
             <ImageDetail
               item={itemShowDetail}
-              showImageDetail={showImageDetail}
-              handleCloseImageDetail={toggleImageDetail}
+              show={showDetail}
+              handleCloseImageDetail={toggleShowDetail}
             />
 
             <Loading loading={isFetching} />

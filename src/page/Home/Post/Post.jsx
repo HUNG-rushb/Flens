@@ -11,10 +11,8 @@ const Post = ({
   item,
   showImageDetail,
   toggleImageDetail,
-  setImageToReport,
   setItemShowDetail,
-  reportedPosts,
-  setReportedPosts,
+  setReportedList,
 }) => {
   const navigate = useNavigate();
   const [isDeletedPost, setIsDeletedPost] = useState(false);
@@ -45,10 +43,8 @@ const Post = ({
           <div className="posts-wrapper">
             <HeaderPost
               item={item}
-              setIsDeletedPost={setIsDeletedPost}
-              setImageToReport={setImageToReport}
-              reportedPosts={reportedPosts}
-              setReportedPosts={setReportedPosts}
+              setIsDeleted={setIsDeletedPost}
+              setReportedList={setReportedList}
             />
 
             <div className="post-content-wrapper">
@@ -119,9 +115,7 @@ const Post = ({
       handleViewDetail,
       isDeletedPost,
       item,
-      reportedPosts,
-      setImageToReport,
-      setReportedPosts,
+      setReportedList,
       showImageDetail,
       showTechnicalInfor,
     ]

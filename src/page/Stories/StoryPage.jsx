@@ -1,13 +1,7 @@
-import Modal from '../../components/Modal/Modal';
-import { useAuthState } from '../../context/AuthContext';
-import { useCreateReport } from '../../graphql/useReport';
+import HeaderStory from '../../components/Header/Header';
 import { useGetExploreStory } from '../../graphql/useStory';
-import useModal from '../../hooks/useModal';
-import unixToDateTime from '../../utils/unixToDateTime';
+import ErrorPopup from '../../utils/errorPopup';
 import Loading from '../../utils/useLoading';
-import { successfullNoty } from '../../utils/useNotify';
-import { ReportContent } from '../ReportManagement/ReportImageContent';
-import ActionList from './ActionList';
 import './styles.scss';
 import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { Heart, HeartFill, Reply } from 'react-bootstrap-icons';
@@ -15,61 +9,9 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate } from 'react-router-dom';
 
 const StoryPage = () => {
-  const { id: userId } = useAuthState();
   const { stories, hasNextPage, isFetching, fetchError, loadNew } =
     useGetExploreStory({ limit: 5, after: '' });
-  // console.log({ stories });
-
-  const { isShowing: showReport, toggle: toggleShowReport } = useModal();
-  const [imageToReport, setImageToReport] = useState({
-    image: '',
-    postId: '',
-    userId: '',
-    reason: 'Copyright infringement',
-  });
-
-  const { createReport } = useCreateReport();
-
-  const [isDeletedStory, setIsDeletedStory] = useState(false);
-
-  const reportPost = useCallback(async () => {
-    try {
-      await createReport({
-        variables: {
-          createReportData: {
-            postId: imageToReport?.postId,
-            userId: imageToReport?.userId,
-            reason: imageToReport?.reason,
-            userReported: userId,
-          },
-        },
-      });
-
-      // await reportedPost({
-      //   variables: {
-      //     data: {
-      //       postId: imageToReport.postId,
-      //       userId,
-      //     },
-      //   },
-      // });
-
-      toggleShowReport();
-    } catch (e) {}
-  }, [
-    createReport,
-    imageToReport?.postId,
-    imageToReport?.reason,
-    imageToReport?.userId,
-    toggleShowReport,
-    userId,
-  ]);
-
-  useEffect(() => {
-    if (isDeletedStory) {
-      successfullNoty('delete story sucessfull!');
-    }
-  }, [isDeletedStory]);
+  const [reportedStories, setReportedStories] = useState([]);
 
   return useMemo(
     () => (
@@ -88,60 +30,38 @@ const StoryPage = () => {
           }
         >
           {stories.map((item) => {
+            if (reportedStories.includes(item.node.id))
+              return <div key={item.node.id}></div>;
             return (
               <Story
                 item={item}
-                showReport={showReport}
-                setImageToReport={setImageToReport}
-                toggleShowReport={toggleShowReport}
                 key={item?.node?.id}
-                setIsDeletedPost={setIsDeletedStory}
+                setReportedList={setReportedStories}
               />
             );
           })}
         </InfiniteScroll>
 
         <Loading loading={isFetching} />
-
-        <Modal
-          show={showReport}
-          modalContent={
-            <ReportContent
-              image={imageToReport.image}
-              setImageToReport={setImageToReport}
-            />
-          }
-          handleClose={toggleShowReport}
-          handleSavechanges={reportPost}
-        />
+        {fetchError?.message && <ErrorPopup message={fetchError?.message} />}
       </div>
     ),
     [
+      fetchError?.message,
       hasNextPage,
-      imageToReport?.image,
       isFetching,
       loadNew,
-      reportPost,
-      showReport,
+      reportedStories,
       stories,
-      toggleShowReport,
     ]
   );
 };
 
-const Story = ({
-  item,
-  showReport,
-  setImageToReport,
-  toggleShowReport,
-  setIsDeletedPost,
-}) => {
-  console.log({ item });
+const Story = ({ item, setReportedList }) => {
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
+  const [isDeletedStory, setIsDeletedStory] = useState(false);
   const [animationWhenClick, setAnimationWhenClick] = useState(false);
-
-  const [postVisibility, setPostVisibility] = useState(item.postViewStatus);
 
   const handleLikeStory = () => {
     setIsLiked((prev) => !prev);
@@ -182,76 +102,56 @@ const Story = ({
 
   return useMemo(
     () => (
-      <div className="story">
-        <div className="header">
-          <div className="header-wrapper">
-            <img
-              height={60}
-              width={60}
-              id="header-avatar"
-              src={item?.node.userId.profileImageURL}
-              onClick={() => navigate(`/profile/${item?.node.userId.id}`)}
-              alt=""
+      <>
+        {isDeletedStory ? (
+          <></>
+        ) : (
+          <div className="story">
+            <HeaderStory
+              type="story"
+              item={item.node}
+              setIsDeleted={setIsDeletedStory}
+              setReportedList={setReportedList}
             />
 
-            <div
-              className="sub-header"
-              onClick={() => handleViewDetail(item?.node.id)}
-            >
-              <span id="fullname">{item?.node.userId.name}</span>
-              <span>{unixToDateTime(item?.node.createdAt)}</span>
+            <div className="description">
+              <span id="title" onClick={() => handleViewDetail(item.node.id)}>
+                {item.node.title}
+              </span>
+
+              <img
+                id="image"
+                alt=""
+                src={item.node.images[0]}
+                onClick={() => handleViewDetail(item.node.id)}
+              />
+
+              <div>
+                {item.node.categoryId.map((category, idx) => (
+                  <p key={idx}>{category.name}</p>
+                ))}
+              </div>
+              <div>{item.node.tag}</div>
+
+              <div className="interaction">
+                <div className="like-wrapper">
+                  {renderHeartIcon()}
+                  <span id="points">{item.node.points}</span>
+                </div>
+                <Reply size={28} />
+              </div>
             </div>
           </div>
-          <ActionList
-            item={item}
-            showReport={showReport}
-            setImageToReport={setImageToReport}
-            toggleShowReport={toggleShowReport}
-            setIsDeletedPost={setIsDeletedPost}
-            setPostVisibility={setPostVisibility}
-            postVisibility={postVisibility}
-          />
-        </div>
-        <div className="description">
-          <span id="title" onClick={() => handleViewDetail(item.node.id)}>
-            {item.node.title}
-          </span>
-
-          <img
-            id="image"
-            alt=""
-            src={item.node.images[0]}
-            onClick={() => handleViewDetail(item.node.id)}
-          />
-
-          <div>
-            {item.node.categoryId.map((category, idx) => (
-              <p key={idx}>{category.name}</p>
-            ))}
-          </div>
-
-          <div>{item.node.tag}</div>
-
-          <div className="interaction">
-            <div className="like-wrapper">
-              {renderHeartIcon()}
-              <span id="points">{item.node.points}</span>
-            </div>
-            <Reply size={28} />
-          </div>
-        </div>
-      </div>
+        )}
+      </>
     ),
     [
       handleViewDetail,
-      item,
-      navigate,
-      postVisibility,
+      isDeletedStory,
+      item.node,
       renderHeartIcon,
-      setImageToReport,
-      setIsDeletedPost,
-      showReport,
-      toggleShowReport,
+      setIsDeletedStory,
+      setReportedList,
     ]
   );
 };

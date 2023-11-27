@@ -1,11 +1,10 @@
-import Modal from '../../../../components/Modal/Modal';
 import { useAuthState } from '../../../../context/AuthContext';
 import { useGetAllUserPost } from '../../../../graphql/usePost';
 import useModal from '../../../../hooks/useModal';
+import ErrorPopup from '../../../../utils/errorPopup';
 import Loading from '../../../../utils/useLoading';
 import ImageDetail from '../../../Home/Post/ImageDetail';
 import Post from '../../../Home/Post/Post';
-import { ReportContent } from '../../../ReportManagement/ReportImageContent';
 import './styles.scss';
 import React, { useMemo, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -14,10 +13,7 @@ import { useParams } from 'react-router';
 const ProfilePosts = () => {
   const { userId } = useParams();
   const { id: currentUserId } = useAuthState();
-
-  const [imageToReport, setImageToReport] = useState('');
   const [itemShowDetail, setItemShowDetail] = useState(null);
-  const { isShowing: showReport, toggle: toggleShowReport } = useModal();
   const { isShowing: showImageDetail, toggle: toggleImageDetail } = useModal();
 
   const { posts, hasNextPage, isFetching, fetchError, loadNew } =
@@ -37,7 +33,7 @@ const ProfilePosts = () => {
         <p id="title">Your statistic:</p>
         <ul>
           <li>
-            You have posted <span id="special-text">{totalPost}</span> posts !{' '}
+            You have posted <span id="special-text">{totalPost}</span> posts !
           </li>
           <li>
             Total likes achieved: <span id="special-text">{totalLike} </span>
@@ -64,11 +60,7 @@ const ProfilePosts = () => {
                 <Post
                   key={'post_' + item.node.id}
                   item={item.node}
-                  userId={item.node.userId.id}
-                  showReport={showReport}
                   showImageDetail={showImageDetail}
-                  toggleShowReport={toggleShowReport}
-                  setImageToReport={setImageToReport}
                   toggleImageDetail={toggleImageDetail}
                   setItemShowDetail={setItemShowDetail}
                 />
@@ -85,15 +77,8 @@ const ProfilePosts = () => {
         showImageDetail={showImageDetail}
         handleCloseImageDetail={toggleImageDetail}
       />
-
       <Loading loading={isFetching} />
-
-      <Modal
-        show={showReport}
-        modalContent={<ReportContent image={imageToReport} />}
-        handleClose={toggleShowReport}
-        handleSavechanges={toggleShowReport}
-      />
+      {fetchError?.message && <ErrorPopup message={fetchError?.message} />}
     </div>
   );
 };

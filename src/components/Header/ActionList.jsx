@@ -2,8 +2,10 @@ import Modal from '../../components/Modal/Modal';
 import { useAuthState } from '../../context/AuthContext';
 import { useChangeVisiblePost, useDeletePost } from '../../graphql/usePost';
 import { useCreateReport, useUpdateReportPost } from '../../graphql/useReport';
+import { useDeleteStory } from '../../graphql/useStory';
 import useModal from '../../hooks/useModal';
 import { ReportContent } from '../../page/ReportManagement/ReportImageContent';
+import ErrorPopup from '../../utils/errorPopup';
 import Loading from '../../utils/useLoading';
 import { successfullNoty } from '../../utils/useNotify';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -14,18 +16,21 @@ import {
   EyeFill,
   PencilSquare,
 } from 'react-bootstrap-icons';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const MoreActionList = ({
+  type,
   item,
-  setIsDeletedPost,
+  setIsDeleted,
   setPostVisibility,
   postVisibility,
-  reportedPosts,
-  setReportedPosts,
+  setReportedList,
 }) => {
   const { id: userId } = useAuthState();
+  const { storyId } = useParams();
   const clickOutsideRef = useRef(null);
   const [action, setAction] = useState('');
+  const navigate = useNavigate();
   const [showListActions, setShowListActions] = useState(true);
   const { isShowing: showModal, toggle: toggleShowModal } = useModal();
   const [imageToReport, setImageToReport] = useState({
@@ -34,7 +39,11 @@ const MoreActionList = ({
     userId: '',
     reason: 'Copyright infringement',
   });
-  const { createReport } = useCreateReport();
+  const {
+    createReport,
+    isFetching: fetchinggReport,
+    fetchError: fetchReportError,
+  } = useCreateReport();
   const { reportedPost } = useUpdateReportPost();
 
   const [currentPostVisibility, setCurrentPostVisibility] =
@@ -44,6 +53,7 @@ const MoreActionList = ({
     []
   );
   const { deletePost, isFetching } = useDeletePost();
+  const { deleteStory } = useDeleteStory();
   const { updatePost } = useChangeVisiblePost(
     setCurrentPostVisibility,
     setPostVisibility
@@ -54,21 +64,28 @@ const MoreActionList = ({
     setAction('REPORT');
     setImageToReport((prev) => ({
       ...prev,
-      image: item?.image.url,
+      image: type === 'post' ? item?.image?.url : item?.images[0],
       postId: item?.id,
       userId: item?.userId.id,
     }));
     toggleShowModal();
-  }, [item, setImageToReport, toggleShowModal]);
+  }, [
+    item?.id,
+    item?.image?.url,
+    item?.images,
+    item?.userId.id,
+    toggleShowModal,
+    type,
+  ]);
 
-  const handleReport = useCallback(async () => {
+  const handleReportPost = useCallback(async () => {
     try {
       await createReport({
         variables: {
           createReportData: {
-            postId: imageToReport.postId,
-            userId: imageToReport.userId,
-            reason: imageToReport.reason,
+            postId: imageToReport?.postId,
+            userId: imageToReport?.userId,
+            reason: imageToReport?.reason,
             userReported: userId,
           },
         },
@@ -77,27 +94,28 @@ const MoreActionList = ({
       await reportedPost({
         variables: {
           data: {
-            postId: imageToReport.postId,
+            postId: imageToReport?.postId,
             userId,
           },
         },
       });
-
-      setReportedPosts([...reportedPosts, imageToReport.postId]);
-
+      setReportedList((prev) => [...prev, imageToReport?.postId]);
       toggleShowModal();
     } catch (e) {}
   }, [
     createReport,
-    imageToReport.postId,
-    imageToReport.reason,
-    imageToReport.userId,
+    imageToReport?.postId,
+    imageToReport?.reason,
+    imageToReport?.userId,
     reportedPost,
-    reportedPosts,
-    setReportedPosts,
+    setReportedList,
     toggleShowModal,
     userId,
   ]);
+
+  const handleReportStory = () => {
+    /// handle report story
+  }
 
   const handleDeleteClick = useCallback(() => {
     setShowListActions(true);
@@ -118,12 +136,28 @@ const MoreActionList = ({
           },
         },
       });
-      setIsDeletedPost(true);
+      setIsDeleted(true);
       successfullNoty('Delete post successfull !!!');
     } catch (e) {
       throw e;
     }
-  }, [deletePost, item?.id, setIsDeletedPost]);
+  }, [deletePost, item?.id, setIsDeleted]);
+
+  const handleDeleteStory = useCallback(async () => {
+    try {
+      await deleteStory({
+        variables: {
+          deleteStoryData: {
+            storyId,
+          },
+        },
+      });
+
+      navigate('/explore/stories');
+    } catch (e) {
+      throw e;
+    }
+  }, [deleteStory, navigate, storyId]);
 
   const handleChangeVisibilityClick = useCallback(() => {
     setAction('CHANGE_MODE');
@@ -157,24 +191,28 @@ const MoreActionList = ({
 
   const modalTitle = useMemo(() => {
     if (action === 'REPORT') {
-      return 'Report Post/Story';
+      return type === 'post' ? 'Report this Post' : 'Report this Story';
     } else if (action === 'DELETE') {
-      return 'Delete Post/Story';
+      return type === 'post' ? 'Delete Post' : 'Delete Story';
     } else if (action === 'CHANGE_MODE') {
-      return `Change Post/Story's visibility`;
+      return type === 'post'
+        ? `Change Post's visibility`
+        : `Change Story's visibility`;
     } else return '';
-  }, [action]);
+  }, [action, type]);
 
   const modalContent = useCallback(() => {
     if (action === 'REPORT') {
       return (
         <ReportContent
-          image={imageToReport.image}
+          image={imageToReport?.image}
           setImageToReport={setImageToReport}
         />
       );
     } else if (action === 'DELETE') {
-      return 'Are you sure to delete this Post/Story?';
+      return type === 'post'
+        ? 'Are you sure to delete this Post?'
+        : 'Are you sure to delete this Story?';
     } else if (action === 'CHANGE_MODE') {
       return (
         <div className="change-post-mode-wrapper">
@@ -197,23 +235,31 @@ const MoreActionList = ({
         </div>
       );
     } else return <></>;
-  }, [action, imageToReport.image, visibilityValue, currentPostVisibility]);
+  }, [
+    action,
+    imageToReport?.image,
+    type,
+    visibilityValue,
+    currentPostVisibility,
+  ]);
 
   const handleSavechanges = useCallback(() => {
     if (action === 'REPORT') {
-      handleReport();
+      type==='post'? handleReportPost() : handleReportStory();
     } else if (action === 'DELETE') {
-      handleDeletePost();
+      type === 'post' ? handleDeletePost() : handleDeleteStory();
     } else if (action === 'CHANGE_MODE') {
       handleChangeMode();
     } else {
       toggleShowModal();
     }
   }, [
+    type,
     action,
     handleChangeMode,
     handleDeletePost,
-    handleReport,
+    handleDeleteStory,
+    handleReportPost,
     toggleShowModal,
   ]);
 
@@ -253,19 +299,19 @@ const MoreActionList = ({
               {item?.userId.id !== userId && (
                 <li onClick={handleReportClick}>
                   <FlagFill color="blue" />
-                  Report post
+                  Report {type}
                 </li>
               )}
               {item?.userId.id === userId && (
                 <li onClick={handleEditImage}>
                   <PencilSquare color="green" />
-                  Edit post
+                  Edit {type}
                 </li>
               )}
               {item?.userId.id === userId && (
                 <li onClick={handleDeleteClick}>
                   <Trash3Fill color="#FF2E2E" />
-                  Delete post
+                  Delete {type}
                 </li>
               )}
               {item?.userId.id === userId && (
@@ -277,7 +323,10 @@ const MoreActionList = ({
             </ul>
           </div>
         </div>
-        <Loading loading={isFetching} />
+        <Loading loading={isFetching || fetchinggReport} />
+        {fetchReportError?.message && (
+          <ErrorPopup message={fetchReportError?.message} />
+        )}
         <Modal
           show={showModal}
           modalTitle={modalTitle}
@@ -292,9 +341,12 @@ const MoreActionList = ({
       item?.userId.id,
       userId,
       handleReportClick,
+      type,
       handleDeleteClick,
       handleChangeVisibilityClick,
       isFetching,
+      fetchinggReport,
+      fetchReportError?.message,
       showModal,
       modalTitle,
       modalContent,

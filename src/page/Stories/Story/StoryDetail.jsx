@@ -1,35 +1,23 @@
+import HeaderStory from '../../../components/Header/Header';
 import { useAuthState } from '../../../context/AuthContext';
 import {
   useGetStoryInfo,
-  useDeleteStory,
   useInteractStory,
 } from '../../../graphql/useStory';
-import unixToDateTime from '../../../utils/unixToDateTime';
+import ErrorPopup from '../../../utils/errorPopup';
 import Loading from '../../../utils/useLoading';
 import StoryComment from '../../Home/Post/StoryComment';
 import './styles.scss';
-import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
-import {
-  Heart,
-  HeartFill,
-  ThreeDots,
-  Flag,
-  Trash,
-  Reply,
-} from 'react-bootstrap-icons';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState, useCallback, useMemo } from 'react';
+import { Heart, HeartFill, Reply } from 'react-bootstrap-icons';
+import { useParams } from 'react-router-dom';
 
 const StoryDetail = () => {
-  const navigate = useNavigate();
   const { storyId } = useParams();
   const { id: userId } = useAuthState();
-
-  const clickOutsideRef = useRef(null);
-
   const [isLiked, setIsLiked] = useState(false);
   const [countNumberOfLikes, setCountNumberOfLikes] = useState(0);
   const [animationWhenClick, setAnimationWhenClick] = useState(false);
-  const [showListOtherActions, setShowListOtherActions] = useState(true);
 
   const { isFetching, fetchedData, fetchError, refetch } = useGetStoryInfo(
     {
@@ -41,8 +29,6 @@ const StoryDetail = () => {
   );
 
   console.log({ fetchedData }, 'story detail');
-
-  const { deleteStory } = useDeleteStory();
   const { interactStory } = useInteractStory();
 
   const handleLikeStory = useCallback(
@@ -68,32 +54,6 @@ const StoryDetail = () => {
     [interactStory, isLiked, storyId, userId]
   );
 
-  // !!!!!!!!!
-  const handleReportStory = () => {
-    setShowListOtherActions(true);
-  };
-
-  const handleDeleteStory = useCallback(
-    async (event) => {
-      event.preventDefault();
-
-      try {
-        await deleteStory({
-          variables: {
-            deleteStoryData: {
-              storyId,
-            },
-          },
-        });
-
-        navigate('/explore/stories');
-      } catch (e) {
-        throw e;
-      }
-    },
-    [deleteStory, navigate, storyId]
-  );
-
   const renderHeartIcon = useCallback(() => {
     return !isLiked ? (
       <Heart
@@ -112,23 +72,6 @@ const StoryDetail = () => {
   }, [animationWhenClick, handleLikeStory, isLiked]);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        clickOutsideRef.current &&
-        !clickOutsideRef.current.contains(event.target)
-      ) {
-        setShowListOtherActions(true);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
-  useEffect(() => {
     if (animationWhenClick) {
       setTimeout(() => {
         setAnimationWhenClick(false);
@@ -141,41 +84,13 @@ const StoryDetail = () => {
       <>
         <div className="story-detail">
           <div className="content">
-            <div className="user-infor">
-              <div className="user-infor-wrapper">
-                <img
-                  id="user-avatar"
-                  src={fetchedData?.storyInfo.userId.backgroundImageURL}
-                  width={60}
-                  height={60}
-                  alt=""
-                />
-                <div className="sub-user-infor">
-                  <span id="username">
-                    {fetchedData?.storyInfo.userId.name}
-                  </span>
-                  <span>
-                    {unixToDateTime(fetchedData?.storyInfo?.createdAt || '')}
-                  </span>
-                </div>
-              </div>
-              <ThreeDots
-                size={28}
-                onClick={() => setShowListOtherActions((prev) => !prev)}
-              />
-              <div className="list-other-actions" hidden={showListOtherActions}>
-                <ul>
-                  <li onClick={handleReportStory}>
-                    <Flag color="blue" />
-                    Report this story
-                  </li>
-                  <li onClick={handleDeleteStory}>
-                    <Trash color="red" />
-                    Delete story
-                  </li>
-                </ul>
-              </div>
-            </div>
+            <HeaderStory
+              type="story"
+              item={fetchedData?.storyInfo}
+              // setIsDeletedPost={setIsDeletedPost}
+              // reportedPosts={reportedPosts}
+              // setReportedPosts={setReportedPosts}
+            />
 
             <div
               dangerouslySetInnerHTML={{
@@ -184,7 +99,7 @@ const StoryDetail = () => {
               className="story-main-image"
             />
 
-            <div className="interaction" ref={clickOutsideRef}>
+            <div className="interaction">
               <div className="likes">
                 {renderHeartIcon()}
                 <span id="total-likes">{countNumberOfLikes}</span>
@@ -199,16 +114,16 @@ const StoryDetail = () => {
           </div>
         </div>
         <Loading loading={isFetching} />
+        {fetchError?.message && <ErrorPopup message={fetchError?.message} />}
       </>
     ),
     [
       countNumberOfLikes,
+      fetchError?.message,
       fetchedData?.storyInfo,
-      handleDeleteStory,
       isFetching,
       refetch,
       renderHeartIcon,
-      showListOtherActions,
     ]
   );
 };
