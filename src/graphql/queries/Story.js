@@ -133,7 +133,8 @@ export const GET_STORY_INFO = gql`
       title
       userLikedStory
       userId {
-        backgroundImageURL
+        id
+        profileImageURL
         name
       }
     }
@@ -148,6 +149,7 @@ export const GET_ALL_STORY_COMMENT = gql`
         createdAt
         id
         userId {
+          id
           profileImageURL
           name
         }

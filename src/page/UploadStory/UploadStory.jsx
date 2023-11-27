@@ -159,23 +159,27 @@ const QuillEditorWithImage = () => {
     async (e) => {
       e.preventDefault();
 
-    try {
-      await createStory({
-        variables: {
-          createStoryData: {
-            userId: userId,
-            title: 'test',
-            storyViewStatus: viewStatus,
-            content: editorContent,
-            images: storyImages,
-            categoryId: categories.map((a) => a.id),
-            tag: [
-              ...new Set(
-                tags.map((a) => a.value).map((element) => element.toLowerCase())
-              ),
-            ],
+      try {
+        await createStory({
+          variables: {
+            createStoryData: {
+              userId: userId,
+              title: 'test',
+              storyViewStatus: viewStatus,
+              content: editorContent,
+              images: storyImages,
+              categoryId: categories.map((a) => a.id),
+              tag: [
+                ...new Set(
+                  tags
+                    .map((a) => a.value)
+                    .map((element) => element.toLowerCase())
+                ),
+              ],
+            },
           },
         });
+
         successfullNoty('upload Story sucessfull!');
         // navigate('/');
       } catch (e) {
