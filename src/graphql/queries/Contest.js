@@ -54,6 +54,23 @@ export const GET_CONTEST_INFO = gql`
   }
 `;
 
+export const GET_TOP_5_POSTS = gql`
+  query GetTopPostContest($data: ContestInfoInput!) {
+    getTopPostContest(data: $data) {
+      id
+      points
+      userId {
+        id
+        name
+        profileImageURL
+      }
+      image {
+        url
+      }
+    }
+  }
+`;
+
 export const GET_CONTEST_POSTS = gql`
   query ContestPosts($contestId: String, $userId: String, $after: String) {
     contestPosts(contestId: $contestId, userId: $userId, after: $after) {

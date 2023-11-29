@@ -4,6 +4,7 @@ import {
   GET_CONTEST_INFO,
   GET_CONTEST_POSTS,
   USER_JOIN_CONTEST,
+  GET_TOP_5_POSTS,
 } from './queries/Contest.js';
 import { useQuery, useMutation } from '@apollo/client';
 import { useCallback } from 'react';
@@ -55,6 +56,20 @@ export const useGetAllContest = (queryPayload) => {
 
 export const useGetContestInfo = (queryPayload) => {
   const { data, loading, error, refetch } = useQuery(GET_CONTEST_INFO, {
+    fetchPolicy: 'no-cache',
+    variables: queryPayload,
+  });
+
+  return {
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+    refetch,
+  };
+};
+
+export const useGetTop5Posts = (queryPayload) => {
+  const { data, loading, error, refetch } = useQuery(GET_TOP_5_POSTS, {
     fetchPolicy: 'no-cache',
     variables: queryPayload,
   });
