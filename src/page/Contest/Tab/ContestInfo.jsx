@@ -1,3 +1,4 @@
+import { useGetAllContest } from '../../../graphql/useContest';
 import { contests } from './contestData';
 import './styles.scss';
 import React, { useCallback, useMemo } from 'react';
@@ -5,14 +6,12 @@ import { useNavigate } from 'react-router-dom';
 
 const ContestInfo = () => {
   const navigate = useNavigate();
+  const { fetchedData: allContests } = useGetAllContest();
+  console.log({ allContests });
 
   const handleClickContest = useCallback(
-    (contest) => {
-      navigate(`/contest/${contest.title}`, {
-        state: {
-          selectedContest: contest,
-        },
-      });
+    (id) => {
+      navigate(`/contest/${id}`);
     },
     [navigate]
   );
@@ -30,21 +29,21 @@ const ContestInfo = () => {
           </div>
           <span>Happening</span>
           <div className="all-contest">
-            {contests.map((contest, index) => (
+            {allContests?.allContests.map((contest) => (
               <div
                 className="contest"
-                key={index}
-                onClick={() => handleClickContest(contest)}
+                key={contest.id}
+                onClick={() => handleClickContest(contest.id)}
               >
-                <img src={contest.image} id="contest-image" alt="" />
-                <div className="contest-title">{contest.title}</div>
+                <img src={contest.contestImageURL} id="contest-image" alt="" />
+                <div className="contest-title">{contest.name}</div>
               </div>
             ))}
           </div>
         </div>
       </div>
     ),
-    [handleClickContest]
+    [handleClickContest, allContests]
   );
 };
 
