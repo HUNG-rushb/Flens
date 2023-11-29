@@ -24,7 +24,7 @@ const PostInteraction = ({ item }) => {
               likedUserId: userId,
               isLiked: !isLiked,
             },
-          },
+          }, 
         });
         setIsLiked(!isLiked);
         setCountNumberOfLikes(a.data.interactPost.points);

@@ -85,48 +85,6 @@
       }
     }
 
-    .interaction {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      .likes {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-top: 10px;
-
-        #heart-icon {
-          opacity: 1;
-          cursor: pointer;
-        }
-
-        #heart-icon:hover {
-          opacity: 0.7;
-        }
-
-        #heart-icon-2 {
-          opacity: 1;
-          cursor: pointer;
-          clip-path: url(#heartClip);
-          animation: beat 0.5s infinite;
-        }
-
-        svg {
-          cursor: pointer;
-          opacity: 1;
-        }
-
-        svg:hover {
-          opacity: 0.7;
-        }
-
-        #total-likes {
-          font-size: 30px;
-        }
-      }
-    }
-
     .comments-wrapper {
       .comment-header {
         display: flex;
@@ -188,6 +146,48 @@
           cursor: pointer;
         }
       }
+    }
+  }
+}
+
+.interaction {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .likes {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+
+    #heart-icon {
+      opacity: 1;
+      cursor: pointer;
+    }
+
+    #heart-icon:hover {
+      opacity: 0.7;
+    }
+
+    #heart-icon-2 {
+      opacity: 1;
+      cursor: pointer;
+      clip-path: url(#heartClip);
+      animation: beat 0.5s infinite;
+    }
+
+    svg {
+      cursor: pointer;
+      opacity: 1;
+    }
+
+    svg:hover {
+      opacity: 0.7;
+    }
+
+    #total-likes {
+      font-size: 30px;
     }
   }
 }

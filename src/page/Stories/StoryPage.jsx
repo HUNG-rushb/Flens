@@ -1,12 +1,12 @@
 import HeaderStory from '../../components/Header/Header';
-import { useGetExploreStory } from '../../graphql/useStory';
+import { useGetExploreStory, useGetStoryInfo } from '../../graphql/useStory';
 import ErrorPopup from '../../utils/errorPopup';
 import Loading from '../../utils/useLoading';
+import StoryInteraction from './Story/StoryInteraction';
 import './styles.scss';
-import React, { useCallback, useMemo, useState, useEffect } from 'react';
-import { Heart, HeartFill, Reply } from 'react-bootstrap-icons';
+import React, { useCallback, useMemo, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const StoryPage = () => {
   const { stories, hasNextPage, isFetching, fetchError, loadNew } =
@@ -58,15 +58,21 @@ const StoryPage = () => {
 };
 
 const Story = ({ item, setReportedList }) => {
+  const { userId } = useParams();
   const navigate = useNavigate();
-  const [isLiked, setIsLiked] = useState(false);
+  const storyId = item?.node.id;
   const [isDeletedStory, setIsDeletedStory] = useState(false);
-  const [animationWhenClick, setAnimationWhenClick] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [countNumberOfLikes, setCountNumberOfLikes] = useState(0);
 
-  const handleLikeStory = () => {
-    setIsLiked((prev) => !prev);
-    setAnimationWhenClick(true);
-  };
+  const { isFetching, fetchedData, fetchError, refetch } = useGetStoryInfo(
+    {
+      storyInfoData: { storyId },
+    },
+    userId,
+    setIsLiked,
+    setCountNumberOfLikes
+  );
 
   const handleViewDetail = useCallback(
     (storyId) => {
@@ -74,31 +80,6 @@ const Story = ({ item, setReportedList }) => {
     },
     [navigate]
   );
-
-  const renderHeartIcon = useCallback(() => {
-    return !isLiked ? (
-      <Heart
-        size={28}
-        onClick={handleLikeStory}
-        id={!animationWhenClick ? 'heart-icon' : 'heart-icon-2'}
-      />
-    ) : (
-      <HeartFill
-        size={28}
-        color="red"
-        onClick={handleLikeStory}
-        id={!animationWhenClick ? 'heart-icon' : 'heart-icon-2'}
-      />
-    );
-  }, [animationWhenClick, isLiked]);
-
-  useEffect(() => {
-    if (animationWhenClick) {
-      setTimeout(() => {
-        setAnimationWhenClick(false);
-      }, 1000);
-    }
-  }, [animationWhenClick]);
 
   return useMemo(
     () => (
@@ -133,24 +114,29 @@ const Story = ({ item, setReportedList }) => {
               </div>
               <div>{item.node.tag}</div>
 
-              <div className="interaction">
-                <div className="like-wrapper">
-                  {renderHeartIcon()}
-                  <span id="points">{item.node.points}</span>
-                </div>
-                <Reply size={28} />
-              </div>
+              <StoryInteraction
+                isLiked={isLiked}
+                setIsLiked={setIsLiked}
+                countNumberOfLikes={countNumberOfLikes}
+                setCountNumberOfLikes={setCountNumberOfLikes}
+              />
             </div>
+            <Loading loading={isFetching} />
+            {fetchError?.message && (
+              <ErrorPopup message={fetchError?.message} />
+            )}
           </div>
         )}
       </>
     ),
     [
+      countNumberOfLikes,
+      fetchError?.message,
       handleViewDetail,
       isDeletedStory,
+      isFetching,
+      isLiked,
       item.node,
-      renderHeartIcon,
-      setIsDeletedStory,
       setReportedList,
     ]
   );
