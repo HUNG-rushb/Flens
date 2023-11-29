@@ -276,7 +276,7 @@ const UploadImage = ({ contestId = '' }) => {
             },
           },
         });
-        // successfullNoty('upload image sucessfull!');
+        successfullNoty('Upload image sucessfull!');
       } catch (e) {
         throw e;
       }

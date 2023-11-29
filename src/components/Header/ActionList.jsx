@@ -5,6 +5,7 @@ import { useCreateReport, useUpdateReportPost } from '../../graphql/useReport';
 import { useDeleteStory } from '../../graphql/useStory';
 import useModal from '../../hooks/useModal';
 import { ReportContent } from '../../page/ReportManagement/ReportImageContent';
+import EditPost from '../../page/UploadImage/EditPost';
 import ErrorPopup from '../../utils/errorPopup';
 import Loading from '../../utils/useLoading';
 import { successfullNoty } from '../../utils/useNotify';
@@ -39,6 +40,8 @@ const MoreActionList = ({
     userId: '',
     reason: 'Copyright infringement',
   });
+  const { isShowing: showEditPost, toggle: toggleEditPost } = useModal();
+
   const {
     createReport,
     isFetching: fetchinggReport,
@@ -115,7 +118,7 @@ const MoreActionList = ({
 
   const handleReportStory = () => {
     /// handle report story
-  }
+  };
 
   const handleDeleteClick = useCallback(() => {
     setShowListActions(true);
@@ -123,9 +126,14 @@ const MoreActionList = ({
     toggleShowModal();
   }, [toggleShowModal]);
 
-  const handleEditImage = () => {
+  const handleEditClick = useCallback(() => {
     setAction('EDIT');
-  };
+    if (type === 'post') {
+      toggleEditPost();
+    } else {
+      navigate('/edit-story', { state: { story: item } });
+    }
+  }, [item, navigate, toggleEditPost, type]);
 
   const handleDeletePost = useCallback(async () => {
     try {
@@ -245,7 +253,7 @@ const MoreActionList = ({
 
   const handleSavechanges = useCallback(() => {
     if (action === 'REPORT') {
-      type==='post'? handleReportPost() : handleReportStory();
+      type === 'post' ? handleReportPost() : handleReportStory();
     } else if (action === 'DELETE') {
       type === 'post' ? handleDeletePost() : handleDeleteStory();
     } else if (action === 'CHANGE_MODE') {
@@ -303,7 +311,7 @@ const MoreActionList = ({
                 </li>
               )}
               {item?.userId.id === userId && (
-                <li onClick={handleEditImage}>
+                <li onClick={handleEditClick}>
                   <PencilSquare color="green" />
                   Edit {type}
                 </li>
@@ -334,14 +342,16 @@ const MoreActionList = ({
           handleClose={handleClose}
           handleSavechanges={handleSavechanges}
         />
+        <EditPost show={showEditPost} post={item} toggleShow={toggleEditPost} />
       </>
     ),
     [
       showListActions,
-      item?.userId.id,
+      item,
       userId,
       handleReportClick,
       type,
+      handleEditClick,
       handleDeleteClick,
       handleChangeVisibilityClick,
       isFetching,
@@ -352,6 +362,8 @@ const MoreActionList = ({
       modalContent,
       handleClose,
       handleSavechanges,
+      showEditPost,
+      toggleEditPost,
     ]
   );
 };

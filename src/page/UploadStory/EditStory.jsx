@@ -19,9 +19,9 @@ import React, {
 } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const QuillEditorWithImage = () => {
+const EditStory = () => {
   const options = useMemo(
     () => [
       { name: 'All categories', id: '64ecb68380295e50c958e547' },
@@ -51,15 +51,17 @@ const QuillEditorWithImage = () => {
   );
   const { id: userId } = useAuthState();
   const navigate = useNavigate();
-
-  const [editorContent, setEditorContent] = useState('');
+  const location = useLocation();
+  const story = useMemo(() => location?.state?.story, [location?.state?.story]);
+  console.log('story', story)
+  const [editorContent, setEditorContent] = useState(story?.content);
   const [storyImages, setStoryImages] = useState([]);
-  const [storyTitle, setStoryTitle] = useState('');
+  const [storyTitle, setStoryTitle] = useState(story?.title);
   const editorRef = useRef(null);
-  const [viewStatus, setViewStatus] = useState('PUBLIC');
+  const [viewStatus, setViewStatus] = useState(story?.storyViewStatus);
   console.log({ viewStatus });
 
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState(story?.tags);
   console.log({ tags });
   const [tag, setTag] = useState({
     id: 0,
@@ -321,7 +323,7 @@ const QuillEditorWithImage = () => {
           </div>
 
           <div className="upload-button">
-            <Button text="Publish Story" onClick={handleUploadStory}>
+            <Button text="Update Story" onClick={handleUploadStory}>
               Publish Story
             </Button>
           </div>
@@ -345,4 +347,4 @@ const QuillEditorWithImage = () => {
   );
 };
 
-export default QuillEditorWithImage;
+export default EditStory;

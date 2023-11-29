@@ -23,6 +23,7 @@ import TagSearchResult from '../page/TagSearchResult/SearchTagResult.jsx';
 // import UploadImageDetail from '../page/UploadImage/UploadDetail/UploadImageDetail.jsx';
 import UploadImage from '../page/UploadImage/UploadImage.jsx';
 import UploadStory from '../page/UploadStory/UploadStory.jsx';
+import EditStory from '../page/UploadStory/EditStory.jsx';
 
 const routes = [
   // user route
@@ -95,6 +96,12 @@ const routes = [
   {
     path: '/uploadStory',
     element: <UploadStory />,
+    exact: true,
+    isPrivate: true,
+  },
+  {
+    path: '/edit-story',
+    element: <EditStory />,
     exact: true,
     isPrivate: true,
   },

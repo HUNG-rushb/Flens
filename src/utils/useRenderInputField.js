@@ -62,7 +62,7 @@ export const renderInputTags = (
   return (
     <div>
       <label>{label}</label>
-      {tagArray.length > 0 && (
+      {tagArray?.length > 0 && (
         <div className="all-tags">
           {tagArray.map((item) => {
             return (
