@@ -1,22 +1,23 @@
 // import { removeItemFromArray } from './removeItemFromArray.js';
-import { handleInputChange } from '../context/actions/ContestActions.js';
+
+import { handleInputChange } from "../context/actions/InputChangeAction.js";
 
 export const removeItemFromArray = (removeId, array, setArray) => {
   const removeItem = array.filter((item) => item.id !== removeId);
   setArray(removeItem);
 };
 
-export const renderInputField = (label, placeholder, value, dispatch) => {
+export const renderInputField = (label, placeholder, value, dispatch, type) => {
   const convertLabel = () => {
     const words = label?.split(' ');
 
-  words[0] = words[0]?.toLowerCase();
+    words[0] = words[0]?.toLowerCase();
 
-  for (let i = 1; i < words?.length; i++) {
-    words[i] = words[i]?.charAt(0).toUpperCase() + words[i]?.slice(1);
-  }
+    for (let i = 1; i < words?.length; i++) {
+      words[i] = words[i]?.charAt(0).toUpperCase() + words[i]?.slice(1);
+    }
 
-  return words.join('');
+    return words.join('');
   };
 
   switch (label) {
@@ -42,6 +43,7 @@ export const renderInputField = (label, placeholder, value, dispatch) => {
         onChange={(event) =>
           handleInputChange(
             dispatch,
+            type,
             convertLabel() || '',
             event.target.value
           )
