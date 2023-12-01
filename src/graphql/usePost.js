@@ -237,6 +237,7 @@ export const useGetExplore = (queryPayload) => {
     //   console.log(data);
     // },
   });
+  console.log({ data });
 
   const loadNew = useCallback(async () => {
     console.log('load new');

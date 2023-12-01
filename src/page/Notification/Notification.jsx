@@ -1,7 +1,10 @@
 import Button from '../../components/Button/Button';
 import Page from '../../components/utils/Page';
 import { useAuthState } from '../../context/AuthContext';
+import { getMessagingToken, onMessageListener } from '../../firebase';
+import { useGetNotis } from '../../graphql/useNoti';
 import { useUserProfileImage } from '../../graphql/useUser';
+import { successfullNoty } from '../../utils/useNotify';
 import LeftContent from './LeftContent.jsx';
 import './Notification.css';
 import { useCallback, useEffect } from 'react';
@@ -11,6 +14,9 @@ import { HeartFill, ReplyFill } from 'react-bootstrap-icons';
 
 const Notification = () => {
   const { id: userId } = useAuthState();
+  const { fetchedData: notis, refetch } = useGetNotis({ data: { userId } });
+  console.log({ notis });
+
   const {
     isFetching: isFetchingUserProfileData,
     fetchedData: fetchingUserProfileData,
@@ -136,7 +142,7 @@ const Notification = () => {
   }, [handleScroll]);
 
   return (
-    <Page title='Flens-Notification'>
+    <Page title="Flens-Notification">
       <Suspense fallback={null}>
         <div className="Notifi-page">
           <LeftContent

@@ -22,8 +22,8 @@ import StoryDetail from '../page/Stories/Story/StoryDetail.jsx';
 import TagSearchResult from '../page/TagSearchResult/SearchTagResult.jsx';
 // import UploadImageDetail from '../page/UploadImage/UploadDetail/UploadImageDetail.jsx';
 import UploadImage from '../page/UploadImage/UploadImage.jsx';
-import UploadStory from '../page/UploadStory/UploadStory.jsx';
 import EditStory from '../page/UploadStory/EditStory.jsx';
+import UploadStory from '../page/UploadStory/UploadStory.jsx';
 
 const routes = [
   // user route
@@ -163,6 +163,12 @@ const routes = [
   {
     path: '/statistic',
     element: <Statistic />,
+    exact: true,
+    isPrivate: true,
+  },
+  {
+    path: '/post/:postId',
+    element: <></>,
     exact: true,
     isPrivate: true,
   },

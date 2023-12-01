@@ -46,7 +46,7 @@ const TabMenu = ({ userId, userProfileData, posts }) => {
       // console.log({ isFollow }, ' here');
 
       if (isFollow) {
-        console.log('unfollow');
+        // console.log('unfollow');
 
         try {
           await unfollowUser({
@@ -63,7 +63,7 @@ const TabMenu = ({ userId, userProfileData, posts }) => {
 
         setIsFollow((prev) => !prev);
       } else {
-        console.log('follow');
+        // console.log('follow');
 
         try {
           await updateFollowing({

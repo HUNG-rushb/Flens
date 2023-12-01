@@ -111,7 +111,7 @@ export const renderAddItemBySelect = (
       <label>{label}</label>
       {Array.length > 0 && (
         <div className="categories-item">
-          {Array?.map((item) => (
+          {Array?.map((item, idx) => (
             <div
               key={item.id}
               onClick={() => removeItemFromArray(item.id, Array, setArray)}
