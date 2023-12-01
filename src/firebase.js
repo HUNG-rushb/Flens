@@ -39,15 +39,19 @@ if (typeof window !== 'undefined') {
 
 export const getMessagingToken = async () => {
   let currentToken = '';
+
   if (!messaging) return;
+
   try {
     currentToken = await messaging.getToken({
       vapidKey: vapidKey,
     });
+
     console.log('FCM registration token', currentToken);
   } catch (error) {
     console.log('An error occurred while retrieving token. ', error);
   }
+
   return currentToken;
 };
 

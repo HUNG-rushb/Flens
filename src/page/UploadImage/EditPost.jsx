@@ -11,7 +11,7 @@ import './EditPost.scss';
 import React, { useState, useMemo, useCallback, useReducer } from 'react';
 
 const EditPost = ({ show, toggleShow, post }) => {
-  console.log('edit post', post);
+  // console.log('edit post', post);
   const options = useMemo(
     () => [
       { name: 'All categories', id: '64ecb68380295e50c958e547' },
@@ -233,7 +233,7 @@ const EditPost = ({ show, toggleShow, post }) => {
             </div>
             <div className="modal-upload-right">
               <div className="modal-upload-details">
-                {inputData.map((item) =>
+                {inputData.map((item, idx) =>
                   renderInputField(
                     item.label,
                     item.placeholder,
@@ -296,6 +296,7 @@ const EditPost = ({ show, toggleShow, post }) => {
                   setTag,
                   handleKeyDown
                 )}
+
                 {InputDataBySelect.map((item) =>
                   renderAddItemBySelect(
                     item.label,

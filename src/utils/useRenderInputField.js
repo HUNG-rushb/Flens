@@ -10,13 +10,13 @@ export const renderInputField = (label, placeholder, value, dispatch) => {
   const convertLabel = () => {
     const words = label?.split(' ');
 
-  words[0] = words[0]?.toLowerCase();
+    words[0] = words[0]?.toLowerCase();
 
-  for (let i = 1; i < words?.length; i++) {
-    words[i] = words[i]?.charAt(0).toUpperCase() + words[i]?.slice(1);
-  }
+    for (let i = 1; i < words?.length; i++) {
+      words[i] = words[i]?.charAt(0).toUpperCase() + words[i]?.slice(1);
+    }
 
-  return words.join('');
+    return words.join('');
   };
 
   switch (label) {
@@ -40,11 +40,7 @@ export const renderInputField = (label, placeholder, value, dispatch) => {
         placeholder={placeholder}
         value={value}
         onChange={(event) =>
-          handleInputChange(
-            dispatch,
-            convertLabel() || '',
-            event.target.value
-          )
+          handleInputChange(dispatch, convertLabel() || '', event.target.value)
         }
       />
     </div>
@@ -109,7 +105,7 @@ export const renderAddItemBySelect = (
       <label>{label}</label>
       {Array.length > 0 && (
         <div className="categories-item">
-          {Array?.map((item) => (
+          {Array?.map((item, idx) => (
             <div
               key={item.id}
               onClick={() => removeItemFromArray(item.id, Array, setArray)}

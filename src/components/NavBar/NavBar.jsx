@@ -1,7 +1,9 @@
 import { useAuthState } from '../../context/AuthContext.js';
 import { useAuthDispatch } from '../../context/AuthContext.js';
 import { logout } from '../../context/actions/AuthActions.js';
+import { getMessagingToken, onMessageListener } from '../../firebase.js';
 import { useUserProfileImage } from '../../graphql/useUser.js';
+import { successfullNoty } from '../../utils/useNotify.js';
 import './NavBar.css';
 import NavbarSearch from './NavbarSearch.jsx';
 import { useEffect, useRef, useState } from 'react';
@@ -18,6 +20,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
+  // console.log({navigate})
+
   const dispatch = useAuthDispatch();
   const { id, isAdmin, profileImageURL } = useAuthState();
   const isNotAuthenticated = id === '' && isAdmin === '';
@@ -31,13 +35,8 @@ const NavBar = () => {
   const { isFetching, fetchedData, fetchError } = useUserProfileImage({
     userInfoData: { userId },
   });
-  const clickOutsideRef = useRef(null);
 
-  const handleLogout = () => {
-    setShowDropdown(!showDropdown);
-    logout(dispatch);
-    // navigate('/');
-  };
+  const clickOutsideRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -55,6 +54,39 @@ const NavBar = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    getMessagingToken();
+
+    const channel = new BroadcastChannel('notifications');
+
+    channel.addEventListener('message', (event) => {
+      const a = JSON.parse(event.data.data.body);
+      console.log('Receive background: ', a);
+
+      if (a.follower.userFollower.includes(userId)) {
+        successfullNoty('ok');
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    onMessageListener().then((data) => {
+      const a = JSON.parse(data.data.body);
+
+      console.log('Receive foreground: ', a);
+
+      if (a.follower.userFollower.includes(userId)) {
+        successfullNoty('ok', true);
+      }
+    });
+  });
+
+  const handleLogout = () => {
+    setShowDropdown(!showDropdown);
+    logout(dispatch);
+    // navigate('/');
+  };
 
   return (
     <Navbar expand="md">

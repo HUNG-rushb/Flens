@@ -1,32 +1,14 @@
 import PrivateRoute from './PrivateRoute.jsx';
 import NavBar from './components/NavBar/NavBar.jsx';
 import { AuthProvider } from './context/AuthContext.js';
-import { getMessagingToken } from './firebase.js';
-import { onMessageListener } from './firebase.js';
 import routes from './router/router.jsx';
-import { successfullNoty } from './utils/useNotify.js';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Offline, Online } from 'react-detect-offline';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
-  useEffect(() => {
-    getMessagingToken();
-    const channel = new BroadcastChannel('notifications');
-    channel.addEventListener('message', (event) => {
-      console.log('Receive background: ', event.data);
-    });
-  }, []);
-
-  useEffect(() => {
-    onMessageListener().then((data) => {
-      console.log('Receive foreground: ', data);
-      successfullNoty(data.notification.body);
-    });
-  });
-
   return (
     <>
       <Online>
@@ -45,6 +27,7 @@ const App = () => {
         <BrowserRouter>
           <AuthProvider>
             <NavBar />
+
             <div className="inside">
               <Routes>
                 {routes.map((route, idx) => {
