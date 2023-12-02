@@ -54,6 +54,37 @@ export const GET_PROFILE_IMAGE = gql`
   }
 `;
 
+export const GET_USER_INTEREST = gql`
+  query UserInfo($userInfoData: UserInfoInput!) {
+    userInfo(data: $userInfoData) {
+      interestCategories {
+        name
+      }
+    }
+  }
+`;
+
+export const GET_PROFILE_FOLLOW = gql`
+  query Follower($userInfoData: UserInfoInput!) {
+    userFollow(data: $userInfoData) {
+      follower {
+        userFollower {
+          id
+          name
+          profileImageURL
+        }
+      }
+      following {
+        userFollowing {
+          id
+          name
+          profileImageURL
+        }
+      }
+    }
+  }
+`;
+
 export const SUGGEST_USER_TO_FOLLOW = gql`
   query SuggestUserToFollow(
     $suggestUserToFollowData: SuggestUserToFollowInput!

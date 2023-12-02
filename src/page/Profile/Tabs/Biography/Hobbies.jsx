@@ -1,29 +1,34 @@
 import Button from '../../../../components/Button/Button';
-import React, { useMemo } from 'react';
 import './styles.scss';
+import React, { useMemo } from 'react';
 
-const Hobbies = ({ hobbies, toggleShowModal, setCheckType }) => {
+const Hobbies = ({ hobbies, toggleShowModal }) => {
   return useMemo(
     () => (
       <div className="hobbies">
         <div className="hobby-text">
-          <span>Hobby:</span>
+          <span>Interest:</span>
           <div className="badge-wrapper">
-            {hobbies.map((item) => {
-              return <div key={item.id}>{item.value}</div>;
-            })}
+            {hobbies.userInfo.interestCategories.length === 0 ? (
+              <p>Please add some interests</p>
+            ) : (
+              hobbies.userInfo.interestCategories.map((item) => {
+                return <div key={item.id}>{item.value}</div>;
+              })
+            )}
           </div>
         </div>
+
         <div className="add-button">
           <Button
             text="Add hobby"
             type="default2"
-            onClick={() => [toggleShowModal(), setCheckType(2)]}
+            onClick={() => toggleShowModal()}
           />
         </div>
       </div>
     ),
-    [hobbies, setCheckType, toggleShowModal]
+    [hobbies, toggleShowModal]
   );
 };
 

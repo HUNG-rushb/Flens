@@ -7,7 +7,8 @@ export const GET_USER_NOTIS = gql`
       postId
       type
       createdAt
-      userIds {
+
+      userTriggerId {
         name
         profileImageURL
         id
