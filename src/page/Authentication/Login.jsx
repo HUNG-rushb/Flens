@@ -8,6 +8,8 @@ import './Login.css';
 import hash from 'hash-it';
 import React, { Suspense, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ErrorPopup from '../../utils/errorPopup';
+import Loading from '../../utils/useLoading';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -74,7 +76,7 @@ const Login = () => {
           <form className="Login-form">
             <div className="Login-form-content">
               <h3 className="Login-form-title">Sign In</h3>
-              {fetchError && <p>Retry</p>}
+              {/* {fetchError && <p>Retry</p>} */}
 
               <div className="form-group mt-3">
                 <label>Email</label>
@@ -113,6 +115,8 @@ const Login = () => {
               </p>
             </div>
           </form>
+          <Loading loading={isFetching} />
+          {fetchError?.message && <ErrorPopup message='Login fail, please try again!'/>}
         </div>
       </Suspense>
     </Page>

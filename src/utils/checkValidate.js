@@ -1,4 +1,4 @@
-export const checkValidate = (name, email, password) => {
+export const checkValidate = (name, email, password, rePassword) => {
   const validationErrors = {};
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -14,6 +14,9 @@ export const checkValidate = (name, email, password) => {
     validationErrors.password = 'Password is required.';
   } else if (password.length < 6) {
     validationErrors.password = 'Password must be at least 6 characters.';
+  }
+  else if (rePassword !== password) {
+    validationErrors.rePassword = 'Please retype your password';
   }
   return validationErrors;
 };

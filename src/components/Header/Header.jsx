@@ -1,4 +1,3 @@
-import { useAuthState } from '../../context/AuthContext';
 import unixToDateTime from '../../utils/unixToDateTime';
 import Button from '../Button/Button';
 import ActionList from './ActionList';
@@ -14,14 +13,13 @@ import { useNavigate } from 'react-router-dom';
 const Header = ({ type = 'post', item, setIsDeleted, setReportedList }) => {
   console.log({ item });
   const navigate = useNavigate();
-  const { id: userId } = useAuthState();
   const [postVisibility, setPostVisibility] = useState(item?.postViewStatus);
   const [isHovered, setIsHovered] = useState(false);
   const userLevel = useMemo(() => item?.userLevel || 'New', [item?.userLevel]);
 
   const handleViewProfile = useCallback(() => {
     navigate(`/profile/${item?.userId.id}`);
-  }, [navigate, userId]);
+  }, [item?.userId.id, navigate]);
 
   const renderPostModeIcon = useCallback(() => {
     if (postVisibility === 'PUBLIC')

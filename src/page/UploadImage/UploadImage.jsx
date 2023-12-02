@@ -1,6 +1,7 @@
 import Button from '../../components/Button/Button';
 import Page from '../../components/utils/Page';
 import { useAuthState } from '../../context/AuthContext.js';
+import { handleInputChange } from '../../context/actions/InputChangeAction.js';
 import {
   PostInfoReducer,
   initialPostInfo,
@@ -382,7 +383,7 @@ const UploadImage = ({ contestId = '' }) => {
       postInfor.aperture,
       postInfor.camera,
       postInfor.caption,
-      postInfor.copyright,
+      postInfor.copyright,  
       postInfor.focalLength,
       postInfor.iso,
       postInfor.lens,
@@ -471,7 +472,8 @@ const UploadImage = ({ contestId = '' }) => {
                             item.label,
                             item.placeholder,
                             item.value,
-                            dispatch
+                            dispatch,
+                            'UPDATE_POST_FIELD'
                           )
                         )}
                         <div>

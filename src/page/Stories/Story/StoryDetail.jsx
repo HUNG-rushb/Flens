@@ -23,10 +23,11 @@ const StoryDetail = () => {
     setIsLiked,
     setCountNumberOfLikes
   );
+  
   console.log({ fetchedData }, 'story detail');
 
   return useMemo(
-    () => (
+    () => ( 
       <>
         <div className="story-detail">
           <div className="content">

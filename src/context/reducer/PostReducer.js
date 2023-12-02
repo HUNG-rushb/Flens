@@ -12,6 +12,7 @@ export const initialPostInfo = {
 };
 
 export const PostInfoReducer = (state, action) => {
+  console.log('action', action)
   switch (action.type) {
     case 'UPDATE_POST_FIELD':
       return { ...state, [action.field]: action.value };

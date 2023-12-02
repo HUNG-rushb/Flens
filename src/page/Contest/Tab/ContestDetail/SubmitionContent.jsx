@@ -1,6 +1,5 @@
 import Button from '../../../../components/Button/Button';
 import { useAuthState } from '../../../../context/AuthContext.js';
-import { handleInputChange } from '../../../../context/actions/ContestActions';
 import { useGetAllUserAlbum } from '../../../../graphql/useAlbum.js';
 import { useUserJoinContext } from '../../../../graphql/useContest';
 import {
@@ -336,7 +335,8 @@ const SubmitionContent = ({
                   item.label,
                   item.placeholder,
                   item.value,
-                  dispatch
+                  dispatch,
+                  'UPDATE_CONTEST_FIELD'
                 )
               )}
               <div>
@@ -371,14 +371,6 @@ const SubmitionContent = ({
                 )
               )}
             </div>
-
-            {/* <input
-              type="text"
-              value={photoInfo.title}
-              onChange={(e) =>
-                handleInputChange(dispatch, 'title', e.target.value)
-              }
-            /> */}
 
             <div className="modal-buttons">
               <div className="button-close">

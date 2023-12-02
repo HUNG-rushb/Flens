@@ -89,7 +89,7 @@ const LeaderBoard = () => {
               <p>
                 Find your standings, based on your activity the past 30 days
               </p>
-              <span id="title">Followers</span>
+              <span id="title">Following</span>
               <p>Photographers you are following</p>
             </div>
             <div className="leader-board-content">

@@ -11,7 +11,6 @@ import './EditPost.scss';
 import React, { useState, useMemo, useCallback, useReducer } from 'react';
 
 const EditPost = ({ show, toggleShow, post }) => {
-  // console.log('edit post', post);
   const options = useMemo(
     () => [
       { name: 'All categories', id: '64ecb68380295e50c958e547' },
@@ -43,8 +42,9 @@ const EditPost = ({ show, toggleShow, post }) => {
 
   const [viewStatus, setViewStatus] = useState(post?.postViewStatus);
   const [postInfor, dispatch] = useReducer(PostInfoReducer, post);
+  console.log('postInfor', postInfor);
 
-  const [tags, setTags] = useState(post.tag);
+  const [tags, setTags] = useState(post?.tag);
   const [tag, setTag] = useState({
     id: 0,
     value: '',
@@ -124,65 +124,65 @@ const EditPost = ({ show, toggleShow, post }) => {
       {
         label: 'Title',
         placeholder: 'Input title for this image',
-        value: post?.title,
+        value: postInfor?.title,
       },
       {
         label: 'Caption',
         placeholder: 'Input caption for this image',
-        value: post?.caption,
+        value: postInfor?.caption,
       },
       {
         label: 'Camera',
         placeholder: 'Input Camera',
-        value: post?.image?.imageInfoId?.camera,
+        value: postInfor?.image?.imageInfoId?.camera,
       },
       {
         label: 'Lens',
         placeholder: 'Input Lens',
-        value: post?.image?.imageInfoId?.lens,
+        value: postInfor?.image?.imageInfoId?.lens,
       },
       {
         label: 'Aperture',
         placeholder: 'Input Aperture',
-        value: post?.image?.imageInfoId?.aperture,
+        value: postInfor?.image?.imageInfoId?.aperture,
       },
       {
         label: 'Shutter speed',
         placeholder: 'Input Shutter speed',
-        value: post?.image?.imageInfoId?.shutterSpeed,
+        value: postInfor?.image?.imageInfoId?.shutterSpeed,
       },
       {
         label: 'Focal length',
         placeholder: 'Input Focal length',
-        value: post?.image?.imageInfoId?.focalLength,
+        value: postInfor?.image?.imageInfoId?.focalLength,
       },
       {
         label: 'ISO',
         placeholder: 'Input ISO',
-        value: post?.image?.imageInfoId?.iso,
+        value: postInfor?.image?.imageInfoId?.iso,
       },
       {
         label: 'Taken when',
         placeholder: 'Taken when',
-        value: post?.image?.imageInfoId?.takenWhen,
+        value: postInfor?.image?.imageInfoId?.takenWhen,
       },
       {
         label: 'Copyright',
         placeholder: 'Input CopyRight',
-        value: post?.image?.imageInfoId?.copyright,
+        value: postInfor?.image?.imageInfoId?.copyright,
       },
     ],
     [
-      post?.caption,
-      post?.image?.imageInfoId?.aperture,
-      post?.image?.imageInfoId?.camera,
-      post?.image?.imageInfoId?.copyright,
-      post?.image?.imageInfoId?.focalLength,
-      post?.image?.imageInfoId?.iso,
-      post?.image?.imageInfoId?.lens,
-      post?.image?.imageInfoId?.shutterSpeed,
-      post?.image?.imageInfoId?.takenWhen,
-      post?.title,
+      postInfor?.title,
+      postInfor?.caption,
+      postInfor?.image?.imageInfoId?.camera,
+      postInfor?.image?.imageInfoId?.lens,
+      postInfor?.image?.imageInfoId?.aperture,
+      postInfor?.image?.imageInfoId?.shutterSpeed,
+      postInfor?.image?.imageInfoId?.focalLength,
+      postInfor?.image?.imageInfoId?.iso,
+      postInfor?.image?.imageInfoId?.takenWhen,
+      postInfor?.image?.imageInfoId?.copyright,
     ]
   );
 
@@ -238,7 +238,8 @@ const EditPost = ({ show, toggleShow, post }) => {
                     item.label,
                     item.placeholder,
                     item.value,
-                    dispatch
+                    dispatch,
+                    'UPDATE_POST_FIELD'
                   )
                 )}
                 <div>

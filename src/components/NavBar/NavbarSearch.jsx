@@ -16,6 +16,7 @@ import {
   Row,
   Col,
 } from 'react-bootstrap';
+import { Search } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 
 const NavbarSearch = () => {
@@ -27,8 +28,6 @@ const NavbarSearch = () => {
   const [isFocus, setIsFocus] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [searchResult, setSearchResult] = useState({});
-
-  // console.log({ searchResult });
 
   const handleChange = useCallback(
     async (event) => {
@@ -100,9 +99,7 @@ const NavbarSearch = () => {
         setIsFocus(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
-
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
