@@ -1,11 +1,29 @@
+import { useAuthState } from '../../context/AuthContext';
+import { useUserProfileImage } from '../../graphql/useUser';
+import ErrorPopup from '../../utils/errorPopup';
+import Loading from '../../utils/useLoading';
 import React, { useMemo } from 'react';
 
-const LeftContent = ({ userId, userProfileInfo }) => {
+const LeftContent = () => {
+  const { id: userId } = useAuthState();
+  const {
+    isFetching,
+    fetchedData: profileData,
+    fetchError,
+  } = useUserProfileImage({
+    userInfoData: { userId },
+  });
+
   return useMemo(
     () => (
-      <div className="notifi-left-content">
-        <img src={userProfileInfo?.userInfo.profileImageURL} alt="" />
-        <div className="notifi-left-name">{userProfileInfo?.userInfo.name}</div>
+      <div className="noty-left-content">
+        <img
+          src={profileData?.userInfo.profileImageURL}
+          width={150}
+          height={150}
+          alt=""
+        />
+        <div className="username">{profileData?.userInfo.name}</div>
         <div className="skill-content">
           <div id="userLink">
             <span>Your Flens link:</span> flens.com/{userId}
@@ -17,12 +35,16 @@ const LeftContent = ({ userId, userProfileInfo }) => {
             <span>Skills:</span> Portrait photography
           </div>
         </div>
+        <Loading loading={isFetching} />
+        {fetchError?.message && <ErrorPopup message={fetchError?.message} />}
       </div>
     ),
     [
+      profileData?.userInfo.profileImageURL,
+      profileData?.userInfo.name,
       userId,
-      userProfileInfo?.userInfo.name,
-      userProfileInfo?.userInfo.profileImageURL,
+      isFetching,
+      fetchError?.message,
     ]
   );
 };

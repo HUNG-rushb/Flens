@@ -116,7 +116,7 @@ const Login = () => {
             </div>
           </form>
           <Loading loading={isFetching} />
-          {fetchError?.message && <ErrorPopup message={fetchError?.message}/>}
+          {fetchError?.message && <ErrorPopup message='Login fail, please try again!'/>}
         </div>
       </Suspense>
     </Page>

@@ -16,6 +16,7 @@ import {
   Row,
   Col,
 } from 'react-bootstrap';
+import { Search } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 
 const NavbarSearch = () => {
@@ -97,9 +98,7 @@ const NavbarSearch = () => {
         setIsFocus(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
-
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -116,9 +115,6 @@ const NavbarSearch = () => {
                   setIsFocus(true);
                 }}
               >
-                <InputGroup.Prepend>
-                  <InputGroup.Text>icon</InputGroup.Text>
-                </InputGroup.Prepend>
                 <FormControl
                   type="search"
                   placeholder="Search Flens"
