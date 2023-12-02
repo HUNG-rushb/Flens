@@ -1,11 +1,13 @@
-import { useLocation } from 'react-router-dom';
 import Modal from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
+import { useAuthState } from '../../context/AuthContext';
+import { useSearchResult } from '../../graphql/useSearch';
 import useModal from '../../hooks/useModal';
 import { images } from '../Explore/ImageData';
 import SimilarImageDetail from './SimilarImageDetail';
 import { Suspense, useCallback, useMemo, useState } from 'react';
 import Masonry from 'react-layout-masonry';
+import { useParams } from 'react-router-dom';
 
 const SearchTagResult = () => {
   const options = useMemo(
@@ -36,15 +38,16 @@ const SearchTagResult = () => {
     []
   );
 
+  const { query } = useParams();
+  const { id: userId } = useAuthState();
   const [selectedOption, setSelectedOption] = useState(options[0].value);
   const { isShowing: showModal, toggle: toggleModal } = useModal();
   const [selectedItem, setSelectedItem] = useState({});
-  const location = useLocation()
 
-  const searchValue = useMemo(
-    () => location?.state?.searchValue,
-    [location?.state?.searchValue]
-  );
+  const { fetchedData: searchResult, isFetching } = useSearchResult({
+    data: { userId, searchString: query },
+  });
+  console.log({ searchResult });
 
   const modalContent = useCallback(() => {
     return <SimilarImageDetail imageDetail={selectedItem} />;
@@ -67,26 +70,27 @@ const SearchTagResult = () => {
                   ))}
                 </select>
               </div>
-            <p style={{textAlign:"center", width:"100%", fontSize:"18px"}}>search result of Hagtag: <b>#{searchValue}</b></p>
-
+              <p
+                style={{ textAlign: 'center', width: '100%', fontSize: '18px' }}
+              >
+                search result for: <b>{query}</b>
+              </p>
             </div>
             <div className="tab-content">
               <Masonry columns={3} gap={16} className="inspiration-container">
-                {images.map((item) => {
-                  return (
-                    <span key={item.id}>
-                      <img
-                        alt=""
-                        src={item.image}
-                        width="100%"
-                        onClick={() => [
-                          toggleModal(),
-                          setSelectedItem(item),
-                        ]}
-                      />
-                    </span>
-                  );
-                })}
+                {searchResult &&
+                  searchResult.searchResult.posts.map((item) => {
+                    return (
+                      <span key={item.id}>
+                        <img
+                          alt=""
+                          src={item.image.url}
+                          width="100%"
+                          onClick={() => [toggleModal(), setSelectedItem(item)]}
+                        />
+                      </span>
+                    );
+                  })}
               </Masonry>
             </div>
           </div>
@@ -101,7 +105,7 @@ const SearchTagResult = () => {
         </Suspense>
       </Page>
     ),
-    [modalContent, options, searchValue, selectedOption, showModal, toggleModal]
+    [modalContent, options, query, selectedOption, showModal, toggleModal]
   );
 };
 

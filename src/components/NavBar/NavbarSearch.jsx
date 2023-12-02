@@ -55,7 +55,8 @@ const NavbarSearch = () => {
 
   const handleSearch = useCallback(() => {
     setSearchValue('');
-    navigate(`/tag/${searchValue}`, {
+    setIsFocus(false);
+    navigate(`/search/${searchValue}`, {
       state: {
         searchValue: searchValue,
       },

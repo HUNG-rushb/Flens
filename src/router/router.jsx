@@ -136,7 +136,7 @@ const routes = [
     isPrivate: true,
   },
   {
-    path: '/tag/:tagId',
+    path: '/search/:query',
     element: <TagSearchResult />,
     exact: true,
     isPrivate: true,

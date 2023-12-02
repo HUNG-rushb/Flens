@@ -187,6 +187,15 @@ export const GET_ALL_POST_COMMENT = gql`
           name
           profileImageURL
         }
+
+        child {
+          id
+          content
+          createdAt
+        }
+
+        upVoteUserlist
+        downVoteUserlist
       }
     }
   }
