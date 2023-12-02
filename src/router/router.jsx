@@ -9,6 +9,7 @@ import CoursesManagement from '../page/CoursesManagement/CoursesManagement.jsx';
 import UploadCourses from '../page/CoursesManagement/UploadCourses/UploadCourses.jsx';
 import Explore from '../page/Explore/Explore.jsx';
 import Home from '../page/Home/Home.jsx';
+import PostDetail from '../page/Home/Post/PostDetail.jsx';
 import LeaderBoard from '../page/LeaderBoard/LeaderBoard.jsx';
 import MessageChatApp from '../page/Message/MessageChatApp.jsx';
 import NotFound from '../page/NotFound/404NotFound.jsx';
@@ -168,7 +169,7 @@ const routes = [
   },
   {
     path: '/post/:postId',
-    element: <></>,
+    element: <PostDetail />,
     exact: true,
     isPrivate: true,
   },
