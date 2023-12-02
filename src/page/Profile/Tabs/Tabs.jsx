@@ -1,4 +1,3 @@
-import { useAuthState } from '../../../context/AuthContext.js';
 import {
   useGetUserFollowing,
   useUpdateFollowing,
@@ -15,9 +14,8 @@ import { Tab, Tabs } from 'react-bootstrap';
 import { ThreeDots } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 
-const TabMenu = ({ userId, userProfileData, posts }) => {
+const TabMenu = ({ userId, userProfileData, posts, currentUserId }) => {
   const navigate = useNavigate();
-  const { id: currentUserId } = useAuthState();
   const [isFollow, setIsFollow] = useState(false);
   // console.log({ isFollow });
 
@@ -106,7 +104,7 @@ const TabMenu = ({ userId, userProfileData, posts }) => {
             </Tab>
 
             <Tab eventKey="Biography" title="Biography">
-              <Biography userId={userId} posts={posts} />
+              {userProfileData && <Biography userId={userId} posts={posts} />}
             </Tab>
           </Tabs>
         </div>

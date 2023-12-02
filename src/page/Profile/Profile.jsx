@@ -2,8 +2,11 @@ import CoverImage from '../../assets/images/Profile/profileCoverImage.jpg';
 import Button from '../../components/Button/Button';
 import Modal from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
+import { useAuthState } from '../../context/AuthContext';
 import { useGetAllUserPostInfo } from '../../graphql/usePost';
 import { useUserProfileImage } from '../../graphql/useUser';
+import { useUpdateFollowing } from '../../graphql/useUser';
+import { useUnfollowUser } from '../../graphql/useUser';
 import useModal from '../../hooks/useModal';
 import Loading from '../../utils/useLoading';
 import TabMenu from './Tabs/Tabs';
@@ -12,93 +15,118 @@ import { Suspense, useCallback, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 const Profile = () => {
+  const { id: currentUserId } = useAuthState();
   const { userId } = useParams();
   const { isShowing: showModal, toggle: toggleShowModal } = useModal();
   const [checkType, setCheckType] = useState('');
-
   const {
     isFetching: fetchingProfileData,
     fetchedData: UserProfileData,
     fetchError: fetchUserProfileError,
+    userFollow,
+    refetchFollow,
   } = useUserProfileImage({
     userInfoData: { userId },
   });
-
+  // console.log({ userFollow });
   const { isFetching, fetchedData, fetchError } = useGetAllUserPostInfo({
     getAllUserPostId: { userId },
   });
-  console.log({ fetchedData });
+  // console.log({ fetchedData });
 
-  const data = useMemo(
-    () => [
-      {
-        userId: 1,
-        username: 'username',
-        avatar: 'https://via.placeholder.com/120x120',
-      },
-      {
-        userId: 2,
-        username: 'username',
-        avatar: 'https://via.placeholder.com/120x120',
-      },
-      {
-        userId: 3,
-        username: 'username',
-        avatar: 'https://via.placeholder.com/120x120',
-      },
-      {
-        userId: 4,
-        username: 'username',
-        avatar: 'https://via.placeholder.com/120x120',
-      },
-      {
-        userId: 5,
-        username: 'username',
-        avatar: 'https://via.placeholder.com/120x120',
-      },
-      {
-        userId: 6,
-        username: 'username',
-        avatar: 'https://via.placeholder.com/120x120',
-      },
-    ],
-    []
+  const { updateFollowing } = useUpdateFollowing();
+  const { unfollowUser } = useUnfollowUser();
+
+  const handleFollow = useCallback(
+    async (userId, isFollow) => {
+      console.log({ userId, isFollow });
+
+      if (!isFollow) {
+        console.log('unfollow');
+
+        try {
+          await unfollowUser({
+            variables: {
+              unfollowUserData: {
+                userId: currentUserId,
+                followingId: userId,
+              },
+            },
+          });
+        } catch (e) {
+          throw e;
+        }
+      } else {
+        console.log('follow');
+
+        try {
+          await updateFollowing({
+            variables: {
+              updateFollowingData: {
+                userId: currentUserId,
+                followingId: userId,
+              },
+            },
+          });
+        } catch (e) {
+          throw e;
+        }
+      }
+
+      refetchFollow();
+    },
+    [unfollowUser, updateFollowing]
   );
 
-  const handleFollow = () => {
-    // handle follow
-  };
-
-  const handleUnFollow = () => {
-    // handle Unfollow
-  };
-
   const modalTitle = checkType === 'Following' ? 'Following' : 'Followers';
+
   const modalContent = useCallback(() => {
     return (
-      <div className="follow-list-wrapper">
-        {data.map((item, index) => (
-          <div className="follow-item" key={item.userId + index}>
-            <img id="follow-list-avatar" src={item.avatar} alt="" />
-            <span id="follow-list-username">{item.username}</span>
-            {checkType === 'Following' ? (
-              <Button
-                text="Unfollow"
-                id="unfollow-button"
-                onClick={handleUnFollow}
-              />
-            ) : (
-              <Button
-                text="Follow"
-                id="follow-back-button"
-                onClick={handleFollow}
-              />
-            )}
+      <>
+        {userFollow && (
+          <div className="follow-list-wrapper">
+            {checkType === 'Following'
+              ? userFollow.userFollow.following.userFollowing.map((item) => (
+                  <div className="follow-item" key={item.id}>
+                    <img
+                      id="follow-list-avatar"
+                      src={item.profileImageURL}
+                      alt=""
+                    />
+                    <span id="follow-list-username">{item.name}</span>
+
+                    <Button
+                      text="Unfollow"
+                      id="unfollow-button"
+                      onClick={() => {
+                        handleFollow(item.id, false);
+                      }}
+                    />
+                  </div>
+                ))
+              : userFollow.userFollow.follower.userFollower.map((item) => (
+                  <div className="follow-item" key={item.id}>
+                    <img
+                      id="follow-list-avatar"
+                      src={item.profileImageURL}
+                      alt=""
+                    />
+                    <span id="follow-list-username">{item.name}</span>
+
+                    <Button
+                      text="Follow"
+                      id="follow-back-button"
+                      onClick={() => {
+                        handleFollow(item.id, true);
+                      }}
+                    />
+                  </div>
+                ))}
           </div>
-        ))}
-      </div>
+        )}
+      </>
     );
-  }, [checkType, data]);
+  }, [checkType, userFollow]);
 
   return useMemo(
     () => (
@@ -131,7 +159,8 @@ const Profile = () => {
                         toggleShowModal(),
                       ]}
                     >
-                      0 Following
+                      {userFollow &&
+                        `${userFollow.userFollow.following.userFollowing.length} Following`}
                     </span>
                     <span id="sub-text">|</span>
                     <span
@@ -141,7 +170,8 @@ const Profile = () => {
                         toggleShowModal(),
                       ]}
                     >
-                      0 Followers
+                      {userFollow &&
+                        `${userFollow.userFollow.follower.userFollower.length} Followers`}
                     </span>
                   </div>
                 </div>
@@ -152,7 +182,9 @@ const Profile = () => {
               posts={fetchedData}
               userId={userId}
               userProfileData={UserProfileData}
+              currentUserId={currentUserId}
             />
+
             <Modal
               size="xl"
               hideButton
@@ -162,6 +194,7 @@ const Profile = () => {
               handleClose={toggleShowModal}
               handleSavechanges={toggleShowModal}
             />
+
             <Loading loading={fetchingProfileData} />
           </div>
         </Suspense>
@@ -176,6 +209,7 @@ const Profile = () => {
       modalTitle,
       modalContent,
       toggleShowModal,
+      userFollow,
     ]
   );
 };

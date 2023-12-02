@@ -64,9 +64,12 @@ const NavBar = () => {
       const a = JSON.parse(event.data.data.body);
       console.log('Receive background: ', a);
 
-      if (a.follower.userFollower.includes(userId)) {
-        successfullNoty('ok');
-      }
+      // if (a.likedUserId) {
+      //   console.log('ok');
+      //   successfullNoty('like');
+      // } else if (a.follower.userFollower.includes(userId)) {
+      //   successfullNoty('new post');
+      // }
     });
   }, []);
 
@@ -76,8 +79,11 @@ const NavBar = () => {
 
       console.log('Receive foreground: ', a);
 
-      if (a.follower.userFollower.includes(userId)) {
-        successfullNoty('ok', true);
+      if (a.likedUserId) {
+        console.log('ok');
+        successfullNoty('like');
+      } else if (a.follower.userFollower.includes(userId)) {
+        successfullNoty('new post');
       }
     });
   });

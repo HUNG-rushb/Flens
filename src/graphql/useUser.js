@@ -11,6 +11,8 @@ import {
   GET_ALL_USER_CHAT,
   GET_ALL_USER_LEADERBOARD,
   GET_ALL_USER_FOLLOWING_LEADERBOARD,
+  GET_PROFILE_FOLLOW,
+  GET_USER_INTEREST,
 } from './queries/User.js';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import _ from 'lodash';
@@ -56,9 +58,29 @@ export const useUpdateProfileLazy = (cache) => {
   };
 };
 
-export const useUserProfileImage = (queryPayload, cache) => {
+export const useUserProfileImage = (queryPayload) => {
   const { data, loading, error } = useQuery(GET_PROFILE_IMAGE, {
-    fetchPolicy: cache ? undefined : 'no-cache',
+    fetchPolicy: 'no-cache',
+    variables: queryPayload,
+  });
+
+  const { data: userFollow, refetch } = useQuery(GET_PROFILE_FOLLOW, {
+    fetchPolicy: 'no-cache',
+    variables: queryPayload,
+  });
+
+  return {
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+    userFollow,
+    refetchFollow: refetch,
+  };
+};
+
+export const useGetUserInterest = (queryPayload) => {
+  const { data, loading, error } = useQuery(GET_USER_INTEREST, {
+    fetchPolicy: 'no-cache',
     variables: queryPayload,
   });
 
