@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { CameraFill } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 
-const PersonalInfo = ({ posts }) => {
+const PersonalInfo = () => {
   const navigate = useNavigate();
 
   const handleEditClick = () => {

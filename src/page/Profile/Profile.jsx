@@ -75,7 +75,7 @@ const Profile = () => {
 
       refetchFollow();
     },
-    [unfollowUser, updateFollowing]
+    [currentUserId, refetchFollow, unfollowUser, updateFollowing]
   );
 
   const modalTitle = checkType === 'Following' ? 'Following' : 'Followers';
@@ -126,7 +126,7 @@ const Profile = () => {
         )}
       </>
     );
-  }, [checkType, userFollow]);
+  }, [checkType, handleFollow, userFollow]);
 
   return useMemo(
     () => (
@@ -201,15 +201,16 @@ const Profile = () => {
       </Page>
     ),
     [
-      fetchingProfileData,
       UserProfileData,
+      userFollow,
       fetchedData,
       userId,
+      currentUserId,
       showModal,
       modalTitle,
       modalContent,
       toggleShowModal,
-      userFollow,
+      fetchingProfileData,
     ]
   );
 };
