@@ -5,6 +5,8 @@ export const GET_USER_NOTIS = gql`
     userNotis(data: $data) {
       id
       postId
+      postTitle
+      postImage
       type
       createdAt
 
