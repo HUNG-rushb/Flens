@@ -21,7 +21,6 @@ import ReportManagement from '../page/ReportManagement/ReportManagement.jsx';
 import Statistic from '../page/Statistic/Statistic.jsx';
 import StoryDetail from '../page/Stories/Story/StoryDetail.jsx';
 import TagSearchResult from '../page/TagSearchResult/SearchTagResult.jsx';
-// import UploadImageDetail from '../page/UploadImage/UploadDetail/UploadImageDetail.jsx';
 import UploadImage from '../page/UploadImage/UploadImage.jsx';
 import EditStory from '../page/UploadStory/EditStory.jsx';
 import UploadStory from '../page/UploadStory/UploadStory.jsx';
