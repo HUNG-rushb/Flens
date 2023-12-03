@@ -4,6 +4,7 @@ import { useAuthState } from '../../context/AuthContext';
 import { useSearchResult } from '../../graphql/useSearch';
 import useModal from '../../hooks/useModal';
 import sliceUsername from '../../utils/sliceUsername';
+import Loading from '../../utils/useLoading';
 import SimilarImageDetail from './SimilarImageDetail';
 import { Suspense, useCallback, useMemo, useState } from 'react';
 import Masonry from 'react-layout-masonry';
@@ -132,6 +133,7 @@ const SearchTagResult = () => {
               </Masonry>
             </div>
           </div>
+          <Loading loading={isFetching} />
           <Modal
             show={showModal}
             handleClose={toggleModal}
@@ -144,6 +146,7 @@ const SearchTagResult = () => {
       </Page>
     ),
     [
+      isFetching,
       modalContent,
       options,
       query,

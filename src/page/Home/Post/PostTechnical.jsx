@@ -29,17 +29,17 @@ const PostTechnical = ({ item, showImageDetail }) => {
             {item?.image.imageInfoId.shutterSpeed} s
           </div>
           <div>
-            <span id="content">ISO:</span> {item?.image.imageInfoId.ISO}
+            <span id="content">ISO: </span> {item?.image.imageInfoId.ISO}
           </div>
           <div>
-            <span id="content">Date Taken:</span>
+            <span id="content">Date Taken: </span>
             {item?.image.imageInfoId.takenWhen}
           </div>
           <div>
-            <span id="content">Lens:</span> {item?.image.imageInfoId.lens}
+            <span id="content">Lens: </span> {item?.image.imageInfoId.lens}
           </div>
           <div>
-            <span id="content">CopyRight:</span>
+            <span id="content">CopyRight: </span>
             {item?.image.imageInfoId.copyRight}
           </div>
         </div>

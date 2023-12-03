@@ -1,5 +1,5 @@
 import Page from '../../components/utils/Page';
-import Spinner from '../../components/utils/Spinner';
+import Spinner from '../../components/utils/Spinner'; 
 import { useAuthState } from '../../context/AuthContext';
 import { useGetNewFeed } from '../../graphql/usePost';
 import useModal from '../../hooks/useModal';
@@ -40,9 +40,9 @@ const Home = () => {
   return (
     <Page title="FLens-Home">
       <Suspense fallback={null}>
-        {isFetching ? (
+        {/* {isFetching ? (
           <Spinner />
-        ) : (
+        ) : ( */}
           <div className="home-page">
             <LeftContent />
             <div className="center-container">
@@ -107,7 +107,7 @@ const Home = () => {
               <ErrorPopup message={fetchError?.message} />
             )}
           </div>
-        )}
+        {/* )} */}
       </Suspense>
     </Page>
   );

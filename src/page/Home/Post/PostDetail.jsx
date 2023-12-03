@@ -66,18 +66,18 @@ const PostDetail = () => {
     () => (
       <Page title="Flens-Post detail">
         <div className="post-detail">
-          <div className="post-content">
+          <div className="post-detail-content">
             <Header item={data} />
             <div className="post-content-wrapper">
               <div className="post-content">
                 <div className="image-wrapper">
                   <img id="image-post" src={data?.image.url} alt="" />
-                  <div className="technical-container">
-                    <PostTechnical item={data} showTechnicalInfor={false} />
-                  </div>
                 </div>
 
                 <div className="post-title">{data?.title}</div>
+                <div className="technical-container">
+                  <PostTechnical item={data} showImageDetail={false} />
+                </div>
                 <div className="hash-tags">
                   {data?.tag.map((tag, index) => (
                     <span

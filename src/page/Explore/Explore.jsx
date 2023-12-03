@@ -2,6 +2,7 @@ import Modal from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
 import { useGetExplore } from '../../graphql/usePost';
 import useModal from '../../hooks/useModal';
+import Loading from '../../utils/useLoading.js';
 import StoryPage from '../Stories/StoryPage';
 import Inspiration from './ExploreTab/Inspiration';
 import SimilarImageDetail from './ExploreTab/SimilarImageDetail.jsx';
@@ -50,8 +51,12 @@ const Explore = () => {
   const [selectedOption, setSelectedOption] = useState(options[0].value);
   const { isShowing: showModal, toggle: toggleModal } = useModal();
   const [imageToShow, setImageToShow] = useState({});
-  // console.log({ imageToShow });
-  const { posts: explorePosts, hasNextPage, loadNew } = useGetExplore();
+  const {
+    posts: explorePosts,
+    isFetching,
+    hasNextPage,
+    loadNew,
+  } = useGetExplore();
   console.log({ explorePosts });
   console.log({ hasNextPage });
 
@@ -124,7 +129,7 @@ const Explore = () => {
               {activeTab === 1 && <StoryPage />}
             </div>
           </div>
-
+          <Loading loading={isFetching} />
           <Modal
             size="xl"
             show={showModal}
@@ -145,6 +150,7 @@ const Explore = () => {
       toggleModal,
       hasNextPage,
       loadNew,
+      isFetching,
       showModal,
       modalContent,
       handleChangeTab,
