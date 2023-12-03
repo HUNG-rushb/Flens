@@ -14,17 +14,17 @@ const Notification = () => {
   const { id: userId } = useAuthState();
   const navigate = useNavigate();
   const { fetchedData: notis, refetch } = useGetNotis({ data: { userId } });
-  console.log({ notis }, 'noti');
+  console.log({ notis }, 'noti'); 
 
-  const renderTypeNoty = (type) => {
-    if (type === 'POST_LIKED') {
+  const renderTypeNoty = (item) => {
+    if (item?.type === 'POST_LIKED') {
       return (
-        <span>
+        <span id='noty-type'>
           {' '}
-          liked <HeartFill color="red" size={25} /> your post.
+          liked <HeartFill color="red" size={25} /> your post. "{item.postTitle}"
         </span>
       );
-    } else return <span> has uploaded a new post.</span>;
+    } else return <span id='noty-type'> has uploaded a new post. "{item?.postTitle}"</span>;
   };
 
   const handleViewProfile = useCallback(() => {
@@ -70,12 +70,20 @@ const Notification = () => {
                             >
                               {item?.userTriggerId.name}
                             </span>
-                            {renderTypeNoty(item?.type)}
+                            {renderTypeNoty(item)}
                           </div>
                           <div id="noty-time">
                             {unixToDateTime(item?.createAt || '')}
                           </div>
-                        </div>
+                        </div> 
+                      </div>
+                      <div>  
+                        <img   
+                          src={item?.postImage}
+                          width={70}
+                          height={70}
+                          alt=""
+                        />
                       </div>
                     </div>
                   );

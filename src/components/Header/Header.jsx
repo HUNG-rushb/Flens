@@ -1,3 +1,4 @@
+import sliceUsername from '../../utils/sliceUsername';
 import unixToDateTime from '../../utils/unixToDateTime';
 import Button from '../Button/Button';
 import ActionList from './ActionList';
@@ -11,7 +12,6 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 const Header = ({ type = 'post', item, setIsDeleted, setReportedList }) => {
-  console.log({ item });
   const navigate = useNavigate();
   const [postVisibility, setPostVisibility] = useState(item?.postViewStatus);
   const [isHovered, setIsHovered] = useState(false);
@@ -42,7 +42,7 @@ const Header = ({ type = 'post', item, setIsDeleted, setReportedList }) => {
             alt=""
           />
           <div className="left-hover-content">
-            <p id="username" onClick={handleViewProfile}>
+            <p id="hover-username" onClick={handleViewProfile}>
               {item?.userId.name}
             </p>
             <p>User level: 1</p>
@@ -75,8 +75,10 @@ const Header = ({ type = 'post', item, setIsDeleted, setReportedList }) => {
             <div className="user-level">{userLevel}</div>
           </div>
           <div>
-            <span id="username">{item?.userId.name}</span>
-            uploaded a {type}
+            <span id="username">
+              <b>{sliceUsername(item?.userId.name, 35)}</b> uploaded a {type}
+            </span>
+
             <div id="date">
               {unixToDateTime(item?.createdAt || '')}
               {renderPostModeIcon()}

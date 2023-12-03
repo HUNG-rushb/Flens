@@ -4,7 +4,7 @@ import {
   useCreateCommentLazy,
 } from '../../../graphql/usePost';
 import { renderCommentHeader } from '../../../utils/renderCommentHeader';
-import { relativeDays } from '../../../utils/unixToDateTime';
+import renderCommentItem from '../../../utils/renderCommentItem';
 import Loading from '../../../utils/useLoading';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -77,84 +77,25 @@ const PostComment = ({ item, userLevel }) => {
     setReplyComment(event.target.value);
   };
 
-  const reply = {
-    avatar: userAvatar,
-    content: replyComment,
-    date: 'todayssss',
-    username: 'username',
-  };
-
-  const handleSubmitRepyComment = useCallback(
-    () => async (e) => {
-      e.preventDefault();
-      try {
-        await createComment({
-          variables: {
-            createCommentData: {
-              userId,
-              postId: postID,
-              content: replyComment,
-              id: commentId,
-            },
+  const handleSubmitRepyComment = useCallback(async () => {
+    try {
+      await createComment({
+        variables: {
+          createCommentData: {
+            userId,
+            postId: postID,
+            content: replyComment,
+            parentCommentId: commentId,
           },
-        });
-      } catch (e) {
-        throw e;
-      }
-      setReplyComment('');
-      refetch();
-      setReplyToComment(null);
-    },
-    [refetch, createComment, userId, postID, replyComment, commentId]
-  );
-
-  const renderCommentItem = useCallback(
-    (allComment) => {
-      return allComment?.slice(0, indexComment).map((item, index) => (
-        <div className="comment-wrapper" key={index + item.id}>
-          <img
-            src={item.userId.profileImageURL}
-            id="comment-avatar"
-            height={40}
-            width={40}
-            alt=""
-          />
-          <span id="comment-username">
-            {item.userId.name} <span id="user-level">{userLevel}</span>
-          </span>
-
-          <div id="comment-content">{item.content}</div>
-          <div className="comment-infor">
-            <span id="reply-text" onClick={() => handleClickReply(item.id)}>
-              Reply
-            </span>
-            <span id="comment-date">{relativeDays(item.createdAt)}</span>
-          </div>
-          {replyToComment === item.id &&
-            renderCommentHeader(
-              'reply-comment',
-              userAvatar,
-              30,
-              replyComment,
-              postID,
-              handleReplyCommentChange,
-              handleSubmitRepyComment,
-              20
-            )}
-          {allComment.child && renderCommentItem(allComment.child)}
-        </div>
-      ));
-    },
-    [
-      handleSubmitRepyComment,
-      indexComment,
-      postID,
-      replyComment,
-      replyToComment,
-      userAvatar,
-      userLevel,
-    ]
-  );
+        },
+      });
+    } catch (e) {
+      throw e;
+    }
+    setReplyComment('');
+    refetch();
+    setReplyToComment(null);
+  }, [refetch, createComment, userId, postID, replyComment, commentId]);
 
   return useMemo(
     () => (
@@ -171,7 +112,19 @@ const PostComment = ({ item, userLevel }) => {
             25
           )}
           <div className="comment-list">
-            {allComment && renderCommentItem(allComment)}
+            {allComment &&
+              renderCommentItem(
+                allComment,
+                indexComment,
+                userLevel,
+                handleClickReply,
+                replyToComment,
+                userAvatar,
+                replyComment,
+                commentId,
+                handleReplyCommentChange,
+                handleSubmitRepyComment
+              )}
             {allComment?.length > 3 && allComment?.length > indexComment ? (
               <div className="View-more-comments" onClick={showMoreComment}>
                 More comments
@@ -191,8 +144,12 @@ const PostComment = ({ item, userLevel }) => {
       handleSubmitComment,
       allComment,
       indexComment,
+      userLevel,
+      replyToComment,
+      replyComment,
+      commentId,
+      handleSubmitRepyComment,
       isFetchingComment,
-      renderCommentItem,
     ]
   );
 };

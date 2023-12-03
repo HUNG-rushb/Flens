@@ -51,7 +51,49 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
     margin-bottom: 50px;
+
+    .result-part {
+      .tags-result {
+        align-self: left;
+        width: fit-content;
+        margin: 15px 0 0 25px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid black;
+      }
+      .user-result {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-self: left;
+        width: fit-content;
+        margin: 15px 0 0 25px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid black;
+
+        .users {
+          display: flex;
+          align-items: center;
+          padding: 5px 10px;
+
+          .content {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            margin: 0 5px;
+            padding: 5px;
+            border: 1px solid #f08080;
+            border-radius: 10px;
+            img {
+              border-radius: 50%;
+            }
+          }
+
+          div:hover {
+            border: 1px solid #f08080;
+          }
+        }
+      }
+    }
   }
 }

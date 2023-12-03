@@ -1,8 +1,6 @@
 import React, { useMemo } from 'react';
 
 const PostTechnical = ({ item, showImageDetail }) => {
-  console.log({ item });
-
   return useMemo(
     () => (
       <div

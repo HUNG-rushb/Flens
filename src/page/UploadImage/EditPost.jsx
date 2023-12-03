@@ -42,7 +42,6 @@ const EditPost = ({ show, toggleShow, post }) => {
 
   const [viewStatus, setViewStatus] = useState(post?.postViewStatus);
   const [postInfor, dispatch] = useReducer(PostInfoReducer, post);
-  console.log('postInfor', postInfor);
 
   const [tags, setTags] = useState(post?.tag);
   const [tag, setTag] = useState({

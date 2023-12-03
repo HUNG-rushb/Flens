@@ -26,6 +26,9 @@
         font-weight: 500;
         margin: 20px 0px;
         font-size: 25px;
+        max-width: 240px;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
       }
 
       .skill {

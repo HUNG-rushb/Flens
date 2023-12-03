@@ -34,6 +34,8 @@ const Post = ({
     [navigate]
   );
 
+  console.log(item, 'post');
+
   return useMemo(
     () => (
       <>

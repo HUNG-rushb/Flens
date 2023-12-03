@@ -21,7 +21,6 @@ const Home = () => {
   const { isShowing: showDetail, toggle: toggleShowDetail } = useModal();
   const [itemShowDetail, setItemShowDetail] = useState(null);
   const [reportedPosts, setReportedPosts] = useState([]);
-  console.log({ reportedPosts });
 
   const { posts, hasNextPage, isFetching, fetchError, loadNew } =
     useGetNewFeed(userId);

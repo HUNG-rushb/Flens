@@ -3,7 +3,7 @@ import Page from '../../components/utils/Page';
 import { useAuthState } from '../../context/AuthContext';
 import { useSearchResult } from '../../graphql/useSearch';
 import useModal from '../../hooks/useModal';
-import { images } from '../Explore/ImageData';
+import sliceUsername from '../../utils/sliceUsername';
 import SimilarImageDetail from './SimilarImageDetail';
 import { Suspense, useCallback, useMemo, useState } from 'react';
 import Masonry from 'react-layout-masonry';
@@ -43,6 +43,7 @@ const SearchTagResult = () => {
   const [selectedOption, setSelectedOption] = useState(options[0].value);
   const { isShowing: showModal, toggle: toggleModal } = useModal();
   const [selectedItem, setSelectedItem] = useState({});
+  const [filterByuser, setFilterByUser] = useState([]);
 
   const { fetchedData: searchResult, isFetching } = useSearchResult({
     data: { userId, searchString: query },
@@ -52,6 +53,11 @@ const SearchTagResult = () => {
   const modalContent = useCallback(() => {
     return <SimilarImageDetail imageDetail={selectedItem} />;
   }, [selectedItem]);
+
+  const handleAddFilterByUser = (id) => {
+    setFilterByUser((prev) => ({ ...prev, id: id }));
+  };
+  console.log(filterByuser, 'filter by user');
 
   return useMemo(
     () => (
@@ -73,10 +79,42 @@ const SearchTagResult = () => {
               <p
                 style={{ textAlign: 'center', width: '100%', fontSize: '18px' }}
               >
-                search result for: <b>{query}</b>
+                Flens search result for: <b>{query}</b>
               </p>
             </div>
+
             <div className="tab-content">
+              <div className="result-part">
+                <div className="tags-result">
+                  <b>Related tags: </b>
+                  {searchResult?.searchResult.tags.map((item) => (
+                    <span key={item?.name} style={{ padding: '0 2px' }}>
+                      #{item?.name}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="user-result">
+                  <b>Related users: </b>
+                  <div className="users">
+                    {searchResult?.searchResult.users.map((item) => (
+                      <div
+                        key={item?.id}
+                        className="content"
+                        onClick={() => handleAddFilterByUser(item?.id)}
+                      >
+                        <img
+                          src={item?.profileImageURL}
+                          width={30}
+                          height={30}
+                          alt=""
+                        />
+                        {sliceUsername(item?.name, 20)}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
               <Masonry columns={3} gap={16} className="inspiration-container">
                 {searchResult &&
                   searchResult.searchResult.posts.map((item) => {
@@ -105,7 +143,15 @@ const SearchTagResult = () => {
         </Suspense>
       </Page>
     ),
-    [modalContent, options, query, selectedOption, showModal, toggleModal]
+    [
+      modalContent,
+      options,
+      query,
+      searchResult,
+      selectedOption,
+      showModal,
+      toggleModal,
+    ]
   );
 };
 

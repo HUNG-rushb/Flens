@@ -24,7 +24,7 @@ const StoryDetail = () => {
     setCountNumberOfLikes
   );
   
-  console.log({ fetchedData }, 'story detail');
+  // console.log({ fetchedData }, 'story detail');
 
   return useMemo(
     () => ( 

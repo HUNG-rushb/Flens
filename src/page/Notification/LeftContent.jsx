@@ -24,7 +24,7 @@ const LeftContent = () => {
           alt=""
         />
         <div className="username">{profileData?.userInfo.name}</div>
-        <div className="skill-content">
+        <div className="skill">
           <div id="userLink">
             <span>Your Flens link:</span> flens.com/{userId}
           </div>
