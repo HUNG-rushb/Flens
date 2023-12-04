@@ -4,7 +4,8 @@ import PostInteraction from './PostInteraction.jsx';
 import PostTechnical from './PostTechnical.jsx';
 import { useState } from 'react';
 
-const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
+const ImageDetail = ({ item, showDetail, handleCloseImageDetail }) => {
+  console.log('show', item);
   const [zoomedIn, setZoomedIn] = useState(false);
   const [scale, setScale] = useState(1);
   const [cursor, setCursor] = useState('zoom-in');
@@ -33,7 +34,7 @@ const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
     <>
       <div className="image-detail-modal">
         <div className="image-detail-container">
-          <div className="overlay" hidden={!showImageDetail}>
+          <div className="overlay" hidden={!showDetail}>
             <div className="container">
               <div className="content">
                 <div className="left-content">
@@ -80,11 +81,11 @@ const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
                     </div>
                     <PostInteraction
                       item={item}
-                      showImageDetail={showImageDetail}
+                      showImageDetail={showDetail}
                     />
                     <PostTechnical
                       item={item}
-                      showImageDetail={showImageDetail}
+                      showImageDetail={showDetail}
                     />
                     <hr style={{ border: '1px solid #F08080' }} />
                    

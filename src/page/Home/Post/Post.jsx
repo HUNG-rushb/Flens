@@ -1,4 +1,6 @@
 import HeaderPost from '../../../components/Header/Header.jsx';
+import useModal from '../../../hooks/useModal.jsx';
+import ImageDetail from './ImageDetail.jsx';
 import './Post.scss';
 import PostComment from './PostComment.jsx';
 import PostInteraction from './PostInteraction.jsx';
@@ -7,21 +9,17 @@ import { useCallback, useMemo, useState } from 'react';
 import { Camera2, X } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
 
-const Post = ({
-  item,
-  showImageDetail,
-  toggleImageDetail,
-  setItemShowDetail,
-  setReportedList,
-}) => {
+const Post = ({ item, setReportedList }) => {
   const navigate = useNavigate();
   const [isDeletedPost, setIsDeletedPost] = useState(false);
   const [showTechnicalInfor, setShowTechnicalInfor] = useState(false);
+  const [itemShowDetail, setItemShowDetail] = useState(null);
+  const { isShowing: showDetail, toggle: toggleShowDetail } = useModal();
 
   const handleViewDetail = useCallback(() => {
     setItemShowDetail(item);
-    toggleImageDetail();
-  }, [item, setItemShowDetail, toggleImageDetail]);
+    toggleShowDetail();
+  }, [item, setItemShowDetail, toggleShowDetail]);
 
   const handleClickTag = useCallback(
     (tag) => {
@@ -33,8 +31,6 @@ const Post = ({
     },
     [navigate]
   );
-
-  console.log(item, 'post');
 
   return useMemo(
     () => (
@@ -65,7 +61,7 @@ const Post = ({
                   >
                     <PostTechnical
                       item={item}
-                      showImageDetail={showImageDetail}
+                      showImageDetail={showDetail}
                       showTechnicalInfor={showTechnicalInfor}
                     />
                   </div>
@@ -108,6 +104,11 @@ const Post = ({
                 )}
               </div>
             </div>
+            <ImageDetail
+              showDetail={showDetail}
+              item={itemShowDetail}
+              handleCloseImageDetail={toggleShowDetail}
+            />
           </div>
         )}
       </>
@@ -117,9 +118,11 @@ const Post = ({
       handleViewDetail,
       isDeletedPost,
       item,
+      itemShowDetail,
       setReportedList,
-      showImageDetail,
+      showDetail,
       showTechnicalInfor,
+      toggleShowDetail,
     ]
   );
 };

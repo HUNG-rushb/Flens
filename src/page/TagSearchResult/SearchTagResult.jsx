@@ -49,10 +49,10 @@ const SearchTagResult = () => {
   const { fetchedData: searchResult, isFetching } = useSearchResult({
     data: { userId, searchString: query },
   });
-  console.log({ searchResult });
+  console.log({ searchResult }, 'search result');
 
   const modalContent = useCallback(() => {
-    return <SimilarImageDetail imageDetail={selectedItem} />;
+    return <SimilarImageDetail imageDetail={selectedItem}  setSelectedItem={setSelectedItem}/>;
   }, [selectedItem]);
 
   const handleAddFilterByUser = (id) => {

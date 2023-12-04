@@ -6,11 +6,12 @@ import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.min.css';
+import Spinner from '../../../components/utils/Spinner';
 
 const SimilarImageDetail = ({ imageDetail, setImageToShow }) => {
   const {
     posts: similarPosts,
-    loading,
+    isFetching,
     error,
   } = useGetSimilarPost({
     data: { postId: imageDetail.id },
@@ -24,26 +25,35 @@ const SimilarImageDetail = ({ imageDetail, setImageToShow }) => {
           <div className="header">
             <img
               src={imageDetail.userId.profileImageURL}
-              alt=""
               id="user-avatar"
+              alt=""
             />
             <span id="username">{imageDetail.userId.name}</span>
           </div>
           <div className="main-image">
-            <img src={imageDetail.image.url} alt="" />
+            <img
+              src={imageDetail.image.url}
+              style={{
+                maxWidth: '800px',
+                height: '100%',
+                width: '100%',
+                objectFit: 'cover',
+              }}
+              alt=""
+            />
           </div>
 
           <hr />
 
           <div className="similar-images-list">
-            <span>Similar image</span>
+            <span style={{ fontWeight: 600 }}>Similar image</span>
 
-            {loading ? (
-              <p>Loading...</p>
+            {isFetching ? (
+              <Spinner />
             ) : (
               <div>
                 <Swiper
-                  slidesPerView={4}
+                  slidesPerView={2}
                   spaceBetween={30}
                   className="images-list"
                 >
@@ -51,8 +61,8 @@ const SimilarImageDetail = ({ imageDetail, setImageToShow }) => {
                     <SwiperSlide key={item.node.id} className="image-item">
                       <img
                         src={item.node.image.url}
-                        alt=""
                         onClick={() => setImageToShow(item.node)}
+                        alt=""
                       />
                     </SwiperSlide>
                   ))}
@@ -69,7 +79,7 @@ const SimilarImageDetail = ({ imageDetail, setImageToShow }) => {
       imageDetail.image.url,
       imageDetail.userId.name,
       imageDetail.userId.profileImageURL,
-      loading,
+      isFetching,
       setImageToShow,
       similarPosts,
     ]

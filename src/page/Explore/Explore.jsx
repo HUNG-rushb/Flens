@@ -1,11 +1,6 @@
-import Modal from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
-import { useGetExplore } from '../../graphql/usePost';
-import useModal from '../../hooks/useModal';
-import Loading from '../../utils/useLoading.js';
 import StoryPage from '../Stories/StoryPage';
 import Inspiration from './ExploreTab/Inspiration';
-import SimilarImageDetail from './ExploreTab/SimilarImageDetail.jsx';
 import './styles.scss';
 import React, {
   Suspense,
@@ -49,25 +44,6 @@ const Explore = () => {
   const location = useLocation();
   const tabs = useMemo(() => ['inspiration', 'stories'], []);
   const [selectedOption, setSelectedOption] = useState(options[0].value);
-  const { isShowing: showModal, toggle: toggleModal } = useModal();
-  const [imageToShow, setImageToShow] = useState({});
-  const {
-    posts: explorePosts,
-    isFetching,
-    hasNextPage,
-    loadNew,
-  } = useGetExplore();
-  console.log({ explorePosts });
-  console.log({ hasNextPage });
-
-  const modalContent = useCallback(() => {
-    return (
-      <SimilarImageDetail
-        imageDetail={imageToShow}
-        setImageToShow={setImageToShow}
-      />
-    );
-  }, [imageToShow, setImageToShow]);
 
   const handleChangeTab = useCallback(
     (index, tab) => {
@@ -116,45 +92,16 @@ const Explore = () => {
               </div>
             </div>
             <div className="tab-content">
-              {activeTab === 0 && explorePosts?.length > 0 && (
-                <Inspiration
-                  selectedOption={selectedOption}
-                  toggleModal={toggleModal}
-                  setImageToShow={setImageToShow}
-                  explorePosts={explorePosts}
-                  hasNextPage={hasNextPage}
-                  loadNew={loadNew}
-                />
+              {activeTab === 0 && (
+                <Inspiration selectedOption={selectedOption} />
               )}
               {activeTab === 1 && <StoryPage />}
             </div>
           </div>
-          <Loading loading={isFetching} />
-          <Modal
-            size="xl"
-            show={showModal}
-            handleClose={toggleModal}
-            handleSavechanges={toggleModal}
-            modalContent={modalContent()}
-            hideButton={true}
-          />
         </Suspense>
       </Page>
     ),
-    [
-      selectedOption,
-      options,
-      tabs,
-      activeTab,
-      explorePosts,
-      toggleModal,
-      hasNextPage,
-      loadNew,
-      isFetching,
-      showModal,
-      modalContent,
-      handleChangeTab,
-    ]
+    [selectedOption, options, tabs, activeTab, handleChangeTab]
   );
 };
 
