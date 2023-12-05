@@ -99,7 +99,6 @@ const RightContent = () => {
                         />
                         <div className="subcontent-wrapper">
                           <span id="sugesstion-name">{item.node.name}</span>
-                          {/* <span id="sugesstion-type">{item.type}</span> */}
                         </div>
                       </div>
                       <FollowUserIcon

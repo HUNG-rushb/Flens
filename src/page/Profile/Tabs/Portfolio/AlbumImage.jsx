@@ -3,11 +3,19 @@ import { useAuthState } from '../../../../context/AuthContext';
 import { useCreateAlbumLazy } from '../../../../graphql/useAlbum';
 import { useGetAllUserAlbum } from '../../../../graphql/useAlbum';
 import useModal from '../../../../hooks/useModal';
+import ErrorPopup from '../../../../utils/errorPopup';
+import Loading from '../../../../utils/useLoading';
 import React, { useCallback, useMemo, useState } from 'react';
+import { successfullNoty } from '../../../../utils/useNotify';
 
-const AlbumImage = ({ userProfileData, setComponentToRender }) => {
+const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
   const { id: userId } = useAuthState();
-  const { fetchedData: userAlbums, refetch } = useGetAllUserAlbum({
+  const {
+    fetchedData: userAlbums,
+    isFetching,
+    refetch,
+    fetchError,
+  } = useGetAllUserAlbum({
     userAllAlbumData: { userId },
   });
 
@@ -35,6 +43,7 @@ const AlbumImage = ({ userProfileData, setComponentToRender }) => {
         throw e;
       }
       setNewAlbumTitle('');
+      successfullNoty('Create album successfull !!!')
       refetch();
     },
     [createAlbum, newAlbumTitle, refetch, toggleCreateAlbum, userId]
@@ -81,19 +90,21 @@ const AlbumImage = ({ userProfileData, setComponentToRender }) => {
               <div
                 key={album.id}
                 className="child-album"
-                onClick={() => setComponentToRender(1)}
+                onClick={() => [setComponentToRender(1), setDetailAlbum(album)]}
               >
+                <div className="child-album-background">No image</div>
                 {/* <img src={album.posts[0].image.url} alt="" /> */}
                 <span id="child-album-title">{album.name}</span>
               </div>
             ))}
           </div>
         )}
-
+        <Loading loading={isFetching} />
+        {fetchError?.message && <ErrorPopup message={fetchError?.message} />}
         <Modal
           show={openCreateAlbum}
-          modalTitle='Create new album'
-          submitText='Create'
+          modalTitle="Create new album"
+          submitText="Create"
           modalContent={modalContent()}
           handleClose={handleClose}
           handleSavechanges={handleCreateAlbum}
@@ -101,11 +112,14 @@ const AlbumImage = ({ userProfileData, setComponentToRender }) => {
       </div>
     ),
     [
+      fetchError?.message,
       handleClose,
       handleCreateAlbum,
+      isFetching,
       modalContent,
       openCreateAlbum,
       setComponentToRender,
+      setDetailAlbum,
       toggleCreateAlbum,
       userAlbums,
     ]

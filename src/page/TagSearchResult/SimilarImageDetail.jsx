@@ -10,6 +10,8 @@ import 'swiper/swiper.min.css';
 
 const SimilarImageDetail = ({ imageDetail, setSelectedItem }) => {
   console.log(imageDetail, 'cốnle');
+
+  
   const {
     posts: similarPosts,
     isFetching,

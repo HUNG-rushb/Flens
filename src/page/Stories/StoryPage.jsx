@@ -29,13 +29,13 @@ const StoryPage = () => {
             </p>
           }
         >
-          {stories.map((item) => {
-            if (reportedStories.includes(item.node.id))
-              return <div key={item.node.id}></div>;
+          {stories.map((item, idx) => {
+            if (reportedStories.includes(item?.node.id))
+              return <div key={item?.node.id + idx}></div>;
             return (
               <Story
                 item={item}
-                key={item?.node?.id}
+                key={item?.node?.id + idx}
                 setReportedList={setReportedStories}
               />
             );
@@ -107,9 +107,21 @@ const Story = ({ item, setReportedList }) => {
                 onClick={() => handleViewDetail(item.node.id)}
               />
 
-              <div>
+              <div style={{ display: 'flex', marginTop: '10px', gap: '10px' }}>
                 {item.node.categoryId.map((category, idx) => (
-                  <p key={idx}>{category.name}</p>
+                  <p
+                    key={category.name + idx}
+                    style={{
+                      margin: '2px 0',
+                      border: '1px solid #f08080',
+                      padding: '0 5px',
+                      borderRadius: '5px',
+                      backgroundColor: '#f08080',
+                      color: 'white',
+                    }}
+                  >
+                    {category.name}
+                  </p>
                 ))}
               </div>
               <div>{item.node.tag}</div>

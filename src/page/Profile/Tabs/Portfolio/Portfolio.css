@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 40px;
+  padding: 20px 40px;
 }
 
 .album-detail-header {
@@ -34,7 +35,7 @@
 .upload-new-album-image {
   height: 300px;
   width: 100%;
-  max-width: 300px;
+  max-width: 330px;
   background-color: #ccc;
   display: flex;
   justify-content: center;
@@ -52,7 +53,7 @@
 .album-detail-images {
   display: grid;
   grid-template-columns: auto auto auto auto;
-  gap: 10px;
+  gap: 20px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   padding: 20px;
   width: 100%;
@@ -61,7 +62,7 @@
 .album-detail-image img {
   height: 300px;
   width: 100%;
-  max-width: 300px;
+  max-width: 330px;
   object-fit: cover;
   border-radius: 10px;
 }
@@ -148,6 +149,9 @@
   padding: 5px 20px;
   font-size: 16px;
   opacity: 1;
+  text-decoration: none;
+  background-color: #f08080;
+  border: none;
 }
 
 #back-to-portfolio:hover {
@@ -309,6 +313,17 @@
   align-items: center;
   font-size: 18px;
   padding-top: 5px;
+}
+
+.child-album-background {
+  max-width: 200px;
+  height: 200px;
+  width: 200px;
+  border-radius: 10px;
+  background-color: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .favoutites-images > img {

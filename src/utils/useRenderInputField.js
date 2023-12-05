@@ -62,7 +62,7 @@ export const renderInputTags = (
   handleKeyDown
 ) => {
   return (
-    <div>
+    <div key={label}>
       <label>{label}</label>
       {tagArray?.length > 0 && (
         <div className="all-tags">
@@ -107,13 +107,13 @@ export const renderAddItemBySelect = (
   handleSelecItem
 ) => {
   return (
-    <div className="all-categories" key={label}>
+    <div className="all-categories" key={label + value}>
       <label>{label}</label>
       {Array.length > 0 && (
         <div className="categories-item">
           {Array?.map((item, idx) => (
             <div
-              key={item.id}
+              key={item.id + idx}
               onClick={() => removeItemFromArray(item.id, Array, setArray)}
             >
               <span id="remove-tag">X</span>

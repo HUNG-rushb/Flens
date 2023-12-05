@@ -1,13 +1,14 @@
 import AlbumDetail from './Portfolio/AlbumDetail';
 import AlbumImage from './Portfolio/AlbumImage';
-import AllFavouriteImage from './Portfolio/AllFavouriteImage';
-import AllLatestImage from './Portfolio/AllLatestImage';
-import FavouriteImage from './Portfolio/FavouriteImage';
-import LatestUploadImage from './Portfolio/LatestUploadImage';
+// import AllFavouriteImage from './Portfolio/AllFavouriteImage';
+// import AllLatestImage from './Portfolio/AllLatestImage';
+// import FavouriteImage from './Portfolio/FavouriteImage';
+// import LatestUploadImage from './Portfolio/LatestUploadImage';
 import { useMemo, useState } from 'react';
 
-const Portfoio = ({ userProfileData, posts }) => {
+const Portfoio = () => {
   const [componentToRender, setComponentToRender] = useState(0);
+  const [detailAlbum, setDetailAlbum] = useState({});
 
   return useMemo(
     () => (
@@ -15,8 +16,8 @@ const Portfoio = ({ userProfileData, posts }) => {
         {componentToRender === 0 && (
           <div className="portfolio-tab">
             <AlbumImage
-              userProfileData={userProfileData}
               setComponentToRender={setComponentToRender}
+              setDetailAlbum={setDetailAlbum}
             />
             {/* <LatestUploadImage
               posts={posts}
@@ -30,25 +31,23 @@ const Portfoio = ({ userProfileData, posts }) => {
         )}
         {componentToRender === 1 && (
           <AlbumDetail
-            posts={posts}
+            detailAlbum={detailAlbum}
             setComponentToRender={setComponentToRender}
           />
         )}
-        {componentToRender === 2 && (
+        {/* {componentToRender === 2 && (
           <AllLatestImage
-            posts={posts}
             setComponentToRender={setComponentToRender}
           />
         )}
         {componentToRender === 3 && (
           <AllFavouriteImage
-            posts={posts}
             setComponentToRender={setComponentToRender}
           />
-        )}
+        )} */}
       </>
     ),
-    [componentToRender, posts, userProfileData]
+    [componentToRender, detailAlbum]
   );
 };
 

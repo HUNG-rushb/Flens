@@ -5,7 +5,6 @@ import PostTechnical from './PostTechnical.jsx';
 import { useState } from 'react';
 
 const ImageDetail = ({ item, showDetail, handleCloseImageDetail }) => {
-  console.log('show', item);
   const [zoomedIn, setZoomedIn] = useState(false);
   const [scale, setScale] = useState(1);
   const [cursor, setCursor] = useState('zoom-in');

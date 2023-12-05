@@ -21,7 +21,7 @@ const Inspiration = () => {
     loadNew,
   } = useGetExplore();
   console.log({ hasNextPage });
-  console.log({ explorePosts });
+  console.log({ explorePosts }, 'post');
   console.log({ hasNextPage });
 
   const modalContent = useCallback(() => {
