@@ -10,6 +10,7 @@ const ModalCustom = ({
   modalContent,
   size,
   hideButton = false,
+  closeText='close',
   submitText = 'Submit',
 }) => {
   return (
@@ -22,7 +23,7 @@ const ModalCustom = ({
 
       {!hideButton && (
         <Modal.Footer>
-          <Button text={'Close'} type="modal-close-btn" onClick={handleClose} />
+          <Button text={closeText} type="modal-close-btn" onClick={handleClose} />
           <Button
             text={submitText}
             type="modal-save-btn submit"

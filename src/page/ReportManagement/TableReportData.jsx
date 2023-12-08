@@ -8,7 +8,6 @@ const table_title = [
   'Reporter',
   'User',
   'Time',
-  'Link',
   'Reason',
   'Status',
   'Action',
@@ -42,8 +41,10 @@ const TableReportManagement = ({
                 key={item.id}
                 item={item}
                 index={index}
-                onClick={() => handleViewDetail(item)}
+                // onClick={() => handleViewDetail(item)}
                 handleViewDetail={handleViewDetail}
+                handleAccept={handleAccept}
+                handleReject={handleReject}
                 Check={Check}
                 X={X}
               />
@@ -52,11 +53,19 @@ const TableReportManagement = ({
         </tbody>
       </table>
     ),
-    [body, handleAccept, handleReject, handleViewDetail]
+    [Check, X, body, handleAccept, handleReject, handleViewDetail]
   );
 };
 
-const ReportCard = ({ item, index, handleViewDetail, Check, X }) => {
+const ReportCard = ({
+  item,
+  index,
+  handleViewDetail,
+  handleAccept,
+  handleReject,
+  Check,
+  X,
+}) => {
   // console.log({ item });
 
   const { fetchedData: user } = useUserProfileImageReport({
@@ -73,9 +82,8 @@ const ReportCard = ({ item, index, handleViewDetail, Check, X }) => {
     () => (
       <>
         {user && userReported && (
-          <tr key={item.id} onClick={() => handleViewDetail(item)}>
+          <tr key={item.id} >
             <td>{index + 1}</td>
-            {/* <td>{item.userId}</td> */}
             <td>
               <img
                 src={userReported.userInfo.profileImageURL}
@@ -85,7 +93,6 @@ const ReportCard = ({ item, index, handleViewDetail, Check, X }) => {
               />{' '}
               {userReported.userInfo.name}
             </td>
-            {/* <td>{item.userReported}</td> */}
             <td>
               <img
                 src={user.userInfo.profileImageURL}
@@ -98,9 +105,8 @@ const ReportCard = ({ item, index, handleViewDetail, Check, X }) => {
 
             <td>{unixToDateTime(item.createdAt, true)}</td>
 
-            <td>{item.postId}</td>
             <td>{item.reason}</td>
-            <td>{item.isFinished ? 'Done' : 'To be decided'}</td>
+            <td onClick={() => handleViewDetail(item)}>{item.isFinished ? 'Done' : 'To be decided'}</td>
 
             {item.isFinished ? (
               <td></td>
@@ -110,14 +116,14 @@ const ReportCard = ({ item, index, handleViewDetail, Check, X }) => {
                   id="check-icon"
                   color="blue"
                   size={30}
-                  // onClick={() => handleAccept(item)}
+                  onClick={() => handleAccept(item)}
                 />
 
                 <X
                   id="remove-icon"
                   color="red"
                   size={30}
-                  // onClick={() => handleReject(item)}
+                  onClick={() => handleReject(item)}
                 />
               </td>
             )}
@@ -125,7 +131,15 @@ const ReportCard = ({ item, index, handleViewDetail, Check, X }) => {
         )}
       </>
     ),
-    [user, userReported]
+    [
+      handleAccept,
+      handleReject,
+      handleViewDetail,
+      index,
+      item,
+      user,
+      userReported,
+    ]
   );
 };
 

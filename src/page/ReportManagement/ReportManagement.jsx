@@ -13,7 +13,6 @@ const ReportManagement = () => {
   const [action, setAction] = useState('');
   const { isShowing: showModal, toggle: toggleModal } = useModal();
   const [targetItem, setTargetItem] = useState({});
-  console.log({ targetItem });
   const { fetchedData: allReports, isFetching: loading } = useGetAllReport();
   // console.log({ allReports });
 
@@ -37,22 +36,20 @@ const ReportManagement = () => {
   }, [action, targetItem.id, targetItem.name]);
 
   const modalContent = useCallback(() => {
+    console.log('target item', targetItem)
     if (action === 'Accept') {
       return (
         <>
           {fetchedData && (
-            <div key={targetItem.id} className="bodyContent">
-              <div>
-                <span>Link: </span>
-                {targetItem.link}
-              </div>
-
-              <div>
-                <span>Reason:</span> {targetItem.reason}
+            <div key={targetItem.id} className="bodyContent" style={{display:"flex"}}>
+              <div className="report-content" >
+                
+                  <span>Post title:</span> {fetchedData?.postInfo.image.title}
+                  <span>Reason:</span> {targetItem?.reason}
               </div>
 
               <img
-                src={fetchedData.postInfo.image.url}
+                src={fetchedData?.postInfo.image.url}
                 alt=""
                 width={40}
                 height={40}
@@ -128,7 +125,7 @@ const ReportManagement = () => {
     } else {
       toggleModal();
     }
-  }, [action, targetItem, toggleModal]);
+  }, [action, toggleModal]);
 
   const handleClose = useCallback(() => {
     toggleModal();
@@ -159,7 +156,7 @@ const ReportManagement = () => {
             modalContent={modalContent()}
             handleSavechanges={handleSubmit}
             handleClose={handleClose}
-            confirmButtonMessage="Submit"
+            submitText={action}
           />
         </Suspense>
       </Page>
@@ -175,6 +172,7 @@ const ReportManagement = () => {
       modalContent,
       handleSubmit,
       handleClose,
+      action,
     ]
   );
 };

@@ -45,6 +45,7 @@ const SearchTagResult = () => {
   const { isShowing: showModal, toggle: toggleModal } = useModal();
   const [selectedItem, setSelectedItem] = useState({});
   const [filterByuser, setFilterByUser] = useState([]);
+  const [searchData, setSearchData] = useState(query);
 
   const { fetchedData: searchResult, isFetching } = useSearchResult({
     data: { userId, searchString: query },
@@ -52,7 +53,12 @@ const SearchTagResult = () => {
   console.log({ searchResult }, 'search result');
 
   const modalContent = useCallback(() => {
-    return <SimilarImageDetail imageDetail={selectedItem}  setSelectedItem={setSelectedItem}/>;
+    return (
+      <SimilarImageDetail
+        imageDetail={selectedItem}
+        setSelectedItem={setSelectedItem}
+      />
+    );
   }, [selectedItem]);
 
   const handleAddFilterByUser = (id) => {
@@ -89,7 +95,19 @@ const SearchTagResult = () => {
                 <div className="tags-result">
                   <b>Related tags: </b>
                   {searchResult?.searchResult.tags.map((item) => (
-                    <span key={item?.name} style={{ padding: '0 2px' }}>
+                    <span
+                      key={item?.name}
+                      style={{
+                        padding: '0 5px',
+                        border: '2px solid #f08080',
+                        margin: '5px',
+                        borderRadius: '5px',
+                        color: '#f08080',
+                        fontWeight: 'bold',
+                        cursor: 'pointer',
+                      }}
+                      onClick={()=>setSearchData(item?.name)}
+                    >
                       #{item?.name}
                     </span>
                   ))}

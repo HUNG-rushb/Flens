@@ -206,6 +206,11 @@ export const GET_ALL_POST_COMMENT = gql`
           id
           content
           createdAt
+
+          userId {
+            name
+            profileImageURL
+          }
         }
 
         upVoteUserlist
