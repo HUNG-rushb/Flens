@@ -1,6 +1,5 @@
 import Button from '../../components/Button/Button';
 import Page from '../../components/utils/Page';
-import Spinner from '../../components/utils/Spinner';
 import { useCreateUserLazy } from '../../graphql/useUser';
 import { checkValidate } from '../../utils/checkValidate';
 import ErrorPopup from '../../utils/errorPopup';
@@ -93,7 +92,7 @@ const Register = () => {
               </div>
 
               <div className="form-group mt-3">
-                <label style={{ display: 'flex' }}>Retype password</label>
+                <label style={{ display: 'flex' }}>Confirm password</label>
                 <input
                   type="password"
                   className="form-control mt-1"
@@ -105,27 +104,17 @@ const Register = () => {
                   <span className="errors">{errors.rePassword}</span>
                 )}
               </div>
-              {/* 
-              {isFetching ? (
-                <div className="d-grid gap-2 mt-3">
-                  <Spinner />
-                </div>
-              ) : (
-                <> */}
               <div className="d-grid gap-2 mt-3">
                 <Button
                   text="Sign Up"
                   type="default"
                   onClick={handleClick}
-                  // disabled={isFetching}
                 />
               </div>
 
               <p className="mt-3 mb-3">
                 Already have an account? <a href="/login">Sign in now</a>
               </p>
-              {/* </>
-              )} */}
             </div>
           </form>
           <Loading loading={isFetching} />

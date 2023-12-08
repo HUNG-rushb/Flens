@@ -56,26 +56,11 @@
       }
 
       #deadline-wrapper {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        width: 330px;
-        max-width: 350px;
-        list-style-type: circle;
-        li {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 10px;
-
-          label {
-            font-size: 14px;
+          div {
+            label {
+              margin-right: 10px;
+            }
           }
-
-          input {
-            width: 200px;
-          }
-        }
       }
 
       #prize-wrapper {

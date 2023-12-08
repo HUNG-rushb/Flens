@@ -10,6 +10,8 @@ import useUploadImageToAWS from '../../hooks/useUploadImageToAWS';
 import { handleFileChange } from '../../utils/useHandleFileChange';
 import './styles.scss';
 import { Suspense, useCallback, useMemo, useRef, useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from 'react-router';
 
 const ContestManagement = () => {
@@ -19,6 +21,10 @@ const ContestManagement = () => {
   const [previewImage, setPreviewImage] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   console.log({ selectedFile });
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  console.log(startDate, endDate);
+
   const [contestData, setContestData] = useState({
     title: '',
     description: '',
@@ -95,7 +101,16 @@ const ContestManagement = () => {
         throw e;
       }
     },
-    [contestData, previewImage]
+    [
+      contestData.description,
+      contestData.endDate,
+      contestData.startDate,
+      contestData.title,
+      createContest,
+      navigate,
+      selectedFile,
+      uploadImageToAWS,
+    ]
   );
 
   return useMemo(
@@ -156,24 +171,20 @@ const ContestManagement = () => {
                 <div className="form-item">
                   <label>Contest deadline</label>
                   <ul id="deadline-wrapper">
-                    <li>
-                      <label htmlFor="">• Start date:</label>
-                      <input
-                        type="date"
-                        name="startDate"
-                        value={contestData.startDate}
-                        onChange={handleInputChange}
+                    <div>
+                      <label htmlFor="">Start date:</label>
+                      <DatePicker
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
                       />
-                    </li>
-                    <li>
-                      <label htmlFor="">• End date:</label>
-                      <input
-                        type="date"
-                        name="endDate"
-                        value={contestData.endDate}
-                        onChange={handleInputChange}
+                    </div>
+                    <div>
+                      <label htmlFor="">End date:</label>
+                      <DatePicker
+                        selected={endDate}
+                        onChange={(date) => setEndDate(date)}
                       />
-                    </li>
+                    </div>
                   </ul>
                 </div>
 
@@ -292,9 +303,11 @@ const ContestManagement = () => {
       contestData.prizes.thirdPrize,
       contestData.startDate,
       contestData.title,
+      endDate,
       handleInputChange,
       handleSubmit,
       previewImage,
+      startDate,
       userData?.userInfo?.name,
     ]
   );

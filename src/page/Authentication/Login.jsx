@@ -24,13 +24,23 @@ const Login = () => {
 
   const checkValidate = () => {
     const validationErrors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (email === '') {
       validationErrors.email = 'Email is required.';
     }
+    else if(!emailRegex.test(email)){
+      validationErrors.email = 'Invalid email address.';
+    }
 
     if (password === '') {
       validationErrors.password = 'Password is required.';
+    }
+    else if (password.length < 6) {
+      validationErrors.password = 'Password must be at least 6 characters.';
+    }
+    else if (password.length > 20) {
+      validationErrors.password = 'Password must be max 20 characters.';
     }
 
     return validationErrors;

@@ -164,7 +164,7 @@ const QuillEditorWithImage = () => {
           variables: {
             createStoryData: {
               userId: userId,
-              title: 'test',
+              title: storyTitle,
               storyViewStatus: viewStatus,
               content: editorContent,
               images: storyImages,
@@ -197,6 +197,7 @@ const QuillEditorWithImage = () => {
       fetchError,
       navigate,
       storyImages,
+      storyTitle,
       tags,
       userId,
       viewStatus,
