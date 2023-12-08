@@ -11,10 +11,24 @@ import {
   GET_ALL_USER_POST_INFO,
   SIMILAR_POST,
   EXPLORE_POST,
+  POST_INFO,
 } from './queries/Post.js';
 import { CREATE_TAG, SUGGEST_TAG } from './queries/Tag.js';
 import { useQuery, useMutation } from '@apollo/client';
 import { useCallback } from 'react';
+
+export const usePostInfo = (queryPayload) => {
+  const { data, loading, error } = useQuery(POST_INFO, {
+    fetchPolicy: 'no-cache',
+    variables: queryPayload,
+  });
+
+  return {
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
 
 export const useCreatePostLazy = (cache) => {
   const [createPost, { data, loading, error }] = useMutation(CREATE_POST, {

@@ -1,5 +1,19 @@
 import { gql } from '@apollo/client';
 
+export const POST_INFO = gql`
+  query PostInfo($postInfoData: PostInfoInput!) {
+    postInfo(data: $postInfoData) {
+      id
+      image {
+        url
+      }
+      title
+      caption
+      createdAt
+    }
+  }
+`;
+
 export const CREATE_POST = gql`
   mutation CreatePost($createPostData: CreatePostInput!) {
     createPost(data: $createPostData) {

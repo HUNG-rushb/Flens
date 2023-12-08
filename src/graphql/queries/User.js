@@ -54,6 +54,16 @@ export const GET_PROFILE_IMAGE = gql`
   }
 `;
 
+export const GET_PROFILE_IMAGE_REPORT = gql`
+  query UserInfo($userInfoData: UserInfoInput!) {
+    userInfo(data: $userInfoData) {
+      id
+      profileImageURL
+      name
+    }
+  }
+`;
+
 export const GET_USER_INTEREST = gql`
   query UserInfo($userInfoData: UserInfoInput!) {
     userInfo(data: $userInfoData) {

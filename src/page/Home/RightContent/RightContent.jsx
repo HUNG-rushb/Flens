@@ -21,10 +21,10 @@ const RightContent = () => {
     suggestUserToFollowData: { userId },
     limit: 5,
   });
-  // console.log({ suggestedUserList });
+  console.log({ suggestedUserList });
 
   const { fetchedData: allContests } = useGetAllContest();
-  // console.log({ allContests });
+  console.log({ allContests });
 
   const handleClickContest = useCallback(
     (item) => {

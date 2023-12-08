@@ -1,5 +1,6 @@
 import Modal from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
+import { usePostInfo } from '../../graphql/usePost';
 import { useGetAllReport } from '../../graphql/useReport';
 import useModal from '../../hooks/useModal';
 import Loading from '../../utils/useLoading';
@@ -9,50 +10,21 @@ import React, { Suspense, useCallback, useMemo, useState } from 'react';
 import { CheckSquare, XSquare } from 'react-bootstrap-icons';
 
 const ReportManagement = () => {
-  const [data, setData] = useState([
-    {
-      id: 1,
-      name: 'Nguyen Van A',
-      link: 'https://flens.com/nguyenvana',
-      time: 'Thus 23:40',
-      linkPost: 'https://link-post',
-      reason: 'Upload content containing violent, offensive.',
-      reporter: 'Nguyen Van B',
-    },
-    {
-      id: 2,
-      name: 'Nguyen Van B',
-      link: 'https://flens.com/nguyenvanb',
-      time: 'Fri 23:40',
-      linkPost: 'https://link-post',
-      reason: 'Comment with offensive content.',
-      reporter: 'Nguyen Van A',
-    },
-    {
-      id: 3,
-      name: 'Nguyen Van A',
-      link: 'https://flens.com/nguyenvana',
-      time: 'Thus 23:40',
-      linkPost: 'https://link-post',
-      reason: 'Upload content containing violent, offensive.',
-      reporter: 'Nguyen Van B',
-    },
-    {
-      id: 4,
-      name: 'Nguyen Van B',
-      link: 'https://flens.com/nguyenvanb',
-      time: 'Fri 23:40',
-      linkPost: 'https://link-post',
-      reason: 'Comment with offensive content.',
-      reporter: 'Nguyen Van A',
-    },
-  ]);
-
   const [action, setAction] = useState('');
   const { isShowing: showModal, toggle: toggleModal } = useModal();
-  const [targetItem, settargetItem] = useState({});
+  const [targetItem, setTargetItem] = useState({});
+  console.log({ targetItem });
   const { fetchedData: allReports, isFetching: loading } = useGetAllReport();
-  console.log({ allReports });
+  // console.log({ allReports });
+
+  const { fetchedData } = usePostInfo({
+    postInfoData: {
+      postId: targetItem.postId
+        ? targetItem.postId
+        : '000000000000000000000000',
+    },
+  });
+  console.log({ fetchedData });
 
   const modalTitle = useMemo(() => {
     let title = '';
@@ -67,55 +39,64 @@ const ReportManagement = () => {
   const modalContent = useCallback(() => {
     if (action === 'Accept') {
       return (
-        <div key={targetItem.id} className="bodyContent">
-          <div>
-            <span>Link: </span>
-            {targetItem.link}
-          </div>
-          <div>
-            <span>Reason:</span> {targetItem.reason}
-          </div>
-          <div>
-            <span>Reporter: </span>
-            {targetItem.reporter}
-          </div>
-        </div>
+        <>
+          {fetchedData && (
+            <div key={targetItem.id} className="bodyContent">
+              <div>
+                <span>Link: </span>
+                {targetItem.link}
+              </div>
+
+              <div>
+                <span>Reason:</span> {targetItem.reason}
+              </div>
+
+              <img
+                src={fetchedData.postInfo.image.url}
+                alt=""
+                width={40}
+                height={40}
+              />
+            </div>
+          )}
+        </>
       );
     } else if (action === 'Reject') {
       return 'This report will be removed, please be carefull with your decision';
     } else
       return (
-        <div key={targetItem.id} className="bodyContent">
-          <div>
-            <span>User:</span>{' '}
-            {targetItem.userId}
-          </div>
-          <div>
-            <span>Link: </span>
-            {targetItem.link}
-          </div>
-          <div>
-            <span>Report with reason:</span> {targetItem.reason}
-          </div>
-          <div>
-            <span>Reporter: </span>
-            {targetItem.reporter}
-          </div>
-        </div>
+        <>
+          {fetchedData && (
+            <div key={targetItem.id} className="bodyContent">
+              <div>
+                <span>User:</span> {targetItem.userId}
+              </div>
+              <div>
+                <span>Link: </span>
+                {targetItem.link}
+              </div>
+
+              <div>
+                <span>Report with reason:</span> {targetItem.reason}
+              </div>
+
+              <img
+                src={fetchedData.postInfo.image.url}
+                alt=""
+                width={40}
+                height={40}
+              />
+            </div>
+          )}
+        </>
       );
-  }, [
-    action,
-    targetItem.id,
-    targetItem.link,
-    targetItem.reason,
-    targetItem.reporter,
-    targetItem.userId,
-  ]);
+  }, [action, targetItem, fetchedData]);
 
   const handleViewDetail = useCallback(
     (item) => {
+      console.log({ item });
       setAction('view');
-      settargetItem(item);
+      setTargetItem(item);
       toggleModal();
     },
     [toggleModal]
@@ -124,7 +105,7 @@ const ReportManagement = () => {
   const handleAccept = useCallback(
     (item) => {
       setAction('Accept');
-      settargetItem(item);
+      setTargetItem(item);
       toggleModal();
     },
     [setAction, toggleModal]
@@ -133,7 +114,7 @@ const ReportManagement = () => {
   const handleReject = useCallback(
     (item) => {
       setAction('Reject');
-      settargetItem(item);
+      setTargetItem(item);
       toggleModal();
     },
     [setAction, toggleModal]
@@ -141,15 +122,13 @@ const ReportManagement = () => {
 
   const handleSubmit = useCallback(() => {
     if (action === 'Accept') {
-      setData(data.filter((item) => item !== targetItem));
       toggleModal();
     } else if (action === 'Reject') {
-      setData(data.filter((item) => item !== targetItem));
       toggleModal();
     } else {
       toggleModal();
     }
-  }, [action, data, targetItem, toggleModal]);
+  }, [action, targetItem, toggleModal]);
 
   const handleClose = useCallback(() => {
     toggleModal();

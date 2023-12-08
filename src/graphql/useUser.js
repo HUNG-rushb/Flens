@@ -13,6 +13,7 @@ import {
   GET_ALL_USER_FOLLOWING_LEADERBOARD,
   GET_PROFILE_FOLLOW,
   GET_USER_INTEREST,
+  GET_PROFILE_IMAGE_REPORT,
 } from './queries/User.js';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import _ from 'lodash';
@@ -75,6 +76,19 @@ export const useUserProfileImage = (queryPayload) => {
     fetchError: error,
     userFollow,
     refetchFollow: refetch,
+  };
+};
+
+export const useUserProfileImageReport = (queryPayload) => {
+  const { data, loading, error } = useQuery(GET_PROFILE_IMAGE_REPORT, {
+    fetchPolicy: 'no-cache',
+    variables: queryPayload,
+  });
+
+  return {
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
   };
 };
 
