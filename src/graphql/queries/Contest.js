@@ -5,7 +5,7 @@ export const CREATE_CONTEST = gql`
     createContest(data: $createContestdata) {
       id
       name
-      prize
+      # prize
       contestImageURL
       description
       userJoined
@@ -31,7 +31,7 @@ export const GET_ALL_CONTESTS = gql`
       id
       name
       description
-      prize
+      # prize
       startDate
       endDate
       contestImageURL
@@ -46,7 +46,7 @@ export const GET_CONTEST_INFO = gql`
       name
       contestImageURL
       description
-      prize
+      # prize
       startDate
       endDate
       userJoined
