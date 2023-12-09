@@ -10,7 +10,7 @@ const ModalCustom = ({
   modalContent,
   size,
   hideButton = false,
-  closeText='close',
+  closeText='Close',
   submitText = 'Submit',
 }) => {
   return (

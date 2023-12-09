@@ -1,6 +1,7 @@
 import { useUserProfileImageReport } from '../../graphql/useUser';
 import unixToDateTime from '../../utils/unixToDateTime';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { CheckSquare, XSquare, InfoSquare } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
 
 const table_title = [
@@ -14,12 +15,11 @@ const table_title = [
 ];
 
 const TableReportManagement = ({
-  X,
   body,
-  Check,
   handleAccept,
   handleReject,
   handleViewDetail,
+  setUsername,
 }) => {
   const navigate = useNavigate();
 
@@ -34,26 +34,24 @@ const TableReportManagement = ({
           </tr>
         </thead>
 
-        <tbody>
+        <tbody> 
           {body.map((item, index) => {
             return (
               <ReportCard
                 key={item.id}
                 item={item}
                 index={index}
-                // onClick={() => handleViewDetail(item)}
                 handleViewDetail={handleViewDetail}
                 handleAccept={handleAccept}
                 handleReject={handleReject}
-                Check={Check}
-                X={X}
+                setUsername={setUsername}
               />
             );
           })}
         </tbody>
       </table>
     ),
-    [Check, X, body, handleAccept, handleReject, handleViewDetail]
+    [body, handleAccept, handleReject, handleViewDetail, setUsername]
   );
 };
 
@@ -63,8 +61,7 @@ const ReportCard = ({
   handleViewDetail,
   handleAccept,
   handleReject,
-  Check,
-  X,
+  setUsername  
 }) => {
   // console.log({ item });
 
@@ -77,12 +74,15 @@ const ReportCard = ({
 
   // console.log({ user });
   // console.log({ userReported });
+  useEffect(() => {
+    setUsername(user?.userInfo.name);
+  }, [setUsername, user?.userInfo.name]);
 
   return useMemo(
     () => (
       <>
         {user && userReported && (
-          <tr key={item.id} >
+          <tr key={item.id}>
             <td>{index + 1}</td>
             <td>
               <img
@@ -90,7 +90,7 @@ const ReportCard = ({
                 alt=""
                 width={40}
                 height={40}
-              />{' '}
+              />
               {userReported.userInfo.name}
             </td>
             <td>
@@ -106,20 +106,26 @@ const ReportCard = ({
             <td>{unixToDateTime(item.createdAt, true)}</td>
 
             <td>{item.reason}</td>
-            <td onClick={() => handleViewDetail(item)}>{item.isFinished ? 'Done' : 'To be decided'}</td>
+            <td>{item.isFinished ? 'Done' : 'To be decided'}</td>
 
             {item.isFinished ? (
               <td></td>
             ) : (
               <td>
-                <Check
+                <InfoSquare
+                  id="detail-icon"
+                  color="#f08080"
+                  size={30}
+                  onClick={() => handleViewDetail(item)}
+                />
+                <CheckSquare
                   id="check-icon"
                   color="blue"
                   size={30}
                   onClick={() => handleAccept(item)}
                 />
 
-                <X
+                <XSquare
                   id="remove-icon"
                   color="red"
                   size={30}

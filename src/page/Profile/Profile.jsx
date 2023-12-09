@@ -173,6 +173,8 @@ const Profile = () => {
                       {userFollow &&
                         `${userFollow.userFollow.follower.userFollower.length} Followers`}
                     </span>
+                    <span id="sub-text">|</span>
+                    <span id="sub-text">Level 0</span>
                   </div>
                 </div>
               </div>
