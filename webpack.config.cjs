@@ -43,9 +43,8 @@ module.exports = {
       name: 'flens',
       filename: 'remoteEntry.js',
       remotes: {
-        chat: 'chat@http://localhost:6120/remoteEntry.js',
-        // chat:
-        //   'chat@https://main.d1tavnpfnfnpjs.amplifyapp.com/remoteEntry.js',
+        // chat: 'chat@http://localhost:6120/remoteEntry.js',
+        chat: 'chat@https://develop.d1tavnpfnfnpjs.amplifyapp.com/remoteEntry.js',
       },
       shared: {
         // ...packageJson.dependencies,
