@@ -25,7 +25,7 @@ export const useCreateContest = () => {
   };
 };
 
-export const useUserJoinContext = () => {
+export const useUserJoinContest = () => {
   const [userJoinContest, { data, loading, error }] = useMutation(
     USER_JOIN_CONTEST,
     {

@@ -1,7 +1,7 @@
 import Button from '../../../../components/Button/Button';
 import { useAuthState } from '../../../../context/AuthContext.js';
 import { useGetAllUserAlbum } from '../../../../graphql/useAlbum.js';
-import { useUserJoinContext } from '../../../../graphql/useContest';
+import { useUserJoinContest } from '../../../../graphql/useContest';
 import {
   useCreatePostLazy,
   useUpdatePointPostingLazy,
@@ -54,7 +54,7 @@ const SubmitionContent = ({
   const { updateLevel } = useUpdatePointPostingLazy();
   const { createTag } = useCreateTag();
   const uploadImageToAWS = useUploadImageToAWS();
-  const { userJoinContest } = useUserJoinContext();
+  const { userJoinContest } = useUserJoinContest();
 
   const handleKeyDown = useCallback(
     (event) => {
@@ -164,7 +164,7 @@ const SubmitionContent = ({
         contestInfoRefetch();
         refetch();
 
-        successfullNoty('upload Contest entry sucessfull!');
+        successfullNoty("You've joined this contest!");
         handleCloseModal();
       } catch (e) {
         throw e;

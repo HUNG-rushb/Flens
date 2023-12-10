@@ -30,11 +30,6 @@ const ContestManagement = () => {
     description: '',
     startDate: '',
     endDate: '',
-    prizes: {
-      firstPrize: '',
-      secondPrize: '',
-      thirdPrize: '',
-    },
   });
 
   const {
@@ -51,24 +46,11 @@ const ContestManagement = () => {
   const handleInputChange = useCallback(
     (e) => {
       const { name, value } = e.target;
-      if (
-        name !== 'firstPrize' &&
-        name !== 'secondPrize' &&
-        name !== 'thirdPrize'
-      ) {
-        setContestData({
-          ...contestData,
-          [name]: value,
-        });
-      } else {
-        setContestData({
-          ...contestData,
-          prizes: {
-            ...contestData.prizes,
-            [name]: value,
-          },
-        });
-      }
+
+      setContestData({
+        ...contestData,
+        [name]: value,
+      });
     },
     [contestData]
   );
@@ -88,10 +70,8 @@ const ContestManagement = () => {
               contestImageURL: imgURL.Location,
               description: contestData.description,
 
-              startDate: contestData.startDate,
-              endDate: contestData.endDate,
-
-              prize: '',
+              startDate: '2023-11-19T06:58:25.638+00:00',
+              endDate: '2023-11-19T06:58:25.638+00:00',
             },
           },
         });
@@ -188,7 +168,7 @@ const ContestManagement = () => {
                   </ul>
                 </div>
 
-                <div className="form-item">
+                {/* <div className="form-item">
                   <label>Contest Price</label>
                   <ul id="prize-wrapper">
                     <li>
@@ -219,7 +199,8 @@ const ContestManagement = () => {
                       />
                     </li>
                   </ul>
-                </div>
+                </div> */}
+
                 <div className="button">
                   <Button text="Submit" onClick={handleSubmit} />
                 </div>
@@ -262,7 +243,8 @@ const ContestManagement = () => {
                       : 'Contest end date'}
                   </div>
                 </div>
-                <div className="contest-prizes">
+
+                {/* <div className="contest-prizes">
                   <span id="subtitle">Prizes</span>
                   <ul>
                     <li>
@@ -284,11 +266,12 @@ const ContestManagement = () => {
                         : 'Contest third prize here.'}
                     </li>
                   </ul>
-                </div>
-                <div className="contest-uploader">
+                </div> */}
+
+                {/* <div className="contest-uploader">
                   <span id="subtitle">Uploader</span>
                   <p>Mr/Ms. {userData?.userInfo?.name}</p>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -298,9 +281,7 @@ const ContestManagement = () => {
     [
       contestData.description,
       contestData.endDate,
-      contestData.prizes.firstPrize,
-      contestData.prizes.secondPrize,
-      contestData.prizes.thirdPrize,
+
       contestData.startDate,
       contestData.title,
       endDate,

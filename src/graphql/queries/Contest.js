@@ -5,22 +5,38 @@ export const CREATE_CONTEST = gql`
     createContest(data: $createContestdata) {
       id
       name
-      # prize
       contestImageURL
       description
-      userJoined
 
       startDate
       endDate
+      isFinished
+
+      contestPrizeList {
+        id
+        title
+        type
+        prizeImageURL
+        userId {
+          id
+          name
+        }
+      }
+
+      joinedUserIds {
+        id
+        name
+      }
     }
   }
 `;
 
 export const USER_JOIN_CONTEST = gql`
-  mutation UserJoinContest($userJoinContestData: UserJoinContestInput!) {
-    userJoinContest(data: $userJoinContestData) {
-      userJoined
-      name
+  mutation UserJoinContest($userJoinContestData: JoinContestInput!) {
+    joinContest(data: $userJoinContestData) {
+      joinedUserIds {
+        id
+      }
     }
   }
 `;
@@ -42,21 +58,34 @@ export const GET_ALL_CONTESTS = gql`
 export const GET_CONTEST_INFO = gql`
   query ContestInfo($contestInfoData: ContestInfoInput!) {
     contestInfo(data: $contestInfoData) {
-      id
-      name
       contestImageURL
       description
-      # prize
-      startDate
       endDate
-      userJoined
+      id
+      isFinished
+      name
+      startDate
+      joinedUserIds {
+        id
+      }
+      contestPrizeList {
+        id
+        prizeImageURL
+        title
+        type
+        userId {
+          id
+          name
+          profileImageURL
+        }
+      }
     }
   }
 `;
 
 export const GET_TOP_5_POSTS = gql`
-  query GetTopPostContest($data: ContestInfoInput!) {
-    getTopPostContest(data: $data) {
+  query GetTopContestPosts($data: ContestInfoInput!) {
+    getTopContestPosts(data: $data) {
       id
       points
       userId {

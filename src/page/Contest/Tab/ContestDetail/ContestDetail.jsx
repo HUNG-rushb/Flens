@@ -33,10 +33,11 @@ const ContestDetail = () => {
     useGetContestInfo({
       contestInfoData: { contestId },
     });
-  console.log({ contestInfo });
+  // console.log({ contestInfo });
+
   const { posts, hasNextPage, isFetching, fetchError, loadNew, refetch } =
     useGetContestPosts(contestId, userId);
-  console.log({ posts });
+  // console.log({ posts });
 
   const { isShowing: showModal, toggle: toggleModal } = useModal();
 
@@ -226,7 +227,9 @@ const ContestDetail = () => {
             </div> */}
 
               <div className="upload-image-input">
-                {contestInfo?.contestInfo?.userJoined?.includes(userId) ? (
+                {contestInfo?.contestInfo?.joinedUserIds?.findIndex(
+                  (x) => x.id === userId
+                ) !== -1 ? (
                   <p> You've already joined this contest.</p>
                 ) : (
                   <>

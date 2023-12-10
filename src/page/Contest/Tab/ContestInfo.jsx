@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const ContestInfo = () => {
   const navigate = useNavigate();
   const { fetchedData: allContests } = useGetAllContest();
-  console.log({ allContests });
+  // console.log({ allContests });
 
   const handleClickContest = useCallback(
     (id) => {
