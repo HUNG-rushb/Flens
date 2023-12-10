@@ -19,6 +19,8 @@ const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
     userAllAlbumData: { userId },
   });
 
+  console.log(userAlbums, 'user album')
+
   const { isShowing: openCreateAlbum, toggle: toggleCreateAlbum } = useModal();
   const [newAlbumTitle, setNewAlbumTitle] = useState('');
 

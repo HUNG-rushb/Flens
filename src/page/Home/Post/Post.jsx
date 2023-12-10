@@ -83,6 +83,7 @@ const Post = ({ item, setReportedList }) => {
                 </div>
 
                 <div className="post-title">{item.title}</div>
+                <div>{item.caption}</div>
                 <div className="hash-tags">
                   {item.tag.map((tag, index) => (
                     <span

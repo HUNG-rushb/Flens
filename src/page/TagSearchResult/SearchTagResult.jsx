@@ -8,7 +8,7 @@ import Loading from '../../utils/useLoading';
 import SimilarImageDetail from './SimilarImageDetail';
 import { Suspense, useCallback, useMemo, useState } from 'react';
 import Masonry from 'react-layout-masonry';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const SearchTagResult = () => {
   const options = useMemo(
@@ -41,10 +41,10 @@ const SearchTagResult = () => {
 
   const { query } = useParams();
   const { id: userId } = useAuthState();
+  const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState(options[0].value);
   const { isShowing: showModal, toggle: toggleModal } = useModal();
   const [selectedItem, setSelectedItem] = useState({});
-  const [filterByuser, setFilterByUser] = useState([]);
   const [searchData, setSearchData] = useState(query);
 
   const { fetchedData: searchResult, isFetching } = useSearchResult({
@@ -61,10 +61,12 @@ const SearchTagResult = () => {
     );
   }, [selectedItem]);
 
-  const handleAddFilterByUser = (id) => {
-    setFilterByUser((prev) => ({ ...prev, id: id }));
-  };
-  console.log(filterByuser, 'filter by user');
+  const handleViewProfile = useCallback(
+    (id) => {
+      navigate(`/profile/${id}`);
+    },
+    [navigate]
+  );
 
   return useMemo(
     () => (
@@ -106,7 +108,7 @@ const SearchTagResult = () => {
                         fontWeight: 'bold',
                         cursor: 'pointer',
                       }}
-                      onClick={()=>setSearchData(item?.name)}
+                      onClick={() => setSearchData(item?.name)}
                     >
                       #{item?.name}
                     </span>
@@ -120,7 +122,7 @@ const SearchTagResult = () => {
                       <div
                         key={item?.id}
                         className="content"
-                        onClick={() => handleAddFilterByUser(item?.id)}
+                        onClick={() => handleViewProfile(item.id)}
                       >
                         <img
                           src={item?.profileImageURL}
@@ -134,7 +136,7 @@ const SearchTagResult = () => {
                   </div>
                 </div>
               </div>
-              <Masonry columns={3} gap={16} className="inspiration-container">
+              <Masonry columns={4} gap={16} className="inspiration-container">
                 {searchResult &&
                   searchResult.searchResult.posts.map((item) => {
                     return (
@@ -157,13 +159,14 @@ const SearchTagResult = () => {
             handleClose={toggleModal}
             handleSavechanges={toggleModal}
             modalContent={modalContent()}
-            size="xl"
+            size="lg"
             hideButton={true}
           />
         </Suspense>
       </Page>
     ),
     [
+      handleViewProfile,
       isFetching,
       modalContent,
       options,

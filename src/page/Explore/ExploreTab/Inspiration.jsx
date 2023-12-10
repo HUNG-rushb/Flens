@@ -48,7 +48,7 @@ const Inspiration = () => {
               </p>
             }
           >
-            <Masonry columns={3} gap={16} className="inspiration-container">
+            <Masonry columns={4} gap={16} className="inspiration-container">
               {explorePosts.map((item) => {
                 return (
                   <span key={item.node.id}>
@@ -67,7 +67,7 @@ const Inspiration = () => {
         )}
         <Loading loading={isFetching} />
         <Modal
-          size="xl"
+          size="lg"
           show={showModal}
           handleClose={toggleModal}
           handleSavechanges={toggleModal}

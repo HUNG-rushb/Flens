@@ -376,3 +376,13 @@
     border-right: 1px solid #f08080;
   }
 }
+
+.choose-image {
+  border: 2px solid #f08080;
+  transition: opacity 0.3s ease;
+  opacity: 1;
+}
+
+.not-choose-image {
+  opacity: 0.8;
+}

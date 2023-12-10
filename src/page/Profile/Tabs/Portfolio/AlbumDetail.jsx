@@ -1,6 +1,5 @@
 import Modal from '../../../../components/Modal/Modal';
 import useModal from '../../../../hooks/useModal.jsx';
-import { handleFileChange } from '../../../../utils/useHandleFileChange.js';
 import './Portfolio.css';
 import React, {
   useCallback,
@@ -12,6 +11,39 @@ import React, {
 import { ThreeDots, Trash } from 'react-bootstrap-icons';
 
 const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
+  const [uploadedImages, setUploadedImages] = useState([
+    {
+      id: 1,
+      image:
+        'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
+      isChoose: false,
+    },
+    {
+      id: 2,
+      image:
+        'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
+      isChoose: false,
+    },
+    {
+      id: 3,
+      image:
+        'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
+      isChoose: false,
+    },
+    {
+      id: 4,
+      image:
+        'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
+      isChoose: false,
+    },
+    {
+      id: 5,
+      image:
+        'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
+      isChoose: false,
+    },
+  ]);
+
   const fakeData = useMemo(
     () => [
       'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
@@ -22,46 +54,57 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
     ],
     []
   );
-  const { isShowing: openUploadImage, toggle: toggleUploadImage } = useModal();
-  const [showListOtherActions, setShowListOtherActions] = useState(false);
 
-  const fileInputRef = useRef(null);
+  const { isShowing: showModal, toggle: toggleUploadImage } = useModal();
+  const [showListOtherActions, setShowListOtherActions] = useState(false);
   const clickOutsideRef = useRef(null);
-  const [previewImage, setPreviewImage] = useState(null);
-  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleImageClick = (id) => {
+    setUploadedImages((prevImages) =>
+      prevImages.map((item) =>
+        item.id === id ? { ...item, isChoose: !item.isChoose } : item
+      )
+    );
+  };
 
   const modalContent = useCallback(() => {
     return (
-      <div className="up-image-to-album">
-        <div>
-          <label
-            onClick={() => fileInputRef.current.click()}
-            type="button"
-            id="custom-image-to-album"
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'auto auto auto',
+          placeItems: 'center',
+          gap: '10px',
+        }}
+      >
+        {uploadedImages.map((item) => (
+          <div
+            key={item.id}
+            className={item.isChoose ? 'choose-image' : 'not-choose-image'}
           >
-            Choose image to upload
-          </label>
-        </div>
-        <input
-          type="file"
-          id="fileInput"
-          ref={fileInputRef}
-          onChange={(event) =>
-            handleFileChange(event, setPreviewImage, setSelectedFile)
-          }
-        />
-        <img src={previewImage} alt="" id="image-to-album" />
+            <img
+              src={item.image}
+              alt=""
+              style={{
+                maxWidth: '250px',
+                width: '100%',
+              }}
+              onClick={() => handleImageClick(item.id)}
+            />
+          </div>
+        ))}
       </div>
     );
-  }, [previewImage]);
+  }, [uploadedImages]);
 
   const handleConfirmUpload = useCallback(() => {
+    const chooseImageList = uploadedImages.filter((item) => item.isChoose);
+    console.log(chooseImageList, 'choosen list');
     toggleUploadImage();
-  }, [toggleUploadImage]);
+  }, [toggleUploadImage, uploadedImages]);
 
   const handleClose = useCallback(() => {
     toggleUploadImage();
-    setPreviewImage(null);
   }, [toggleUploadImage]);
 
   useEffect(() => {
@@ -120,11 +163,12 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
           ))}
         </div>
         <Modal
-          show={openUploadImage}
+          show={showModal}
           modalTitle="Upload image to album"
           modalContent={modalContent()}
           handleClose={handleClose}
           handleSavechanges={handleConfirmUpload}
+          size="lg"
         />
       </div>
     ),
@@ -134,9 +178,9 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
       handleClose,
       handleConfirmUpload,
       modalContent,
-      openUploadImage,
       setComponentToRender,
       showListOtherActions,
+      showModal,
       toggleUploadImage,
     ]
   );
