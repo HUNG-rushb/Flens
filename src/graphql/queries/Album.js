@@ -20,7 +20,10 @@ export const GET_ALL_USER_ALBUM = gql`
       name
       id
       posts {
-        id
+        image {
+          id
+          url
+        }
       }
     }
   }

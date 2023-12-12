@@ -11,7 +11,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 const PostComment = ({ item, userLevel }) => {
   const { id: userId, profileImageURL: userAvatar } = useAuthState();
   const [allComment, setAllComment] = useState(null);
-  console.log('allComment', allComment);
+  // console.log('allComment', allComment);
   const [comment, setComment] = useState('');
   const [indexComment, setIndexComment] = useState(3);
   const postID = item?.id;

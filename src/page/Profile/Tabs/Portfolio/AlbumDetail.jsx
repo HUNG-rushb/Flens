@@ -9,6 +9,7 @@ import React, {
   useState,
 } from 'react';
 import { ThreeDots, Trash } from 'react-bootstrap-icons';
+import { useLocation } from 'react-router-dom';
 
 const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
   const [uploadedImages, setUploadedImages] = useState([
@@ -44,17 +45,8 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
     },
   ]);
 
-  const fakeData = useMemo(
-    () => [
-      'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-      'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-      'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-      'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-      'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-    ],
-    []
-  );
-
+  const location = useLocation();
+  const albumPost = location?.state?.posts;
   const { isShowing: showModal, toggle: toggleUploadImage } = useModal();
   const [showListOtherActions, setShowListOtherActions] = useState(false);
   const clickOutsideRef = useRef(null);
@@ -137,6 +129,13 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
           <span id="album-detail-title">{detailAlbum?.name}</span>
           <ThreeDots
             size={28}
+            style={{
+              opacity: 1,
+              cursor: 'pointer',
+              ':hover': {
+                opacity: 0.7,
+              },
+            }}
             onClick={() => setShowListOtherActions(true)}
             ref={clickOutsideRef}
           />
@@ -156,13 +155,13 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
           <div className="upload-new-album-image" onClick={toggleUploadImage}>
             + Add new Image
           </div>
-          {fakeData.map((item, index) => (
+          {albumPost.map((item, index) => (
             <div className="album-detail-image" key={index}>
-              <img src={item} alt="" />
-            </div>
+              <img src={item?.image.url} alt="" />
+            </div>  
           ))}
         </div>
-        <Modal
+        <Modal  
           show={showModal}
           modalTitle="Upload image to album"
           modalContent={modalContent()}
@@ -173,8 +172,8 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
       </div>
     ),
     [
+      albumPost,
       detailAlbum?.name,
-      fakeData,
       handleClose,
       handleConfirmUpload,
       modalContent,

@@ -47,9 +47,6 @@ const Interests = () => {
   } = useGetUserInterest({
     userInfoData: { userId },
   });
-
-  console.log({ interest });
-
   const [interests, setInterests] = useState(
     interest?.userInfo?.interestCategories || []
   );
@@ -65,7 +62,6 @@ const Interests = () => {
   };
 
   const handleAddNewInterest = useCallback(() => {
-    console.log(interests, 'new array Interest');
     if (interests.filter((e) => e.id === newInterest.id).length === 0) {
       setInterests((prev) => [...prev, newInterest]);
     }
