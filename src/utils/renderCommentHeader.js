@@ -12,7 +12,7 @@ export const renderCommentHeader = (
   handleSubmit,
   SendIconSize
 ) => {
-  console.log(commentID)
+  // console.log(commentID)
   return (
     <div className={`${type}-header`}>
       <img

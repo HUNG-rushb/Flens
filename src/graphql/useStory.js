@@ -70,7 +70,7 @@ export const useGetAllUserStory = (userId, currentUserId) => {
       after: '',
     },
   });
-  console.log({ data });
+  // console.log({ data });
 
   const loadNew = useCallback(async () => {
     const a = await fetchMore({
@@ -78,7 +78,7 @@ export const useGetAllUserStory = (userId, currentUserId) => {
         after: data.getAllUserStories.pageInfo.endCursor,
       },
     });
-    console.log({ a });
+    // console.log({ a });
   }, [data]);
 
   return {

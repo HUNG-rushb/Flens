@@ -7,8 +7,11 @@ import ErrorPopup from '../../../../utils/errorPopup';
 import Loading from '../../../../utils/useLoading';
 import { successfullNoty } from '../../../../utils/useNotify';
 import React, { useCallback, useMemo, useState } from 'react';
+import { useParams } from 'react-router';
 
 const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
+  const { userId: visitedUserId } = useParams();
+  console.log({ visitedUserId });
   const { id: userId } = useAuthState();
   const {
     fetchedData: userAlbums,
@@ -16,7 +19,7 @@ const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
     refetch,
     fetchError,
   } = useGetAllUserAlbum({
-    userAllAlbumData: { userId },
+    userAllAlbumData: { userId: visitedUserId },
   });
 
   console.log(userAlbums, 'user album');
@@ -81,12 +84,14 @@ const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
 
         {userAlbums && (
           <div className="album-images">
-            <div>
-              <div className="new-album" onClick={toggleCreateAlbum}>
-                +
+            {visitedUserId === userId && (
+              <div>
+                <div className="new-album" onClick={toggleCreateAlbum}>
+                  +
+                </div>
+                <span id="child-album-title">Create album</span>
               </div>
-              <span id="child-album-title">Create album</span>
-            </div>
+            )}
 
             {userAlbums.userAllAlbum.map((album) => (
               <div
