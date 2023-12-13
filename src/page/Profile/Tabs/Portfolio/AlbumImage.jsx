@@ -5,8 +5,8 @@ import { useGetAllUserAlbum } from '../../../../graphql/useAlbum';
 import useModal from '../../../../hooks/useModal';
 import ErrorPopup from '../../../../utils/errorPopup';
 import Loading from '../../../../utils/useLoading';
-import React, { useCallback, useMemo, useState } from 'react';
 import { successfullNoty } from '../../../../utils/useNotify';
+import React, { useCallback, useMemo, useState } from 'react';
 
 const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
   const { id: userId } = useAuthState();
@@ -19,7 +19,7 @@ const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
     userAllAlbumData: { userId },
   });
 
-  console.log(userAlbums, 'user album')
+  console.log(userAlbums, 'user album');
 
   const { isShowing: openCreateAlbum, toggle: toggleCreateAlbum } = useModal();
   const [newAlbumTitle, setNewAlbumTitle] = useState('');
@@ -45,7 +45,7 @@ const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
         throw e;
       }
       setNewAlbumTitle('');
-      successfullNoty('Create album successfull !!!')
+      successfullNoty('Create album successfull !!!');
       refetch();
     },
     [createAlbum, newAlbumTitle, refetch, toggleCreateAlbum, userId]
@@ -94,15 +94,22 @@ const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
                 className="child-album"
                 onClick={() => [setComponentToRender(1), setDetailAlbum(album)]}
               >
-                <div className="child-album-background">No image</div>
-                {/* <img src={album.posts[0].image.url} alt="" /> */}
+                {album.posts.length > 0 ? (
+                  <img src={album.posts[0].image.url} alt="" />
+                ) : (
+                  <div className="child-album-background">No image</div>
+                )}
+
                 <span id="child-album-title">{album.name}</span>
               </div>
             ))}
           </div>
         )}
+
         <Loading loading={isFetching} />
+
         {fetchError?.message && <ErrorPopup message={fetchError?.message} />}
+
         <Modal
           show={openCreateAlbum}
           modalTitle="Create new album"
