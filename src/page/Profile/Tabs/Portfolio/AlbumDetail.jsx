@@ -1,5 +1,5 @@
 import Modal from '../../../../components/Modal/Modal';
-import { useAuthState } from '../../../../context/AuthContext';
+import { useAuthState } from '../../../../context/AuthContext.js';
 import { useGetAlbumInfo } from '../../../../graphql/useAlbum';
 import useModal from '../../../../hooks/useModal.jsx';
 import './Portfolio.css';
@@ -11,59 +11,61 @@ import React, {
   useState,
 } from 'react';
 import { ThreeDots, Trash } from 'react-bootstrap-icons';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
+  const { userId } = useParams();
+  const { id: currentUserId } = useAuthState();
+  const { fetchedData: photos, refetch } = useGetAlbumInfo({
+    data: { userId, currentUserId, albumId: detailAlbum.id },
+  });
+  const { isShowing: showModal, toggle: toggleUploadImage } = useModal();
+  const [showListOtherActions, setShowListOtherActions] = useState(false);
+  const clickOutsideRef = useRef(null);
+  
   const [uploadedImages, setUploadedImages] = useState([
     {
       id: 1,
       image:
         'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-      isChoose: false,
     },
     {
       id: 2,
       image:
         'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-      isChoose: false,
     },
     {
       id: 3,
       image:
         'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-      isChoose: false,
     },
     {
       id: 4,
       image:
         'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-      isChoose: false,
     },
     {
       id: 5,
       image:
         'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-      isChoose: false,
     },
   ]);
 
-  const userId = useParams();
-  const { id: currentUserId } = useAuthState();
-  const location = useLocation();
-  const albumPost = location?.state?.posts;
-  // import { useParams } from 'react-router';
+  const handleImageClick = (id) => {
+    setUploadedImages((prevImages) =>
+      prevImages.map((item) =>
+        item.id === id ? { ...item, isChoose: !item.isChoose } : item
+      )
+    );
+  };
 
-  console.log({ detailAlbum });
-  const { fetchedData: photos, refetch } = useGetAlbumInfo({
-    data: { userId, currentUserId, albumId: detailAlbum.id },
-  });
-  console.log({ photos });
-
-  const { isShowing: showModal, toggle: toggleUploadImage } = useModal();
-  const [showListOtherActions, setShowListOtherActions] = useState(false);
-  const clickOutsideRef = useRef(null);
-
-  const handleImageClick = (id) => {};
+  useEffect(() => {
+    const addIsChoose = uploadedImages?.map((item) => {
+      return { ...item, isChoose: false };
+    });
+    setUploadedImages(addIsChoose);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const modalContent = useCallback(() => {
     return (
@@ -75,7 +77,7 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
           gap: '10px',
         }}
       >
-        {/* {uploadedImages.map((item) => (
+        {uploadedImages.map((item) => (
           <div
             key={item.id}
             className={item.isChoose ? 'choose-image' : 'not-choose-image'}
@@ -90,14 +92,17 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
               onClick={() => handleImageClick(item.id)}
             />
           </div>
-        ))} */}
+        ))}
       </div>
     );
-  }, []);
+  }, [uploadedImages]);
 
-  const handleConfirmUpload = useCallback(() => {
+  // Add images choosen !!!!!!
+  const handleAddImage = useCallback(() => {
+    const choosenImage = uploadedImages.filter((item) => item.isChoose)
+    console.log(choosenImage, 'choosen images')
     toggleUploadImage();
-  }, [toggleUploadImage]);
+  }, [toggleUploadImage, uploadedImages]);
 
   const handleClose = useCallback(() => {
     toggleUploadImage();
@@ -117,8 +122,6 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
-  useEffect(() => {}, []);
 
   return useMemo(
     () => (
@@ -161,15 +164,10 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
           <div className="upload-new-album-image" onClick={toggleUploadImage}>
             + Add new Image
           </div>
-          {albumPost.map((item, index) => (
-            <div className="album-detail-image" key={index}>
-              <img src={item?.image.url} alt="" />
-            </div>
-          ))}
           {photos &&
             photos.albumInfo.map((item) => (
               <div className="album-detail-image" key={item.id}>
-                <img src={item.image.url} alt="" />
+                <img src={item?.image.url} alt="" />
               </div>
             ))}
         </div>
@@ -178,16 +176,15 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
           modalTitle="Add image to album"
           modalContent={modalContent()}
           handleClose={handleClose}
-          handleSavechanges={handleConfirmUpload}
+          handleSavechanges={handleAddImage}
           size="lg"
         />
       </div>
     ),
     [
-      albumPost,
       detailAlbum?.name,
       handleClose,
-      handleConfirmUpload,
+      handleAddImage,
       modalContent,
       photos,
       setComponentToRender,
