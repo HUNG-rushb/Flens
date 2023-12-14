@@ -41,3 +41,14 @@ export const GET_ALBUM_INFO = gql`
     }
   }
 `;
+
+export const NOT_IN_ALBUM = gql`
+  query PostNotInAlbum($data: NotInAlbumInfoInput!) {
+    postNotInAlbum(data: $data) {
+      image {
+        url
+      }
+      id
+    }
+  }
+`;

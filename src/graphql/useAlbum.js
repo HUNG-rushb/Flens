@@ -2,6 +2,7 @@ import {
   CREATE_ALBUM,
   GET_ALL_USER_ALBUM,
   GET_ALBUM_INFO,
+  NOT_IN_ALBUM,
 } from './queries/Album.js';
 import { useQuery, useMutation } from '@apollo/client';
 
@@ -44,6 +45,20 @@ export const useGetAlbumInfo = (queryPayload) => {
       console.log(data);
       // setAlbum(data.userAllAlbum[0]);
     },
+  });
+
+  return {
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+    refetch,
+  };
+};
+
+export const useGetNotInAlbumInfo = (queryPayload) => {
+  const { data, loading, error, refetch } = useQuery(NOT_IN_ALBUM, {
+    fetchPolicy: 'no-cache',
+    variables: queryPayload,
   });
 
   return {

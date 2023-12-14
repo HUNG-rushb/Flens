@@ -1,6 +1,7 @@
 import Modal from '../../../../components/Modal/Modal';
 import { useAuthState } from '../../../../context/AuthContext';
 import { useGetAlbumInfo } from '../../../../graphql/useAlbum';
+import { useGetNotInAlbumInfo } from '../../../../graphql/useAlbum';
 import useModal from '../../../../hooks/useModal.jsx';
 import './Portfolio.css';
 import React, {
@@ -21,6 +22,10 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
     data: { userId, currentUserId, albumId: detailAlbum.id },
   });
   console.log({ photos });
+  const { fetchedData: notInAlbumPhotos } = useGetNotInAlbumInfo({
+    data: { userId, albumId: detailAlbum.id },
+  });
+  console.log({ notInAlbumPhotos });
 
   const { isShowing: showModal, toggle: toggleUploadImage } = useModal();
   const [showListOtherActions, setShowListOtherActions] = useState(false);
