@@ -8,11 +8,13 @@ import Loading from '../../../../utils/useLoading';
 import { successfullNoty } from '../../../../utils/useNotify';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
   const { userId: visitedUserId } = useParams();
   console.log({ visitedUserId });
   const { id: userId } = useAuthState();
+  const navigate = useNavigate();
   const {
     fetchedData: userAlbums,
     isFetching,
@@ -21,8 +23,6 @@ const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
   } = useGetAllUserAlbum({
     userAllAlbumData: { userId: visitedUserId },
   });
-
-  console.log(userAlbums, 'user album');
 
   const { isShowing: openCreateAlbum, toggle: toggleCreateAlbum } = useModal();
   const [newAlbumTitle, setNewAlbumTitle] = useState('');
@@ -75,11 +75,28 @@ const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
     toggleCreateAlbum();
   }, [toggleCreateAlbum]);
 
+  const handleViewDetail = useCallback(
+    (album) => {
+      navigate(`/profile/${userId}`, {
+        state: {
+          posts: album?.posts,
+        },
+      });
+      setComponentToRender(1);
+      setDetailAlbum(album);
+    },
+    [navigate, setComponentToRender, setDetailAlbum, userId]
+  );
+
   return useMemo(
     () => (
       <div className="album">
         <div className="album-title">
-          <span>Album ({userAlbums ? userAlbums.userAllAlbum.length : 0})</span>
+          <span
+            style={{ fontSize: '20px', fontWeight: 600, paddingLeft: '5px' }}
+          >
+            Album ({userAlbums ? userAlbums.userAllAlbum.length : 0})
+          </span>
         </div>
 
         {userAlbums && (
@@ -97,14 +114,23 @@ const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
               <div
                 key={album.id}
                 className="child-album"
-                onClick={() => [setComponentToRender(1), setDetailAlbum(album)]}
+                onClick={() => handleViewDetail(album)}
               >
-                {album.posts.length > 0 ? (
-                  <img src={album.posts[0].image.url} alt="" />
+                {album?.posts[0] ? (
+                  <img
+                    src={album?.posts[0]?.image.url}
+                    width={210}
+                    height={210}
+                    style={{
+                      maxWidth: '210px',
+                      borderRadius: '10px',
+                      objectFit: 'cover',
+                    }}
+                    alt=""
+                  />
                 ) : (
                   <div className="child-album-background">No image</div>
                 )}
-
                 <span id="child-album-title">{album.name}</span>
               </div>
             ))}
@@ -129,13 +155,14 @@ const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
       fetchError?.message,
       handleClose,
       handleCreateAlbum,
+      handleViewDetail,
       isFetching,
       modalContent,
       openCreateAlbum,
-      setComponentToRender,
-      setDetailAlbum,
       toggleCreateAlbum,
       userAlbums,
+      userId,
+      visitedUserId,
     ]
   );
 };
