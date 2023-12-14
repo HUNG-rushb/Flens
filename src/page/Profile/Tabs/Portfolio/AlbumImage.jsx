@@ -7,9 +7,12 @@ import ErrorPopup from '../../../../utils/errorPopup';
 import Loading from '../../../../utils/useLoading';
 import { successfullNoty } from '../../../../utils/useNotify';
 import React, { useCallback, useMemo, useState } from 'react';
+import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
 const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
+  const { userId: visitedUserId } = useParams();
+  console.log({ visitedUserId });
   const { id: userId } = useAuthState();
   const navigate = useNavigate();
   const {
@@ -18,7 +21,7 @@ const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
     refetch,
     fetchError,
   } = useGetAllUserAlbum({
-    userAllAlbumData: { userId },
+    userAllAlbumData: { userId: visitedUserId },
   });
 
   const { isShowing: openCreateAlbum, toggle: toggleCreateAlbum } = useModal();
@@ -98,12 +101,14 @@ const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
 
         {userAlbums && (
           <div className="album-images">
-            <div>
-              <div className="new-album" onClick={toggleCreateAlbum}>
-                +
+            {visitedUserId === userId && (
+              <div>
+                <div className="new-album" onClick={toggleCreateAlbum}>
+                  +
+                </div>
+                <span id="child-album-title">Create album</span>
               </div>
-              <span id="child-album-title">Create album</span>
-            </div>
+            )}
 
             {userAlbums.userAllAlbum.map((album) => (
               <div
@@ -131,8 +136,11 @@ const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
             ))}
           </div>
         )}
+
         <Loading loading={isFetching} />
+
         {fetchError?.message && <ErrorPopup message={fetchError?.message} />}
+
         <Modal
           show={openCreateAlbum}
           modalTitle="Create new album"
@@ -153,6 +161,8 @@ const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
       openCreateAlbum,
       toggleCreateAlbum,
       userAlbums,
+      userId,
+      visitedUserId,
     ]
   );
 };

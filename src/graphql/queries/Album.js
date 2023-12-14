@@ -20,10 +20,23 @@ export const GET_ALL_USER_ALBUM = gql`
       name
       id
       posts {
+        id
+
         image {
-          id
           url
         }
+      }
+    }
+  }
+`;
+
+export const GET_ALBUM_INFO = gql`
+  query AlbumInfo($data: AlbumInfoInput!) {
+    albumInfo(data: $data) {
+      id
+      image {
+        url
+        id
       }
     }
   }

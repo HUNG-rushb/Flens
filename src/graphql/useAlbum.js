@@ -1,4 +1,8 @@
-import { CREATE_ALBUM, GET_ALL_USER_ALBUM } from './queries/Album.js';
+import {
+  CREATE_ALBUM,
+  GET_ALL_USER_ALBUM,
+  GET_ALBUM_INFO,
+} from './queries/Album.js';
 import { useQuery, useMutation } from '@apollo/client';
 
 export const useGetAllUserAlbum = (queryPayload, setAlbum = () => {}) => {
@@ -29,5 +33,23 @@ export const useCreateAlbumLazy = (cache) => {
     isFetching: loading,
     fetchedData: data,
     fetchError: error,
+  };
+};
+
+export const useGetAlbumInfo = (queryPayload) => {
+  const { data, loading, error, refetch } = useQuery(GET_ALBUM_INFO, {
+    fetchPolicy: 'no-cache',
+    variables: queryPayload,
+    onCompleted: (data) => {
+      console.log(data);
+      // setAlbum(data.userAllAlbum[0]);
+    },
+  });
+
+  return {
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+    refetch,
   };
 };

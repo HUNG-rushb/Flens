@@ -1,6 +1,6 @@
 import Modal from '../../../../components/Modal/Modal';
-import { useAuthState } from '../../../../context/AuthContext.js';
-import { useGetAllUserPost } from '../../../../graphql/usePost.js';
+import { useAuthState } from '../../../../context/AuthContext';
+import { useGetAlbumInfo } from '../../../../graphql/useAlbum';
 import useModal from '../../../../hooks/useModal.jsx';
 import './Portfolio.css';
 import React, {
@@ -51,17 +51,19 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
   const { id: currentUserId } = useAuthState();
   const location = useLocation();
   const albumPost = location?.state?.posts;
+  // import { useParams } from 'react-router';
+
+  console.log({ detailAlbum });
+  const { fetchedData: photos, refetch } = useGetAlbumInfo({
+    data: { userId, currentUserId, albumId: detailAlbum.id },
+  });
+  console.log({ photos });
+
   const { isShowing: showModal, toggle: toggleUploadImage } = useModal();
   const [showListOtherActions, setShowListOtherActions] = useState(false);
   const clickOutsideRef = useRef(null);
 
-  const handleImageClick = (id) => {
-    setUploadedImages((prevImages) =>
-      prevImages.map((item) =>
-        item.id === id ? { ...item, isChoose: !item.isChoose } : item
-      )
-    );
-  };
+  const handleImageClick = (id) => {};
 
   const modalContent = useCallback(() => {
     return (
@@ -73,7 +75,7 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
           gap: '10px',
         }}
       >
-        {uploadedImages.map((item) => (
+        {/* {uploadedImages.map((item) => (
           <div
             key={item.id}
             className={item.isChoose ? 'choose-image' : 'not-choose-image'}
@@ -88,16 +90,14 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
               onClick={() => handleImageClick(item.id)}
             />
           </div>
-        ))}
+        ))} */}
       </div>
     );
-  }, [uploadedImages]);
+  }, []);
 
   const handleConfirmUpload = useCallback(() => {
-    const chooseImageList = uploadedImages.filter((item) => item.isChoose);
-    console.log(chooseImageList, 'choosen list');
     toggleUploadImage();
-  }, [toggleUploadImage, uploadedImages]);
+  }, [toggleUploadImage]);
 
   const handleClose = useCallback(() => {
     toggleUploadImage();
@@ -118,9 +118,7 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
     };
   }, []);
 
-  useEffect(()=>{
-
-  }, [])
+  useEffect(() => {}, []);
 
   return useMemo(
     () => (
@@ -166,10 +164,16 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
           {albumPost.map((item, index) => (
             <div className="album-detail-image" key={index}>
               <img src={item?.image.url} alt="" />
-            </div>  
+            </div>
           ))}
+          {photos &&
+            photos.albumInfo.map((item) => (
+              <div className="album-detail-image" key={item.id}>
+                <img src={item.image.url} alt="" />
+              </div>
+            ))}
         </div>
-        <Modal  
+        <Modal
           show={showModal}
           modalTitle="Add image to album"
           modalContent={modalContent()}
@@ -185,6 +189,7 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
       handleClose,
       handleConfirmUpload,
       modalContent,
+      photos,
       setComponentToRender,
       showListOtherActions,
       showModal,
