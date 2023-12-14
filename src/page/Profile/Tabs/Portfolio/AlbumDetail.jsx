@@ -1,4 +1,6 @@
 import Modal from '../../../../components/Modal/Modal';
+import { useAuthState } from '../../../../context/AuthContext.js';
+import { useGetAllUserPost } from '../../../../graphql/usePost.js';
 import useModal from '../../../../hooks/useModal.jsx';
 import './Portfolio.css';
 import React, {
@@ -9,7 +11,7 @@ import React, {
   useState,
 } from 'react';
 import { ThreeDots, Trash } from 'react-bootstrap-icons';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
   const [uploadedImages, setUploadedImages] = useState([
@@ -45,6 +47,8 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
     },
   ]);
 
+  const userId = useParams();
+  const { id: currentUserId } = useAuthState();
   const location = useLocation();
   const albumPost = location?.state?.posts;
   const { isShowing: showModal, toggle: toggleUploadImage } = useModal();
@@ -114,6 +118,10 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
     };
   }, []);
 
+  useEffect(()=>{
+
+  }, [])
+
   return useMemo(
     () => (
       <div className="Album-detail-container">
@@ -163,7 +171,7 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
         </div>
         <Modal  
           show={showModal}
-          modalTitle="Upload image to album"
+          modalTitle="Add image to album"
           modalContent={modalContent()}
           handleClose={handleClose}
           handleSavechanges={handleConfirmUpload}
