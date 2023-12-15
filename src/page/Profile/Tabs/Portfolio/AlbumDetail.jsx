@@ -2,6 +2,7 @@ import Modal from '../../../../components/Modal/Modal';
 import { useAuthState } from '../../../../context/AuthContext.js';
 import { useGetAlbumInfo } from '../../../../graphql/useAlbum';
 import { useGetNotInAlbumInfo } from '../../../../graphql/useAlbum';
+import { useAddPhotoAlbum } from '../../../../graphql/useAlbum';
 import useModal from '../../../../hooks/useModal.jsx';
 import './Portfolio.css';
 import React, {
@@ -17,6 +18,7 @@ import { useParams } from 'react-router-dom';
 const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
   const { userId } = useParams();
   const { id: currentUserId } = useAuthState();
+  const { addNewPhotoToAlbum } = useAddPhotoAlbum();
   const { fetchedData: photos, refetch } = useGetAlbumInfo({
     data: { userId, currentUserId, albumId: detailAlbum.id },
   });

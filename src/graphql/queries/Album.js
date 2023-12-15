@@ -52,3 +52,17 @@ export const NOT_IN_ALBUM = gql`
     }
   }
 `;
+
+export const ADD_PHOTO_TO_ALBUM = gql`
+  mutation AddNewPhotoToAlbum($data: UpdateAlbumInput!) {
+    addNewPhotoToAlbum(data: $data) {
+      id
+      posts {
+        id
+        image {
+          url
+        }
+      }
+    }
+  }
+`;

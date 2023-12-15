@@ -3,6 +3,7 @@ import {
   GET_ALL_USER_ALBUM,
   GET_ALBUM_INFO,
   NOT_IN_ALBUM,
+  ADD_PHOTO_TO_ALBUM,
 } from './queries/Album.js';
 import { useQuery, useMutation } from '@apollo/client';
 
@@ -66,5 +67,21 @@ export const useGetNotInAlbumInfo = (queryPayload) => {
     fetchedData: data,
     fetchError: error,
     refetch,
+  };
+};
+
+export const useAddPhotoAlbum = (cache) => {
+  const [addNewPhotoToAlbum, { data, loading, error }] = useMutation(
+    ADD_PHOTO_TO_ALBUM,
+    {
+      fetchPolicy: cache ? undefined : 'no-cache',
+    }
+  );
+
+  return {
+    addNewPhotoToAlbum,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
   };
 };
