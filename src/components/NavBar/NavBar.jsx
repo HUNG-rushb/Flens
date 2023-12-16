@@ -80,7 +80,7 @@ const NavBar = () => {
       console.log('Receive foreground: ', a);
 
       if (a.likedUserId) {
-        console.log('ok');
+        // console.log('ok');
         successfullNoty('like', true);
       } else if (a.follower.userFollower.includes(userId)) {
         successfullNoty('new post');

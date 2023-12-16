@@ -1,6 +1,5 @@
 import Page from '../../components/utils/Page';
 import { useAuthState } from '../../context/AuthContext';
-import { getMessagingToken, onMessageListener } from '../../firebase';
 import { useGetNotis } from '../../graphql/useNoti';
 import unixToDateTime from '../../utils/unixToDateTime.js';
 import LeftContent from './LeftContent.jsx';
@@ -14,17 +13,24 @@ const Notification = () => {
   const { id: userId } = useAuthState();
   const navigate = useNavigate();
   const { fetchedData: notis, refetch } = useGetNotis({ data: { userId } });
-  console.log({ notis }, 'noti'); 
+  // console.log({ notis }, 'noti');
 
   const renderTypeNoty = (item) => {
     if (item?.type === 'POST_LIKED') {
       return (
-        <span id='noty-type'>
+        <span id="noty-type">
           {' '}
-          liked <HeartFill color="red" size={25} /> your post. "{item.postTitle}"
+          liked <HeartFill color="red" size={25} /> your post. "{item.postTitle}
+          "
         </span>
       );
-    } else return <span id='noty-type'> has uploaded a new post. "{item?.postTitle}"</span>;
+    } else
+      return (
+        <span id="noty-type">
+          {' '}
+          has uploaded a new post. "{item?.postTitle}"
+        </span>
+      );
   };
 
   const handleViewProfile = useCallback(() => {
@@ -75,10 +81,10 @@ const Notification = () => {
                           <div id="noty-time">
                             {unixToDateTime(item?.createAt || '')}
                           </div>
-                        </div> 
+                        </div>
                       </div>
-                      <div>  
-                        <img   
+                      <div>
+                        <img
                           src={item?.postImage}
                           width={70}
                           height={70}

@@ -30,19 +30,13 @@
 //     channel.postMessage(payload);
 //   });
 // }
-// https://viblo.asia/p/reactjs-push-notification-su-dung-firebase-cloud-messaging-yZjJYE9XJOE
-import firebase from 'firebase/app/dist/index.esm.js';
-import 'firebase/messaging/dist/index.esm.js';
 
 // Import the functions you need from the SDKs you need
 // Scripts for firebase and firebase messaging
-// importScripts('https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js');
-// importScripts('https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js');
+importScripts('https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js');
 
-const vapidKey =
-  'BDdytKBVZZB-irKRkBlQOnOyoLcfgB6bNKGUmnaISHB-4gS4IiNL_i-1QtNikVUr5uphGWFC0PjP7Hp6rklBHcE';
-
-export const firebaseConfig = {
+const firebaseConfig = {
   apiKey: 'AIzaSyDFNig0B0NfjfafWksbULgXcGvOhagUBBo',
   authDomain: 'noti-flens.firebaseapp.com',
   databaseURL:
@@ -54,41 +48,18 @@ export const firebaseConfig = {
   measurementId: 'G-FZ37LB7Q55',
 };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-} else {
-  firebase.app(); // if already initialized, use that one
-}
+firebase.initializeApp(firebaseConfig);
 
-let messaging;
+// Retrieve firebase messaging
+const messaging = firebase.messaging();
 
-if (typeof window !== 'undefined') {
-  if (firebase.messaging.isSupported()) {
-    messaging = firebase.messaging();
-  }
-}
+messaging.onBackgroundMessage((payload) => {
+  console.log('Received background message ', payload);
 
-export const getMessagingToken = async () => {
-  let currentToken = '';
+  // const notificationTitle = payload.notification.title;
+  // const notificationOptions = {
+  //   body: payload.notification.body,
+  // };
 
-  if (!messaging) return;
-
-  try {
-    currentToken = await messaging.getToken({
-      vapidKey: vapidKey,
-    });
-
-    console.log('FCM registration token', currentToken);
-  } catch (error) {
-    console.log('An error occurred while retrieving token. ', error);
-  }
-
-  return currentToken;
-};
-
-export const onMessageListener = () =>
-  new Promise((resolve) => {
-    messaging.onMessage((payload) => {
-      resolve(payload);
-    });
-  });
+  // self.registration.showNotification(notificationTitle, notificationOptions);
+});
