@@ -81,7 +81,7 @@ const NavBar = () => {
 
       if (a.likedUserId) {
         console.log('ok');
-        successfullNoty('like');
+        successfullNoty('like', true);
       } else if (a.follower.userFollower.includes(userId)) {
         successfullNoty('new post');
       }

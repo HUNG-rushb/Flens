@@ -1,4 +1,8 @@
 import Modal from '../../../../components/Modal/Modal';
+import { useAuthState } from '../../../../context/AuthContext.js';
+import { useGetAlbumInfo } from '../../../../graphql/useAlbum';
+import { useGetNotInAlbumInfo } from '../../../../graphql/useAlbum';
+import { useAddPhotoAlbum } from '../../../../graphql/useAlbum';
 import useModal from '../../../../hooks/useModal.jsx';
 import './Portfolio.css';
 import React, {
@@ -9,55 +13,52 @@ import React, {
   useState,
 } from 'react';
 import { ThreeDots, Trash } from 'react-bootstrap-icons';
+import { useParams } from 'react-router-dom';
 
 const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
+  const { userId } = useParams();
+  const { id: currentUserId } = useAuthState();
+  const { addNewPhotoToAlbum } = useAddPhotoAlbum();
+  const { fetchedData: photos, refetch } = useGetAlbumInfo({
+    data: { userId, currentUserId, albumId: detailAlbum.id },
+  });
+  console.log({ photos });
+  const { fetchedData: notInAlbumPhotos } = useGetNotInAlbumInfo({
+    data: { userId, albumId: detailAlbum.id },
+  });
+  console.log({ notInAlbumPhotos });
+
+  const { isShowing: showModal, toggle: toggleUploadImage } = useModal();
+  const [showListOtherActions, setShowListOtherActions] = useState(false);
+  const clickOutsideRef = useRef(null);
+
   const [uploadedImages, setUploadedImages] = useState([
     {
       id: 1,
       image:
         'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-      isChoose: false,
     },
     {
       id: 2,
       image:
         'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-      isChoose: false,
     },
     {
       id: 3,
       image:
         'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-      isChoose: false,
     },
     {
       id: 4,
       image:
         'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-      isChoose: false,
     },
     {
       id: 5,
       image:
         'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-      isChoose: false,
     },
   ]);
-
-  const fakeData = useMemo(
-    () => [
-      'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-      'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-      'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-      'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-      'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-    ],
-    []
-  );
-
-  const { isShowing: showModal, toggle: toggleUploadImage } = useModal();
-  const [showListOtherActions, setShowListOtherActions] = useState(false);
-  const clickOutsideRef = useRef(null);
 
   const handleImageClick = (id) => {
     setUploadedImages((prevImages) =>
@@ -66,6 +67,14 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
       )
     );
   };
+
+  useEffect(() => {
+    const addIsChoose = uploadedImages?.map((item) => {
+      return { ...item, isChoose: false };
+    });
+    setUploadedImages(addIsChoose);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const modalContent = useCallback(() => {
     return (
@@ -97,9 +106,10 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
     );
   }, [uploadedImages]);
 
-  const handleConfirmUpload = useCallback(() => {
-    const chooseImageList = uploadedImages.filter((item) => item.isChoose);
-    console.log(chooseImageList, 'choosen list');
+  // Add images choosen !!!!!!
+  const handleAddImage = useCallback(() => {
+    const choosenImage = uploadedImages.filter((item) => item.isChoose);
+    console.log(choosenImage, 'choosen images');
     toggleUploadImage();
   }, [toggleUploadImage, uploadedImages]);
 
@@ -137,6 +147,13 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
           <span id="album-detail-title">{detailAlbum?.name}</span>
           <ThreeDots
             size={28}
+            style={{
+              opacity: 1,
+              cursor: 'pointer',
+              ':hover': {
+                opacity: 0.7,
+              },
+            }}
             onClick={() => setShowListOtherActions(true)}
             ref={clickOutsideRef}
           />
@@ -156,28 +173,29 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
           <div className="upload-new-album-image" onClick={toggleUploadImage}>
             + Add new Image
           </div>
-          {fakeData.map((item, index) => (
-            <div className="album-detail-image" key={index}>
-              <img src={item} alt="" />
-            </div>
-          ))}
+          {photos &&
+            photos.albumInfo.map((item) => (
+              <div className="album-detail-image" key={item.id}>
+                <img src={item?.image.url} alt="" />
+              </div>
+            ))}
         </div>
         <Modal
           show={showModal}
-          modalTitle="Upload image to album"
+          modalTitle="Add image to album"
           modalContent={modalContent()}
           handleClose={handleClose}
-          handleSavechanges={handleConfirmUpload}
+          handleSavechanges={handleAddImage}
           size="lg"
         />
       </div>
     ),
     [
       detailAlbum?.name,
-      fakeData,
       handleClose,
-      handleConfirmUpload,
+      handleAddImage,
       modalContent,
+      photos,
       setComponentToRender,
       showListOtherActions,
       showModal,

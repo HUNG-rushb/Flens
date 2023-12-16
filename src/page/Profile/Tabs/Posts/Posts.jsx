@@ -18,7 +18,6 @@ const ProfilePosts = () => {
 
   const { posts, hasNextPage, isFetching, fetchError, loadNew } =
     useGetAllUserPost(userId, currentUserId);
-  console.log({ posts });
 
   const totalPost = useMemo(() => posts.length, [posts.length]);
   const totalLike = useMemo(() => {
@@ -58,7 +57,7 @@ const ProfilePosts = () => {
             {posts.map((item, idx) => {
               return (
                 <Post
-                  key={'post_' + item.node.id}
+                  key={'posts_' + item.node.id}
                   item={item.node}
                   showImageDetail={showImageDetail}
                   toggleImageDetail={toggleImageDetail}
