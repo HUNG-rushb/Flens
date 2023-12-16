@@ -383,7 +383,7 @@ const UploadImage = ({ contestId = '' }) => {
       postInfor.aperture,
       postInfor.camera,
       postInfor.caption,
-      postInfor.copyright,  
+      postInfor.copyright,
       postInfor.focalLength,
       postInfor.iso,
       postInfor.lens,
@@ -467,13 +467,15 @@ const UploadImage = ({ contestId = '' }) => {
                     </div>
                     <div className="modal-upload-right">
                       <div className="modal-upload-details">
-                        {inputData.map((item) =>
+                        {inputData.map((item, idx) =>
                           renderInputField(
                             item.label,
                             item.placeholder,
                             item.value,
                             dispatch,
-                            'UPDATE_POST_FIELD'
+                            'UPDATE_POST_FIELD',
+                            'post',
+                            idx
                           )
                         )}
                         <div>
@@ -535,9 +537,10 @@ const UploadImage = ({ contestId = '' }) => {
                           setTags,
                           tag,
                           setTag,
-                          handleKeyDown
+                          handleKeyDown,
+                          'post'
                         )}
-                        {InputDataBySelect.map((item) =>
+                        {InputDataBySelect.map((item, idx) =>
                           renderAddItemBySelect(
                             item.label,
                             item.Array,
@@ -545,7 +548,9 @@ const UploadImage = ({ contestId = '' }) => {
                             item.value,
                             item.setValue,
                             item.options,
-                            item.handleSelect
+                            item.handleSelect,
+                            'post',
+                            idx
                           )
                         )}
                       </div>

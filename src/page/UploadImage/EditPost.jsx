@@ -224,7 +224,11 @@ const EditPost = ({ show, toggleShow, post }) => {
 
   return useMemo(
     () => (
-      <div className="modal-edit-overlay" hidden={!show} key={post?.id + Math.random()}>
+      <div
+        className="modal-edit-overlay"
+        hidden={!show}
+        key={post?.id + Math.random()}
+      >
         <div className="modal-edit-container">
           <div className="modal-upload-content">
             <div className="modal-upload-left">
@@ -238,7 +242,9 @@ const EditPost = ({ show, toggleShow, post }) => {
                     item.placeholder,
                     item.value,
                     dispatch,
-                    'UPDATE_POST_FIELD'
+                    'UPDATE_POST_FIELD',
+                    'edit',
+                    post?.id
                   )
                 )}
                 <div>
@@ -294,10 +300,11 @@ const EditPost = ({ show, toggleShow, post }) => {
                   setTags,
                   tag,
                   setTag,
-                  handleKeyDown
+                  handleKeyDown,
+                  'edit',
                 )}
 
-                {InputDataBySelect.map((item) =>
+                {InputDataBySelect.map((item, idx) =>
                   renderAddItemBySelect(
                     item.label,
                     item.Array,
@@ -305,7 +312,9 @@ const EditPost = ({ show, toggleShow, post }) => {
                     item.value,
                     item.setValue,
                     item.options,
-                    item.handleSelect
+                    item.handleSelect,
+                    'edit',
+                    idx
                   )
                 )}
               </div>
@@ -334,7 +343,7 @@ const EditPost = ({ show, toggleShow, post }) => {
     ),
     [
       show,
-      post.id,
+      post?.id,
       post?.image?.url,
       inputData,
       viewStatus,

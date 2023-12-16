@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 const AlbumImage = ({ setComponentToRender, setDetailAlbum }) => {
   const { userId: visitedUserId } = useParams();
-  console.log({ visitedUserId });
+  // console.log({ visitedUserId });
   const { id: userId } = useAuthState();
   const navigate = useNavigate();
   const {

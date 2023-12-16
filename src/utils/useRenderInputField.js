@@ -1,13 +1,19 @@
-// import { removeItemFromArray } from './removeItemFromArray.js';
-
-import { handleInputChange } from "../context/actions/InputChangeAction.js";
+import { handleInputChange } from '../context/actions/InputChangeAction.js';
 
 export const removeItemFromArray = (removeId, array, setArray) => {
   const removeItem = array.filter((item) => item.id !== removeId);
   setArray(removeItem);
 };
 
-export const renderInputField = (label, placeholder, value, dispatch, type) => {
+export const renderInputField = (
+  label,
+  placeholder,
+  value,
+  dispatch,
+  type,
+  typeCheck,
+  idx
+) => {
   const convertLabel = () => {
     const words = label?.split(' ');
 
@@ -34,7 +40,7 @@ export const renderInputField = (label, placeholder, value, dispatch, type) => {
       break;
   }
   return (
-    <div key={label + type}>
+    <div key={typeCheck + idx + Math.random()}>
       <label>{label}</label>
       <input
         type="text"
@@ -59,10 +65,11 @@ export const renderInputTags = (
   setTags,
   tag,
   setTag,
-  handleKeyDown
+  handleKeyDown,
+  typeCheck
 ) => {
   return (
-    <div key={label}>
+    <div key={typeCheck + Math.random()}>
       <label>{label}</label>
       {tagArray?.length > 0 && (
         <div className="all-tags">
@@ -104,10 +111,12 @@ export const renderAddItemBySelect = (
   value,
   setValue,
   options,
-  handleSelecItem
+  handleSelecItem,
+  typeCheck,
+  idx
 ) => {
   return (
-    <div className="all-categories" key={label + value}>
+    <div className="all-categories" key={typeCheck + idx + Math.random()}>
       <label>{label}</label>
       {Array.length > 0 && (
         <div className="categories-item">
