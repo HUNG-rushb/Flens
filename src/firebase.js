@@ -1,7 +1,6 @@
 // https://viblo.asia/p/reactjs-push-notification-su-dung-firebase-cloud-messaging-yZjJYE9XJOE
 import firebase from 'firebase/app/dist/index.esm.js';
 import 'firebase/messaging/dist/index.esm.js';
-import { useEffect } from 'react';
 
 // Import the functions you need from the SDKs you need
 // Scripts for firebase and firebase messaging
