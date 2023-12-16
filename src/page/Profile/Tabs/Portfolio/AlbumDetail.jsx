@@ -4,6 +4,8 @@ import { useGetAlbumInfo } from '../../../../graphql/useAlbum';
 import { useGetNotInAlbumInfo } from '../../../../graphql/useAlbum';
 import { useAddPhotoAlbum } from '../../../../graphql/useAlbum';
 import useModal from '../../../../hooks/useModal.jsx';
+import ErrorPopup from '../../../../utils/errorPopup.js';
+import Loading from '../../../../utils/useLoading.js';
 import './Portfolio.css';
 import React, {
   useCallback,
@@ -13,108 +15,86 @@ import React, {
   useState,
 } from 'react';
 import { ThreeDots, Trash } from 'react-bootstrap-icons';
+import Masonry from 'react-layout-masonry';
 import { useParams } from 'react-router-dom';
 
 const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
   const { userId } = useParams();
   const { id: currentUserId } = useAuthState();
   const { addNewPhotoToAlbum } = useAddPhotoAlbum();
-  const { fetchedData: photos, refetch } = useGetAlbumInfo({
+  const {
+    fetchedData: photos,
+    isFetching: loadAlbumPhotos,
+    fetchError: fetchAlbumError,
+    refetch,
+  } = useGetAlbumInfo({
     data: { userId, currentUserId, albumId: detailAlbum.id },
   });
-  console.log({ photos });
+  // console.log({ photos });
   const { fetchedData: notInAlbumPhotos } = useGetNotInAlbumInfo({
     data: { userId, albumId: detailAlbum.id },
   });
-  console.log({ notInAlbumPhotos });
 
   const { isShowing: showModal, toggle: toggleUploadImage } = useModal();
   const [showListOtherActions, setShowListOtherActions] = useState(false);
   const clickOutsideRef = useRef(null);
+  const [choosenImages, setChoosenImages] = useState([]);
 
-  const [uploadedImages, setUploadedImages] = useState([
-    {
-      id: 1,
-      image:
-        'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
+  const handleImageClick = useCallback(
+    (item) => {
+      const isImageChoosen = choosenImages.some(
+        (checkItem) => checkItem.id === item.id
+      );
+      if (isImageChoosen) {
+        setChoosenImages((prev) =>
+          prev.filter((prevItem) => prevItem.id !== item.id)
+        );
+      } else {
+        setChoosenImages((prev) => [...prev, item]);
+      }
     },
-    {
-      id: 2,
-      image:
-        'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-    },
-    {
-      id: 3,
-      image:
-        'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-    },
-    {
-      id: 4,
-      image:
-        'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-    },
-    {
-      id: 5,
-      image:
-        'https://images.pexels.com/photos/17168353/pexels-photo-17168353/free-photo-of-bay-m-c-bu-i-sang-khong-khi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-    },
-  ]);
-
-  const handleImageClick = (id) => {
-    setUploadedImages((prevImages) =>
-      prevImages.map((item) =>
-        item.id === id ? { ...item, isChoose: !item.isChoose } : item
-      )
-    );
-  };
-
-  useEffect(() => {
-    const addIsChoose = uploadedImages?.map((item) => {
-      return { ...item, isChoose: false };
-    });
-    setUploadedImages(addIsChoose);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    [choosenImages]
+  );
 
   const modalContent = useCallback(() => {
     return (
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'auto auto auto',
-          placeItems: 'center',
-          gap: '10px',
-        }}
+      <Masonry
+        columns={3}
+        gap={10}
+        style={{ height: '400px', overflowY: 'scroll', overflowX: 'hidden' }}
       >
-        {uploadedImages.map((item) => (
+        {notInAlbumPhotos?.postNotInAlbum.map((item) => (
           <div
-            key={item.id}
-            className={item.isChoose ? 'choose-image' : 'not-choose-image'}
+            key={item?.id}
+            className={
+              choosenImages.some((checkItem) => checkItem.id === item.id)
+                ? 'choose-image'
+                : 'not-choose-image'
+            }
           >
             <img
-              src={item.image}
+              src={item?.image.url}
               alt=""
               style={{
                 maxWidth: '250px',
                 width: '100%',
               }}
-              onClick={() => handleImageClick(item.id)}
+              onClick={() => handleImageClick(item)}
             />
           </div>
         ))}
-      </div>
+      </Masonry>
     );
-  }, [uploadedImages]);
+  }, [choosenImages, handleImageClick, notInAlbumPhotos?.postNotInAlbum]);
 
-  // Add images choosen !!!!!!
   const handleAddImage = useCallback(() => {
-    const choosenImage = uploadedImages.filter((item) => item.isChoose);
-    console.log(choosenImage, 'choosen images');
     toggleUploadImage();
-  }, [toggleUploadImage, uploadedImages]);
+    setChoosenImages([]);
+  }, [toggleUploadImage]);
 
   const handleClose = useCallback(() => {
     toggleUploadImage();
+    setChoosenImages([]);
   }, [toggleUploadImage]);
 
   useEffect(() => {
@@ -134,72 +114,98 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
 
   return useMemo(
     () => (
-      <div className="Album-detail-container">
-        <div>
-          <button
-            id="back-to-portfolio"
-            onClick={() => setComponentToRender(0)}
-          >
-            Back
-          </button>
-        </div>
-        <div className="album-detail-header">
-          <span id="album-detail-title">{detailAlbum?.name}</span>
-          <ThreeDots
-            size={28}
-            style={{
-              opacity: 1,
-              cursor: 'pointer',
-              ':hover': {
-                opacity: 0.7,
-              },
-            }}
-            onClick={() => setShowListOtherActions(true)}
-            ref={clickOutsideRef}
+      <>
+        <div className="Album-detail-container">
+          <div>
+            <button
+              id="back-to-portfolio"
+              onClick={() => setComponentToRender(0)}
+            >
+              Back
+            </button>
+          </div>
+          <div className="album-detail-header">
+            <span
+              style={{
+                fontSize: 20,
+                fontWeight: 600,
+              }}
+            >
+              {detailAlbum?.name}
+            </span>
+            <ThreeDots
+              size={28}
+              style={{
+                opacity: 1,
+                cursor: 'pointer',
+                ':hover': {
+                  opacity: 0.7,
+                },
+              }}
+              onClick={() => setShowListOtherActions(true)}
+              ref={clickOutsideRef}
+            />
+            <div
+              className="list-album-detail-actions"
+              hidden={!showListOtherActions}
+            >
+              <ul>
+                <li onClick={() => setShowListOtherActions(false)}>
+                  <Trash color="red" />
+                  Delete album
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="album-detail-images">
+            <div className="upload-new-album-image" onClick={toggleUploadImage}>
+              + Add new Image
+            </div>
+            {photos &&
+              photos.albumInfo.map((item) => (
+                <div key={item.id}>
+                  <img
+                    src={item?.image.url}
+                    width={270}
+                    height={270}
+                    style={{
+                      maxWidth: '270px',
+                      objectFit: 'cover',
+                      borderRadius: '10px',
+                    }}
+                    alt=""
+                  />
+                </div>
+              ))}
+          </div>
+          <Modal
+            show={showModal}
+            modalTitle="Add photos to album"
+            modalContent={modalContent()}
+            handleClose={handleClose}
+            handleSavechanges={handleAddImage}
+            size="lg"
+            submitText="Add photos"
           />
-          <div
-            className="list-album-detail-actions"
-            hidden={!showListOtherActions}
-          >
-            <ul>
-              <li onClick={() => setShowListOtherActions(false)}>
-                <Trash color="red" />
-                Delete album
-              </li>
-            </ul>
-          </div>
         </div>
-        <div className="album-detail-images">
-          <div className="upload-new-album-image" onClick={toggleUploadImage}>
-            + Add new Image
-          </div>
-          {photos &&
-            photos.albumInfo.map((item) => (
-              <div className="album-detail-image" key={item.id}>
-                <img src={item?.image.url} alt="" />
-              </div>
-            ))}
-        </div>
-        <Modal
-          show={showModal}
-          modalTitle="Add image to album"
-          modalContent={modalContent()}
-          handleClose={handleClose}
-          handleSavechanges={handleAddImage}
-          size="lg"
-        />
-      </div>
+        <Loading loading={loadAlbumPhotos} />
+        {fetchAlbumError?.message && (
+          <ErrorPopup message={fetchAlbumError?.message} />
+        )}
+      </>
     ),
     [
       detailAlbum?.name,
+      showListOtherActions,
+      toggleUploadImage,
+      photos,
+      showModal,
+      modalContent,
       handleClose,
       handleAddImage,
-      modalContent,
-      photos,
+      loadAlbumPhotos,
+      fetchAlbumError?.message,
       setComponentToRender,
-      showListOtherActions,
-      showModal,
-      toggleUploadImage,
     ]
   );
 };

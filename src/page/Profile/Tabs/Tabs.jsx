@@ -84,7 +84,7 @@ const TabMenu = ({ userId, userProfileData, posts, currentUserId }) => {
 
   const handleClickMessageIntab = useCallback(() => {
     navigate('/message', { state: { userId, isNewChat } });
-  }, [isNewChat]);
+  }, [isNewChat, navigate, userId]);
 
   return useMemo(
     () => (

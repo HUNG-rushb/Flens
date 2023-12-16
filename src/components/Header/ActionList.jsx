@@ -342,7 +342,7 @@ const MoreActionList = ({
           handleClose={handleClose}
           handleSavechanges={handleSavechanges}
         />
-        <EditPost show={showEditPost} post={item} toggleShow={toggleEditPost} />
+        <EditPost show={showEditPost} post={item} toggleShow={toggleEditPost} key={Math.random()} />
       </>
     ),
     [

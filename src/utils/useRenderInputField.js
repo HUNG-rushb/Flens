@@ -34,7 +34,7 @@ export const renderInputField = (label, placeholder, value, dispatch, type) => {
       break;
   }
   return (
-    <div key={label}>
+    <div key={label + type}>
       <label>{label}</label>
       <input
         type="text"
@@ -69,7 +69,7 @@ export const renderInputTags = (
           {tagArray.map((item) => {
             return (
               <div
-                key={item.id}
+                key={item?.id}
                 onClick={() => removeItemFromArray(item.id, tagArray, setTags)}
               >
                 <span id="remove-tag">X</span>

@@ -224,8 +224,8 @@ const EditPost = ({ show, toggleShow, post }) => {
 
   return useMemo(
     () => (
-      <div className="modal-edit-overlay" hidden={!show} key={post?.id}>
-        <div className="modal-edit-container" key={post?.id}>
+      <div className="modal-edit-overlay" hidden={!show} key={post?.id + Math.random()}>
+        <div className="modal-edit-container">
           <div className="modal-upload-content">
             <div className="modal-upload-left">
               <img src={post?.image?.url} alt="" />
