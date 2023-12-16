@@ -6,6 +6,7 @@
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 // const HashOutput = require('webpack-plugin-hash-output');
 const { ModuleFederationPlugin } = require('webpack').container;
 const path = require('path');
@@ -16,7 +17,11 @@ const packageJson = require('./package.json');
 module.exports = {
   // mode: 'development',
   // uniqueName: 'images-social',
-  entry: path.resolve(__dirname, 'src', 'index.js'),
+  entry: [
+    // path.resolve(__dirname, 'src', 'index.js'),
+    './src/index.js',
+    './public/firebase-messaging-sw.js',
+  ],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].bundle.js',
@@ -70,6 +75,9 @@ module.exports = {
       template: './public/index.html',
       // filename: 'index.html',
       manifest: './public/manifest.json',
+    }),
+    new CopyPlugin({
+      patterns: [{ from: 'firebase', to: '' }],
     }),
     // new Dotenv(),
     // new HashOutput(),
