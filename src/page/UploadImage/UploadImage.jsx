@@ -1,7 +1,6 @@
 import Button from '../../components/Button/Button';
 import Page from '../../components/utils/Page';
 import { useAuthState } from '../../context/AuthContext.js';
-import { handleInputChange } from '../../context/actions/InputChangeAction.js';
 import {
   PostInfoReducer,
   initialPostInfo,
@@ -95,8 +94,12 @@ const UploadImage = ({ contestId = '' }) => {
     setAlbum
   );
 
-  const { createPost, isFetching, fetchedData, fetchError } =
-    useCreatePostLazy();
+  const isDisabledButton = useMemo(
+    () => postInfor.title && postInfor.copyright,
+    [postInfor.copyright, postInfor.title]
+  );
+
+  const { createPost, isFetching, fetchError } = useCreatePostLazy();
 
   const { updateLevel } = useUpdatePointPostingLazy();
   const { createTag } = useCreateTag();
@@ -216,7 +219,6 @@ const UploadImage = ({ contestId = '' }) => {
     [toggleShowUpload]
   );
 
-  // Create Post
   const handleConfirmUpload = useCallback(
     async (event) => {
       event.preventDefault();
@@ -474,7 +476,6 @@ const UploadImage = ({ contestId = '' }) => {
                             item.value,
                             dispatch,
                             'UPDATE_POST_FIELD',
-                            'post',
                             idx
                           )
                         )}
@@ -487,10 +488,8 @@ const UploadImage = ({ contestId = '' }) => {
                                 <input
                                   type="radio"
                                   name="mode"
-                                  // value="Public"
                                   checked={viewStatus === 'PUBLIC'}
                                   onChange={(e) => {
-                                    // e.preventDefault();
                                     handleChangeMode('PUBLIC');
                                   }}
                                 />
@@ -503,10 +502,8 @@ const UploadImage = ({ contestId = '' }) => {
                                 <input
                                   type="radio"
                                   name="mode"
-                                  // value="Private"
                                   checked={viewStatus === 'PRIVATE'}
                                   onChange={(e) => {
-                                    // e.preventDefault();
                                     handleChangeMode('PRIVATE');
                                   }}
                                 />
@@ -519,10 +516,8 @@ const UploadImage = ({ contestId = '' }) => {
                                 <input
                                   type="radio"
                                   name="mode"
-                                  // value="Private"
                                   checked={viewStatus === 'ONLY_FOLLOWERS'}
                                   onChange={(e) => {
-                                    // e.preventDefault();
                                     handleChangeMode('ONLY_FOLLOWERS');
                                   }}
                                 />
@@ -569,6 +564,7 @@ const UploadImage = ({ contestId = '' }) => {
                             text="Upload"
                             type="modal-save-btn"
                             onClick={(event) => handleConfirmUpload(event)}
+                            disabled={!isDisabledButton}
                           />
                         </div>
                       </div>
@@ -584,6 +580,7 @@ const UploadImage = ({ contestId = '' }) => {
     ),
     [
       handleFileChange,
+      isDisabledButton,
       showUpload,
       previewImage,
       inputData,

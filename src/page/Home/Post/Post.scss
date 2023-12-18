@@ -148,18 +148,13 @@
           }
         }
 
-        .right-action-wrapper {
-          display: flex;
-          flex-direction: row;
+        #reply-icon {
+          opacity: 1;
+          cursor: pointer;
+        }
 
-          #reply-icon {
-            opacity: 1;
-            cursor: pointer;
-          }
-
-          #reply-icon:hover {
-            opacity: 0.7;
-          }
+        #reply-icon:hover {
+          opacity: 0.7;
         }
       }
 

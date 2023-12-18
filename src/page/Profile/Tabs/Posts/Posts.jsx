@@ -57,7 +57,7 @@ const ProfilePosts = () => {
             {posts.map((item, idx) => {
               return (
                 <Post
-                  key={'posts_' + item.node.id}
+                  key={'posts_' + item.node.id + idx}
                   item={item.node}
                   showImageDetail={showImageDetail}
                   toggleImageDetail={toggleImageDetail}

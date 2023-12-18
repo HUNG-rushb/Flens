@@ -1,5 +1,5 @@
 import { useAuthState } from '../../context/AuthContext';
-import ChatApp from 'chat/ChatApp';
+// import ChatApp from 'chat/ChatApp';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -16,10 +16,10 @@ const MessageChatApp = () => {
   //   'in message page of flens'
   // );
 
-  return (
-    <ChatApp userId={currentUserId} anotherUser={{ anotherUser, isNewChat }} />
-  );
-  // return <p>ok</p>;
+  // return (
+    // <ChatApp userId={currentUserId} anotherUser={{ anotherUser, isNewChat }} />
+  // );
+  return <p>ok</p>;
 };
 
 export default MessageChatApp;

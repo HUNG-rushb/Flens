@@ -10,6 +10,8 @@ import {
   useGetContestPosts,
 } from '../../../../graphql/useContest';
 import useModal from '../../../../hooks/useModal';
+import ErrorPopup from '../../../../utils/errorPopup';
+import Loading from '../../../../utils/useLoading';
 import Post from '../../../Home/Post/Post';
 import './ContestDetail.scss';
 import RankingBoard from './RankingBoard';
@@ -29,10 +31,14 @@ const ContestDetail = () => {
   const { contestId } = useParams();
   const { id: userId } = useAuthState();
   const fileInputRef = useRef(null);
-  const { fetchedData: contestInfo, refetch: contestInfoRefetch } =
-    useGetContestInfo({
-      contestInfoData: { contestId },
-    });
+  const {
+    fetchedData: contestInfo,
+    isFetching: loadContest,
+    fetchError: loadContestError,
+    refetch: contestInfoRefetch,
+  } = useGetContestInfo({
+    contestInfoData: { contestId },
+  });
   // console.log({ contestInfo });
 
   const { posts, hasNextPage, isFetching, fetchError, loadNew, refetch } =
@@ -289,6 +295,10 @@ const ContestDetail = () => {
             </div>
           </div>
         </div>
+        <Loading loading={loadContest} />
+        {loadContestError?.message && (
+          <ErrorPopup message={loadContestError?.message} />
+        )}
 
         <Modal
           show={showModal}
@@ -324,13 +334,19 @@ const ContestDetail = () => {
       </>
     ),
     [
-      contestInfo,
-      userId,
-      handleFileChange,
+      contestInfo?.contestInfo.contestImageURL,
+      contestInfo?.contestInfo.name,
+      contestInfo?.contestInfo.description,
+      contestInfo?.contestInfo.startDate,
+      contestInfo?.contestInfo.endDate,
+      contestInfo?.contestInfo?.joinedUserIds,
       posts,
-      hasNextPage,
-      showModal,
       contestId,
+      handleFileChange,
+      hasNextPage,
+      loadContest,
+      loadContestError?.message,
+      showModal,
       handleCloseModal,
       options,
       tags,
@@ -344,6 +360,7 @@ const ContestDetail = () => {
       refetch,
       contestInfoRefetch,
       contestInfor,
+      userId,
       loadNew,
     ]
   );

@@ -11,14 +11,11 @@ export const renderInputField = (
   value,
   dispatch,
   type,
-  typeCheck,
   idx
 ) => {
   const convertLabel = () => {
     const words = label?.split(' ');
-
     words[0] = words[0]?.toLowerCase();
-
     for (let i = 1; i < words?.length; i++) {
       words[i] = words[i]?.charAt(0).toUpperCase() + words[i]?.slice(1);
     }
@@ -40,7 +37,7 @@ export const renderInputField = (
       break;
   }
   return (
-    <div key={typeCheck + idx + Math.random()}>
+    <div key={idx}>
       <label>{label}</label>
       <input
         type="text"
@@ -69,7 +66,7 @@ export const renderInputTags = (
   typeCheck
 ) => {
   return (
-    <div key={typeCheck + Math.random()}>
+    <div key={typeCheck}>
       <label>{label}</label>
       {tagArray?.length > 0 && (
         <div className="all-tags">
@@ -116,7 +113,7 @@ export const renderAddItemBySelect = (
   idx
 ) => {
   return (
-    <div className="all-categories" key={typeCheck + idx + Math.random()}>
+    <div className="all-categories" key={typeCheck + idx}>
       <label>{label}</label>
       {Array.length > 0 && (
         <div className="categories-item">

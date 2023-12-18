@@ -1,6 +1,8 @@
 import { useAuthState } from '../../../context/AuthContext';
 import { useInteractPost } from '../../../graphql/usePost';
 import { useUpdatePointPostingLazy } from '../../../graphql/usePost';
+import { successfullNoty } from '../../../utils/useNotify';
+import copy from 'clipboard-copy';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Heart, HeartFill, Reply } from 'react-bootstrap-icons';
 
@@ -24,7 +26,7 @@ const PostInteraction = ({ item }) => {
               likedUserId: userId,
               isLiked: !isLiked,
             },
-          }, 
+          },
         });
         setIsLiked(!isLiked);
         setCountNumberOfLikes(a.data.interactPost.points);
@@ -44,6 +46,20 @@ const PostInteraction = ({ item }) => {
     },
     [interactPost, isLiked, item?.id, item?.userId.id, updateLevel, userId]
   );
+
+  const renderReplyIcon = useCallback(() => {
+    const link = `${window.location.origin}/post/${item?.id}`;
+    const handleCopyClick = async () => {
+      try {
+        await copy(link);
+        successfullNoty('Copied this link post to Clipboard!!!');
+      } catch (error) {
+        console.error('Failed to copy to clipboard:', error);
+      }
+    };
+
+    return <Reply size={30} id="reply-icon" onClick={handleCopyClick} />;
+  }, [item?.id]);
 
   useEffect(() => {
     if (animationWhenClick) {
@@ -72,12 +88,18 @@ const PostInteraction = ({ item }) => {
             )}
             <span id="likes-number">{countNumberOfLikes}</span>
           </div>
-          <Reply size={30} id="reply-icon" />
+          {renderReplyIcon()}
         </div>
         <hr style={{ border: '1px solid #F08080' }} />
       </div>
     ),
-    [handleLikePost, isLiked, animationWhenClick, countNumberOfLikes]
+    [
+      handleLikePost,
+      isLiked,
+      animationWhenClick,
+      countNumberOfLikes,
+      renderReplyIcon,
+    ]
   );
 };
 

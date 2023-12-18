@@ -17,6 +17,7 @@ import Notification from '../page/Notification/Notification.jsx';
 import Profile from '../page/Profile/Profile.jsx';
 import EditProfile from '../page/Profile/Tabs/Biography/EditProfile.jsx';
 // admin
+import AdminHome from '../page/AdminHome/AdminHome.jsx'
 import ReportManagement from '../page/ReportManagement/ReportManagement.jsx';
 import Statistic from '../page/Statistic/Statistic.jsx';
 import StoryDetail from '../page/Stories/Story/StoryDetail.jsx';
@@ -141,7 +142,13 @@ const routes = [
     exact: true,
     isPrivate: true,
   },
-  // admin route
+  // admin route 
+  {
+    path: '/home',
+    element: <AdminHome />,
+    exact: true,
+    isPrivate: true,
+  },
   {
     path: '/contest-management',
     element: <ContestManagement />,
