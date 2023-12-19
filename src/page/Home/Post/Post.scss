@@ -104,15 +104,17 @@
         flex-direction: row;
 
         #tag {
-          font-weight: 600;
-          padding-right: 15px;
+          padding: 0 5px;
+          border: 2px solid #f08080;
+          margin: 5px 5px 5px 0;
           cursor: pointer;
-          opacity: 1;
+          border-radius: 5px;
+          color: #f08080;
         }
 
         #tag:hover {
-          opacity: 0.7;
-          text-decoration: underline;
+          background-color: #f08080;
+          color: white;
         }
       }
 

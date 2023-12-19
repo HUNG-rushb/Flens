@@ -18,7 +18,7 @@ import { successfullNoty } from '../../utils/useNotify.js';
 import {
   renderAddItemBySelect,
   renderInputField,
-  renderInputTags,
+  renderInputTag,
 } from '../../utils/useRenderInputField.js';
 import './UploadImage.css';
 import { EXIF } from 'exif-js';
@@ -95,8 +95,12 @@ const UploadImage = ({ contestId = '' }) => {
   );
 
   const isDisabledButton = useMemo(
-    () => postInfor.title && postInfor.copyright,
-    [postInfor.copyright, postInfor.title]
+    () =>
+      postInfor.title &&
+      postInfor.copyright &&
+      tags.length &&
+      categories.length,
+    [categories.length, postInfor.copyright, postInfor.title, tags.length]
   );
 
   const { createPost, isFetching, fetchError } = useCreatePostLazy();
@@ -526,7 +530,7 @@ const UploadImage = ({ contestId = '' }) => {
                           </div>
                         </div>
 
-                        {renderInputTags(
+                        {renderInputTag(
                           'Tags',
                           tags,
                           setTags,

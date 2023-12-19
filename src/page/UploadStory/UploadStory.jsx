@@ -70,8 +70,12 @@ const QuillEditorWithImage = () => {
   console.log({ categories });
   const [category, setCategory] = useState(options[0]);
 
-  const { createStory, isFetching, fetchedData, fetchError } =
-    useCreateStoryLazy();
+  const isDisabledButton = useMemo(
+    () => storyTitle && editorContent && tags.length,
+    [editorContent, storyTitle, tags.length]
+  );
+
+  const { createStory, isFetching, fetchError } = useCreateStoryLazy();
 
   useEffect(() => {
     const quill = editorRef.current.getEditor();
@@ -322,7 +326,11 @@ const QuillEditorWithImage = () => {
           </div>
 
           <div className="upload-button">
-            <Button text="Publish Story" onClick={handleUploadStory}>
+            <Button
+              text="Publish Story"
+              onClick={handleUploadStory}
+              disabled={!isDisabledButton}
+            >
               Publish Story
             </Button>
           </div>
@@ -332,6 +340,7 @@ const QuillEditorWithImage = () => {
     ),
     [
       InputDataBySelect,
+      isDisabledButton,
       editorContent,
       handleChangeMode,
       handleKeyDown,

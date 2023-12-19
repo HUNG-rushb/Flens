@@ -42,6 +42,14 @@
   cursor: pointer;
 }
 
+.upload-image-input {
+  opacity: 1;
+}
+
+.upload-image-input:hover {
+  opacity: 0.7;
+}
+
 .upload-image-input input {
   display: none;
 }
@@ -55,8 +63,8 @@
   justify-content: center;
   align-items: center;
   z-index: 999999999999999999999999;
-  top:0;
-  left:0;
+  top: 0;
+  left: 0;
 }
 
 .modal-upload-container {
@@ -155,7 +163,8 @@
 }
 
 .categories-item {
-  border: 1px solid #93a6b9;
+  border: 2px solid #f08080;
+  border-radius: 3px;
   display: flex;
   margin: 5px 0;
   max-width: 290px;
@@ -164,9 +173,17 @@
 
 .categories-item div {
   padding: 0 10px;
-  border: 1px solid #93a6b9;
+  background-color: #f08080;
+  border-radius: 5px;
+  padding: 1px 10px;
+  color: white;
   margin: 5px 10px;
   cursor: pointer;
+  opacity: 1;
+}
+
+.categories-item div:hover {
+  opacity: 0.7;
 }
 
 .sub-categories {

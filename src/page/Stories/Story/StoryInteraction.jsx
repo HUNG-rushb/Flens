@@ -1,9 +1,11 @@
 import { useAuthState } from '../../../context/AuthContext';
 import { useInteractStory } from '../../../graphql/useStory';
+import { successfullNoty } from '../../../utils/useNotify';
 import './styles.scss';
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { Heart, HeartFill, Reply } from 'react-bootstrap-icons';
 import { useParams } from 'react-router-dom';
+import copy from 'clipboard-copy';
 
 const StoryInteraction = ({
   isLiked,
@@ -39,6 +41,20 @@ const StoryInteraction = ({
     [interactStory, isLiked, setCountNumberOfLikes, setIsLiked, storyId, userId]
   );
 
+  const renderReplyIcon = useCallback(() => {
+    const link = `${window.location.origin}/stories/${storyId}`;
+    const handleCopyClick = async () => {
+      try {
+        await copy(link);
+        successfullNoty('Copied this link story to Clipboard!!!');
+      } catch (error) {
+        console.error('Failed to copy to clipboard:', error);
+      }
+    };
+
+    return <Reply size={30} id="reply-icon" onClick={handleCopyClick} />;
+  }, [storyId]);
+
   useEffect(() => {
     if (animationWhenClick) {
       setTimeout(() => {
@@ -67,10 +83,10 @@ const StoryInteraction = ({
           )}
           <span id="total-likes">{countNumberOfLikes}</span>
         </div>
-        <Reply size={28} />
+        {renderReplyIcon()}
       </div>
     ),
-    [animationWhenClick, countNumberOfLikes, handleLikeStory, isLiked]
+    [animationWhenClick, countNumberOfLikes, handleLikeStory, isLiked, renderReplyIcon]
   );
 };
 

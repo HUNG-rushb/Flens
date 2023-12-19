@@ -190,4 +190,12 @@
       font-size: 30px;
     }
   }
+
+  #reply-icon {
+    opacity: 1;
+    cursor: pointer;
+  }
+  #reply-icon:hover {
+    opacity: 0.7;
+  }
 }

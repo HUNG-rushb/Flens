@@ -136,7 +136,7 @@ const SearchTagResult = () => {
                   </div>
                 </div>
               </div>
-              <Masonry columns={4} gap={16} className="inspiration-container">
+              <Masonry columns={4} gap={10} className="inspiration-container">
                 {searchResult &&
                   searchResult.searchResult.posts.map((item) => {
                     return (

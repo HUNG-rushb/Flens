@@ -83,14 +83,18 @@
             flex-wrap: wrap;
 
             div {
-              padding: 0 10px;
-              border: 1px solid #93a6b9;
-              margin: 5px 10px;
+              padding: 0 5px;
+              border: 2px solid #f08080;
+              border-radius: 5px;
+              margin: 5px;
               cursor: pointer;
+              opacity: 1;
+              color: #f08080;
             }
 
             div:hover {
-              background-color: #aaa;
+              background-color: #f08080;
+              color: white;
             }
 
             #remove-tag {

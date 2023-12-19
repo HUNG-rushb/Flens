@@ -3,12 +3,18 @@ import { useAuthState } from '../../context/AuthContext.js';
 import { PostInfoReducer } from '../../context/reducer/PostReducer.js';
 import { useGetAllUserAlbum } from '../../graphql/useAlbum.js';
 import {
-  renderAddItemBySelect,
-  renderInputField,
+  renderAddItemBySelects,
+  renderInputFields,
   renderInputTags,
 } from '../../utils/useRenderInputField.js';
 import './EditPost.scss';
-import React, { useState, useMemo, useCallback, useReducer } from 'react';
+import React, {
+  useState,
+  useMemo,
+  useCallback,
+  useReducer,
+  useEffect,
+} from 'react';
 
 const EditPost = ({ show, toggleShow, post }) => {
   const options = useMemo(
@@ -42,12 +48,19 @@ const EditPost = ({ show, toggleShow, post }) => {
 
   const [viewStatus, setViewStatus] = useState(post?.postViewStatus);
   const [postInfor, dispatch] = useReducer(PostInfoReducer, post);
-
-  const [tags, setTags] = useState(post?.tag);
+  const [tags, setTags] = useState([]);
   const [tag, setTag] = useState({
     id: 0,
     value: '',
   });
+
+  useEffect(() => {
+    const cusTags = post?.tag.map((item, index) => ({
+      id: index,
+      value: item
+    }));
+    setTags(cusTags)
+  }, [post?.tag]);
 
   const [categories, setCategories] = useState([options[0]]);
   const [category, setCategory] = useState(options[0]);
@@ -100,7 +113,6 @@ const EditPost = ({ show, toggleShow, post }) => {
     }
   }, [categories, category]);
 
-  // edit Post
   const handleConfirm = useCallback(async (event) => {
     event.preventDefault();
   }, []);
@@ -224,11 +236,7 @@ const EditPost = ({ show, toggleShow, post }) => {
 
   return useMemo(
     () => (
-      <div
-        className="modal-edit-overlay"
-        hidden={!show}
-        key={post?.id + Math.random()}
-      >
+      <div className="modal-edit-overlay" hidden={!show} key={post?.id}>
         <div className="modal-edit-container">
           <div className="modal-upload-content">
             <div className="modal-upload-left">
@@ -237,14 +245,14 @@ const EditPost = ({ show, toggleShow, post }) => {
             <div className="modal-upload-right">
               <div className="modal-upload-details">
                 {inputData.map((item, idx) =>
-                  renderInputField(
+                  renderInputFields(
                     item.label,
                     item.placeholder,
                     item.value,
                     dispatch,
                     'UPDATE_POST_FIELD',
                     'edit',
-                    post?.id
+                    idx
                   )
                 )}
                 <div>
@@ -301,11 +309,11 @@ const EditPost = ({ show, toggleShow, post }) => {
                   tag,
                   setTag,
                   handleKeyDown,
-                  'edit',
+                  'edit'
                 )}
 
                 {InputDataBySelect.map((item, idx) =>
-                  renderAddItemBySelect(
+                  renderAddItemBySelects(
                     item.label,
                     item.Array,
                     item.setArray,

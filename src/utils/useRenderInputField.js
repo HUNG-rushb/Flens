@@ -36,8 +36,9 @@ export const renderInputField = (
     default:
       break;
   }
+
   return (
-    <div key={idx}>
+    <div key={`input-${label}-${idx}`}>
       <label>{label}</label>
       <input
         type="text"
@@ -56,6 +57,103 @@ export const renderInputField = (
   );
 };
 
+export const renderInputFields = (
+  label,
+  placeholder,
+  value,
+  dispatch,
+  type,
+  idx
+) => {
+  const convertLabel = () => {
+    const words = label?.split(' ');
+    words[0] = words[0]?.toLowerCase();
+    for (let i = 1; i < words?.length; i++) {
+      words[i] = words[i]?.charAt(0).toUpperCase() + words[i]?.slice(1);
+    }
+
+    return words.join('');
+  };
+
+  switch (label) {
+    case 'Aperture':
+      value = value !== '' ? 'f/' + value : '';
+      break;
+    case 'Shutter speed':
+      value = value !== '' ? value + ' s' : '';
+      break;
+    case 'Focal length':
+      value = value !== '' ? value + ' mm' : '';
+      break;
+    default:
+      break;
+  }
+
+  return (
+    <div key={`inputs-${label}-${idx}`}>
+      <label>{label}</label>
+      <input
+        type="text"
+        placeholder={placeholder}
+        value={value}
+        onChange={(event) =>
+          handleInputChange(
+            dispatch,
+            type,
+            convertLabel() || '',
+            event.target.value
+          )
+        }
+      />
+    </div>
+  );
+};
+
+export const renderInputTag = (
+  label,
+  tagArray,
+  setTags,
+  tag,
+  setTag,
+  handleKeyDown,
+  typeCheck
+) => {
+  return (
+    <div key={`${label}-${typeCheck}`}>
+      <label>{label}</label>
+      {tagArray?.length > 0 && (
+        <div className="all-tags">
+          {tagArray.map((item, index) => {
+            return (
+              <div
+                key={`tag-${item.id}-${index}`}
+                onClick={() => removeItemFromArray(item.id, tagArray, setTags)}
+              >
+                <span id="remove-tag">X</span>
+                {item.value}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <input
+        type="text"
+        placeholder="Input a tag and press enter"
+        onChange={(e) =>
+          setTag({
+            id:
+              tagArray.length === 0 ? 1 : tagArray[tagArray.length - 1].id + 1,
+            value: e.target.value,
+          })
+        }
+        onKeyDown={(e) => handleKeyDown(e)}
+        value={tag.value}
+      />
+    </div>
+  );
+};
+
 export const renderInputTags = (
   label,
   tagArray,
@@ -66,14 +164,14 @@ export const renderInputTags = (
   typeCheck
 ) => {
   return (
-    <div key={typeCheck}>
+    <div key={`${typeCheck}-${label}`}>
       <label>{label}</label>
       {tagArray?.length > 0 && (
         <div className="all-tags">
-          {tagArray.map((item) => {
+          {tagArray.map((item, index) => {
             return (
               <div
-                key={item?.id}
+                key={`tags-${item.id}-${index}`}
                 onClick={() => removeItemFromArray(item.id, tagArray, setTags)}
               >
                 <span id="remove-tag">X</span>
@@ -109,17 +207,18 @@ export const renderAddItemBySelect = (
   setValue,
   options,
   handleSelecItem,
-  typeCheck,
   idx
 ) => {
+  const uniqueKey = `${label}-${idx}`;
+
   return (
-    <div className="all-categories" key={typeCheck + idx}>
+    <div className="all-categories" key={uniqueKey}>
       <label>{label}</label>
       {Array.length > 0 && (
         <div className="categories-item">
           {Array?.map((item, idx) => (
             <div
-              key={item.id + idx}
+              key={`select-${item.id}-${idx}`}
               onClick={() => removeItemFromArray(item.id, Array, setArray)}
             >
               <span id="remove-tag">X</span>
@@ -140,9 +239,66 @@ export const renderAddItemBySelect = (
             });
           }}
         >
-          {options?.map((item) => {
+          {options?.map((item, index) => {
             return (
-              <option key={item.id} value={item.name}>
+              <option key={item.id + index + uniqueKey} value={item.name}>
+                {item.name}
+              </option>
+            );
+          })}
+        </select>
+
+        <div className="add-category-button">
+          <button onClick={handleSelecItem}>Add</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const renderAddItemBySelects = (
+  label,
+  Array,
+  setArray,
+  value,
+  setValue,
+  options,
+  handleSelecItem,
+  idx
+) => {
+  const uniqueKey = `${idx}-${label}`;
+
+  return (
+    <div className="all-categories" key={uniqueKey}>
+      <label>{label}</label>
+      {Array.length > 0 && (
+        <div className="categories-item">
+          {Array?.map((item, idx) => (
+            <div
+              key={`selects-${item.id}-${idx}`}
+              onClick={() => removeItemFromArray(item.id, Array, setArray)}
+            >
+              <span id="remove-tag">X</span>
+              {item.name}
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="sub-categories">
+        <select
+          value={value?.name}
+          id="select-image-category"
+          onChange={(e) => {
+            setValue({
+              name: e.target.value,
+              id: options?.find((item) => item.name === e.target.value).id,
+            });
+          }}
+        >
+          {options?.map((item, index) => {
+            return (
+              <option key={item.id + index + uniqueKey} value={item.name}>
                 {item.name}
               </option>
             );

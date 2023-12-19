@@ -29,6 +29,10 @@ const Header = ({ type = 'post', item, setIsDeleted, setReportedList }) => {
     else return <PersonFill size={18} color="#f08080" />;
   }, [postVisibility]);
 
+  const handleClickChatButton = useCallback(() => {
+    navigate('/message');
+  }, [navigate]);
+
   const renderPopoverContent = useCallback(() => {
     return (
       <div className="hover-avatar">
@@ -47,12 +51,21 @@ const Header = ({ type = 'post', item, setIsDeleted, setReportedList }) => {
             </p>
             <p>User level: 1</p>
             <p style={{ fontWeight: 600 }}>100 Follower - Hung also followed</p>
-            <Button type="default2" text="Chat" />
+            <Button
+              type="default2"
+              text="Chat"
+              onClick={handleClickChatButton}
+            />
           </div>
         </div>
       </div>
     );
-  }, [handleViewProfile, item?.userId.name, item?.userId.profileImageURL]);
+  }, [
+    handleClickChatButton,
+    handleViewProfile,
+    item?.userId.name,
+    item?.userId.profileImageURL,
+  ]);
 
   return useMemo(
     () => (

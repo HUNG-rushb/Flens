@@ -48,7 +48,7 @@ const Inspiration = () => {
               </p>
             }
           >
-            <Masonry columns={4} gap={16} className="inspiration-container">
+            <Masonry columns={4} gap={10} className="inspiration-container">
               {explorePosts.map((item) => {
                 return (
                   <span key={item.node.id}>
@@ -57,7 +57,7 @@ const Inspiration = () => {
                       src={item.node.image.url}
                       width="100%"
                       onClick={() => [toggleModal(), setImageToShow(item.node)]}
-                      style={{cursor:"pointer"}}
+                      style={{ cursor: 'pointer' }}
                     />
                   </span>
                 );
