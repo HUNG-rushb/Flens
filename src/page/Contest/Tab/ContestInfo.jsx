@@ -1,5 +1,4 @@
 import { useGetAllContest } from '../../../graphql/useContest';
-import { contests } from './contestData';
 import './styles.scss';
 import React, { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';

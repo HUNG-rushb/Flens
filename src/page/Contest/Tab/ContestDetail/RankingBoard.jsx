@@ -1,7 +1,7 @@
 import { useGetTop5Posts } from '../../../../graphql/useContest';
 import React from 'react';
 
-const Ranking = ({ contestId }) => {
+const Ranking = ({ contestId, posts }) => {
   // console.log({ contestId });
 
   const { fetchedData: top5, refetch } = useGetTop5Posts({
@@ -14,9 +14,8 @@ const Ranking = ({ contestId }) => {
       <div className="ranking-board-content">
         <h3>Ranking Board</h3>
 
-        <button onClick={() => refetch()}>Refresh</button>
-
-        <table>
+        {/* <button onClick={() => refetch()}>Refresh</button> */}
+        {posts?.length? <table>
           <thead>
             <tr>
               <td>Position</td>
@@ -48,7 +47,7 @@ const Ranking = ({ contestId }) => {
               })}
             </tbody>
           )}
-        </table>
+        </table>: <p>No attendant, be the first candidate to be on the board !!!</p>}
       </div>
     </div>
   );

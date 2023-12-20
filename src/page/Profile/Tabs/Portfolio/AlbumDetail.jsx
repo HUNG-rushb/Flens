@@ -21,7 +21,11 @@ import { useParams } from 'react-router-dom';
 const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
   const { userId } = useParams();
   const { id: currentUserId } = useAuthState();
-  const { addNewPhotoToAlbum } = useAddPhotoAlbum();
+  const {
+    addNewPhotoToAlbum,
+    isFetching: addPhotoLoading,
+    fetchError: addPhotoError,
+  } = useAddPhotoAlbum();
   const {
     fetchedData: photos,
     isFetching: loadAlbumPhotos,
@@ -30,7 +34,6 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
   } = useGetAlbumInfo({
     data: { userId, currentUserId, albumId: detailAlbum.id },
   });
-  // console.log({ photos });
   const { fetchedData: notInAlbumPhotos } = useGetNotInAlbumInfo({
     data: { userId, albumId: detailAlbum.id },
   });
@@ -87,10 +90,30 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
     );
   }, [choosenImages, handleImageClick, notInAlbumPhotos?.postNotInAlbum]);
 
-  const handleAddImage = useCallback(() => {
-    toggleUploadImage();
-    setChoosenImages([]);
-  }, [toggleUploadImage]);
+  const handleAddImage = useCallback(async () => {
+    const ids = choosenImages.map((item) => item.id);
+    try {
+      await addNewPhotoToAlbum({
+        variables: {
+          data: {
+            albumId: detailAlbum.id,
+            postIds: ids,
+          },
+        },
+      });
+      toggleUploadImage();
+      setChoosenImages([]);
+      refetch();
+    } catch (e) {
+      console.log(e);
+    }
+  }, [
+    addNewPhotoToAlbum,
+    choosenImages,
+    detailAlbum.id,
+    toggleUploadImage,
+    refetch,
+  ]);
 
   const handleClose = useCallback(() => {
     toggleUploadImage();
@@ -188,9 +211,11 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
             submitText="Add photos"
           />
         </div>
-        <Loading loading={loadAlbumPhotos} />
-        {fetchAlbumError?.message && (
-          <ErrorPopup message={fetchAlbumError?.message} />
+        <Loading loading={loadAlbumPhotos || addPhotoLoading} />
+        {(fetchAlbumError?.message || addPhotoError?.message) && (
+          <ErrorPopup
+            message={fetchAlbumError?.message || addPhotoError?.message}
+          />
         )}
       </>
     ),
@@ -204,7 +229,9 @@ const AlbumDetail = ({ setComponentToRender, detailAlbum }) => {
       handleClose,
       handleAddImage,
       loadAlbumPhotos,
+      addPhotoLoading,
       fetchAlbumError?.message,
+      addPhotoError?.message,
       setComponentToRender,
     ]
   );
