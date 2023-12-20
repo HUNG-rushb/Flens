@@ -1,10 +1,12 @@
-import Academy from '../page/Academy/Academy.jsx';
+// import Academy from '../page/Academy/Academy.jsx';
+// admin
+import AdminHome from '../page/AdminHome/AdminHome.jsx';
 import Login from '../page/Authentication/Login.jsx';
 import Register from '../page/Authentication/Register.jsx';
 import Contest from '../page/Contest/Contest.jsx';
 import ContestDetail from '../page/Contest/Tab/ContestDetail/ContestDetail.jsx';
 import ContestManagement from '../page/ContestManagement/ContestManagement.jsx';
-import Courses from '../page/Courses/Courses.jsx';
+// import Courses from '../page/Courses/Courses.jsx';
 import CoursesManagement from '../page/CoursesManagement/CoursesManagement.jsx';
 import UploadCourses from '../page/CoursesManagement/UploadCourses/UploadCourses.jsx';
 import Explore from '../page/Explore/Explore.jsx';
@@ -16,8 +18,6 @@ import NotFound from '../page/NotFound/404NotFound.jsx';
 import Notification from '../page/Notification/Notification.jsx';
 import Profile from '../page/Profile/Profile.jsx';
 import EditProfile from '../page/Profile/Tabs/Biography/EditProfile.jsx';
-// admin
-import AdminHome from '../page/AdminHome/AdminHome.jsx'
 import ReportManagement from '../page/ReportManagement/ReportManagement.jsx';
 import Statistic from '../page/Statistic/Statistic.jsx';
 import StoryDetail from '../page/Stories/Story/StoryDetail.jsx';
@@ -70,18 +70,18 @@ const routes = [
     exact: true,
     isPrivate: true,
   },
-  {
-    path: '/academy',
-    element: <Academy />,
-    exact: true,
-    isPrivate: true,
-  },
-  {
-    path: '/academy/:typeCourses/:courses',
-    element: <Courses />,
-    exact: true,
-    isPrivate: true,
-  },
+  // {
+  //   path: '/academy',
+  //   element: <Academy />,
+  //   exact: true,
+  //   isPrivate: true,
+  // },
+  // {
+  //   path: '/academy/:typeCourses/:courses',
+  //   element: <Courses />,
+  //   exact: true,
+  //   isPrivate: true,
+  // },
   {
     path: '/leaderBoard',
     element: <LeaderBoard />,
@@ -142,7 +142,7 @@ const routes = [
     exact: true,
     isPrivate: true,
   },
-  // admin route 
+  // admin route
   {
     path: '/home',
     element: <AdminHome />,
