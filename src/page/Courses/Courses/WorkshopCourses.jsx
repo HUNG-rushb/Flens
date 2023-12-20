@@ -1,9 +1,9 @@
-import React from 'react'
+// import React from 'react'
 
-const WorkshopCourses = () => {
-  return (
-    <div>WorkshopCourses</div>
-  )
-}
+// const WorkshopCourses = () => {
+//   return (
+//     <div>WorkshopCourses</div>
+//   )
+// }
 
-export default WorkshopCourses;
+// export default WorkshopCourses;

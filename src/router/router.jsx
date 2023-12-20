@@ -7,8 +7,8 @@ import Contest from '../page/Contest/Contest.jsx';
 import ContestDetail from '../page/Contest/Tab/ContestDetail/ContestDetail.jsx';
 import ContestManagement from '../page/ContestManagement/ContestManagement.jsx';
 // import Courses from '../page/Courses/Courses.jsx';
-import CoursesManagement from '../page/CoursesManagement/CoursesManagement.jsx';
-import UploadCourses from '../page/CoursesManagement/UploadCourses/UploadCourses.jsx';
+// import CoursesManagement from '../page/CoursesManagement/CoursesManagement.jsx';
+// import UploadCourses from '../page/CoursesManagement/UploadCourses/UploadCourses.jsx';
 import Explore from '../page/Explore/Explore.jsx';
 import Home from '../page/Home/Home.jsx';
 import PostDetail from '../page/Home/Post/PostDetail.jsx';
@@ -118,12 +118,12 @@ const routes = [
     exact: true,
     isPrivate: true,
   },
-  {
-    path: '/upload-courses',
-    element: <UploadCourses />,
-    exact: true,
-    isPrivate: true,
-  },
+  // {
+  //   path: '/upload-courses',
+  //   element: <UploadCourses />,
+  //   exact: true,
+  //   isPrivate: true,
+  // },
   {
     path: '/contest/',
     element: <Contest />,
@@ -155,12 +155,12 @@ const routes = [
     exact: true,
     isPrivate: true,
   },
-  {
-    path: '/courses-management',
-    element: <CoursesManagement />,
-    exact: true,
-    isPrivate: true,
-  },
+  // {
+  //   path: '/courses-management',
+  //   element: <CoursesManagement />,
+  //   exact: true,
+  //   isPrivate: true,
+  // },
   {
     path: '/report-management',
     element: <ReportManagement />,
