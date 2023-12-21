@@ -25,7 +25,7 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const { id: userId } = useAuthState();
-  const { fetchedData, isFetching, fetchError } = useUserProfileImage({  
+  const { fetchedData, isFetching, fetchError } = useUserProfileImage({
     userInfoData: { userId },
   });
 
@@ -329,7 +329,7 @@ const NavBar = () => {
         </Container>
       </Navbar>
       <Loading loading={isFetching} />
-      {fetchError?.message && <ErrorPopup message={fetchError?.message} />}
+      {/* {fetchError?.message && <ErrorPopup message={fetchError?.message} />} */}
     </>
   );
 };
