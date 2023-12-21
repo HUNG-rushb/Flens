@@ -11,6 +11,7 @@ import {
 } from '../../../../graphql/useContest';
 import useModal from '../../../../hooks/useModal';
 import ErrorPopup from '../../../../utils/errorPopup';
+import unixToDateTime from '../../../../utils/unixToDateTime';
 import Loading from '../../../../utils/useLoading';
 import Post from '../../../Home/Post/Post';
 import './ContestDetail.scss';
@@ -195,7 +196,7 @@ const ContestDetail = () => {
           </div>
 
           <div className="below-content-wrapper">
-            {posts && <RankingBoard contestId={contestId} />}
+            {posts && <RankingBoard contestId={contestId} posts={posts} />}
 
             <div className="content-wrapper">
               <div className="description">
@@ -207,12 +208,12 @@ const ContestDetail = () => {
                 <span id="subtitle">Deadline</span>
                 <div className="date-item">
                   <span>Start date:</span>
-                  {contestInfo?.contestInfo.startDate}
+                  {unixToDateTime(contestInfo?.contestInfo.startDate|| '')}
                 </div>
 
                 <div className="date-item">
                   <span>End date:</span>
-                  {contestInfo?.contestInfo.endDate}
+                  {unixToDateTime(contestInfo?.contestInfo.endDate||"")}
                 </div>
               </div>
 

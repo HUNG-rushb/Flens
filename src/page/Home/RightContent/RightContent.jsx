@@ -72,7 +72,7 @@ const RightContent = () => {
                         id="special-contest-image"
                       />
                       <span id="special-contest-title">
-                        {item.name} contest
+                        {item.name?.substring(0, item?.name.indexOf(':'))} contest
                       </span>
                     </div>
                   </SwiperSlide>
@@ -81,7 +81,7 @@ const RightContent = () => {
             </div>
 
             <div className="follow-suggestion-container">
-              <span id="subtitle">Follow list suggestion:</span>
+              <span id="subtitle">Discover new connections:</span>
               <div className="follow-list-suggestion">
                 {suggestedUserList?.suggestUserToFollow.edges.map((item) => (
                   <div className="follow-suggestion" key={item.node.id}>
