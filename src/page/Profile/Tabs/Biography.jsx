@@ -36,7 +36,10 @@ const Biography = () => {
       <div className="biography-tab">
         <div className="bio-left-container">
           <Achievement achievements={achievements} />
-          <div className="interests" style={{display:"flex", alignItems:"center",}}>
+          <div
+            className="interests"
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
             <div className="interest-text">
               <span>Skills and Endorments:</span>
               <div className="badge-wrapper">
@@ -52,13 +55,13 @@ const Biography = () => {
                 alignSelf: 'center',
                 display: 'flex',
                 justifyContent: 'center',
-                marginTop:"30px"
+                marginTop: '30px',
               }}
             >
               <Button
                 text="Add your skills"
                 type="default2"
-              
+
                 // onClick={handleAddInterestClick}
               />
             </div>
@@ -68,7 +71,7 @@ const Biography = () => {
         <PersonalInfo />
       </div>
     ),
-    [achievements]
+    [achievements, data]
   );
 };
 
