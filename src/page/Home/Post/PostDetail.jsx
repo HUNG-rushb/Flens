@@ -1,5 +1,6 @@
 import Header from '../../../components/Header/Header';
 import Page from '../../../components/utils/Page';
+import { usePostInfo } from '../../../graphql/usePost';
 import PostComment from './PostComment';
 import './PostDetail.scss';
 import PostInteraction from './PostInteraction';
@@ -8,7 +9,7 @@ import { useState } from 'react';
 import { useMemo } from 'react';
 import { useCallback } from 'react';
 import { Camera2, X } from 'react-bootstrap-icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const data = {
   __typename: 'Post',
@@ -50,6 +51,12 @@ const data = {
 
 const PostDetail = () => {
   const navigate = useNavigate();
+  const postId = useParams(); 
+  const { fetchedData } = usePostInfo({
+    postInfoData: postId,
+  }); 
+
+  console.log({ fetchedData }, 'posst info');
 
   const handleClickTag = useCallback(
     (tag) => {

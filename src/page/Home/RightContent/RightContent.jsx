@@ -16,15 +16,11 @@ const RightContent = () => {
   const navigate = useNavigate();
   const { id: userId } = useAuthState();
   const { fetchedData: suggestedTag } = useSuggestTag();
-  // console.log({ suggestedTag });
   const { fetchedData: suggestedUserList } = useSuggestUserToFollow({
     suggestUserToFollowData: { userId },
     limit: 5,
   });
-  // console.log({ suggestedUserList });
-
   const { fetchedData: allContests } = useGetAllContest();
-  // console.log({ allContests });
 
   const handleClickContest = useCallback(
     (item) => {
@@ -34,10 +30,10 @@ const RightContent = () => {
   );
 
   const handleClickTag = useCallback(
-    (tag) => {
-      navigate('/explore/inspiration', {
+    async (tag) => {
+      navigate(`/search/${tag}`, {
         state: {
-          tagValue: tag,
+          searchValue: tag,
         },
       });
     },
