@@ -1,6 +1,5 @@
 import { SEARCH_QUERIES, SEARCH_RESULT } from './queries/Search.js';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
-import _ from 'lodash';
+import { useQuery, useLazyQuery } from '@apollo/client';
 
 export const useSearchQuery = (cache) => {
   const [searchQuery, { data, loading, error }] = useLazyQuery(SEARCH_QUERIES, {

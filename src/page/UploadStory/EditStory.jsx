@@ -53,7 +53,7 @@ const EditStory = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const story = useMemo(() => location?.state?.story, [location?.state?.story]);
-  console.log('story', story)
+  console.log('story', story);
   const [editorContent, setEditorContent] = useState(story?.content);
   const [storyImages, setStoryImages] = useState([]);
   const [storyTitle, setStoryTitle] = useState(story?.title);
@@ -72,8 +72,7 @@ const EditStory = () => {
   console.log({ categories });
   const [category, setCategory] = useState(options[0]);
 
-  const { createStory, isFetching, fetchedData, fetchError } =
-    useCreateStoryLazy();
+  const { createStory, isFetching, fetchError } = useCreateStoryLazy();
 
   useEffect(() => {
     const quill = editorRef.current.getEditor();

@@ -85,7 +85,7 @@ export const useGetNewFeed = (userId) => {
   });
 
   const loadNew = useCallback(async () => {
-    const fetchMoreData = await fetchMore({
+    await fetchMore({
       variables: {
         after: data ? data.getNewFeed.pageInfo.endCursor : '',
         timeCall: data ? data.getNewFeed.timeCall : 0,

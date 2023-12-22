@@ -68,7 +68,8 @@ const RightContent = () => {
                         id="special-contest-image"
                       />
                       <span id="special-contest-title">
-                        {item.name?.substring(0, item?.name.indexOf(':'))} contest
+                        {item.name?.substring(0, item?.name.indexOf(':'))}{' '}
+                        contest
                       </span>
                     </div>
                   </SwiperSlide>
@@ -97,6 +98,7 @@ const RightContent = () => {
                           <span id="sugesstion-name">{item.node.name}</span>
                         </div>
                       </div>
+
                       <FollowUserIcon
                         userId={userId}
                         targetUserId={item.node.id}

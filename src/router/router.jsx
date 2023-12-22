@@ -179,6 +179,12 @@ const routes = [
     exact: true,
     isPrivate: true,
   },
+  {
+    path: '/tag/:tagName',
+    element: <></>,
+    exact: true,
+    isPrivate: true,
+  },
   // error page
   {
     path: '/*',

@@ -73,7 +73,7 @@ export const useGetAllUserStory = (userId, currentUserId) => {
   // console.log({ data });
 
   const loadNew = useCallback(async () => {
-    const a = await fetchMore({
+    await fetchMore({
       variables: {
         after: data.getAllUserStories.pageInfo.endCursor,
       },
