@@ -51,12 +51,13 @@ const link =
     : httpLink;
 
 const client = new ApolloClient({
-  link: httpLink,
-  headers:{
+  link: link,
+  headers: {
     'Content-Type': 'application/json',
     'apollo-require-preflight': true,
-    'Access-Control-Allow-Origin': 'https://roxqm2ljb8.execute-api.ap-southeast-1.amazonaws.com/',
-    "Access-Control-Allow-Credentials" : true
+    'Access-Control-Allow-Origin':
+      'https://roxqm2ljb8.execute-api.ap-southeast-1.amazonaws.com/',
+    'Access-Control-Allow-Credentials': true,
   },
   cache: new InMemoryCache({
     typePolicies: {
