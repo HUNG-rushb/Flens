@@ -17,16 +17,16 @@ const PostTechnical = ({ item, showImageDetail }) => {
             <span id="content">Camera:</span> {item?.image.imageInfoId.camera}
           </div>
           <div>
-            <span id="content">Aperture:</span> f/
-            {item?.image.imageInfoId.aperture}
+            <span id="content">Aperture:</span> f/ 
+            {item?.image.imageInfoId.aperture} (mm)
           </div>
           <div>
             <span id="content">Focal Length:</span>
-            {item?.image.imageInfoId.focalLength} mm
+            {item?.image.imageInfoId.focalLength} (mm)
           </div>
           <div>
             <span id="content">Shutter Speed:</span>
-            {item?.image.imageInfoId.shutterSpeed} s
+            {item?.image.imageInfoId.shutterSpeed} (s)
           </div>
           <div>
             <span id="content">ISO: </span> {item?.image.imageInfoId.ISO}
@@ -36,7 +36,7 @@ const PostTechnical = ({ item, showImageDetail }) => {
             {item?.image.imageInfoId.takenWhen}
           </div>
           <div>
-            <span id="content">Lens: </span> {item?.image.imageInfoId.lens}
+            <span id="content">Lens: </span> {item?.image.imageInfoId.lens} (mm)
           </div>
           <div>
             <span id="content">CopyRight: </span>

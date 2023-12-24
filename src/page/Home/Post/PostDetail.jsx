@@ -5,56 +5,16 @@ import PostComment from './PostComment';
 import './PostDetail.scss';
 import PostInteraction from './PostInteraction';
 import PostTechnical from './PostTechnical';
-import { useState } from 'react';
 import { useMemo } from 'react';
 import { useCallback } from 'react';
-import { Camera2, X } from 'react-bootstrap-icons';
-import { useNavigate, useParams } from 'react-router-dom';
-
-const data = {
-  __typename: 'Post',
-  id: '656aec2eff3c9bd4995fc410',
-  points: 14,
-  title: 'MockTitleQ8JIC6RRCKZM',
-  caption: '',
-  postViewStatus: 'PUBLIC',
-  createdAt: '1701506094528',
-  userLikedPost: ['653e0f9e048b56b72b30a608', '6496c0da518d8caaf82fcac3'],
-  tag: [],
-  userId: {
-    __typename: 'User',
-    profileImageURL:
-      'https://fastly.picsum.photos/id/1/500/500.jpg?hmac=6vo7WkHURh9CWfdf144ASqEaPNcbj2PHJK3UgGH24lM',
-    name: 'hung',
-    id: '6496c0da518d8caaf82fcac3',
-    level: {
-      __typename: 'Level',
-      currentLevel: 34,
-    },
-  },
-  image: {
-    __typename: 'Image',
-    url: 'https://bku-images.s3.amazonaws.com/MockImage_5QUW4R5KZGHV.jpg',
-    imageInfoId: {
-      __typename: 'ImageInfo',
-      ISO: '',
-      aperture: '',
-      camera: '',
-      copyRight: 'MockCopyRightVKPG52',
-      focalLength: '',
-      lens: '',
-      shutterSpeed: '',
-      takenWhen: '',
-    },
-  },
-};
+import { useNavigate, useParams } from 'react-router-dom'
 
 const PostDetail = () => {
   const navigate = useNavigate();
-  const postId = useParams(); 
+  const postId = useParams();
   const { fetchedData } = usePostInfo({
     postInfoData: postId,
-  }); 
+  });
   console.log({ fetchedData }, 'posst info');
 
   const handleClickTag = useCallback(
@@ -73,19 +33,26 @@ const PostDetail = () => {
       <Page title="Flens-Post detail">
         <div className="post-detail">
           <div className="post-detail-content">
-            <Header item={data} />
+            <Header item={fetchedData?.postInfo} />
             <div className="post-content-wrapper">
               <div className="post-content">
                 <div className="image-wrapper">
-                  <img id="image-post" src={data?.image.url} alt="" />
+                  <img
+                    id="image-post"
+                    src={fetchedData?.postInfo.image.url}
+                    alt=""
+                  />
                 </div>
 
-                <div className="post-title">{data?.title}</div>
+                <div className="post-title">{fetchedData?.postInfo.title}</div>
                 <div className="technical-container">
-                  <PostTechnical item={data} showImageDetail={false} />
+                  <PostTechnical
+                    item={fetchedData?.postInfo}
+                    showImageDetail={false}
+                  />
                 </div>
                 <div className="hash-tags">
-                  {data?.tag.map((tag, index) => (
+                  {fetchedData?.postInfo?.tag.map((tag, index) => (
                     <span
                       id="tag"
                       key={index}
@@ -96,11 +63,11 @@ const PostDetail = () => {
                   ))}
                 </div>
 
-                <PostInteraction item={data} />
-                {data && (
+                <PostInteraction item={fetchedData?.postInfo} />
+                {fetchedData?.postInfo && (
                   <PostComment
-                    item={data}
-                    userLevel={data?.userId.level.currentLevel}
+                    item={fetchedData?.postInfo}
+                    userLevel={fetchedData?.postInfo.userId.level.currentLevel}
                   />
                 )}
               </div>
@@ -109,48 +76,8 @@ const PostDetail = () => {
         </div>
       </Page>
     ),
-    [handleClickTag]
+    [fetchedData?.postInfo, handleClickTag]
   );
 };
 
 export default PostDetail;
-
-// {
-//   "__typename": "Post",
-//   "id": "656aec2eff3c9bd4995fc410",
-//   "points": 14,
-//   "title": "MockTitleQ8JIC6RRCKZM",
-//   "caption": "",
-//   "postViewStatus": "PUBLIC",
-//   "createdAt": "1701506094528",
-//   "userLikedPost": [
-//       "653e0f9e048b56b72b30a608",
-//       "6496c0da518d8caaf82fcac3"
-//   ],
-//   "tag": [],
-//   "userId": {
-//       "__typename": "User",
-//       "profileImageURL": "https://fastly.picsum.photos/id/1/500/500.jpg?hmac=6vo7WkHURh9CWfdf144ASqEaPNcbj2PHJK3UgGH24lM",
-//       "name": "hung",
-//       "id": "6496c0da518d8caaf82fcac3",
-//       "level": {
-//           "__typename": "Level",
-//           "currentLevel": 34
-//       }
-//   },
-//   "image": {
-//       "__typename": "Image",
-//       "url": "https://bku-images.s3.amazonaws.com/MockImage_5QUW4R5KZGHV.jpg",
-//       "imageInfoId": {
-//           "__typename": "ImageInfo",
-//           "ISO": "",
-//           "aperture": "",
-//           "camera": "",
-//           "copyRight": "MockCopyRightVKPG52",
-//           "focalLength": "",
-//           "lens": "",
-//           "shutterSpeed": "",
-//           "takenWhen": ""
-//       }
-//   }
-// }

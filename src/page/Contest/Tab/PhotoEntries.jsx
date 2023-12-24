@@ -2,7 +2,6 @@ import Modal from '../../../components/Modal/Modal';
 import { useAuthState } from '../../../context/AuthContext';
 import { useGetNewFeed } from '../../../graphql/usePost';
 import useModal from '../../../hooks/useModal';
-import ImageDetail from '../../Home/Post/ImageDetail';
 import Post from '../../Home/Post/Post';
 import { ReportContent } from '../../ReportManagement/ReportImageContent';
 import React, { useMemo, useState } from 'react';
@@ -52,12 +51,6 @@ const PhotoEntries = () => {
             </InfiniteScroll>
           );
         })}
-        <ImageDetail
-          item={itemShowDetail}
-          showImageDetail={showImageDetail}
-          handleCloseImageDetail={toggleImageDetail}
-        />
-
         <Modal
           show={showReport}
           modalContent={<ReportContent image={imageToReport} />}
@@ -69,7 +62,6 @@ const PhotoEntries = () => {
     [
       hasNextPage,
       imageToReport,
-      itemShowDetail,
       loadNew,
       posts,
       showImageDetail,

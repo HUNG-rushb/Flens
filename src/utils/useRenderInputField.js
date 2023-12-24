@@ -42,14 +42,14 @@ export const renderInputField = (
 
   const checkValue = (label, value) => {
     if (label === 'Lens' || label === 'Focal length')
-      return /^\d+$/.test(value);
+      return /^[ \d]+$/.test(value);
     else if (label === 'Aperture') {
-      return /^(\d+(\.\d*)?|\.\d+)$/.test(value);
+      return /^([ \d]+(\.\d*)?|\.\d+)$/.test(value);
     } else if (label === 'Shutter speed') {
-      return /^(\d+\/\d+|\d+)$/.test(value);
+      return /^([ \d]+\/\d+|\d+)$/.test(value);
     } else if (label === 'ISO') {
-      return /^\d+$/.test(value);
-    } else return /^[a-zA-Z0-9]+$/.test(value);
+      return /^[ \d]+$/.test(value);
+    } else return /^[a-zA-Z0-9 ]+$/.test(value);
   };
 
   const handleCheckInputValue = (event, label) => {
@@ -119,13 +119,34 @@ export const renderInputFields = (
       break;
   }
 
+  const checkValue = (label, value) => {
+    if (label === 'Lens' || label === 'Focal length')
+      return /^[ \d]+$/.test(value);
+    else if (label === 'Aperture') {
+      return /^([ \d]+(\.\d*)?|\.\d+)$/.test(value);
+    } else if (label === 'Shutter speed') {
+      return /^([ \d]+\/\d+|\d+)$/.test(value);
+    } else if (label === 'ISO') {
+      return /^[ \d]+$/.test(value);
+    } else return /^[a-zA-Z0-9 ]+$/.test(value);
+  };
+
+  const handleCheckInputValue = (event, label) => {
+    const inputValue = event.target.value;
+    if(checkValue(label, inputValue)){
+      return inputValue
+    }
+    else {
+      return event.target.value.slice(0,-1)
+    }
+  }
+
   return (
     <div key={`inputs-${label}-${idx}`}>
       <label>
         {label} {unit}
       </label>
       <input
-        type="text"
         placeholder={placeholder}
         value={value}
         onChange={(event) =>
@@ -133,7 +154,7 @@ export const renderInputFields = (
             dispatch,
             type,
             convertLabel() || '',
-            event.target.value
+            handleCheckInputValue(event, label)
           )
         }
       />

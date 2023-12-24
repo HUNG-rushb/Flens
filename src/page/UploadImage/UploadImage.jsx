@@ -226,9 +226,7 @@ const UploadImage = ({ contestId = '' }) => {
   const handleConfirmUpload = useCallback(
     async (event) => {
       event.preventDefault();
-
       const result = await uploadImageToAWS({ selectedFile });
-
       try {
         await createPost({
           variables: {
@@ -283,7 +281,14 @@ const UploadImage = ({ contestId = '' }) => {
             },
           },
         });
+        toggleShow();
         successfullNoty('Upload image sucessfull!');
+        setTags([]);
+        setCategory({
+          id: 1,
+          value: options[0],
+        });
+        navigate('/');
       } catch (e) {
         throw e;
       }
@@ -300,6 +305,7 @@ const UploadImage = ({ contestId = '' }) => {
       createTag,
       fetchError,
       navigate,
+      options,
       postInfor.aperture,
       postInfor.camera,
       postInfor.caption,
@@ -312,6 +318,7 @@ const UploadImage = ({ contestId = '' }) => {
       postInfor.title,
       selectedFile,
       tags,
+      toggleShow,
       updateLevel,
       uploadImageToAWS,
       userId,
@@ -320,7 +327,8 @@ const UploadImage = ({ contestId = '' }) => {
   );
 
   const handleCancelUpload = useCallback(() => {
-    toggleShow(false);
+    toggleShow();
+    setTags([])
     setCategories([]);
     setCategory({
       id: 1,
