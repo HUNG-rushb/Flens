@@ -1,4 +1,4 @@
-import Button from '../../components/Button/Button.jsx';
+import Modal from '../../components/Modal/Modal.jsx';
 import { useAuthState } from '../../context/AuthContext.js';
 import { PostInfoReducer } from '../../context/reducer/PostReducer.js';
 import { useGetAllUserAlbum } from '../../graphql/useAlbum.js';
@@ -16,7 +16,7 @@ import React, {
   useEffect,
 } from 'react';
 
-const EditPost = ({ show, toggleShow, post }) => {
+const EditPost = ({ showModal, toggleShow, post }) => {
   const options = useMemo(
     () => [
       { name: 'All categories', id: '64ecb68380295e50c958e547' },
@@ -57,9 +57,9 @@ const EditPost = ({ show, toggleShow, post }) => {
   useEffect(() => {
     const cusTags = post?.tag.map((item, index) => ({
       id: index,
-      value: item
+      value: item,
     }));
-    setTags(cusTags)
+    setTags(cusTags);
   }, [post?.tag]);
 
   const [categories, setCategories] = useState([options[0]]);
@@ -113,22 +113,18 @@ const EditPost = ({ show, toggleShow, post }) => {
     }
   }, [categories, category]);
 
-  const handleConfirm = useCallback(async (event) => {
+  const handleEditPost = useCallback(async (event) => {
     event.preventDefault();
   }, []);
 
-  const handleCancel = useCallback(
-    (event) => {
-      event.preventDefault();
-      toggleShow();
-      setCategories([]);
-      setCategory({
-        id: 1,
-        value: options[0],
-      });
-    },
-    [options, toggleShow]
-  );
+  const handleCancel = useCallback(() => {
+    toggleShow();
+    setCategories([]);
+    setCategory({
+      id: 1,
+      value: options[0],
+    });
+  }, [options, toggleShow]);
 
   const inputData = useMemo(
     () => [
@@ -234,135 +230,122 @@ const EditPost = ({ show, toggleShow, post }) => {
     setViewStatus(viewStatus);
   }, []);
 
-  return useMemo(
-    () => (
-      <div className="modal-edit-overlay" hidden={!show} key={post?.id}>
-        <div className="modal-edit-container">
-          <div className="modal-upload-content">
-            <div className="modal-upload-left">
-              <img src={post?.image?.url} alt="" />
-            </div>
-            <div className="modal-upload-right">
-              <div className="modal-upload-details">
-                {inputData.map((item, idx) =>
-                  renderInputFields(
-                    item.label,
-                    item.placeholder,
-                    item.value,
-                    dispatch,
-                    'UPDATE_POST_FIELD',
-                    'edit',
-                    idx
-                  )
-                )}
-                <div>
-                  <label>Mode</label>
-                  <div className="post-mode">
-                    <label>
-                      Public
-                      <div id="input-radio">
-                        <input
-                          type="radio"
-                          name="mode"
-                          checked={viewStatus === 'PUBLIC'}
-                          onChange={() => {
-                            handleChangeMode('PUBLIC');
-                          }}
-                        />
-                      </div>
-                    </label>
-
-                    <label>
-                      Private
-                      <div id="input-radio">
-                        <input
-                          type="radio"
-                          name="mode"
-                          checked={viewStatus === 'PRIVATE'}
-                          onChange={(e) => {
-                            handleChangeMode('PRIVATE');
-                          }}
-                        />
-                      </div>
-                    </label>
-
-                    <label>
-                      Only Followers
-                      <div id="input-radio">
-                        <input
-                          type="radio"
-                          name="mode"
-                          checked={viewStatus === 'ONLY_FOLLOWERS'}
-                          onChange={(e) => {
-                            handleChangeMode('ONLY_FOLLOWERS');
-                          }}
-                        />
-                      </div>
-                    </label>
+  const renderEditContent = useCallback(() => {
+    return (
+      <div className="modal-upload-content">
+        <div className="modal-upload-left">
+          <img src={post?.image?.url} alt="" />
+        </div>
+        <div className="modal-upload-right">
+          <div className="modal-upload-details">
+            {inputData.map((item, idx) =>
+              renderInputFields(
+                item.label,
+                item.placeholder,
+                item.value,
+                dispatch,
+                'UPDATE_POST_FIELD',
+                'edit',
+                idx
+              )
+            )}
+            <div>
+              <label>Mode</label>
+              <div className="post-mode">
+                <label>
+                  Public
+                  <div id="input-radio">
+                    <input
+                      type="radio"
+                      name="mode"
+                      checked={viewStatus === 'PUBLIC'}
+                      onChange={() => {
+                        handleChangeMode('PUBLIC');
+                      }}
+                    />
                   </div>
-                </div>
+                </label>
 
-                {renderInputTags(
-                  'Tags',
-                  tags,
-                  setTags,
-                  tag,
-                  setTag,
-                  handleKeyDown,
-                  'edit'
-                )}
+                <label>
+                  Private
+                  <div id="input-radio">
+                    <input
+                      type="radio"
+                      name="mode"
+                      checked={viewStatus === 'PRIVATE'}
+                      onChange={(e) => {
+                        handleChangeMode('PRIVATE');
+                      }}
+                    />
+                  </div>
+                </label>
 
-                {InputDataBySelect.map((item, idx) =>
-                  renderAddItemBySelects(
-                    item.label,
-                    item.Array,
-                    item.setArray,
-                    item.value,
-                    item.setValue,
-                    item.options,
-                    item.handleSelect,
-                    'edit',
-                    idx
-                  )
-                )}
-              </div>
-
-              <div className="modal-buttons">
-                <div className="button-close">
-                  <Button
-                    text="Cancel"
-                    type="modal-close-btn"
-                    onClick={(e) => handleCancel(e)}
-                  />
-                </div>
-
-                <div className="button-confirm">
-                  <Button
-                    text="Upload"
-                    type="modal-save-btn"
-                    onClick={(event) => handleConfirm(event)}
-                  />
-                </div>
+                <label>
+                  Only Followers
+                  <div id="input-radio">
+                    <input
+                      type="radio"
+                      name="mode"
+                      checked={viewStatus === 'ONLY_FOLLOWERS'}
+                      onChange={(e) => {
+                        handleChangeMode('ONLY_FOLLOWERS');
+                      }}
+                    />
+                  </div>
+                </label>
               </div>
             </div>
+
+            {renderInputTags(
+              'Tags',
+              tags,
+              setTags,
+              tag,
+              setTag,
+              handleKeyDown,
+              'edit'
+            )}
+
+            {InputDataBySelect.map((item, idx) =>
+              renderAddItemBySelects(
+                item.label,
+                item.Array,
+                item.setArray,
+                item.value,
+                item.setValue,
+                item.options,
+                item.handleSelect,
+                'edit',
+                idx
+              )
+            )}
           </div>
         </div>
       </div>
+    );
+  }, [
+    InputDataBySelect,
+    handleChangeMode,
+    handleKeyDown,
+    inputData,
+    post?.image?.url,
+    tag,
+    tags,
+    viewStatus,
+  ]);
+
+  return useMemo(
+    () => (
+      <Modal
+        show={showModal}
+        modalContent={renderEditContent()}
+        handleClose={handleCancel}
+        handleSavechanges={handleEditPost}
+        submitText="Update"
+        size="xl"
+      />
     ),
-    [
-      show,
-      post?.id,
-      post?.image?.url,
-      inputData,
-      viewStatus,
-      tags,
-      tag,
-      handleKeyDown,
-      InputDataBySelect,
-      handleChangeMode,
-      handleCancel,
-      handleConfirm,
-    ]
+    [showModal, renderEditContent, handleCancel, handleEditPost]
   );
 };
 

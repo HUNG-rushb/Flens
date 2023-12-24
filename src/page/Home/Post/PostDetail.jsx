@@ -55,7 +55,6 @@ const PostDetail = () => {
   const { fetchedData } = usePostInfo({
     postInfoData: postId,
   }); 
-
   console.log({ fetchedData }, 'posst info');
 
   const handleClickTag = useCallback(

@@ -35,7 +35,7 @@
     .right-content {
       height: 100%;
       overflow-y: scroll;
-      
+
       .special-contest {
         max-width: 240px;
 
@@ -102,49 +102,6 @@
         .follow-list-suggestion {
           max-height: 230px;
           overflow-y: scroll;
-          .content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 10px 0;
-
-            .content-wrapper {
-              display: flex;
-              align-items: center;
-              gap: 10px;
-
-              #suggestion-image {
-                height: 50px;
-                width: 50px;
-                border-radius: 50%;
-                object-fit: cover;
-                cursor: pointer;
-              }
-
-              .subcontent-wrapper {
-                display: flex;
-                flex-direction: column;
-
-                #sugesstion-name {
-                  font-weight: 600;
-                  cursor: pointer;
-                }
-
-                #sugesstion-type {
-                  font-size: 14px;
-                }
-              }
-            }
-
-            #add-friend-icon {
-              opacity: 1;
-              cursor: pointer;
-            }
-
-            #add-friend-icon:hover {
-              opacity: 0.7;
-            }
-          }
         }
       }
 
@@ -157,17 +114,17 @@
 
         .tags-list {
           display: flex;
-          margin: 5px 0;
+          margin-right: 5px;
           max-width: 240px;
           flex-wrap: wrap;
 
           .tag {
             padding: 0 5px;
             border: 2px solid #f08080;
-            margin: 5px;
+            margin: 3px;
             cursor: pointer;
             border-radius: 5px;
-            color: #f08080; 
+            color: #f08080;
           }
 
           .tag:hover {

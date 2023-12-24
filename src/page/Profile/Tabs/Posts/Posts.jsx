@@ -3,7 +3,6 @@ import { useGetAllUserPost } from '../../../../graphql/usePost';
 import useModal from '../../../../hooks/useModal';
 import ErrorPopup from '../../../../utils/errorPopup';
 import Loading from '../../../../utils/useLoading';
-import ImageDetail from '../../../Home/Post/ImageDetail';
 import Post from '../../../Home/Post/Post';
 import './styles.scss';
 import React, { useMemo, useState } from 'react';
@@ -70,12 +69,6 @@ const ProfilePosts = () => {
           `You haven't upload yet !!!`
         )}
       </div>
-
-      <ImageDetail
-        item={itemShowDetail}
-        showImageDetail={showImageDetail}
-        handleCloseImageDetail={toggleImageDetail}
-      />
       <Loading loading={isFetching} />
       {fetchError?.message && <ErrorPopup message={fetchError?.message} />}
     </div>

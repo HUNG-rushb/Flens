@@ -9,8 +9,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.min.css';
 
 const SimilarImageDetail = ({ imageDetail, setSelectedItem }) => {
-  console.log(imageDetail, 'cốnle');
-
   
   const {
     posts: similarPosts,
@@ -22,7 +20,7 @@ const SimilarImageDetail = ({ imageDetail, setSelectedItem }) => {
   return useMemo(
     () => (
       <>
-        <div className="container">
+        <div className="similar-container">
           <div className="header">
             <img src={imageDetail.avatar} alt="" id="user-avatar" />
             <span id="username">{imageDetail.username}</span>
@@ -32,16 +30,13 @@ const SimilarImageDetail = ({ imageDetail, setSelectedItem }) => {
               src={imageDetail.image.url}
               alt=""
               style={{
-                maxWidth: '800px',
-                width: '100%',
-                height: '100%',
                 objectFit: 'cover',
               }}
             />
           </div>
           <hr />
           <div className="similar-images-list">
-            <span style={{ fontWeight: 600 }}>Similar image</span>
+            <span style={{ fontWeight: 600, fontSize: 25 }}>Similar image</span>
             {isFetching ? (
               <Spinner />
             ) : (
@@ -49,13 +44,18 @@ const SimilarImageDetail = ({ imageDetail, setSelectedItem }) => {
                 <Swiper
                   slidesPerView={2}
                   spaceBetween={30}
-                  className="images-list"
                 >
                   {similarPosts.map((item) => (
-                    <SwiperSlide key={item.node.id} className="image-item">
+                    <SwiperSlide key={item.node.id}>
                       <img
                         src={item.node.image.url}
                         onClick={() => setSelectedItem(item.node)}
+                        style={{
+                          maxHeight: 200,
+                          objectFit: 'cover',
+                          width: '100%',
+                          cursor: 'pointer',
+                        }}
                         alt=""
                       />
                     </SwiperSlide>

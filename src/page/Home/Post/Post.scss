@@ -26,6 +26,7 @@
           max-width: 800px;
           max-height: 1000px;
           border-radius: 4px;
+          cursor: pointer;
         }
 
         .technical-container {
@@ -91,11 +92,13 @@
         }
       }
       .post-title {
-        font-size: 25px;
-        font-weight: 600;
+        font-size: 22px;
         max-width: 800px;
         word-wrap: break-word;
         overflow-wrap: break-word;
+        font-family: Abhaya Libre;
+        text-transform: uppercase;
+        padding-top: 10px;
       }
 
       .hash-tags {

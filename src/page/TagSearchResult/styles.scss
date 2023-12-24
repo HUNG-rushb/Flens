@@ -1,4 +1,6 @@
-.container {
+.similar-container {
+  display: flex;
+  flex-direction: column;
   .header {
     display: flex;
     align-items: center;
@@ -23,28 +25,10 @@
     background-color: #c5c5c5;
 
     img {
-      padding: 20px;
-      border-radius: 5px;
-      max-height: 700px;
-    }
-  }
-
-  .similar-images-list {
-    span {
-      font-size: 25px;
-      margin-bottom: 20px;
-    }
-
-    .images-list {
-      .image-item {
-        img {
-          max-height: 300px;
-          height: 100%;
-          object-fit: cover;
-          width: 100%;
-          max-width: 500px;
-        }
-      }
+      max-height: 600px;
+      max-width: 600px;
+      object-fit: cover;
+      width: 100%;
     }
   }
 }

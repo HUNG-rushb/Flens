@@ -33,6 +33,7 @@ const Home = () => {
   useEffect(() => {
     if (posts?.length <= 1) loadNew();
   }, [loadNew, posts]);
+  console.log(posts)
 
   return useMemo(
     () => (

@@ -1,3 +1,4 @@
+import Spinner from '../../../components/utils/Spinner';
 import { useGetSimilarPost } from '../../../graphql/usePost';
 import ErrorPopup from '../../../utils/errorPopup';
 import './styles.scss';
@@ -6,7 +7,6 @@ import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.min.css';
-import Spinner from '../../../components/utils/Spinner';
 
 const SimilarImageDetail = ({ imageDetail, setImageToShow }) => {
   const {
@@ -21,32 +21,23 @@ const SimilarImageDetail = ({ imageDetail, setImageToShow }) => {
   return useMemo(
     () => (
       <>
-        <div className="container">
+        <div className="similar-explore-container">
           <div className="header">
             <img
               src={imageDetail.userId.profileImageURL}
               id="user-avatar"
+              height={50}
+              width={50}
               alt=""
             />
             <span id="username">{imageDetail.userId.name}</span>
           </div>
           <div className="main-image">
-            <img
-              src={imageDetail.image.url}
-              style={{
-                maxWidth: '800px',
-                height: '100%',
-                width: '100%',
-                objectFit: 'cover',
-              }}
-              alt=""
-            />
+            <img src={imageDetail.image.url} alt="" />
           </div>
-
           <hr />
-
           <div className="similar-images-list">
-            <span style={{ fontWeight: 600 }}>Similar image</span>
+            <span style={{ fontWeight: 600, fontSize: 25 }}>Similar image</span>
 
             {isFetching ? (
               <Spinner />
@@ -58,10 +49,16 @@ const SimilarImageDetail = ({ imageDetail, setImageToShow }) => {
                   className="images-list"
                 >
                   {similarPosts.map((item) => (
-                    <SwiperSlide key={item.node.id} className="image-item">
+                    <SwiperSlide key={item.node.id}>
                       <img
                         src={item.node.image.url}
                         onClick={() => setImageToShow(item.node)}
+                        style={{
+                          maxHeight: 200,
+                          objectFit: 'cover',
+                          width: '100%',
+                          cursor: 'pointer',
+                        }}
                         alt=""
                       />
                     </SwiperSlide>

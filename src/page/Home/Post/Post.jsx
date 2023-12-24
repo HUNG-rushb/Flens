@@ -1,4 +1,5 @@
 import HeaderPost from '../../../components/Header/Header.jsx';
+import Modal from '../../../components/Modal/Modal.jsx';
 import useModal from '../../../hooks/useModal.jsx';
 import ImageDetail from './ImageDetail.jsx';
 import './Post.scss';
@@ -14,16 +15,16 @@ const Post = ({ item, setReportedList }) => {
   const [isDeletedPost, setIsDeletedPost] = useState(false);
   const [showTechnicalInfor, setShowTechnicalInfor] = useState(false);
   const [itemShowDetail, setItemShowDetail] = useState(null);
-  const { isShowing: showDetail, toggle: toggleShowDetail } = useModal();
+  const { isShowing: showModal, toggle: toggleShow } = useModal();
 
   const handleViewDetail = useCallback(() => {
     setItemShowDetail(item);
-    toggleShowDetail();
-  }, [item, setItemShowDetail, toggleShowDetail]);
+    toggleShow();
+  }, [item, setItemShowDetail, toggleShow]);
 
   const handleClickTag = useCallback(
     (tag) => {
-      navigate('/explore/inspiration', {
+      navigate(`/search/${tag}`, {
         state: {
           tagValue: tag,
         },
@@ -61,7 +62,7 @@ const Post = ({ item, setReportedList }) => {
                   >
                     <PostTechnical
                       item={item}
-                      showImageDetail={showDetail}
+                      showImageDetail={showModal}
                       showTechnicalInfor={showTechnicalInfor}
                     />
                   </div>
@@ -105,10 +106,14 @@ const Post = ({ item, setReportedList }) => {
                 )}
               </div>
             </div>
-            <ImageDetail
-              showDetail={showDetail}
-              item={itemShowDetail}
-              handleCloseImageDetail={toggleShowDetail}
+            <Modal
+              show={showModal}
+              modalContent={
+                <ImageDetail item={itemShowDetail} showDetail={showModal} />
+              }
+              handleClose={toggleShow}
+              hideButton={true}
+              size="xl"
             />
           </div>
         )}
@@ -121,9 +126,9 @@ const Post = ({ item, setReportedList }) => {
       item,
       itemShowDetail,
       setReportedList,
-      showDetail,
+      showModal,
       showTechnicalInfor,
-      toggleShowDetail,
+      toggleShow,
     ]
   );
 };

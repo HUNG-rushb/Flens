@@ -4,12 +4,36 @@ export const POST_INFO = gql`
   query PostInfo($postInfoData: PostInfoInput!) {
     postInfo(data: $postInfoData) {
       id
-      image {
-        url
-      }
-      title
-      caption
-      createdAt
+          points
+          title
+          caption
+          postViewStatus
+          createdAt
+          userLikedPost
+          tag
+
+          userId {
+            profileImageURL
+            name
+            id
+            level {
+              currentLevel
+            }
+          }
+
+          image {
+            url
+            imageInfoId {
+              ISO
+              aperture
+              camera
+              copyRight
+              focalLength
+              lens
+              shutterSpeed
+              takenWhen
+            }
+          }
     }
   }
 `;

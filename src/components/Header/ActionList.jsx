@@ -341,8 +341,13 @@ const MoreActionList = ({
           modalContent={modalContent()}
           handleClose={handleClose}
           handleSavechanges={handleSavechanges}
+          submitText={action === 'DELETE' ? 'Delete' : 'Submit'}
         />
-        <EditPost show={showEditPost} post={item} toggleShow={toggleEditPost} key={Math.random()} />
+        <EditPost
+          showModal={showEditPost}
+          post={item}
+          toggleShow={toggleEditPost}
+        />
       </>
     ),
     [
@@ -362,6 +367,7 @@ const MoreActionList = ({
       modalContent,
       handleClose,
       handleSavechanges,
+      action,
       showEditPost,
       toggleEditPost,
     ]

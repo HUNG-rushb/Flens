@@ -1,4 +1,4 @@
-import Button from '../../components/Button/Button';
+import Modal from '../../components/Modal/Modal.jsx';
 import Page from '../../components/utils/Page';
 import { useAuthState } from '../../context/AuthContext.js';
 import {
@@ -68,7 +68,7 @@ const UploadImage = ({ contestId = '' }) => {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const [previewImage, setPreviewImage] = useState(null);
-  const { isShowing: showUpload, toggle: toggleShowUpload } = useModal();
+  const { isShowing: showUpload, toggle: toggleShow } = useModal();
 
   const [viewStatus, setViewStatus] = useState('PUBLIC');
   const [postInfor, dispatch] = useReducer(PostInfoReducer, initialPostInfo);
@@ -217,10 +217,10 @@ const UploadImage = ({ contestId = '' }) => {
       };
 
       reader.readAsDataURL(file);
-      toggleShowUpload(true);
+      toggleShow(true);
       setSelectedFile(file);
     },
-    [toggleShowUpload]
+    [toggleShow]
   );
 
   const handleConfirmUpload = useCallback(
@@ -319,18 +319,14 @@ const UploadImage = ({ contestId = '' }) => {
     ]
   );
 
-  const handleCancelUpload = useCallback(
-    (event) => {
-      event.preventDefault();
-      toggleShowUpload(false);
-      setCategories([]);
-      setCategory({
-        id: 1,
-        value: options[0],
-      });
-    },
-    [options, toggleShowUpload]
-  );
+  const handleCancelUpload = useCallback(() => {
+    toggleShow(false);
+    setCategories([]);
+    setCategory({
+      id: 1,
+      value: options[0],
+    });
+  }, [options, toggleShow]);
 
   const inputData = useMemo(
     () => [
@@ -436,167 +432,165 @@ const UploadImage = ({ contestId = '' }) => {
     setViewStatus(viewStatus);
   }, []);
 
+  const RenderUploadContent = useCallback(() => {
+    return (
+      <div className="modal-upload-content">
+        <div className="modal-upload-left">
+          <img src={previewImage} alt="" />
+        </div>
+        <div className="modal-upload-right">
+          <div className="modal-upload-details">
+            {inputData.map((item, idx) =>
+              renderInputField(
+                item.label,
+                item.placeholder,
+                item.value,
+                dispatch,
+                'UPDATE_POST_FIELD',
+                idx
+              )
+            )}
+            <div>
+              <label>Mode</label>
+              <div className="post-mode">
+                <label>
+                  Public
+                  <div id="input-radio">
+                    <input
+                      type="radio"
+                      name="mode"
+                      checked={viewStatus === 'PUBLIC'}
+                      onChange={(e) => {
+                        handleChangeMode('PUBLIC');
+                      }}
+                    />
+                  </div>
+                </label>
+
+                <label>
+                  Private
+                  <div id="input-radio">
+                    <input
+                      type="radio"
+                      name="mode"
+                      checked={viewStatus === 'PRIVATE'}
+                      onChange={(e) => {
+                        handleChangeMode('PRIVATE');
+                      }}
+                    />
+                  </div>
+                </label>
+
+                <label>
+                  Only Followers
+                  <div id="input-radio">
+                    <input
+                      type="radio"
+                      name="mode"
+                      checked={viewStatus === 'ONLY_FOLLOWERS'}
+                      onChange={(e) => {
+                        handleChangeMode('ONLY_FOLLOWERS');
+                      }}
+                    />
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            {renderInputTag(
+              'Tags',
+              tags,
+              setTags,
+              tag,
+              setTag,
+              handleKeyDown,
+              'post'
+            )}
+            {InputDataBySelect.map((item, idx) =>
+              renderAddItemBySelect(
+                item.label,
+                item.Array,
+                item.setArray,
+                item.value,
+                item.setValue,
+                item.options,
+                item.handleSelect,
+                'post',
+                idx
+              )
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }, [
+    InputDataBySelect,
+    handleChangeMode,
+    handleKeyDown,
+    inputData,
+    previewImage,
+    tag,
+    tags,
+    viewStatus,
+  ]);
+
   return useMemo(
     () => (
       <Page title="Flens-Upload">
-        <Suspense fallback={<div>Loading...</div>}>
-          <div className="upload-image-page">
-            <div className="upload-image-content">
-              <div className="upload-image-title">
-                <CloudArrowUp size={45} color="#f08080" />
-                <span>Flens - Upload Photo</span>
-              </div>
+        <Suspense fallback={null}>
+          <div className="upload-image-content">
+            <div
+              style={{
+                display: 'flex',
+                gap: 7,
+              }}
+            >
+              <CloudArrowUp size={45} color="#f08080" />
+              <span style={{ fontSize: 30, fontWeight: 700, color: '#f08080' }}>
+                Flens - Upload Photo
+              </span>
+            </div>
 
-              <div className="upload-image-text">Select a photo !</div>
-              <div className="upload-image-input">
-                <label
-                  className="custom-file-input"
-                  type="button"
-                  onClick={() => fileInputRef.current.click()}
-                >
-                  Choose a photo from your device
-                </label>
+            <div style={{ fontSize: 25, padding: '20px 0' }}>
+              Select a photo !
+            </div>
+            <div className="upload-image-input">
+              <label
+                className="custom-file-input"
+                onClick={() => fileInputRef.current.click()}
+              >
+                Choose a photo from your device
+              </label>
 
-                <input
-                  type="file"
-                  id="fileInput"
-                  ref={fileInputRef}
-                  onChange={handleFileChange}
-                />
-              </div>
-
-              <div className="modal-upload-overlay" hidden={!showUpload}>
-                <div className="modal-upload-container">
-                  <div className="modal-upload-content">
-                    <div className="modal-upload-left">
-                      <img src={previewImage} alt="" />
-                    </div>
-                    <div className="modal-upload-right">
-                      <div className="modal-upload-details">
-                        {inputData.map((item, idx) =>
-                          renderInputField(
-                            item.label,
-                            item.placeholder,
-                            item.value,
-                            dispatch,
-                            'UPDATE_POST_FIELD',
-                            idx
-                          )
-                        )}
-                        <div>
-                          <label>Mode</label>
-                          <div className="post-mode">
-                            <label>
-                              Public
-                              <div id="input-radio">
-                                <input
-                                  type="radio"
-                                  name="mode"
-                                  checked={viewStatus === 'PUBLIC'}
-                                  onChange={(e) => {
-                                    handleChangeMode('PUBLIC');
-                                  }}
-                                />
-                              </div>
-                            </label>
-
-                            <label>
-                              Private
-                              <div id="input-radio">
-                                <input
-                                  type="radio"
-                                  name="mode"
-                                  checked={viewStatus === 'PRIVATE'}
-                                  onChange={(e) => {
-                                    handleChangeMode('PRIVATE');
-                                  }}
-                                />
-                              </div>
-                            </label>
-
-                            <label>
-                              Only Followers
-                              <div id="input-radio">
-                                <input
-                                  type="radio"
-                                  name="mode"
-                                  checked={viewStatus === 'ONLY_FOLLOWERS'}
-                                  onChange={(e) => {
-                                    handleChangeMode('ONLY_FOLLOWERS');
-                                  }}
-                                />
-                              </div>
-                            </label>
-                          </div>
-                        </div>
-
-                        {renderInputTag(
-                          'Tags',
-                          tags,
-                          setTags,
-                          tag,
-                          setTag,
-                          handleKeyDown,
-                          'post'
-                        )}
-                        {InputDataBySelect.map((item, idx) =>
-                          renderAddItemBySelect(
-                            item.label,
-                            item.Array,
-                            item.setArray,
-                            item.value,
-                            item.setValue,
-                            item.options,
-                            item.handleSelect,
-                            'post',
-                            idx
-                          )
-                        )}
-                      </div>
-
-                      <div className="modal-buttons">
-                        <div className="button-close">
-                          <Button
-                            text="Cancel"
-                            type="modal-close-btn"
-                            onClick={(e) => handleCancelUpload(e)}
-                          />
-                        </div>
-
-                        <div className="button-confirm">
-                          <Button
-                            text="Upload"
-                            type="modal-save-btn"
-                            onClick={(event) => handleConfirmUpload(event)}
-                            disabled={!isDisabledButton}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                style={{ display: 'none' }}
+              />
             </div>
           </div>
           <Loading loading={isFetching} />
+          <Modal
+            show={showUpload}
+            modalContent={RenderUploadContent()}
+            handleClose={handleCancelUpload}
+            handleSavechanges={handleConfirmUpload}
+            disabled={!isDisabledButton}
+            submitText="Upload"
+            size="xl"
+          />
         </Suspense>
       </Page>
     ),
     [
       handleFileChange,
-      isDisabledButton,
-      showUpload,
-      previewImage,
-      inputData,
-      viewStatus,
-      tags,
-      tag,
-      handleKeyDown,
-      InputDataBySelect,
       isFetching,
-      handleChangeMode,
+      showUpload,
+      RenderUploadContent,
       handleCancelUpload,
       handleConfirmUpload,
+      isDisabledButton,
     ]
   );
 };

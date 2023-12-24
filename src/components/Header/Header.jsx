@@ -85,7 +85,6 @@ const Header = ({ type = 'post', item, setIsDeleted, setReportedList }) => {
             />
             {isHovered && renderPopoverContent()}
 
-            <div className="user-level">{userLevel}</div>
           </div>
           <div>
             <span id="username">
@@ -117,7 +116,6 @@ const Header = ({ type = 'post', item, setIsDeleted, setReportedList }) => {
       renderPostModeIcon,
       setIsDeleted,
       setReportedList,
-      userLevel,
     ]
   );
 };

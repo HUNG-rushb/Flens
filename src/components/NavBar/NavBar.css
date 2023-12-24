@@ -74,7 +74,7 @@ a.nav-link:hover {
 }
 
 .popover-content {
-  margin-top: 0.5rem;
+  margin-top: 2rem;
   position: absolute;
   background-color: white;
   padding: 1.5rem 1rem;

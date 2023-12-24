@@ -13,43 +13,69 @@ export const renderInputField = (
   type,
   idx
 ) => {
+
   const convertLabel = () => {
     const words = label?.split(' ');
     words[0] = words[0]?.toLowerCase();
     for (let i = 1; i < words?.length; i++) {
       words[i] = words[i]?.charAt(0).toUpperCase() + words[i]?.slice(1);
     }
-
     return words.join('');
   };
-
+  let unit = '';
   switch (label) {
+    case 'Lens':
+      unit = '(mm)';
+      break;
     case 'Aperture':
-      value = value !== '' ? 'f/' + value : '';
+      unit = '(f/)';
       break;
     case 'Shutter speed':
-      value = value !== '' ? value + ' s' : '';
+      unit = '(s)';
       break;
     case 'Focal length':
-      value = value !== '' ? value + ' mm' : '';
+      unit = '(mm)';
       break;
     default:
       break;
   }
 
+  const checkValue = (label, value) => {
+    if (label === 'Lens' || label === 'Focal length')
+      return /^\d+$/.test(value);
+    else if (label === 'Aperture') {
+      return /^(\d+(\.\d*)?|\.\d+)$/.test(value);
+    } else if (label === 'Shutter speed') {
+      return /^(\d+\/\d+|\d+)$/.test(value);
+    } else if (label === 'ISO') {
+      return /^\d+$/.test(value);
+    } else return /^[a-zA-Z0-9]+$/.test(value);
+  };
+
+  const handleCheckInputValue = (event, label) => {
+    const inputValue = event.target.value;
+    if(checkValue(label, inputValue)){
+      return inputValue
+    }
+    else {
+      return event.target.value.slice(0,-1)
+    }
+  }
+
   return (
     <div key={`input-${label}-${idx}`}>
-      <label>{label}</label>
+      <label>
+        {label} {unit}
+      </label>
       <input
-        type="text"
         placeholder={placeholder}
         value={value}
         onChange={(event) =>
           handleInputChange(
-            dispatch,
+            dispatch,  
             type,
             convertLabel() || '',
-            event.target.value
+            handleCheckInputValue(event, label)
           )
         }
       />
@@ -75,15 +101,19 @@ export const renderInputFields = (
     return words.join('');
   };
 
+  let unit = '';
   switch (label) {
+    case 'Lens':
+      unit = '(mm)';
+      break;
     case 'Aperture':
-      value = value !== '' ? 'f/' + value : '';
+      unit = '(f/)';
       break;
     case 'Shutter speed':
-      value = value !== '' ? value + ' s' : '';
+      unit = '(s)';
       break;
     case 'Focal length':
-      value = value !== '' ? value + ' mm' : '';
+      unit = '(mm)';
       break;
     default:
       break;
@@ -91,7 +121,9 @@ export const renderInputFields = (
 
   return (
     <div key={`inputs-${label}-${idx}`}>
-      <label>{label}</label>
+      <label>
+        {label} {unit}
+      </label>
       <input
         type="text"
         placeholder={placeholder}

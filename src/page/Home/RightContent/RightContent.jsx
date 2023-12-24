@@ -1,8 +1,8 @@
+import SuggestUserItem from '../../../components/SuggestUserItem/SuggestUserItem';
 import { useAuthState } from '../../../context/AuthContext';
 import { useGetAllContest } from '../../../graphql/useContest';
 import { useSuggestTag } from '../../../graphql/usePost';
 import { useSuggestUserToFollow } from '../../../graphql/useUser';
-import FollowUserIcon from './FollowUserIcon';
 import './styles.scss';
 import React, { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router';
@@ -81,31 +81,11 @@ const RightContent = () => {
               <span id="subtitle">Discover new connections:</span>
               <div className="follow-list-suggestion">
                 {suggestedUserList?.suggestUserToFollow.edges.map((item) => (
-                  <div className="follow-suggestion" key={item.node.id}>
-                    <div className="content">
-                      <div
-                        className="content-wrapper"
-                        onClick={() => {
-                          navigate(`/profile/${item.node.id}`);
-                        }}
-                      >
-                        <img
-                          src={item.node.profileImageURL}
-                          alt=""
-                          id="suggestion-image"
-                        />
-                        <div className="subcontent-wrapper">
-                          <span id="sugesstion-name">{item.node.name}</span>
-                        </div>
-                      </div>
-
-                      <FollowUserIcon
-                        userId={userId}
-                        targetUserId={item.node.id}
-                      />
-                    </div>
-                    <hr />
-                  </div>
+                  <SuggestUserItem
+                    key={item.node.id}
+                    item={item}
+                    userId={userId}
+                  />
                 ))}
               </div>
             </div>
@@ -132,7 +112,6 @@ const RightContent = () => {
       allContests?.allContests,
       handleClickContest,
       handleClickTag,
-      navigate,
       suggestedTag,
       suggestedUserList?.suggestUserToFollow.edges,
       userId,
