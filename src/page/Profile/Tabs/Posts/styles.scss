@@ -2,26 +2,15 @@
   display: flex;
   width: 100%;
   padding: 40px;
-  flex-direction: column;
 
   .statistic-posts {
     width: 25%;
-
-    #title {
-      font-size: 16px;
-      font-weight: bold;
-    }
 
     li {
       text-decoration: none;
       list-style-type: none;
       font-size: 18px;
       font-family: Abhaya Libre;
-    }
-
-    #special-text {
-      font-size: 20px;
-      color: rgb(241, 102, 102);
     }
   }
 

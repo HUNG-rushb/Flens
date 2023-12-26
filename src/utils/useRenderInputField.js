@@ -13,7 +13,6 @@ export const renderInputField = (
   type,
   idx
 ) => {
-
   const convertLabel = () => {
     const words = label?.split(' ');
     words[0] = words[0]?.toLowerCase();
@@ -52,97 +51,18 @@ export const renderInputField = (
     } else return /^[a-zA-Z0-9 ]+$/.test(value);
   };
 
+  
   const handleCheckInputValue = (event, label) => {
     const inputValue = event.target.value;
-    if(checkValue(label, inputValue)){
-      return inputValue
+    if (checkValue(label, inputValue)) {
+      return inputValue;
+    } else {
+      return event.target.value.slice(0, -1);
     }
-    else {
-      return event.target.value.slice(0,-1)
-    }
-  }
+  };
 
   return (
     <div key={`input-${label}-${idx}`}>
-      <label>
-        {label} {unit}
-      </label>
-      <input
-        placeholder={placeholder}
-        value={value}
-        onChange={(event) =>
-          handleInputChange(
-            dispatch,  
-            type,
-            convertLabel() || '',
-            handleCheckInputValue(event, label)
-          )
-        }
-      />
-    </div>
-  );
-};
-
-export const renderInputFields = (
-  label,
-  placeholder,
-  value,
-  dispatch,
-  type,
-  idx
-) => {
-  const convertLabel = () => {
-    const words = label?.split(' ');
-    words[0] = words[0]?.toLowerCase();
-    for (let i = 1; i < words?.length; i++) {
-      words[i] = words[i]?.charAt(0).toUpperCase() + words[i]?.slice(1);
-    }
-
-    return words.join('');
-  };
-
-  let unit = '';
-  switch (label) {
-    case 'Lens':
-      unit = '(mm)';
-      break;
-    case 'Aperture':
-      unit = '(f/)';
-      break;
-    case 'Shutter speed':
-      unit = '(s)';
-      break;
-    case 'Focal length':
-      unit = '(mm)';
-      break;
-    default:
-      break;
-  }
-
-  const checkValue = (label, value) => {
-    if (label === 'Lens' || label === 'Focal length')
-      return /^[ \d]+$/.test(value);
-    else if (label === 'Aperture') {
-      return /^([ \d]+(\.\d*)?|\.\d+)$/.test(value);
-    } else if (label === 'Shutter speed') {
-      return /^([ \d]+\/\d+|\d+)$/.test(value);
-    } else if (label === 'ISO') {
-      return /^[ \d]+$/.test(value);
-    } else return /^[a-zA-Z0-9 ]+$/.test(value);
-  };
-
-  const handleCheckInputValue = (event, label) => {
-    const inputValue = event.target.value;
-    if(checkValue(label, inputValue)){
-      return inputValue
-    }
-    else {
-      return event.target.value.slice(0,-1)
-    }
-  }
-
-  return (
-    <div key={`inputs-${label}-${idx}`}>
       <label>
         {label} {unit}
       </label>

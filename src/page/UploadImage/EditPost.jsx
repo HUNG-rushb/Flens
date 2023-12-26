@@ -4,7 +4,7 @@ import { PostInfoReducer } from '../../context/reducer/PostReducer.js';
 import { useGetAllUserAlbum } from '../../graphql/useAlbum.js';
 import {
   renderAddItemBySelects,
-  renderInputFields,
+  renderInputField,
   renderInputTags,
 } from '../../utils/useRenderInputField.js';
 import './EditPost.scss';
@@ -17,6 +17,35 @@ import React, {
 } from 'react';
 
 const EditPost = ({ showModal, toggleShow, post }) => {
+  const setPostInfoValues = (receivedPost) => {
+    const { title, caption, image: { imageInfoId = {} } = {} } = receivedPost;
+
+    const {
+      aperture,
+      lens,
+      takenWhen,
+      camera,
+      focalLength,
+      shutterSpeed,
+      ISO,
+      copyRight,
+    } = imageInfoId;
+
+    return {
+      title,
+      caption,
+      aperture,
+      lens,
+      takenWhen,
+      camera,
+      focalLength,
+      shutterSpeed,
+      iso: ISO,
+      copyright: copyRight,
+    };
+  };
+
+  const initialValues = setPostInfoValues(post);
   const options = useMemo(
     () => [
       { name: 'All categories', id: '64ecb68380295e50c958e547' },
@@ -47,7 +76,8 @@ const EditPost = ({ showModal, toggleShow, post }) => {
   const { id: userId } = useAuthState();
 
   const [viewStatus, setViewStatus] = useState(post?.postViewStatus);
-  const [postInfor, dispatch] = useReducer(PostInfoReducer, post);
+  const [postInfor, dispatch] = useReducer(PostInfoReducer, initialValues);
+
   const [tags, setTags] = useState([]);
   const [tag, setTag] = useState({
     id: 0,
@@ -141,55 +171,55 @@ const EditPost = ({ showModal, toggleShow, post }) => {
       {
         label: 'Camera',
         placeholder: 'Input Camera',
-        value: postInfor?.image?.imageInfoId?.camera,
+        value: postInfor?.camera,
       },
       {
         label: 'Lens',
         placeholder: 'Input Lens',
-        value: postInfor?.image?.imageInfoId?.lens,
+        value: postInfor?.lens,
       },
       {
         label: 'Aperture',
         placeholder: 'Input Aperture',
-        value: postInfor?.image?.imageInfoId?.aperture,
+        value: postInfor?.aperture,
       },
       {
         label: 'Shutter speed',
         placeholder: 'Input Shutter speed',
-        value: postInfor?.image?.imageInfoId?.shutterSpeed,
+        value: postInfor?.shutterSpeed,
       },
       {
         label: 'Focal length',
         placeholder: 'Input Focal length',
-        value: postInfor?.image?.imageInfoId?.focalLength,
+        value: postInfor?.focalLength,
       },
       {
         label: 'ISO',
         placeholder: 'Input ISO',
-        value: postInfor?.image?.imageInfoId?.iso,
+        value: postInfor?.iso,
       },
       {
         label: 'Taken when',
         placeholder: 'Taken when',
-        value: postInfor?.image?.imageInfoId?.takenWhen,
+        value: postInfor?.takenWhen,
       },
       {
         label: 'Copyright',
         placeholder: 'Input CopyRight',
-        value: postInfor?.image?.imageInfoId?.copyright,
+        value: postInfor?.copyright,
       },
     ],
     [
       postInfor?.title,
       postInfor?.caption,
-      postInfor?.image?.imageInfoId?.camera,
-      postInfor?.image?.imageInfoId?.lens,
-      postInfor?.image?.imageInfoId?.aperture,
-      postInfor?.image?.imageInfoId?.shutterSpeed,
-      postInfor?.image?.imageInfoId?.focalLength,
-      postInfor?.image?.imageInfoId?.iso,
-      postInfor?.image?.imageInfoId?.takenWhen,
-      postInfor?.image?.imageInfoId?.copyright,
+      postInfor?.camera,
+      postInfor?.lens,
+      postInfor?.aperture,
+      postInfor?.shutterSpeed,
+      postInfor?.focalLength,
+      postInfor?.iso,
+      postInfor?.takenWhen,
+      postInfor?.copyright,
     ]
   );
 
@@ -239,13 +269,12 @@ const EditPost = ({ showModal, toggleShow, post }) => {
         <div className="modal-upload-right">
           <div className="modal-upload-details">
             {inputData.map((item, idx) =>
-              renderInputFields(
+              renderInputField(
                 item.label,
                 item.placeholder,
                 item.value,
                 dispatch,
                 'UPDATE_POST_FIELD',
-                'edit',
                 idx
               )
             )}

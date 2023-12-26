@@ -1,19 +1,16 @@
 import { useAuthState } from '../../../../context/AuthContext';
 import { useGetAllUserPost } from '../../../../graphql/usePost';
-import useModal from '../../../../hooks/useModal';
 import ErrorPopup from '../../../../utils/errorPopup';
 import Loading from '../../../../utils/useLoading';
 import Post from '../../../Home/Post/Post';
 import './styles.scss';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useParams } from 'react-router';
 
 const ProfilePosts = () => {
   const { userId } = useParams();
   const { id: currentUserId } = useAuthState();
-  const [itemShowDetail, setItemShowDetail] = useState(null);
-  const { isShowing: showImageDetail, toggle: toggleImageDetail } = useModal();
 
   const { posts, hasNextPage, isFetching, fetchError, loadNew } =
     useGetAllUserPost(userId, currentUserId);
@@ -28,13 +25,20 @@ const ProfilePosts = () => {
   return (
     <div className="profile-activity-container">
       <div className="statistic-posts">
-        <p id="title">Your statistic:</p>
+        <p style={{ fontSize: 16, fontWeight: 600 }}>Your statistic:</p>
         <ul>
           <li>
-            You have posted <span id="special-text">{totalPost}</span> posts !
+            You have posted{' '}
+            <span style={{ fontSize: 20, color: 'rgb(241, 102, 102)' }}>
+              {totalPost}
+            </span>{' '}
+            posts !
           </li>
           <li>
-            Total likes achieved: <span id="special-text">{totalLike} </span>
+            Total likes achieved:{' '}
+            <span style={{ fontSize: 20, color: 'rgb(241, 102, 102)' }}>
+              {totalLike}
+            </span>
           </li>
         </ul>
       </div>
@@ -55,13 +59,7 @@ const ProfilePosts = () => {
           >
             {posts.map((item, idx) => {
               return (
-                <Post
-                  key={'posts_' + item.node.id + idx}
-                  item={item.node}
-                  showImageDetail={showImageDetail}
-                  toggleImageDetail={toggleImageDetail}
-                  setItemShowDetail={setItemShowDetail}
-                />
+                <Post key={'posts_' + item.node.id + idx} item={item.node} />
               );
             })}
           </InfiniteScroll>

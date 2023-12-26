@@ -40,18 +40,10 @@ const ContestDetail = () => {
   } = useGetContestInfo({
     contestInfoData: { contestId },
   });
-  // console.log({ contestInfo });
-
   const { posts, hasNextPage, isFetching, fetchError, loadNew, refetch } =
     useGetContestPosts(contestId, userId);
-  // console.log({ posts });
 
   const { isShowing: showModal, toggle: toggleModal } = useModal();
-
-  const handleCloseModal = useCallback(() => {
-    toggleModal();
-  }, [toggleModal]);
-
   const options = useMemo(
     () => [
       { name: 'All categories', id: '64ecb68380295e50c958e547' },
@@ -79,6 +71,17 @@ const ContestDetail = () => {
     ],
     []
   );
+
+  const handleCloseModal = useCallback(() => {
+    toggleModal();
+    setCategories([]);
+    setCategory({
+      id: 1,
+      value: options[0],
+    });
+    setTags([]);
+    setAlbums([]);
+  }, [options, toggleModal]);
 
   const [previewImage, setPreviewImage] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -208,12 +211,12 @@ const ContestDetail = () => {
                 <span id="subtitle">Deadline</span>
                 <div className="date-item">
                   <span>Start date:</span>
-                  {unixToDateTime(contestInfo?.contestInfo.startDate|| '')}
+                  {unixToDateTime(contestInfo?.contestInfo.startDate || '')}
                 </div>
 
                 <div className="date-item">
                   <span>End date:</span>
-                  {unixToDateTime(contestInfo?.contestInfo.endDate||"")}
+                  {unixToDateTime(contestInfo?.contestInfo.endDate || '')}
                 </div>
               </div>
 
@@ -252,6 +255,7 @@ const ContestDetail = () => {
                       id="fileInput"
                       ref={fileInputRef}
                       onChange={handleFileChange}
+                      style={{ display: 'none' }}
                     />
                   </>
                 )}
@@ -278,12 +282,6 @@ const ContestDetail = () => {
                         key={item.node.id}
                         item={item.node}
                         userId={item.node.userId.id}
-                        // showReport={showReport}
-                        // showImageDetail={showImageDetail}
-                        // toggleShowReport={toggleShowReport}
-                        // setImageToReport={setImageToReport}
-                        // toggleImageDetail={toggleImageDetail}
-                        // setItemShowDetail={setItemShowDetail}
                       />
                     );
                   })}
@@ -303,11 +301,10 @@ const ContestDetail = () => {
 
         <Modal
           show={showModal}
-          modalTitle="Submit your photo"
+          modalTitle="Contest submition"
           modalContent={
             <SubmitionContent
               contestId={contestId}
-              handleCloseModal={handleCloseModal}
               options={options}
               tags={tags}
               setTags={setTags}
@@ -329,8 +326,9 @@ const ContestDetail = () => {
               dispatch={dispatch}
             />
           }
+          submitText="Upload Entry"
           size="xl"
-          hideButton
+          handleClose={handleCloseModal}
         />
       </>
     ),

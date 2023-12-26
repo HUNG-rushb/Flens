@@ -1,4 +1,3 @@
-import Button from '../../../../components/Button/Button';
 import { useAuthState } from '../../../../context/AuthContext.js';
 import { useGetAllUserAlbum } from '../../../../graphql/useAlbum.js';
 import { useUserJoinContest } from '../../../../graphql/useContest';
@@ -330,13 +329,14 @@ const SubmitionContent = ({
           </div>
           <div className="modal-upload-right">
             <div className="modal-upload-details">
-              {inputData.map((item) =>
+              {inputData.map((item, idx) =>
                 renderInputField(
                   item.label,
                   item.placeholder,
                   item.value,
                   dispatch,
-                  'UPDATE_CONTEST_FIELD'
+                  'UPDATE_CONTEST_FIELD',
+                  idx
                 )
               )}
               <div>
@@ -372,7 +372,7 @@ const SubmitionContent = ({
               )}
             </div>
 
-            <div className="modal-buttons">
+            {/* <div className="modal-buttons">
               <div className="button-close">
                 <Button
                   text="Cancel"
@@ -388,7 +388,7 @@ const SubmitionContent = ({
                   onClick={(event) => handleConfirmUpload(event)}
                 />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         <Loading loading={isFetching} />
@@ -397,8 +397,6 @@ const SubmitionContent = ({
     [
       InputDataBySelect,
       dispatch,
-      handleCancelUpload,
-      handleConfirmUpload,
       handleKeyDown,
       inputData,
       isFetching,
