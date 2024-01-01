@@ -5,7 +5,9 @@ import Login from '../page/Authentication/Login.jsx';
 import Register from '../page/Authentication/Register.jsx';
 import Contest from '../page/Contest/Contest.jsx';
 import ContestDetail from '../page/Contest/Tab/ContestDetail/ContestDetail.jsx';
-import ContestManagement from '../page/ContestManagement/ContestManagement.jsx';
+import ContestManagement from '../page/ContestManagement/ContestManagament.jsx';
+import CreateContest from '../page/ContestManagement/CreateContest.jsx';
+import ContestDetailManagement from '../page/ContestManagement/ContestDetailManagement.jsx';
 // import Courses from '../page/Courses/Courses.jsx';
 // import CoursesManagement from '../page/CoursesManagement/CoursesManagement.jsx';
 // import UploadCourses from '../page/CoursesManagement/UploadCourses/UploadCourses.jsx';
@@ -150,17 +152,23 @@ const routes = [
     isPrivate: true,
   },
   {
+    path: '/create-contest',
+    element: <CreateContest />,
+    exact: true,
+    isPrivate: true,
+  },
+  {
     path: '/contest-management',
     element: <ContestManagement />,
     exact: true,
     isPrivate: true,
   },
-  // {
-  //   path: '/courses-management',
-  //   element: <CoursesManagement />,
-  //   exact: true,
-  //   isPrivate: true,
-  // },
+  {
+    path: '/contest-management/:contestId',
+    element: <ContestDetailManagement />,
+    exact: true,
+    isPrivate: true,
+  },
   {
     path: '/report-management',
     element: <ReportManagement />,

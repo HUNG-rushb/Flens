@@ -8,11 +8,19 @@ import {
 import {
   useGetContestInfo,
   useGetContestPosts,
+  useUserJoinContest,
 } from '../../../../graphql/useContest';
+import {
+  useCreatePostLazy,
+  useCreateTag,
+  useUpdatePointPostingLazy,
+} from '../../../../graphql/usePost';
 import useModal from '../../../../hooks/useModal';
+import useUploadImageToAWS from '../../../../hooks/useUploadImageToAWS';
 import ErrorPopup from '../../../../utils/errorPopup';
 import unixToDateTime from '../../../../utils/unixToDateTime';
 import Loading from '../../../../utils/useLoading';
+import { successfullNoty } from '../../../../utils/useNotify';
 import Post from '../../../Home/Post/Post';
 import './ContestDetail.scss';
 import RankingBoard from './RankingBoard';
@@ -26,7 +34,7 @@ import React, {
   useReducer,
 } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const ContestDetail = () => {
   const { contestId } = useParams();
@@ -42,7 +50,7 @@ const ContestDetail = () => {
   });
   const { posts, hasNextPage, isFetching, fetchError, loadNew, refetch } =
     useGetContestPosts(contestId, userId);
-
+  const navigate = useNavigate();
   const { isShowing: showModal, toggle: toggleModal } = useModal();
   const options = useMemo(
     () => [
@@ -183,6 +191,129 @@ const ContestDetail = () => {
     [toggleModal]
   );
 
+  const {
+    createPost,
+    isFetching: creatContest,
+    fetchedData,
+    fetchError: createContestError,
+  } = useCreatePostLazy();
+
+  const { updateLevel } = useUpdatePointPostingLazy();
+  const { createTag } = useCreateTag();
+  const uploadImageToAWS = useUploadImageToAWS();
+  const { userJoinContest } = useUserJoinContest();
+
+  const handleConfirmUpload = useCallback(
+    async (event) => {
+      event.preventDefault();
+
+      const result = await uploadImageToAWS({ selectedFile });
+
+      try {
+        await createPost({
+          variables: {
+            createPostData: {
+              userId,
+              title: contestInfor.title,
+              caption: contestInfor.caption,
+              contestId,
+              postViewStatus: 'PUBLIC',
+              aperture: contestInfor.aperture,
+              lens: contestInfor.lens,
+              takenWhen: contestInfor.takenWhen,
+              camera: contestInfor.camera,
+              focalLength: contestInfor.focalLength,
+              shutterSpeed: contestInfor.shutterSpeed,
+              ISO: contestInfor.iso,
+              copyRight: contestInfor.copyright,
+              imageURL: result.Location,
+              categoryId: categories.map((a) => a.id),
+              albumId: albums.map((a) => a.id),
+              tag: [
+                ...new Set(
+                  tags
+                    .map((a) => a.value)
+                    .map((element) => element.toLowerCase())
+                ),
+              ],
+            },
+          },
+        });
+
+        await updateLevel({
+          variables: {
+            updatePointPostingData: {
+              userId,
+              xp: 50,
+            },
+          },
+        });
+
+        await createTag({
+          variables: {
+            createTagData: {
+              name: [
+                ...new Set(
+                  tags
+                    .map((a) => a.value)
+                    .map((element) => element.toLowerCase())
+                ),
+              ],
+            },
+          },
+        });
+
+        await userJoinContest({
+          variables: {
+            userJoinContestData: {
+              contestId,
+              userId,
+            },
+          },
+        });
+
+        contestInfoRefetch();
+        successfullNoty("You've joined this contest!");
+        handleCloseModal();
+        refetch();
+      } catch (e) {
+        throw e;
+      }
+
+      if (!fetchError) {
+        navigate(`/contest/${contestId}`);
+      }
+    },
+    [
+      uploadImageToAWS,
+      selectedFile,
+      fetchError,
+      createPost,
+      userId,
+      contestInfor.title,
+      contestInfor.caption,
+      contestInfor.aperture,
+      contestInfor.lens,
+      contestInfor.takenWhen,
+      contestInfor.camera,
+      contestInfor.focalLength,
+      contestInfor.shutterSpeed,
+      contestInfor.iso,
+      contestInfor.copyright,
+      contestId,
+      categories,
+      albums,
+      tags,
+      updateLevel,
+      createTag,
+      userJoinContest,
+      contestInfoRefetch,
+      refetch,
+      handleCloseModal,
+      navigate,
+    ]
+  );
+
   return useMemo(
     () => (
       <>
@@ -294,7 +425,7 @@ const ContestDetail = () => {
             </div>
           </div>
         </div>
-        <Loading loading={loadContest} />
+        <Loading loading={loadContest || creatContest} />
         {loadContestError?.message && (
           <ErrorPopup message={loadContestError?.message} />
         )}
@@ -329,6 +460,7 @@ const ContestDetail = () => {
           submitText="Upload Entry"
           size="xl"
           handleClose={handleCloseModal}
+          handleSavechanges={handleConfirmUpload}
         />
       </>
     ),
@@ -344,9 +476,9 @@ const ContestDetail = () => {
       handleFileChange,
       hasNextPage,
       loadContest,
+      creatContest,
       loadContestError?.message,
       showModal,
-      handleCloseModal,
       options,
       tags,
       tag,
@@ -359,6 +491,8 @@ const ContestDetail = () => {
       refetch,
       contestInfoRefetch,
       contestInfor,
+      handleCloseModal,
+      handleConfirmUpload,
       userId,
       loadNew,
     ]

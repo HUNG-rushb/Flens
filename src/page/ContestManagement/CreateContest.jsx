@@ -95,7 +95,7 @@ const ContestManagement = () => {
 
   return useMemo(
     () => (
-      <Page title="Flens-Contest management">
+      <Page title="Flens-Create contest">
         <Suspense fallback={null}>
           <div className="contest-management-container">
             <div className="contest-management-wrapper">

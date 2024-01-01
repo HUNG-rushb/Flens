@@ -1,3 +1,4 @@
+import ModalCustom from '../../../../components/Modal/Modal.jsx';
 import { useAuthState } from '../../../../context/AuthContext.js';
 import { useGetAllUserAlbum } from '../../../../graphql/useAlbum.js';
 import { useUserJoinContest } from '../../../../graphql/useContest';
@@ -371,24 +372,6 @@ const SubmitionContent = ({
                 )
               )}
             </div>
-
-            {/* <div className="modal-buttons">
-              <div className="button-close">
-                <Button
-                  text="Cancel"
-                  type="modal-close-btn"
-                  onClick={(e) => handleCancelUpload(e)}
-                />
-              </div>
-
-              <div className="button-confirm">
-                <Button
-                  text="Upload"
-                  type="modal-save-btn"
-                  onClick={(event) => handleConfirmUpload(event)}
-                />
-              </div>
-            </div> */}
           </div>
         </div>
         <Loading loading={isFetching} />

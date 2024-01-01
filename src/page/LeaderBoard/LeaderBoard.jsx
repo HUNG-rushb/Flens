@@ -23,10 +23,11 @@ const LeaderBoard = () => {
   const { id: userId } = useAuthState();
 
   const { fetchedData: userAllLeader } = useGetAllUserLeaderBoard(true);
+  console.log(userAllLeader?.getAllUserLeaderboard, typeof userAllLeader);
   const { fetchedData: userFollowingLeader } = useUserFollowingLeaderBoard({
     data: { userId },
   });
-  console.log({ userAllLeader });
+  // console.log({ userAllLeader  });
   console.log({ userFollowingLeader });
 
   const options = useMemo(
@@ -51,33 +52,33 @@ const LeaderBoard = () => {
     setSearchValue(event.target.value);
   }, []);
 
-  const filteredSelected = useCallback(() => {
-    if (selected === 'All') setSelected('');
-    const filteredSelected = boardData.filter((item) =>
-      item.country.includes(selected)
-    );
-    setFilteredData(filteredSelected);
-  }, [selected]);
+  // const filteredSelected = useCallback(() => {
+  //   if (selected === 'All') setSelected('');
+  //   const filteredSelected = boardData.filter((item) =>
+  //     item.country.includes(selected)
+  //   );
+  //   setFilteredData(filteredSelected);
+  // }, [selected]);
 
-  const filteredSearchValue = useCallback(() => {
-    const filtedSearchValue = boardData.filter(
-      (item) =>
-        item.country.includes(seachValue) ||
-        item.name.includes(seachValue) ||
-        String(item.numberOfFollowers).includes(seachValue)
-    );
-    setFilteredData(filtedSearchValue);
-  }, [seachValue]);
+  // const filteredSearchValue = useCallback(() => {
+  //   const filtedSearchValue = boardData.filter(
+  //     (item) =>
+  //       item.country.includes(seachValue) ||
+  //       item.name.includes(seachValue) ||
+  //       String(item.numberOfFollowers).includes(seachValue)
+  //   );
+  //   setFilteredData(filtedSearchValue);
+  // }, [seachValue]);
 
-  useEffect(() => {
-    filteredSelected();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected]);
+  // useEffect(() => {
+  //   filteredSelected();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [selected]);
 
-  useEffect(() => {
-    filteredSearchValue();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [seachValue]);
+  // useEffect(() => {
+  //   filteredSearchValue();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [seachValue]);
 
   return useMemo(
     () => (
@@ -92,49 +93,114 @@ const LeaderBoard = () => {
               <span id="title">Following</span>
               <p>Photographers you are following</p>
             </div>
-            <div className="leader-board-content">
-              <div className="filter-and-search">
-                <Select
-                  options={options}
-                  selected={selected}
-                  onChange={handleOnChangeSelected}
-                />
-                <div className="search-bar">
-                  <Input
-                    type="Text"
-                    placeholder="Search"
-                    value={seachValue}
-                    onChange={handleOnChangeSearch}
+            <div style={{ display: 'flex' }}>
+              <div className="leader-board-content">
+                <div className="filter-and-search">
+                  <Select
+                    options={options}
+                    selected={selected}
+                    onChange={handleOnChangeSelected}
                   />
+                  <div className="search-bar">
+                    <Input
+                      type="Text"
+                      placeholder="Search"
+                      value={seachValue}
+                      onChange={handleOnChangeSearch}
+                    />
+                  </div>
+                </div>
+                <div className="table-content">
+                  <table>
+                    <thead>
+                      <tr>
+                        <td>STT</td>
+                        <td>Avatar</td>
+                        <td>Name/Location</td>
+                        <td>Level</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {userAllLeader?.getAllUserLeaderboard?.map(
+                        (item, index) => (
+                          <tr key={item?.id}>
+                            <td>{index + 1}</td>
+                            <td>
+                              <img
+                                src={item?.profileImageURL}
+                                alt=""
+                                width={50}
+                                height={50}
+                                style={{
+                                  borderRadius: '50%',
+                                  objectFit: 'cover',
+                                }}
+                              />
+                            </td>
+                            <td>
+                              <span>{item?.name} </span>
+                            </td>
+                            <td>{item?.level.currentLevel}</td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </table>
                 </div>
               </div>
-              <div className="table-content">
-                <table>
-                  <thead>
-                    <tr>
-                      <td>STT</td>
-                      <td>Avatar</td>
-                      <td>Name/Location</td>
-                      <td>Follower</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredData.map((item) => {
-                      return (
-                        <tr key={item.id}>
-                          <td>{item.id}</td>
-                          <td>
-                            <img src={item.img} alt="" width={50} />
-                          </td>
-                          <td>
-                            <span>{item.name} </span> <div>{item.country}</div>
-                          </td>
-                          <td>{item.numberOfFollowers} Followes</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+              <div className="leader-board-content">
+                <div className="filter-and-search">
+                  <Select
+                    options={options}
+                    selected={selected}
+                    onChange={handleOnChangeSelected}
+                  />
+                  <div className="search-bar">
+                    <Input
+                      type="Text"
+                      placeholder="Search"
+                      value={seachValue}
+                      onChange={handleOnChangeSearch}
+                    />
+                  </div>
+                </div>
+                <div className="table-content">
+                  <table>
+                    <thead>
+                      <tr>
+                        <td>STT</td>
+                        <td>Avatar</td>
+                        <td>Name/Location</td>
+                        <td>Level</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {userAllLeader?.getAllUserLeaderboard?.map(
+                        (item, index) => (
+                          <tr key={item?.id}>
+                            <td>{index + 1}</td>
+                            <td>
+                              <img
+                                src={item?.profileImageURL}
+                                alt=""
+                                width={50}
+                                height={50}
+                                style={{
+                                  borderRadius: '50%',
+                                  objectFit: 'cover',
+                                }}
+                              />
+                            </td>
+                            <td>
+                              <span>{item?.name} </span>
+                            </td>
+                            <td>{item?.level.currentLevel}</td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
@@ -144,10 +210,10 @@ const LeaderBoard = () => {
     [
       options,
       selected,
-      seachValue,
-      filteredData,
-      handleOnChangeSearch,
       handleOnChangeSelected,
+      seachValue,
+      handleOnChangeSearch,
+      userAllLeader,
     ]
   );
 };
