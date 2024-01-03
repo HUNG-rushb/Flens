@@ -215,3 +215,17 @@ export const GET_ALL_USER_FOLLOWING_LEADERBOARD = gql`
     }
   }
 `;
+
+export const GET_USER_PRIZES = gql`
+  query GetUserPrizes($data: UserPrizeInput!) {
+    getUserPrizes(data: $data) {
+      id
+      prizeImageURL
+      title
+      type
+      contestId {
+        id
+      }
+    }
+  }
+`;

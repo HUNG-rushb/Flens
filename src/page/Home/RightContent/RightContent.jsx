@@ -59,21 +59,23 @@ const RightContent = () => {
                 }}
                 modules={[Autoplay, Pagination]}
               >
-                {allContests?.allContests.map((item, index) => (
-                  <SwiperSlide key={index}>
-                    <div onClick={() => handleClickContest(item)}>
-                      <img
-                        src={item.contestImageURL}
-                        alt=""
-                        id="special-contest-image"
-                      />
-                      <span id="special-contest-title">
-                        {item.name?.substring(0, item?.name.indexOf(':'))}{' '}
-                        contest
-                      </span>
-                    </div>
-                  </SwiperSlide>
-                ))}
+                {allContests?.allContests
+                  .filter((item) => item.isFinished === false)
+                  .map((item, index) => (
+                    <SwiperSlide key={index}>
+                      <div onClick={() => handleClickContest(item)}>
+                        <img
+                          src={item.contestImageURL}
+                          alt=""
+                          id="special-contest-image"
+                        />
+                        <span id="special-contest-title">
+                          {item.name?.substring(0, item?.name.indexOf(':'))}{' '}
+                          contest
+                        </span>
+                      </div>
+                    </SwiperSlide>
+                  ))}
               </Swiper>
             </div>
 

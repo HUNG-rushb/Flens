@@ -1,20 +1,15 @@
 import Button from '../../../components/Button/Button';
+import { useGetUserPrizes } from '../../../graphql/useUser';
 import Achievement from './Biography/Achievements';
 import Interests from './Biography/Interests';
 import PersonalInfo from './Biography/PersonalInfo';
 import { useMemo, useState } from 'react';
 
-const Biography = () => {
-  const [achievements, setAchievements] = useState([
-    {
-      id: 1,
-      value: '1st prize of Fashion contest.',
-    },
-    {
-      id: 2,
-      value: '2rd prize of Food contest.',
-    },
-  ]);
+const Biography = ({ userId }) => {
+  const { fetchedData: prizes, refetch } = useGetUserPrizes({
+    data: { userId },
+  });
+  console.log({ prizes });
 
   const data = useMemo(
     () => [
@@ -38,7 +33,7 @@ const Biography = () => {
     () => (
       <div className="biography-tab">
         <div className="bio-left-container">
-          <Achievement achievements={achievements} />
+          {prizes && <Achievement achievements={prizes} />}
           <div
             className="interests"
             style={{ display: 'flex', alignItems: 'center' }}
@@ -74,7 +69,7 @@ const Biography = () => {
         <PersonalInfo />
       </div>
     ),
-    [achievements, data]
+    [prizes, data]
   );
 };
 

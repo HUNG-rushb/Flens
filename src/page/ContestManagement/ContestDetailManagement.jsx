@@ -4,6 +4,7 @@ import { useAuthState } from '../../context/AuthContext';
 import {
   useGetContestInfo,
   useGetContestPosts,
+  useEndContest,
 } from '../../graphql/useContest';
 import useModal from '../../hooks/useModal';
 import Post from '../../page/Home/Post/Post';
@@ -15,8 +16,10 @@ import RankingBoard from './RankingBoard';
 import React, { useRef, useCallback, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const ContestDetail = () => {
+  const navigate = useNavigate();
   const { contestId } = useParams();
   const { id: userId } = useAuthState();
   const fileInputRef = useRef(null);
@@ -28,15 +31,22 @@ const ContestDetail = () => {
   } = useGetContestInfo({
     contestInfoData: { contestId },
   });
+  console.log({ contestInfo });
   const { posts, hasNextPage, isFetching, fetchError, loadNew, refetch } =
     useGetContestPosts(contestId, userId);
+  const { endContest } = useEndContest();
 
   const { isShowing: showModal, toggle: toggleModal } = useModal();
   const handleCloseModal = useCallback(() => {
     toggleModal();
   }, [toggleModal]);
 
-  const handleEndContest = () => {};
+  const handleEndContest = async () => {
+    const a = await endContest({ variables: { data: { contestId } } });
+    console.log(a);
+
+    navigate('/contest-management');
+  };
 
   return useMemo(
     () => (
@@ -74,19 +84,22 @@ const ContestDetail = () => {
                   {unixToDateTime(contestInfo?.contestInfo.endDate || '')}
                 </div>
               </div>
-              <div
-                style={{
-                  margin: '10px 0',
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
-              >
-                <Button
-                  text="End contest!"
-                  onClick={handleEndContest}
-                  id="end-contest-btn"
-                />
-              </div>
+
+              {!contestInfo?.contestInfo.isFinished && (
+                <div
+                  style={{
+                    margin: '10px 0',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Button
+                    text="End contest!"
+                    onClick={handleEndContest}
+                    id="end-contest-btn"
+                  />
+                </div>
+              )}
 
               <hr />
 
@@ -100,7 +113,7 @@ const ContestDetail = () => {
                   loader={<h4>Loading...</h4>}
                   endMessage={
                     <p style={{ textAlign: 'center' }}>
-                      <b>Yay! You have seen it all</b>
+                      <b>---</b>
                     </p>
                   }
                 >

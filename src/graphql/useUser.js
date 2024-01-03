@@ -14,6 +14,7 @@ import {
   GET_PROFILE_FOLLOW,
   GET_USER_INTEREST,
   GET_PROFILE_IMAGE_REPORT,
+  GET_USER_PRIZES,
 } from './queries/User.js';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import _ from 'lodash';
@@ -222,6 +223,19 @@ export const useUserFollowingLeaderBoard = (queryPayload, cache) => {
       variables: queryPayload,
     }
   );
+
+  return {
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
+
+export const useGetUserPrizes = (queryPayload, cache) => {
+  const { data, loading, error } = useQuery(GET_USER_PRIZES, {
+    fetchPolicy: cache ? undefined : 'no-cache',
+    variables: queryPayload,
+  });
 
   return {
     isFetching: loading,
