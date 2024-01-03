@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const ContestManagement = () => {
   const navigate = useNavigate();
   const { fetchedData: allContests } = useGetAllContest();
+  console.log({ allContests });
 
   const handleClickContest = useCallback(
     (id) => {
@@ -36,31 +37,56 @@ const ContestManagement = () => {
               >
                 Contest management
               </span>
-              <div className="contest-infor-wrapper">
-                <span>All contests</span>
-                <div className="all-contest">
-                  {allContests?.allContests.map((contest) => (
-                    <div
-                      className="contest"
-                      key={contest.id}
-                      onClick={() => handleClickContest(contest.id)}
-                    >
-                      <img
-                        src={contest.contestImageURL}
-                        id="contest-image"
-                        alt=""
-                      />
-                      <div className="contest-title">{contest.name}</div>
-                    </div>
-                  ))}
-                </div>
 
-                <div style={{ maxWidth: 'fit-content' }}>
-                  <Button
-                    text="Create contest"
-                    type="default2"
-                    onClick={handleCreateContest}
-                  />
+              <div style={{ maxWidth: 'fit-content' }}>
+                <Button
+                  text="Create contest"
+                  type="default2"
+                  onClick={handleCreateContest}
+                />
+              </div>
+
+              <div className="contest-infor-wrapper">
+                <span>All happening contests</span>
+                <div className="all-contest">
+                  {allContests?.allContests
+                    .filter((item) => item.isFinished === false)
+                    .map((contest) => (
+                      <div
+                        className="contest"
+                        key={contest.id}
+                        onClick={() => handleClickContest(contest.id)}
+                      >
+                        <img
+                          src={contest.contestImageURL}
+                          id="contest-image"
+                          alt=""
+                        />
+                        <div className="contest-title">{contest.name}</div>
+                      </div>
+                    ))}
+                </div>
+              </div>
+
+              <div className="contest-infor-wrapper">
+                <span>Finished contests</span>
+                <div className="all-contest">
+                  {allContests?.allContests
+                    .filter((item) => item.isFinished === true)
+                    .map((contest) => (
+                      <div
+                        className="contest"
+                        key={contest.id}
+                        onClick={() => handleClickContest(contest.id)}
+                      >
+                        <img
+                          src={contest.contestImageURL}
+                          id="contest-image"
+                          alt=""
+                        />
+                        <div className="contest-title">{contest.name}</div>
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>

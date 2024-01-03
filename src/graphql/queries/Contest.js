@@ -51,6 +51,7 @@ export const GET_ALL_CONTESTS = gql`
       startDate
       endDate
       contestImageURL
+      isFinished
     }
   }
 `;
@@ -96,6 +97,15 @@ export const GET_TOP_5_POSTS = gql`
       image {
         url
       }
+    }
+  }
+`;
+
+export const END_CONTEST = gql`
+  mutation EndContest($data: EndContestInput!) {
+    endContest(data: $data) {
+      isFinished
+      id
     }
   }
 `;

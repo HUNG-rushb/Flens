@@ -9,13 +9,14 @@ const Achievement = ({ achievements }) => {
         <div className="achievement-text">
           <span>Achievements:</span>
           <div className="achievements-list">
-            {achievements.length ? (
+            {achievements.getUserPrizes.length ? (
               <>
-                {achievements.map((item) => {
+                {achievements.getUserPrizes.map((item) => {
                   return (
                     <div key={item.id}>
-                      <AwardFill size={25} color="#f08080" />
-                      {item.value}
+                      {/* <AwardFill size={25} color="#f08080" /> */}
+                      <img src={item.prizeImageURL} />
+                      {item.title}
                     </div>
                   );
                 })}

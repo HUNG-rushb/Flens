@@ -5,6 +5,7 @@ import {
   GET_CONTEST_POSTS,
   USER_JOIN_CONTEST,
   GET_TOP_5_POSTS,
+  END_CONTEST,
 } from './queries/Contest.js';
 import { useQuery, useMutation } from '@apollo/client';
 import { useCallback } from 'react';
@@ -19,6 +20,19 @@ export const useCreateContest = () => {
 
   return {
     createContest,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
+
+export const useEndContest = () => {
+  const [endContest, { data, loading, error }] = useMutation(END_CONTEST, {
+    fetchPolicy: 'no-cache',
+  });
+
+  return {
+    endContest,
     isFetching: loading,
     fetchedData: data,
     fetchError: error,
