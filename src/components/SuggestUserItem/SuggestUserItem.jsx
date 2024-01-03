@@ -46,7 +46,7 @@ const SuggestUserItem = ({ item, userId }) => {
                 width={50}
                 alt=""
               />
-              <span style={{ fontWeight: 600, cursor: 'pointer' }}>
+              <span id='suggestion-name'>
                 {item.node.name}
               </span>
             </div>

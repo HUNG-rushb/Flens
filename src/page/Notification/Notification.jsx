@@ -88,6 +88,7 @@ const Notification = () => {
                           src={item?.postImage}
                           width={70}
                           height={70}
+                          style={{ objectFit: 'cover', borderRadius:5 }}
                           alt=""
                         />
                       </div>

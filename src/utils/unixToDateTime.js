@@ -10,7 +10,6 @@ export function relativeDays(timestamp) {
   const daysDifference = Math.round(
     (timestamp - new Date().getTime()) / oneDayInMs
   );
-
   return rtf.format(daysDifference, 'day');
 }
 
@@ -31,7 +30,7 @@ const unixToDateTime = (unixTimestamp, dateAndTimeOnly = false) => {
   ];
 
   const relative =  relativeDays(unixTimestamp);
-
+  console.log(relative)
   const date = new Date(Number(unixTimestamp));
 
   //   return date.toLocaleString('de-DE', {

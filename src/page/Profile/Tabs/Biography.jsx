@@ -16,20 +16,23 @@ const Biography = () => {
     },
   ]);
 
-  const data = [
-    {
-      id: 1,
-      value: 'Animal',
-    },
-    {
-      id: 2,
-      value: 'Artist',
-    },
-    {
-      id: 3,
-      value: 'Nature',
-    },
-  ];
+  const data = useMemo(
+    () => [
+      {
+        id: 1,
+        value: 'Animal',
+      },
+      {
+        id: 2,
+        value: 'Artist',
+      },
+      {
+        id: 3,
+        value: 'Nature',
+      },
+    ],
+    []
+  );
 
   return useMemo(
     () => (
