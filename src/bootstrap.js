@@ -18,15 +18,10 @@ import { createClient } from 'graphql-ws';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-// import * as dotenv from 'dotenv';
-
-// see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
-// dotenv.config();
-
 const wsLink = new GraphQLWsLink(
   createClient({
     // url: 'ws://localhost:4000',
-    url: 'ws://roxqm2ljb8.execute-api.ap-southeast-1.amazonaws.com',
+    url: 'ws://ec2-54-151-220-231.ap-southeast-1.compute.amazonaws.com',
   })
 );
 
