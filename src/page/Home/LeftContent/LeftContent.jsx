@@ -20,7 +20,7 @@ const LeftHomeContent = () => {
             alt=""
           />
           <div id="username">{fetchedImage?.userInfo.name}</div>
-          <div className="skill">
+          {/* <div className="skill">
             <div id="userLink">
               <span>Your Flens link:</span> flens.com/{userId}
             </div>
@@ -30,7 +30,7 @@ const LeftHomeContent = () => {
             <div>
               <span>Skills:</span> Portrait photography
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     ),

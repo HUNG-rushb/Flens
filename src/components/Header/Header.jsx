@@ -12,10 +12,14 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 const Header = ({ type = 'post', item, setIsDeleted, setReportedList }) => {
+  console.log({ item });
   const navigate = useNavigate();
   const [postVisibility, setPostVisibility] = useState(item?.postViewStatus);
   const [isHovered, setIsHovered] = useState(false);
-  const userLevel = useMemo(() => item?.userLevel || 'New', [item?.userLevel]);
+  const userLevel = useMemo(
+    () => item?.userId?.level?.currentLevel || 'New',
+    [item?.userLevel]
+  );
 
   const handleViewProfile = useCallback(() => {
     navigate(`/profile/${item?.userId.id}`);
@@ -49,13 +53,13 @@ const Header = ({ type = 'post', item, setIsDeleted, setReportedList }) => {
             <p id="hover-username" onClick={handleViewProfile}>
               {item?.userId.name}
             </p>
-            <p>User level: 1</p>
-            <p style={{ fontWeight: 600 }}>100 Follower - Hung also followed</p>
+            <p>User level: {userLevel}</p>
+            {/* <p style={{ fontWeight: 600 }}>100 Follower - Hung also followed</p>
             <Button
               type="default2"
               text="Chat"
               onClick={handleClickChatButton}
-            />
+            /> */}
           </div>
         </div>
       </div>
@@ -84,7 +88,6 @@ const Header = ({ type = 'post', item, setIsDeleted, setReportedList }) => {
               alt=""
             />
             {isHovered && renderPopoverContent()}
-
           </div>
           <div>
             <span id="username">

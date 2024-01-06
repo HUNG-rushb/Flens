@@ -92,7 +92,7 @@ const RightContent = () => {
               </div>
             </div>
             <div className="trending-tags-container">
-              <span id="subtitle">Trending tags: </span>
+              <span id="subtitle">Explore tags: </span>
               <div className="tags-list">
                 {suggestedTag &&
                   suggestedTag.suggestTags.map((tag, index) => (

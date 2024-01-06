@@ -24,7 +24,7 @@ const LeftContent = () => {
           alt=""
         />
         <div className="username">{profileData?.userInfo.name}</div>
-        <div className="skill">
+        {/* <div className="skill">
           <div id="userLink">
             <span>Your Flens link:</span> flens.com/{userId}
           </div>
@@ -34,7 +34,7 @@ const LeftContent = () => {
           <div>
             <span>Skills:</span> Portrait photography
           </div>
-        </div>
+        </div> */}
         <Loading loading={isFetching} />
         {fetchError?.message && <ErrorPopup message={fetchError?.message} />}
       </div>
