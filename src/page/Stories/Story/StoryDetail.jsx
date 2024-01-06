@@ -30,7 +30,7 @@ const StoryDetail = () => {
     () => ( 
       <>
         <div className="story-detail">
-          <div className="content">
+          <div className="story-detail-content">
             <HeaderStory type="story" item={fetchedData?.storyInfo} />
             <div style={{fontSize:"30px", margin:"10px 0", fontWeight:"bold"}}>{fetchedData?.storyInfo.title}</div>
             <div
