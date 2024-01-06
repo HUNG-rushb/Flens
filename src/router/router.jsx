@@ -1,4 +1,3 @@
-// import Academy from '../page/Academy/Academy.jsx';
 // admin
 import AdminHome from '../page/AdminHome/AdminHome.jsx';
 import Login from '../page/Authentication/Login.jsx';
@@ -8,9 +7,7 @@ import ContestDetail from '../page/Contest/Tab/ContestDetail/ContestDetail.jsx';
 import ContestManagement from '../page/ContestManagement/ContestManagament.jsx';
 import CreateContest from '../page/ContestManagement/CreateContest.jsx';
 import ContestDetailManagement from '../page/ContestManagement/ContestDetailManagement.jsx';
-// import Courses from '../page/Courses/Courses.jsx';
-// import CoursesManagement from '../page/CoursesManagement/CoursesManagement.jsx';
-// import UploadCourses from '../page/CoursesManagement/UploadCourses/UploadCourses.jsx';
+// user
 import Explore from '../page/Explore/Explore.jsx';
 import Home from '../page/Home/Home.jsx';
 import PostDetail from '../page/Home/Post/PostDetail.jsx';
@@ -27,6 +24,7 @@ import TagSearchResult from '../page/TagSearchResult/SearchTagResult.jsx';
 import UploadImage from '../page/UploadImage/UploadImage.jsx';
 import EditStory from '../page/UploadStory/EditStory.jsx';
 import UploadStory from '../page/UploadStory/UploadStory.jsx';
+import AllTags from '../page/AllTags/AllTags.jsx';
 
 const routes = [
   // user route
@@ -72,18 +70,6 @@ const routes = [
     exact: true,
     isPrivate: true,
   },
-  // {
-  //   path: '/academy',
-  //   element: <Academy />,
-  //   exact: true,
-  //   isPrivate: true,
-  // },
-  // {
-  //   path: '/academy/:typeCourses/:courses',
-  //   element: <Courses />,
-  //   exact: true,
-  //   isPrivate: true,
-  // },
   {
     path: '/leaderBoard',
     element: <LeaderBoard />,
@@ -120,12 +106,6 @@ const routes = [
     exact: true,
     isPrivate: true,
   },
-  // {
-  //   path: '/upload-courses',
-  //   element: <UploadCourses />,
-  //   exact: true,
-  //   isPrivate: true,
-  // },
   {
     path: '/contest/',
     element: <Contest />,
@@ -189,7 +169,7 @@ const routes = [
   },
   {
     path: '/tag/:tagName',
-    element: <></>,
+    element: <AllTags/>,
     exact: true,
     isPrivate: true,
   },

@@ -10,7 +10,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { Camera2, X } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
 
-const Post = ({ item, setReportedList }) => {
+const Post = ({ item, setReportedList, showInteraction = true }) => {
   const navigate = useNavigate();
   const [isDeletedPost, setIsDeletedPost] = useState(false);
   const [showTechnicalInfor, setShowTechnicalInfor] = useState(false);
@@ -97,8 +97,8 @@ const Post = ({ item, setReportedList }) => {
                   ))}
                 </div>
 
-                <PostInteraction item={item} />
-                {item && (
+                {showInteraction && <PostInteraction item={item} />}
+                {showInteraction && (
                   <PostComment
                     item={item}
                     userLevel={item.userId.level.currentLevel}
@@ -126,6 +126,7 @@ const Post = ({ item, setReportedList }) => {
       item,
       itemShowDetail,
       setReportedList,
+      showInteraction,
       showModal,
       showTechnicalInfor,
       toggleShow,

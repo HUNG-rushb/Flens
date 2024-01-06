@@ -1,21 +1,10 @@
 import ContestBanner from '../../assets/images/Contest/contestBanner.jpeg';
 import Page from '../../components/utils/Page';
 import ContestInfo from './Tab/ContestInfo';
-import PhotoEntries from './Tab/PhotoEntries';
-import PreviousWinner from './Tab/PreviousWinner';
 import './styles.scss';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 
 const Contest = () => {
-  const tabs = useMemo(
-    () => ['Contest Info', 'Photo Entries', 'Previous Winners'],
-    []
-  );
-  const [activeTab, setActiveTab] = useState(0);
-  const handleChangeTab = useCallback((index) => {
-    setActiveTab(index);
-  }, []);
-
   return useMemo(
     () => (
       <Page title="Flens-Contest">
@@ -29,29 +18,13 @@ const Contest = () => {
               </div>
             </div>
           </div>
-          <div className="contest-tabs">
-            {tabs.map((tab, index) => (
-              <span
-                key={index}
-                className={`tab--${
-                  activeTab === index ? 'active' : 'inActive'
-                }`}
-                onClick={() => handleChangeTab(index)}
-              >
-                {tab}
-              </span>
-            ))}
-          </div>
-
           <div className="contest-content">
-            {activeTab === 0 && <ContestInfo />}
-            {activeTab === 1 && <PhotoEntries />}
-            {activeTab === 2 && <PreviousWinner />}
+            <ContestInfo />
           </div>
         </div>
       </Page>
     ),
-    [activeTab, handleChangeTab, tabs]
+    []
   );
 };
 

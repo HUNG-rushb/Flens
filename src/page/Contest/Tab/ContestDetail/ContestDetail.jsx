@@ -195,7 +195,6 @@ const ContestDetail = () => {
   const {
     createPost,
     isFetching: creatContest,
-    fetchedData,
     fetchError: createContestError,
   } = useCreatePostLazy();
 
@@ -332,24 +331,64 @@ const ContestDetail = () => {
 
           <div className="below-content-wrapper">
             {contestInfo?.contestInfo?.isFinished === true ? (
-              <>
-                {contestInfo.contestInfo.contestPrizeList.map((item) => {
-                  return (
-                    <div key={item.id}>
-                      {item.userId.id === '000000000000000000000000' ? (
-                        <></>
-                      ) : (
-                        <>
-                          <img src={item.prizeImageURL} />
-                          <img src={item.userId.profileImageURL} />
-
-                          <p>{item.userId.name}</p>
-                        </>
-                      )}
-                    </div>
-                  );
-                })}
-              </>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '40%',
+                  alignItems: 'center',
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: 30,
+                    fontFamily: 'Abhaya Libre',
+                    borderRadius: 5,
+                  }}
+                >
+                  Contest winner
+                </p>
+                <div className="contest-winner-content">
+                  {contestInfo?.contestInfo.contestPrizeList.map(
+                    (item, index) => {
+                      return (
+                        <div key={item.id}>
+                          {item.userId.id === '000000000000000000000000' ? (
+                            <></>
+                          ) : (
+                            <div className="contest-winner">
+                              <div className="contest-winner-item">
+                                <img
+                                  src={item.prizeImageURL}
+                                  alt=""
+                                  width={30}
+                                  height={30}
+                                />
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 10,
+                                  }}
+                                >
+                                  <img
+                                    src={item.userId.profileImageURL}
+                                    alt=""
+                                    style={{ width: 60, borderRadius: '50%' }}
+                                  />
+                                  <p style={{ fontSize: 20, fontweight: 500 }}>
+                                    {item.userId.name}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    }
+                  )}
+                </div>
+              </div>
             ) : (
               posts && <RankingBoard contestId={contestId} posts={posts} />
             )}
@@ -373,25 +412,11 @@ const ContestDetail = () => {
                 </div>
               </div>
 
-              {/* <div className="contest-prizes">
-              <span id="subtitle">Prizes</span>
-              <ul>
-                {contestInfo?.contestInfo.prizes?.map((prize, index) => (
-                  <li key={index}>
-                    {prize.rank} - {prize.prize}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="contest-uploader">
-              <span id="subtitle">Uploader</span>
-              <p>Mr/Ms. {contestInfo?.uploader}</p>
-            </div> */}
-
               <div className="upload-image-input">
-                {contestInfo?.contestInfo?.isFinished === true ? (
-                  <p> This contest is done.</p>
+                {contestInfo?.contestInfo?.isFinished ? (
+                  <p style={{ fontSize: 40, fontFamily: 'Abhaya Libre' }}>
+                    This contest is done.
+                  </p>
                 ) : contestInfo?.contestInfo?.joinedUserIds?.findIndex(
                     (x) => x.id === userId
                   ) !== -1 ? (
@@ -437,6 +462,9 @@ const ContestDetail = () => {
                         key={item.node.id}
                         item={item.node}
                         userId={item.node.userId.id}
+                        showInteraction={
+                          contestInfo?.contestInfo?.isFinished ? false : true
+                        }
                       />
                     );
                   })}
@@ -491,10 +519,12 @@ const ContestDetail = () => {
     [
       contestInfo?.contestInfo.contestImageURL,
       contestInfo?.contestInfo.name,
+      contestInfo?.contestInfo.isFinished,
+      contestInfo?.contestInfo.contestPrizeList,
       contestInfo?.contestInfo.description,
       contestInfo?.contestInfo.startDate,
       contestInfo?.contestInfo.endDate,
-      contestInfo?.contestInfo?.joinedUserIds,
+      contestInfo?.contestInfo.joinedUserIds,
       posts,
       contestId,
       handleFileChange,
