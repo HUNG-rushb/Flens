@@ -24,7 +24,7 @@ const Post = ({ item, setReportedList, showInteraction = true }) => {
 
   const handleClickTag = useCallback(
     (tag) => {
-      navigate(`/search/${tag}`, {
+      navigate(`/tag/${tag}`, {
         state: {
           tagValue: tag,
         },

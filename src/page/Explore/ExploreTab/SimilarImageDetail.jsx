@@ -21,6 +21,7 @@ const SimilarImageDetail = ({ imageDetail, setImageToShow }) => {
   const { fetchedData: postInfor } = usePostInfo({
     postInfoData: { postId: imageDetail?.id },
   });
+  console.log(postInfor);
 
   return useMemo(
     () => (
@@ -34,29 +35,45 @@ const SimilarImageDetail = ({ imageDetail, setImageToShow }) => {
             {isFetching ? (
               <Spinner />
             ) : (
-              <div>
-                <Swiper
-                  slidesPerView={2}
-                  spaceBetween={30}
-                  className="images-list"
-                >
-                  {similarPosts.map((item) => (
-                    <SwiperSlide key={item.node.id}>
-                      <img
-                        src={item.node.image.url}
-                        onClick={() => setImageToShow(item.node)}
-                        style={{
-                          maxHeight: 200,
-                          objectFit: 'cover',
-                          width: '100%',
-                          cursor: 'pointer',
-                        }}
-                        alt=""
-                      />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </div>
+              <>
+                {similarPosts?.length ? (
+                  <div>
+                    <Swiper
+                      slidesPerView={2}
+                      spaceBetween={10}
+                      className="images-list"
+                    >
+                      {similarPosts.map((item) => (
+                        <SwiperSlide key={item.node.id}>
+                          <img
+                            src={item.node.image.url}
+                            onClick={() => setImageToShow(item.node)}
+                            style={{
+                              maxHeight: 300,
+                              objectFit: 'cover',
+                              width: '100%',
+                              cursor: 'pointer',
+                              borderRadius: 10,
+                            }}
+                            alt=""
+                          />
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>{' '}
+                  </div>
+                ) : (
+                  <p
+                    style={{
+                      textAlign: 'center',
+                      fontSize: 20,
+                      fontWeight: 500,
+                      fontFamily: 'Abhaya Libre',
+                    }}
+                  >
+                    No similar image found !!!
+                  </p>
+                )}
+              </>
             )}
           </div>
         </div>

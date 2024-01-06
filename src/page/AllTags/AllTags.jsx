@@ -60,7 +60,6 @@ const AllTags = () => {
 
   const handleClickItem = useCallback(
     (item) => {
-      // console.log(item);
       toggleModal();
       setSelectedItem(item.node);
     },
@@ -129,6 +128,8 @@ const AllTags = () => {
       options,
       selectedOption,
       showModal,
+      tagName,
+      tagPosts,
       toggleModal,
     ]
   );

@@ -29,7 +29,7 @@ const unixToDateTime = (unixTimestamp, dateAndTimeOnly = false) => {
     'December',
   ];
 
-  const relative =  relativeDays(unixTimestamp);
+  const relative = relativeDays(unixTimestamp);
   const date = new Date(Number(unixTimestamp));
 
   //   return date.toLocaleString('de-DE', {
@@ -46,7 +46,14 @@ const unixToDateTime = (unixTimestamp, dateAndTimeOnly = false) => {
   const month = monthNames[date.getMonth()];
   const day = date.getDate();
 
-  return dateAndTimeOnly? `${month}, ${day}-${year} ${time}` : `${relative}, ${month} ${day}-${year} ${time}`;
+  let result = '';
+  if (relative === 'today' || relative === 'yesterday') {
+    result = `${time}, ${relative}`;
+  } else if (dateAndTimeOnly) {
+    result = `${month} ${day},${year} ${time}`;
+  } else result = `${time}, ${month} ${day}, ${year}`;
+
+  return result;
 };
 
 export default unixToDateTime;

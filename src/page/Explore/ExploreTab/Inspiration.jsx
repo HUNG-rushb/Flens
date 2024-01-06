@@ -67,7 +67,7 @@ const Inspiration = () => {
         )}
         <Loading loading={isFetching} />
         <Modal
-          size="lg"
+          size="xl"
           show={showModal}
           handleClose={toggleModal}
           handleSavechanges={toggleModal}
