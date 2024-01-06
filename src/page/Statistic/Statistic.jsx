@@ -1,45 +1,50 @@
 import Page from '../../components/utils/Page.js';
+import { useGetStatistic } from '../../graphql/usePost.js';
 import './styles.scss';
+import _ from 'lodash';
 import React, { Suspense, useMemo } from 'react';
 import Chart from 'react-apexcharts';
 import { Tab, Tabs } from 'react-bootstrap';
 
 const Statistic = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const userOptions = {
-    chart: {
-      id: 'user-apexchart',
-    },
-    xaxis: {
-      categories: [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-      ],
-    },
-  };
+  // const userOptions = {
+  //   chart: {
+  //     id: 'user-apexchart',
+  //   },
+  //   xaxis: {
+  //     categories: [
+  //       'January',
+  //       'February',
+  //       'March',
+  //       'April',
+  //       'May',
+  //       'June',
+  //       'July',
+  //       'August',
+  //       'September',
+  //       'October',
+  //       'November',
+  //       'December',
+  //     ],
+  //   },
+  // };
 
-  const userSeries = useMemo(
-    () => [
-      {
-        name: 'Number of users',
-        data: [
-          1990, 2580, 2778, 5670, 4495, 6900, 6580, 6496, 7898, 7279, 8900,
-          8245,
-        ],
-      },
-    ],
-    []
-  );
+  // const userSeries = useMemo(
+  //   () => [
+  //     {
+  //       name: 'Number of users',
+  //       data: [
+  //         1990, 2580, 2778, 5670, 4495, 6900, 6580, 6496, 7898, 7279, 8900,
+  //         8245,
+  //       ],
+  //     },
+  //   ],
+  //   []
+  // );
+
+  const { fetchedData: statistic } = useGetStatistic();
+  // console.log({ statistic });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const postOptions = {
@@ -47,35 +52,25 @@ const Statistic = () => {
       id: 'post-apexchart',
     },
     xaxis: {
-      categories: [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-      ],
+      categories: ['November 2023', 'December 2023', 'January 2024'],
     },
   };
 
-  const postSeries = useMemo(
-    () => [
+  const postSeries = useMemo(() => {
+    let a = _.pick(
+      _.countBy(statistic ? statistic.allPostsTimestamp : [], 'month'),
+      [1, 12, 11]
+    );
+    console.log({ a });
+
+    return [
       {
         name: 'Number of posts',
-        data: [
-          2400, 2480, 2978, 5170, 4895, 6700, 6880, 6996, 7498, 7679, 8600,
-          8045,
-        ],
+        data: [a['11'] ? a['11'] : 0, a['12'] ? a['12'] : 0, a['1']],
       },
-    ],
-    []
-  );
+    ];
+  }, [statistic]);
+
   return useMemo(
     () => (
       <Page title={'Flens-Statistic'}>
@@ -83,8 +78,8 @@ const Statistic = () => {
           <div className="statistic">
             <div className="title">Statistic</div>
             <div className="chart-data">
-              <Tabs defaultActiveKey="user">
-                <Tab eventKey="user" title="Users">
+              <Tabs defaultActiveKey="post">
+                {/* <Tab eventKey="user" title="Users">
                   <Chart
                     options={userOptions}
                     series={userSeries}
@@ -92,7 +87,7 @@ const Statistic = () => {
                     width={1000}
                     height={450}
                   />
-                </Tab>
+                </Tab> */}
                 <Tab eventKey="post" title="Posts">
                   <Chart
                     options={postOptions}
@@ -108,7 +103,7 @@ const Statistic = () => {
         </Suspense>
       </Page>
     ),
-    [postOptions, postSeries, userOptions, userSeries]
+    [postOptions, postSeries]
   );
 };
 
