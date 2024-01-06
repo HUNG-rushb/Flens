@@ -32,7 +32,7 @@ const EditPost = ({ showModal, toggleShow, post }) => {
     };
   };
 
-  const initialValues = setPostInfoValues(post);
+  const initialValues = setPostInfoValues(post || {});
   const [postInfor, dispatch] = useReducer(PostInfoReducer, initialValues);
 
   const handleEditPost = useCallback(async (event) => {
