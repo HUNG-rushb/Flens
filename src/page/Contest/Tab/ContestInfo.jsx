@@ -17,26 +17,52 @@ const ContestInfo = () => {
     () => (
       <div className="contest-infor">
         <div className="contest-infor-wrapper">
-          <span>Submition guidlelines</span>
+          {/* <span>Submition guidlelines</span>
           <div>
             <ul>
               <li>Post your entry photo in public and send us that link.</li>
               <li>Use the #Hashtag on at least one of your entry.</li>
               <li>Your entry can be no more than 5mb.</li>
             </ul>
-          </div>
+          </div> */}
           <span>Happening</span>
           <div className="all-contest">
-            {allContests?.allContests.map((contest) => (
-              <div
-                className="contest"
-                key={contest.id}
-                onClick={() => handleClickContest(contest.id)}
-              >
-                <img src={contest.contestImageURL} id="contest-image" alt="" />
-                <div className="contest-title">{contest.name}</div>
-              </div>
-            ))}
+            {allContests?.allContests
+              .filter((item) => item.isFinished === false)
+              .map((contest) => (
+                <div
+                  className="contest"
+                  key={contest.id}
+                  onClick={() => handleClickContest(contest.id)}
+                >
+                  <img
+                    src={contest.contestImageURL}
+                    id="contest-image"
+                    alt=""
+                  />
+                  <div className="contest-title">{contest.name}</div>
+                </div>
+              ))}
+          </div>
+
+          <span>Finished</span>
+          <div className="all-contest">
+            {allContests?.allContests
+              .filter((item) => item.isFinished === true)
+              .map((contest) => (
+                <div
+                  className="contest"
+                  key={contest.id}
+                  onClick={() => handleClickContest(contest.id)}
+                >
+                  <img
+                    src={contest.contestImageURL}
+                    id="contest-image"
+                    alt=""
+                  />
+                  <div className="contest-title">{contest.name}</div>
+                </div>
+              ))}
           </div>
         </div>
       </div>

@@ -12,6 +12,7 @@ import {
   SIMILAR_POST,
   EXPLORE_POST,
   POST_INFO,
+  UPDATE_POST,
 } from './queries/Post.js';
 import { CREATE_TAG, SUGGEST_TAG } from './queries/Tag.js';
 import { useQuery, useMutation } from '@apollo/client';
@@ -300,5 +301,18 @@ export const useGetSimilarPost = (queryPayload) => {
     fetchedData: data,
     fetchError: error,
     loadNew,
+  };
+};
+
+export const useUpdatePostInfo = (cache) => {
+  const [updatePost, { data, loading, error }] = useMutation(UPDATE_POST, {
+    fetchPolicy: cache ? undefined : 'no-cache',
+  });
+
+  return {
+    updatePost,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
   };
 };

@@ -4,36 +4,36 @@ export const POST_INFO = gql`
   query PostInfo($postInfoData: PostInfoInput!) {
     postInfo(data: $postInfoData) {
       id
-          points
-          title
-          caption
-          postViewStatus
-          createdAt
-          userLikedPost
-          tag
+      points
+      title
+      caption
+      postViewStatus
+      createdAt
+      userLikedPost
+      tag
 
-          userId {
-            profileImageURL
-            name
-            id
-            level {
-              currentLevel
-            }
-          }
+      userId {
+        profileImageURL
+        name
+        id
+        level {
+          currentLevel
+        }
+      }
 
-          image {
-            url
-            imageInfoId {
-              ISO
-              aperture
-              camera
-              copyRight
-              focalLength
-              lens
-              shutterSpeed
-              takenWhen
-            }
-          }
+      image {
+        url
+        imageInfoId {
+          ISO
+          aperture
+          camera
+          copyRight
+          focalLength
+          lens
+          shutterSpeed
+          takenWhen
+        }
+      }
     }
   }
 `;
@@ -391,6 +391,29 @@ export const SIMILAR_POST = gql`
             url
           }
         }
+      }
+    }
+  }
+`;
+
+export const UPDATE_POST = gql`
+  mutation UpdatePost($data: UpdatePostInput!) {
+    updatePost(data: $data) {
+      id
+      caption
+      title
+      image {
+        imageInfoId {
+          ISO
+          aperture
+          camera
+          copyRight
+          focalLength
+          lens
+          shutterSpeed
+          takenWhen
+        }
+        url
       }
     }
   }
