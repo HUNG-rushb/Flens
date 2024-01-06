@@ -418,3 +418,12 @@ export const UPDATE_POST = gql`
     }
   }
 `;
+
+export const GET_POST_STATIC = gql`
+  query Query {
+    allPostsTimestamp {
+      month
+      year
+    }
+  }
+`;

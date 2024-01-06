@@ -13,6 +13,7 @@ import {
   EXPLORE_POST,
   POST_INFO,
   UPDATE_POST,
+  GET_POST_STATIC,
 } from './queries/Post.js';
 import { CREATE_TAG, SUGGEST_TAG } from './queries/Tag.js';
 import { useQuery, useMutation } from '@apollo/client';
@@ -311,6 +312,18 @@ export const useUpdatePostInfo = (cache) => {
 
   return {
     updatePost,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+  };
+};
+
+export const useGetStatistic = () => {
+  const { data, loading, error } = useQuery(GET_POST_STATIC, {
+    fetchPolicy: 'no-cache',
+  });
+
+  return {
     isFetching: loading,
     fetchedData: data,
     fetchError: error,
