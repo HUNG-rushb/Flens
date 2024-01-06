@@ -31,7 +31,7 @@ const RightContent = () => {
 
   const handleClickTag = useCallback(
     async (tag) => {
-      navigate(`/search/${tag}`, {
+      navigate(`/tag/${tag}`, {
         state: {
           searchValue: tag,
         },

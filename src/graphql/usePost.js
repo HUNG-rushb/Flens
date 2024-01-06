@@ -14,6 +14,7 @@ import {
   POST_INFO,
   UPDATE_POST,
   GET_POST_STATIC,
+  TAG_POST,
 } from './queries/Post.js';
 import { CREATE_TAG, SUGGEST_TAG } from './queries/Tag.js';
 import { useQuery, useMutation } from '@apollo/client';
@@ -278,6 +279,35 @@ export const useGetExplore = (queryPayload) => {
 
 export const useGetSimilarPost = (queryPayload) => {
   const { data, loading, error, fetchMore } = useQuery(SIMILAR_POST, {
+    fetchPolicy: 'network-only',
+    variables: queryPayload,
+    // onCompleted: (data) => {
+    //   console.log(data);
+    // },
+  });
+
+  const loadNew = useCallback(async () => {
+    const fetchMoreData = await fetchMore({
+      variables: {
+        after: data ? data.similarPosts.pageInfo.endCursor : '',
+      },
+    });
+
+    // console.log({ fetchMoreData });
+  }, [data]);
+
+  return {
+    posts: data?.similarPosts?.edges ?? [],
+    hasNextPage: data?.similarPosts?.pageInfo?.hasNextPage ?? true,
+    isFetching: loading,
+    fetchedData: data,
+    fetchError: error,
+    loadNew,
+  };
+};
+
+export const useGetTagPost = (queryPayload) => {
+  const { data, loading, error, fetchMore } = useQuery(TAG_POST, {
     fetchPolicy: 'network-only',
     variables: queryPayload,
     // onCompleted: (data) => {

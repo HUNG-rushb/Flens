@@ -427,3 +427,46 @@ export const GET_POST_STATIC = gql`
     }
   }
 `;
+
+export const TAG_POST = gql`
+  query TagSearchPosts(
+    $data: TagSearchPostInput!
+    $limit: Int
+    $after: String
+  ) {
+    tagSearchPosts(data: $data, limit: $limit, after: $after) {
+      pageInfo {
+        startCursor
+        hasPreviousPage
+        endCursor
+        hasNextPage
+      }
+
+      edges {
+        cursor
+        node {
+          caption
+          title
+          createdAt
+          id
+          points
+          userLikedPost
+          tag
+          postViewStatus
+          categoryId {
+            name
+          }
+          userId {
+            name
+            id
+            profileImageURL
+          }
+
+          image {
+            url
+          }
+        }
+      }
+    }
+  }
+`;

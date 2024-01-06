@@ -1,7 +1,6 @@
 import Modal from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
-import { useAuthState } from '../../context/AuthContext';
-import { useSearchResult } from '../../graphql/useSearch';
+import { useGetTagPost } from '../../graphql/usePost';
 import useModal from '../../hooks/useModal';
 import Loading from '../../utils/useLoading';
 import SimilarImageDetail from './SimilarImageTag';
@@ -38,16 +37,17 @@ const AllTags = () => {
     []
   );
 
-  const { query } = useParams();
-  const { id: userId } = useAuthState();
+  const { tagName } = useParams();
+  // console.log({ tagName });
+
   const [selectedOption, setSelectedOption] = useState(options[0].value);
   const { isShowing: showModal, toggle: toggleModal } = useModal();
   const [selectedItem, setSelectedItem] = useState({});
-  const [searchData, setSearchData] = useState(query);
 
-  const { fetchedData: searchResult, isFetching } = useSearchResult({
-    data: { userId, searchString: query },
+  const { fetchedData: tagPosts, isFetching } = useGetTagPost({
+    data: { tagName },
   });
+  // console.log({ tagPosts });
 
   const modalContent = useCallback(() => {
     return (
@@ -60,9 +60,9 @@ const AllTags = () => {
 
   const handleClickItem = useCallback(
     (item) => {
-      console.log(item);
+      // console.log(item);
       toggleModal();
-      setSelectedItem(item);
+      setSelectedItem(item.node);
     },
     [toggleModal]
   );
@@ -87,19 +87,19 @@ const AllTags = () => {
               <p
                 style={{ textAlign: 'center', width: '100%', fontSize: '18px' }}
               >
-                Flens Tag result for: <b>{query}</b>
+                Results for tag: <b>{tagName}</b>
               </p>
             </div>
 
             <div className="tab-content">
               <Masonry columns={4} gap={10} className="inspiration-container">
-                {searchResult &&
-                  searchResult.searchResult.posts.map((item) => {
+                {tagPosts &&
+                  tagPosts.tagSearchPosts.edges.map((item) => {
                     return (
-                      <span key={item.id}>
+                      <span key={item.node.id}>
                         <img
                           alt=""
-                          src={item.image.url}
+                          src={item.node.image.url}
                           width="100%"
                           onClick={() => handleClickItem(item)}
                           style={{ cursor: 'pointer' }}
@@ -127,8 +127,6 @@ const AllTags = () => {
       isFetching,
       modalContent,
       options,
-      query,
-      searchResult,
       selectedOption,
       showModal,
       toggleModal,
