@@ -1,42 +1,32 @@
 import Spinner from '../../components/utils/Spinner';
 import { useGetSimilarPost, usePostInfo } from '../../graphql/usePost';
 import ErrorPopup from '../../utils/errorPopup';
+import ImageDetail from '../Home/Post/ImageDetail';
 import './styles.scss';
 import React, { useMemo } from 'react';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from 'swiper/react'; 
 import 'swiper/swiper.min.css';
 
 const SimilarImageDetail = ({ selectedItem, setSelectedItem }) => {
   const { fetchedData: postInfor } = usePostInfo({
-    postInfoData: selectedItem.id,
+    postInfoData: { postId: selectedItem?.id },
   });
-  console.log(selectedItem.id)
+
   const {
     posts: similarPosts,
     isFetching,
     fetchError,
   } = useGetSimilarPost({
-    data: { postId: selectedItem.id },
+    data: { postId: selectedItem?.id },
   });
+
   return useMemo(
     () => (
       <>
         <div className="similar-container">
-          <div className="header">
-            <img src={selectedItem.avatar} alt="" id="user-avatar" />
-            <span id="username">{selectedItem.username}</span>
-          </div>
-          <div className="main-image">
-            <img
-              src={selectedItem.image.url}
-              alt=""
-              style={{
-                objectFit: 'cover',
-              }}
-            />
-          </div>
+          <ImageDetail item={postInfor?.postInfo} />
           <hr />
           <div className="similar-images-list">
             <span style={{ fontWeight: 600, fontSize: 25 }}>Similar image</span>
@@ -68,15 +58,7 @@ const SimilarImageDetail = ({ selectedItem, setSelectedItem }) => {
         {fetchError?.message && <ErrorPopup message={fetchError?.message} />}
       </>
     ),
-    [
-      fetchError?.message,
-      selectedItem.avatar,
-      selectedItem.image.url,
-      selectedItem.username,
-      isFetching,
-      setSelectedItem,
-      similarPosts,
-    ]
+    [postInfor?.postInfo, isFetching, similarPosts, fetchError?.message, setSelectedItem]
   );
 };
 

@@ -49,7 +49,7 @@ const ImageDetail = ({ item, showDetail }) => {
 
   return useMemo(
     () => (
-      <div className="container">
+      <div className="image-detail-container">
         <div className="left-content">
           <div
             className={`left-content-wrapper ${zoomedIn ? 'zoomed-in' : ''}`}

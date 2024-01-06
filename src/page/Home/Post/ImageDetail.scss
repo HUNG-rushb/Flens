@@ -1,4 +1,4 @@
-.container {
+.image-detail-container {
   display: flex;
 
   .left-content {
@@ -8,7 +8,7 @@
     max-height: 580px;
     background-color: #ccc;
     border-radius: 4px;
-    z-index: 1;
+    z-index: 1 !important;
 
     .left-content-wrapper {
       display: flex;

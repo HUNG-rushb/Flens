@@ -50,7 +50,6 @@ const SearchTagResult = () => {
   const { fetchedData: searchResult, isFetching } = useSearchResult({
     data: { userId, searchString: query },
   });
-  console.log({ searchResult }, 'search result');
 
   const modalContent = useCallback(() => {
     return (
@@ -66,6 +65,15 @@ const SearchTagResult = () => {
       navigate(`/profile/${id}`);
     },
     [navigate]
+  );
+
+  const handleClickItem = useCallback(
+    (item) => {
+      console.log(item)
+      toggleModal();
+      setSelectedItem(item);
+    },
+    [toggleModal]
   );
 
   return useMemo(
@@ -145,7 +153,8 @@ const SearchTagResult = () => {
                           alt=""
                           src={item.image.url}
                           width="100%"
-                          onClick={() => [toggleModal(), setSelectedItem(item)]}
+                          onClick={() => handleClickItem(item)}
+                          style={{cursor:"pointer"}}
                         />
                       </span>
                     );
@@ -159,13 +168,14 @@ const SearchTagResult = () => {
             handleClose={toggleModal}
             handleSavechanges={toggleModal}
             modalContent={modalContent()}
-            size="lg"
+            size="xl"
             hideButton={true}
           />
         </Suspense>
       </Page>
     ),
     [
+      handleClickItem,
       handleViewProfile,
       isFetching,
       modalContent,

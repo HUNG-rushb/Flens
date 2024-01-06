@@ -1,6 +1,7 @@
 import Spinner from '../../../components/utils/Spinner';
-import { useGetSimilarPost } from '../../../graphql/usePost';
+import { useGetSimilarPost, usePostInfo } from '../../../graphql/usePost';
 import ErrorPopup from '../../../utils/errorPopup';
+import ImageDetail from '../../Home/Post/ImageDetail';
 import './styles.scss';
 import React, { useMemo } from 'react';
 import 'swiper/css/free-mode';
@@ -16,25 +17,16 @@ const SimilarImageDetail = ({ imageDetail, setImageToShow }) => {
   } = useGetSimilarPost({
     data: { postId: imageDetail.id },
   });
-  console.log({ similarPosts });
+
+  const { fetchedData: postInfor } = usePostInfo({
+    postInfoData: { postId: imageDetail?.id },
+  });
 
   return useMemo(
     () => (
       <>
         <div className="similar-explore-container">
-          <div className="header">
-            <img
-              src={imageDetail.userId.profileImageURL}
-              id="user-avatar"
-              height={50}
-              width={50}
-              alt=""
-            />
-            <span id="username">{imageDetail.userId.name}</span>
-          </div>
-          <div className="main-image">
-            <img src={imageDetail.image.url} alt="" />
-          </div>
+          <ImageDetail item={postInfor?.postInfo} />
           <hr />
           <div className="similar-images-list">
             <span style={{ fontWeight: 600, fontSize: 25 }}>Similar image</span>
@@ -73,10 +65,8 @@ const SimilarImageDetail = ({ imageDetail, setImageToShow }) => {
     ),
     [
       error?.message,
-      imageDetail.image.url,
-      imageDetail.userId.name,
-      imageDetail.userId.profileImageURL,
       isFetching,
+      postInfor?.postInfo,
       setImageToShow,
       similarPosts,
     ]
