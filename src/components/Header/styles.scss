@@ -134,6 +134,17 @@
           padding-bottom: 5px;
           opacity: 1;
 
+          a {
+            position: relative;
+            color: #262626;
+            transition: 0.5s;
+          }
+
+          a:hover {
+            color: #fff;
+            transform: rotateY(360deg);
+          }
+
           svg {
             margin-right: 10px;
           }

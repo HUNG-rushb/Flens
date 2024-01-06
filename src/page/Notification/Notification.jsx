@@ -13,14 +13,13 @@ const Notification = () => {
   const { id: userId } = useAuthState();
   const navigate = useNavigate();
   const { fetchedData: notis, refetch } = useGetNotis({ data: { userId } });
-  // console.log({ notis }, 'noti');
 
   const renderTypeNoty = (item) => {
     if (item?.type === 'POST_LIKED') {
       return (
         <span id="noty-type">
           {' '}
-          liked <HeartFill color="red" size={25} /> your post. "{item.postTitle}
+          liked <HeartFill color="red" size={20} /> your post. "{item.postTitle}
           "
         </span>
       );
@@ -83,15 +82,13 @@ const Notification = () => {
                           </div>
                         </div>
                       </div>
-                      <div>
                         <img
                           src={item?.postImage}
                           width={70}
                           height={70}
-                          style={{ objectFit: 'cover', borderRadius:5 }}
+                          style={{ objectFit: 'cover', borderRadius:5, marginLeft: 10 }}
                           alt=""
                         />
-                      </div>
                     </div>
                   );
                 })}

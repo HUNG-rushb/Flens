@@ -30,8 +30,9 @@ const unixToDateTime = (unixTimestamp, dateAndTimeOnly = false) => {
   ];
 
   const relative =  relativeDays(unixTimestamp);
-  console.log(relative)
+  console.log(relative) 
   const date = new Date(Number(unixTimestamp));
+  console.log(date)
 
   //   return date.toLocaleString('de-DE', {
   //     timeZone: 'Europe/Berlin',

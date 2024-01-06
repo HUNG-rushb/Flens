@@ -1,5 +1,5 @@
 import Spinner from '../../components/utils/Spinner';
-import { useGetSimilarPost } from '../../graphql/usePost';
+import { useGetSimilarPost, usePostInfo } from '../../graphql/usePost';
 import ErrorPopup from '../../utils/errorPopup';
 import './styles.scss';
 import React, { useMemo } from 'react';
@@ -8,26 +8,29 @@ import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.min.css';
 
-const SimilarImageDetail = ({ imageDetail, setSelectedItem }) => {
-  
+const SimilarImageDetail = ({ selectedItem, setSelectedItem }) => {
+  const { fetchedData: postInfor } = usePostInfo({
+    postInfoData: selectedItem.id,
+  });
+  console.log(selectedItem.id)
   const {
     posts: similarPosts,
     isFetching,
     fetchError,
   } = useGetSimilarPost({
-    data: { postId: imageDetail.id },
+    data: { postId: selectedItem.id },
   });
   return useMemo(
     () => (
       <>
         <div className="similar-container">
           <div className="header">
-            <img src={imageDetail.avatar} alt="" id="user-avatar" />
-            <span id="username">{imageDetail.username}</span>
+            <img src={selectedItem.avatar} alt="" id="user-avatar" />
+            <span id="username">{selectedItem.username}</span>
           </div>
           <div className="main-image">
             <img
-              src={imageDetail.image.url}
+              src={selectedItem.image.url}
               alt=""
               style={{
                 objectFit: 'cover',
@@ -41,10 +44,7 @@ const SimilarImageDetail = ({ imageDetail, setSelectedItem }) => {
               <Spinner />
             ) : (
               <div>
-                <Swiper
-                  slidesPerView={2}
-                  spaceBetween={30}
-                >
+                <Swiper slidesPerView={2} spaceBetween={30}>
                   {similarPosts.map((item) => (
                     <SwiperSlide key={item.node.id}>
                       <img
@@ -70,9 +70,9 @@ const SimilarImageDetail = ({ imageDetail, setSelectedItem }) => {
     ),
     [
       fetchError?.message,
-      imageDetail.avatar,
-      imageDetail.image.url,
-      imageDetail.username,
+      selectedItem.avatar,
+      selectedItem.image.url,
+      selectedItem.username,
       isFetching,
       setSelectedItem,
       similarPosts,

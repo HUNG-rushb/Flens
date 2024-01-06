@@ -307,7 +307,7 @@ const MoreActionList = ({
               {item?.userId.id !== userId && (
                 <li onClick={handleReportClick}>
                   <FlagFill color="blue" />
-                  Report {type}
+                 <p> Report {type}</p>
                 </li>
               )}
               {item?.userId.id === userId && (

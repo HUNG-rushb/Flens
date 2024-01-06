@@ -3,7 +3,6 @@ import Button from '../../components/Button/Button';
 import Modal from '../../components/Modal/Modal';
 import Page from '../../components/utils/Page';
 import { useAuthState } from '../../context/AuthContext';
-import { useGetAllUserPostInfo } from '../../graphql/usePost';
 import { useUserProfileImage } from '../../graphql/useUser';
 import { useUpdateFollowing } from '../../graphql/useUser';
 import { useUnfollowUser } from '../../graphql/useUser';
@@ -22,17 +21,11 @@ const Profile = () => {
   const {
     isFetching: fetchingProfileData,
     fetchedData: UserProfileData,
-    fetchError: fetchUserProfileError,
     userFollow,
     refetchFollow,
   } = useUserProfileImage({
     userInfoData: { userId },
   });
-  // console.log({ userFollow });
-  const { isFetching, fetchedData, fetchError } = useGetAllUserPostInfo({
-    getAllUserPostId: { userId },
-  });
-  // console.log({ fetchedData });
 
   const { updateFollowing } = useUpdateFollowing();
   const { unfollowUser } = useUnfollowUser();
@@ -179,14 +172,7 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-
-            <TabMenu
-              posts={fetchedData}
-              userId={userId}
-              userProfileData={UserProfileData}
-              currentUserId={currentUserId}
-            />
-
+            <TabMenu userId={userId} currentUserId={currentUserId} />
             <Modal
               size="xl"
               hideButton
@@ -196,7 +182,6 @@ const Profile = () => {
               handleClose={toggleShowModal}
               handleSavechanges={toggleShowModal}
             />
-
             <Loading loading={fetchingProfileData} />
           </div>
         </Suspense>
@@ -205,7 +190,6 @@ const Profile = () => {
     [
       UserProfileData,
       userFollow,
-      fetchedData,
       userId,
       currentUserId,
       showModal,

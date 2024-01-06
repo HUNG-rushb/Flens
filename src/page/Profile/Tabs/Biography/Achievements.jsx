@@ -1,6 +1,5 @@
 import './styles.scss';
 import React, { useMemo } from 'react';
-import { AwardFill } from 'react-bootstrap-icons';
 
 const Achievement = ({ achievements }) => {
   return useMemo(
@@ -14,15 +13,19 @@ const Achievement = ({ achievements }) => {
                 {achievements.getUserPrizes.map((item) => {
                   return (
                     <div key={item.id}>
-                      {/* <AwardFill size={25} color="#f08080" /> */}
-                      <img src={item.prizeImageURL} />
-                      {item.title}
+                      <img
+                        src={item.prizeImageURL}
+                        width={30}
+                        height={30}
+                        alt=""
+                      />
+                      <span style={{marginLeft:5, fontSize:16, fontWeight:400}}>{item.title}</span>
                     </div>
                   );
                 })}
               </>
             ) : (
-              'No achievement to show, consider adding some.'
+              'No achievement to show. Join some contest to get one !'
             )}
           </div>
         </div>

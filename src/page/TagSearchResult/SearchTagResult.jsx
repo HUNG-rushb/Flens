@@ -55,7 +55,7 @@ const SearchTagResult = () => {
   const modalContent = useCallback(() => {
     return (
       <SimilarImageDetail
-        imageDetail={selectedItem}
+        selectedItem={selectedItem}
         setSelectedItem={setSelectedItem}
       />
     );

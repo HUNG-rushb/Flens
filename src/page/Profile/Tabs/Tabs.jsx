@@ -14,10 +14,9 @@ import { Tab, Tabs } from 'react-bootstrap';
 import { ThreeDots } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 
-const TabMenu = ({ userId, userProfileData, posts, currentUserId }) => {
+const TabMenu = ({ userId, currentUserId }) => {
   const navigate = useNavigate();
   const [isFollow, setIsFollow] = useState(false);
-  // console.log({ isFollow });
 
   const { fetchedData: currentUserFollowings } = useGetUserFollowing(
     {
@@ -40,9 +39,6 @@ const TabMenu = ({ userId, userProfileData, posts, currentUserId }) => {
   const handleClickFollow = useCallback(
     async (event) => {
       event.preventDefault();
-
-      // console.log({ isFollow }, ' here');
-
       if (isFollow) {
         // console.log('unfollow');
 
@@ -94,17 +90,14 @@ const TabMenu = ({ userId, userProfileData, posts, currentUserId }) => {
             <Tab eventKey="Posts" title="Posts">
               <Posts />
             </Tab>
-
             <Tab eventKey="Stories" title="Stories">
               <Stories />
             </Tab>
-
             <Tab eventKey="Portfolio" title="Portfolio">
-              <Portfoio userProfileData={userProfileData} posts={posts} />
+              <Portfoio />
             </Tab>
-
             <Tab eventKey="Biography" title="Biography">
-              {userProfileData && <Biography userId={userId} posts={posts} />}
+              <Biography userId={userId} />
             </Tab>
           </Tabs>
         </div>
@@ -127,8 +120,6 @@ const TabMenu = ({ userId, userProfileData, posts, currentUserId }) => {
       </>
     ),
     [
-      userProfileData,
-      posts,
       userId,
       currentUserId,
       handleClickFollow,

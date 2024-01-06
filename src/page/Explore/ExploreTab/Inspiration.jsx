@@ -12,7 +12,7 @@ import Masonry from 'react-layout-masonry';
 
 const Inspiration = () => {
   const { isShowing: showModal, toggle: toggleModal } = useModal();
-  const [imageToShow, setImageToShow] = useState({});
+  const [selectedItem, setSelectedItem] = useState({});
 
   const {
     posts: explorePosts,
@@ -27,11 +27,11 @@ const Inspiration = () => {
   const modalContent = useCallback(() => {
     return (
       <SimilarImageDetail
-        imageDetail={imageToShow}
-        setImageToShow={setImageToShow}
+        imageDetail={selectedItem}
+        setImageToShow={setSelectedItem}
       />
     );
-  }, [imageToShow, setImageToShow]);
+  }, [selectedItem, setSelectedItem]);
 
   return useMemo(
     () => (
@@ -56,7 +56,7 @@ const Inspiration = () => {
                       alt=""
                       src={item.node.image.url}
                       width="100%"
-                      onClick={() => [toggleModal(), setImageToShow(item.node)]}
+                      onClick={() => [toggleModal(), setSelectedItem(item.node)]}
                       style={{ cursor: 'pointer' }}
                     />
                   </span>

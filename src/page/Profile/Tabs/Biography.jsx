@@ -3,7 +3,7 @@ import { useGetUserPrizes } from '../../../graphql/useUser';
 import Achievement from './Biography/Achievements';
 import Interests from './Biography/Interests';
 import PersonalInfo from './Biography/PersonalInfo';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 const Biography = ({ userId }) => {
   const { fetchedData: prizes, refetch } = useGetUserPrizes({
