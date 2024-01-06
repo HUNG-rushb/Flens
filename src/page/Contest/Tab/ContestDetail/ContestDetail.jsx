@@ -48,6 +48,7 @@ const ContestDetail = () => {
   } = useGetContestInfo({
     contestInfoData: { contestId },
   });
+  console.log({ contestInfo });
   const { posts, hasNextPage, isFetching, fetchError, loadNew, refetch } =
     useGetContestPosts(contestId, userId);
   const navigate = useNavigate();
@@ -330,7 +331,28 @@ const ContestDetail = () => {
           </div>
 
           <div className="below-content-wrapper">
-            {posts && <RankingBoard contestId={contestId} posts={posts} />}
+            {contestInfo?.contestInfo?.isFinished === true ? (
+              <>
+                {contestInfo.contestInfo.contestPrizeList.map((item) => {
+                  return (
+                    <div key={item.id}>
+                      {item.userId.id === '000000000000000000000000' ? (
+                        <></>
+                      ) : (
+                        <>
+                          <img src={item.prizeImageURL} />
+                          <img src={item.userId.profileImageURL} />
+
+                          <p>{item.userId.name}</p>
+                        </>
+                      )}
+                    </div>
+                  );
+                })}
+              </>
+            ) : (
+              posts && <RankingBoard contestId={contestId} posts={posts} />
+            )}
 
             <div className="content-wrapper">
               <div className="description">
@@ -368,9 +390,11 @@ const ContestDetail = () => {
             </div> */}
 
               <div className="upload-image-input">
-                {contestInfo?.contestInfo?.joinedUserIds?.findIndex(
-                  (x) => x.id === userId
-                ) !== -1 ? (
+                {contestInfo?.contestInfo?.isFinished === true ? (
+                  <p> This contest is done.</p>
+                ) : contestInfo?.contestInfo?.joinedUserIds?.findIndex(
+                    (x) => x.id === userId
+                  ) !== -1 ? (
                   <p> You've already joined this contest.</p>
                 ) : (
                   <>
@@ -403,7 +427,7 @@ const ContestDetail = () => {
                   loader={<h4>Loading...</h4>}
                   endMessage={
                     <p style={{ textAlign: 'center' }}>
-                      <b>Yay! You have seen it all</b>
+                      <b>---</b>
                     </p>
                   }
                 >

@@ -1,10 +1,12 @@
 import Modal from '../../components/Modal/Modal.jsx';
 import { PostInfoReducer } from '../../context/reducer/PostReducer.js';
+import { useUpdatePostInfo } from '../../graphql/usePost.js';
 import { renderInputField } from '../../utils/useRenderInputField.js';
 import './EditPost.scss';
 import React, { useMemo, useCallback, useReducer } from 'react';
 
 const EditPost = ({ showModal, toggleShow, post }) => {
+  // console.log({ post });
   const setPostInfoValues = (receivedPost) => {
     const { title, caption, image: { imageInfoId = {} } = {} } = receivedPost;
     const {
@@ -34,10 +36,34 @@ const EditPost = ({ showModal, toggleShow, post }) => {
 
   const initialValues = setPostInfoValues(post);
   const [postInfor, dispatch] = useReducer(PostInfoReducer, initialValues);
+  // console.log({ postInfor });
+  const { updatePost } = useUpdatePostInfo();
 
-  const handleEditPost = useCallback(async (event) => {
-    event.preventDefault();
-  }, []);
+  const handleEditPost = useCallback(
+    async (event) => {
+      event.preventDefault();
+      await updatePost({
+        variables: {
+          data: {
+            postId: post.id,
+            title: postInfor.title,
+            caption: postInfor.caption,
+            aperture: postInfor.aperture,
+            lens: postInfor.lens,
+            takenWhen: postInfor.takenWhen,
+            camera: postInfor.camera,
+            focalLength: postInfor.focalLength,
+            shutterSpeed: postInfor.shutterSpeed,
+            ISO: postInfor.iso,
+            copyRight: postInfor.copyright,
+          },
+        },
+      });
+
+      window.location.reload();
+    },
+    [postInfor]
+  );
 
   const handleCancel = useCallback(() => {
     toggleShow();
