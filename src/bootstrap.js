@@ -20,14 +20,14 @@ import ReactDOM from 'react-dom/client';
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    // url: 'wss://localhost:4000',
-    url: 'wss://ec2-47-129-9-77.ap-southeast-1.compute.amazonaws.com',
+    // url: 'ws://localhost:4000',
+    url: 'ws://ec2-47-129-9-77.ap-southeast-1.compute.amazonaws.com',
   })
 );
 
 const httpLink = new HttpLink({
   // uri: `http://localhost:4000/dev`,
-  uri: `https://roxqm2ljb8.execute-api.ap-southeast-1.amazonaws.com`,
+  uri: `http://roxqm2ljb8.execute-api.ap-southeast-1.amazonaws.com`,
 });
 
 const link =
