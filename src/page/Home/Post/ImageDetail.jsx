@@ -82,7 +82,7 @@ const ImageDetail = ({ item, showDetail }) => {
             <PostInteraction item={item} showImageDetail={showDetail} />
             <PostTechnical item={item} showImageDetail={showDetail} />
             <hr style={{ border: '1px solid #F08080', padding: '0 10px' }} />
-            <PostComment item={item} />
+            <PostComment item={item} showDetail={true} />
           </div>
         </div>
       </div>

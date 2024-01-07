@@ -96,12 +96,11 @@ const Story = ({ item, setReportedList }) => {
             />
 
             <div className="description">
-              <span id="title" onClick={() => handleViewDetail(item.node.id)}>
+              <div id="title" onClick={() => handleViewDetail(item.node.id)}>
                 {item.node.title}
-              </span>
-
+              </div>
               <img
-                id="image"
+                id="story-main-image"
                 alt=""
                 src={item.node.images[0]}
                 onClick={() => handleViewDetail(item.node.id)}

@@ -8,7 +8,7 @@ import renderCommentItem from '../../../utils/renderCommentItem';
 import Loading from '../../../utils/useLoading';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-const PostComment = ({ item, userLevel }) => {
+const PostComment = ({ item, userLevel, showDetail = false }) => {
   const { id: userId, profileImageURL: userAvatar } = useAuthState();
   const [allComment, setAllComment] = useState(null);
   // console.log('allComment', allComment);
@@ -123,7 +123,8 @@ const PostComment = ({ item, userLevel }) => {
                 replyComment,
                 commentId,
                 handleReplyCommentChange,
-                handleSubmitRepyComment
+                handleSubmitRepyComment,
+                showDetail
               )}
             {allComment?.length > 3 && allComment?.length > indexComment ? (
               <div className="View-more-comments" onClick={showMoreComment}>
@@ -149,6 +150,7 @@ const PostComment = ({ item, userLevel }) => {
       replyComment,
       commentId,
       handleSubmitRepyComment,
+      showDetail,
       isFetchingComment,
     ]
   );

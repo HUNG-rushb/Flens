@@ -17,7 +17,7 @@ const PostTechnical = ({ item, showImageDetail }) => {
             <span id="content">Camera:</span> {item?.image.imageInfoId.camera}
           </div>
           <div>
-            <span id="content">Aperture:</span> f/ 
+            <span id="content">Aperture:</span> f/
             {item?.image.imageInfoId.aperture} (mm)
           </div>
           <div>

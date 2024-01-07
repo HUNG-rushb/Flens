@@ -11,9 +11,9 @@ const renderChildComment = (
   replyComment,
   commentId,
   handleReplyCommentChange,
-  handleSubmitRepyComment
+  handleSubmitRepyComment,
+  showDetail
 ) => {
-  // console.log('child comment', childComment);
   if (!childComment) {
     return <></>;
   }
@@ -36,11 +36,18 @@ const renderChildComment = (
       </span>
 
       <div id="comment-content">{item?.content}</div>
-      <div className="comment-infor">
-        <span id="reply-text" onClick={() => handleClickReply(item?.id)}>
+      <div
+        className="comment-infor"
+        style={showDetail ? { marginLeft: 45 } : {}}
+      >
+        <span
+          id="reply-text"
+          onClick={() => handleClickReply(item?.id)}
+          style={showDetail ? { fontWeight: 600, fontSize: 12 } : {}}
+        >
           Reply
         </span>
-        <span id="comment-date">{relativeDays(item?.createdAt)}</span>
+        <span id="comment-date" style={showDetail ? { marginLeft:10 } : {}}>{relativeDays(item?.createdAt)}</span>
       </div>
       {replyToComment === item?.id &&
         renderCommentHeader(
@@ -67,7 +74,8 @@ const renderCommentItem = (
   replyComment,
   commentId,
   handleReplyCommentChange,
-  handleSubmitRepyComment
+  handleSubmitRepyComment,
+  showDetail
 ) => {
   return comments?.slice(0, indexComment).map((item, index) => (
     <div className="comment-wrapper" key={index + item?.id}>
@@ -84,11 +92,18 @@ const renderCommentItem = (
       </span>
 
       <div id="comment-content">{item?.content}</div>
-      <div className="comment-infor">
-        <span id="reply-text" onClick={() => handleClickReply(item?.id)}>
+      <div
+        className="comment-infor"
+        style={showDetail ? { marginLeft: 45 } : {}}
+      >
+        <span
+          id="reply-text"
+          onClick={() => handleClickReply(item?.id)}
+          style={showDetail ? { fontWeight: 600, fontSize:12 } : {}}
+        >
           Reply
         </span>
-        <span id="comment-date">{relativeDays(item?.createdAt)}</span>
+        <span id="comment-date" style={showDetail ? { marginLeft: 10 } : {}}>{relativeDays(item?.createdAt)}</span>
       </div>
       {replyToComment === item?.id &&
         renderCommentHeader(
@@ -110,7 +125,8 @@ const renderCommentItem = (
         replyComment,
         commentId,
         handleReplyCommentChange,
-        handleSubmitRepyComment
+        handleSubmitRepyComment,
+        showDetail
       )}
     </div>
   ));
