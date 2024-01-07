@@ -27,7 +27,7 @@ const wsLink = new GraphQLWsLink(
 
 const httpLink = new HttpLink({
   // uri: `http://localhost:4000/dev`,
-  uri: `http://roxqm2ljb8.execute-api.ap-southeast-1.amazonaws.com`,
+  uri: `https://roxqm2ljb8.execute-api.ap-southeast-1.amazonaws.com`,
 });
 
 const link =
