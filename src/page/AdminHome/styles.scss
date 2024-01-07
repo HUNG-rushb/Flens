@@ -1,4 +1,28 @@
 .admin-home-container {
-    height:100%;
-    width: 100%;
+  display: flex;
+  height: calc(100vh - 70px);
+  padding: 20px;
+  flex-direction: column;
+
+  .admin-home-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+
+    #admin-title {
+        font-size: 18px;
+        font-weight: 600;
+        font-family: 'Abhaya Libre';
+    }
+
+    .admin-content {
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
+
+        span {
+            font-weight: 600;
+        }
+    }
+  }
 }

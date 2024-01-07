@@ -1,12 +1,7 @@
-import { useGetTop5Posts } from '../../../../graphql/useContest';
 import React from 'react';
 
-const Ranking = ({ contestId, posts }) => {
-  // console.log({ contestId });
+const Ranking = ({ top5, posts, refetch }) => {
 
-  const { fetchedData: top5, refetch } = useGetTop5Posts({
-    data: { contestId },
-  });
   // console.log({ top5 });
 
   return (

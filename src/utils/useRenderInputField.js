@@ -51,7 +51,12 @@ export const renderInputField = (
     } else return /^[a-zA-Z0-9 ]+$/.test(value);
   };
 
-  
+  const renderRequiredField = (label) => {
+    if (label === 'Title' || label === 'Caption' || label === 'Copyright') {
+      return <span style={{ color: 'red' }}>*</span>;
+    } else return '';
+  };
+
   const handleCheckInputValue = (event, label) => {
     const inputValue = event.target.value;
     if (checkValue(label, inputValue)) {
@@ -64,7 +69,7 @@ export const renderInputField = (
   return (
     <div key={`input-${label}-${idx}`}>
       <label>
-        {label} {unit}
+        {label} {unit} {renderRequiredField(label)}
       </label>
       <input
         placeholder={placeholder}

@@ -95,12 +95,8 @@ const UploadImage = ({ contestId = '' }) => {
   );
 
   const isDisabledButton = useMemo(
-    () =>
-      postInfor.title &&
-      postInfor.copyright &&
-      tags.length &&
-      categories.length,
-    [categories.length, postInfor.copyright, postInfor.title, tags.length]
+    () => postInfor.title && postInfor.caption && postInfor.copyright,
+    [postInfor.caption, postInfor.copyright, postInfor.title]
   );
 
   const { createPost, isFetching, fetchError } = useCreatePostLazy();
@@ -328,7 +324,7 @@ const UploadImage = ({ contestId = '' }) => {
 
   const handleCancelUpload = useCallback(() => {
     toggleShow();
-    setTags([])
+    setTags([]);
     setCategories([]);
     setCategory({
       id: 1,

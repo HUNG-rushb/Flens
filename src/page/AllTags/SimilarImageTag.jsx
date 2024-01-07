@@ -34,17 +34,18 @@ const SimilarImageDetail = ({ selectedItem, setSelectedItem }) => {
               <Spinner />
             ) : (
               <div>
-                <Swiper slidesPerView={2} spaceBetween={30}>
+                <Swiper slidesPerView={2} spaceBetween={10}>
                   {similarPosts.map((item) => (
                     <SwiperSlide key={item.node.id}>
                       <img
                         src={item.node.image.url}
                         onClick={() => setSelectedItem(item.node)}
                         style={{
-                          maxHeight: 200,
+                          maxHeight: 300,
                           objectFit: 'cover',
                           width: '100%',
                           cursor: 'pointer',
+                          borderRadius:10
                         }}
                         alt=""
                       />

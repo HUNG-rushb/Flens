@@ -8,6 +8,7 @@ import {
 import {
   useGetContestInfo,
   useGetContestPosts,
+  useGetTop5Posts,
   useUserJoinContest,
 } from '../../../../graphql/useContest';
 import {
@@ -48,7 +49,6 @@ const ContestDetail = () => {
   } = useGetContestInfo({
     contestInfoData: { contestId },
   });
-  console.log({ contestInfo });
   const { posts, hasNextPage, isFetching, fetchError, loadNew, refetch } =
     useGetContestPosts(contestId, userId);
   const navigate = useNavigate();
@@ -115,6 +115,12 @@ const ContestDetail = () => {
     name: '',
   });
 
+  const { fetchedData: top5, refetchtop5 } = useGetTop5Posts({
+    data: { contestId },
+  });
+
+
+  console.log(top5)
   const handleFileChange = useCallback(
     (event) => {
       const file = event.target.files[0];
@@ -358,6 +364,7 @@ const ContestDetail = () => {
                           ) : (
                             <div className="contest-winner">
                               <div className="contest-winner-item">
+                                <p style={{alignContent:"center"}}>{index + 1}</p>
                                 <img
                                   src={item.prizeImageURL}
                                   alt=""
@@ -374,12 +381,13 @@ const ContestDetail = () => {
                                   <img
                                     src={item.userId.profileImageURL}
                                     alt=""
-                                    style={{ width: 60, borderRadius: '50%' }}
+                                    style={{ width: 50, borderRadius: '50%' }}
                                   />
                                   <p style={{ fontSize: 20, fontweight: 500 }}>
                                     {item.userId.name}
                                   </p>
                                 </div>
+                                <p style={{fontweight:600, fontSize:20}}><span style={{fontweight:600}}>Points:</span> {top5?.getTopContestPosts[index].points}</p>
                               </div>
                             </div>
                           )}
@@ -390,7 +398,9 @@ const ContestDetail = () => {
                 </div>
               </div>
             ) : (
-              posts && <RankingBoard contestId={contestId} posts={posts} />
+              posts && (
+                <RankingBoard top5={top5} posts={posts} refetch={refetchtop5} />
+              )
             )}
 
             <div className="content-wrapper">
@@ -414,8 +424,8 @@ const ContestDetail = () => {
 
               <div className="upload-image-input">
                 {contestInfo?.contestInfo?.isFinished ? (
-                  <p style={{ fontSize: 40, fontFamily: 'Abhaya Libre' }}>
-                    This contest is done.
+                  <p style={{ fontSize: 30, fontFamily: 'Abhaya Libre' }}>
+                    This contest is completed. Please join another contest !
                   </p>
                 ) : contestInfo?.contestInfo?.joinedUserIds?.findIndex(
                     (x) => x.id === userId
@@ -519,20 +529,22 @@ const ContestDetail = () => {
     [
       contestInfo?.contestInfo.contestImageURL,
       contestInfo?.contestInfo.name,
-      contestInfo?.contestInfo.isFinished,
+      contestInfo?.contestInfo?.isFinished,
       contestInfo?.contestInfo.contestPrizeList,
       contestInfo?.contestInfo.description,
       contestInfo?.contestInfo.startDate,
       contestInfo?.contestInfo.endDate,
-      contestInfo?.contestInfo.joinedUserIds,
+      contestInfo?.contestInfo?.joinedUserIds,
       posts,
-      contestId,
+      top5,
+      refetchtop5,
       handleFileChange,
       hasNextPage,
       loadContest,
       creatContest,
       loadContestError?.message,
       showModal,
+      contestId,
       options,
       tags,
       tag,
