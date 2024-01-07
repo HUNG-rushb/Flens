@@ -1,5 +1,6 @@
 import Header from '../../../components/Header/Header';
 import Page from '../../../components/utils/Page';
+import { useAuthState } from '../../../context/AuthContext';
 import { usePostInfo } from '../../../graphql/usePost';
 import PostComment from './PostComment';
 import './PostDetail.scss';
@@ -7,9 +8,10 @@ import PostInteraction from './PostInteraction';
 import PostTechnical from './PostTechnical';
 import { useMemo } from 'react';
 import { useCallback } from 'react';
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom';
 
 const PostDetail = () => {
+  const { id: currentUserId } = useAuthState();
   const navigate = useNavigate();
   const postId = useParams();
   const { fetchedData } = usePostInfo({
@@ -63,7 +65,10 @@ const PostDetail = () => {
                   ))}
                 </div>
 
-                <PostInteraction item={fetchedData?.postInfo} />
+                {fetchedData?.postInfo && (
+                  <PostInteraction item={fetchedData.postInfo} />
+                )}
+
                 {fetchedData?.postInfo && (
                   <PostComment
                     item={fetchedData?.postInfo}
