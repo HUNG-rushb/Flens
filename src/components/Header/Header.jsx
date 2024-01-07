@@ -11,14 +11,20 @@ import {
 } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 
-const Header = ({ type = 'post', item, setIsDeleted, setReportedList }) => {
+const Header = ({
+  type = 'post',
+  item,
+  setIsDeleted,
+  setReportedList,
+  showDetail = false,
+}) => {
   console.log({ item });
   const navigate = useNavigate();
   const [postVisibility, setPostVisibility] = useState(item?.postViewStatus);
   const [isHovered, setIsHovered] = useState(false);
   const userLevel = useMemo(
     () => item?.userId?.level?.currentLevel || 'New',
-    [item?.userLevel]
+    [item?.userId?.level?.currentLevel]
   );
 
   const handleViewProfile = useCallback(() => {
@@ -107,18 +113,20 @@ const Header = ({ type = 'post', item, setIsDeleted, setReportedList }) => {
           setPostVisibility={setPostVisibility}
           postVisibility={postVisibility}
           setReportedList={setReportedList}
+          showDetail={showDetail}
         />
       </div>
     ),
     [
-      type,
-      isHovered,
       item,
-      postVisibility,
+      isHovered,
       renderPopoverContent,
+      type,
       renderPostModeIcon,
       setIsDeleted,
+      postVisibility,
       setReportedList,
+      showDetail,
     ]
   );
 };

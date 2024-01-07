@@ -66,13 +66,10 @@ const ImageDetail = ({ item, showDetail }) => {
           </div>
         </div>
         <div className="right-content">
-          <Header type="post" item={item} />
+          <Header type="post" item={item} showDetail={true} />
           <div style={{ padding: '0 10px' }}>
             <div className="title">{item?.title}</div>
-            <div
-              className="caption"
-              style={{ fontSize: 16 }}
-            >
+            <div className="caption" style={{ fontSize: 16 }}>
               {item?.caption}
             </div>
             <div className="hash-tags">
@@ -84,7 +81,7 @@ const ImageDetail = ({ item, showDetail }) => {
             </div>
             <PostInteraction item={item} showImageDetail={showDetail} />
             <PostTechnical item={item} showImageDetail={showDetail} />
-            <hr style={{ border: '1px solid #F08080', padding:"0 10px" }} />
+            <hr style={{ border: '1px solid #F08080', padding: '0 10px' }} />
             <PostComment item={item} />
           </div>
         </div>

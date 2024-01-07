@@ -26,6 +26,7 @@ const MoreActionList = ({
   setPostVisibility,
   postVisibility,
   setReportedList,
+  showDetail,
 }) => {
   const { id: userId } = useAuthState();
   const { storyId } = useParams();
@@ -302,12 +303,16 @@ const MoreActionList = ({
             onClick={() => setShowListActions((prev) => !prev)}
             id="more-action-icon"
           />
-          <div className="list-actions" hidden={showListActions}>
+          <div
+            className="list-actions"
+            hidden={showListActions}
+            style={showDetail ? { top: '45px', right: '5px' } : {}}
+          >
             <ul>
               {item?.userId.id !== userId && (
                 <li onClick={handleReportClick}>
                   <FlagFill color="blue" />
-                 <p> Report {type}</p>
+                  <p> Report {type}</p>
                 </li>
               )}
               {item?.userId.id === userId && (
@@ -352,6 +357,7 @@ const MoreActionList = ({
     ),
     [
       showListActions,
+      showDetail,
       item,
       userId,
       handleReportClick,
