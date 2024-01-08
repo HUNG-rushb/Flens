@@ -17,14 +17,6 @@ const ContestInfo = () => {
     () => (
       <div className="contest-infor">
         <div className="contest-infor-wrapper">
-          {/* <span>Submition guidlelines</span>
-          <div>
-            <ul>
-              <li>Post your entry photo in public and send us that link.</li>
-              <li>Use the #Hashtag on at least one of your entry.</li>
-              <li>Your entry can be no more than 5mb.</li>
-            </ul>
-          </div> */}
           <span>Happening</span>
           <div className="all-contest">
             {allContests?.allContests

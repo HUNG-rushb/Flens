@@ -76,7 +76,7 @@ const ContestManagement = () => {
           },
         });
 
-        navigate('/');
+        navigate('/contest-management');
       } catch (e) {
         throw e;
       }

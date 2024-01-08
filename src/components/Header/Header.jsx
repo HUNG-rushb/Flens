@@ -18,7 +18,7 @@ const Header = ({
   setReportedList,
   showDetail = false,
 }) => {
-  console.log({ item });
+  // console.log({ item });
   const navigate = useNavigate();
   const [postVisibility, setPostVisibility] = useState(item?.postViewStatus);
   const [isHovered, setIsHovered] = useState(false);

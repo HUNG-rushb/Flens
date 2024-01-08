@@ -20,9 +20,9 @@ const Inspiration = () => {
     hasNextPage,
     loadNew,
   } = useGetExplore();
-  console.log({ hasNextPage });
-  console.log({ explorePosts }, 'post');
-  console.log({ hasNextPage });
+  // console.log({ hasNextPage });
+  // console.log({ explorePosts }, 'post');
+  // console.log({ hasNextPage });
 
   const modalContent = useCallback(() => {
     return (
@@ -56,7 +56,10 @@ const Inspiration = () => {
                       alt=""
                       src={item.node.image.url}
                       width="100%"
-                      onClick={() => [toggleModal(), setSelectedItem(item.node)]}
+                      onClick={() => [
+                        toggleModal(),
+                        setSelectedItem(item.node),
+                      ]}
                       style={{ cursor: 'pointer' }}
                     />
                   </span>

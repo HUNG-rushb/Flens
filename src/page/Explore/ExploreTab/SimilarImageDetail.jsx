@@ -59,7 +59,7 @@ const SimilarImageDetail = ({ imageDetail, setImageToShow }) => {
                           />
                         </SwiperSlide>
                       ))}
-                    </Swiper>{' '}
+                    </Swiper>
                   </div>
                 ) : (
                   <p
