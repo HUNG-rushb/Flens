@@ -12,7 +12,7 @@ const PersonalInfo = () => {
 
   return (
     <div className="bio-right-container">
-      <div className="personal-infor">
+      {/* <div className="personal-infor">
         <div>
           <span>Email:</span> a@gmail.com
         </div>
@@ -22,7 +22,7 @@ const PersonalInfo = () => {
         <div>
           <span>Birthday:</span> 01/01/2001
         </div>
-      </div>
+      </div> */}
 
       <div className="camera-wrapper">
         <CameraFill id="camera-icon" />
