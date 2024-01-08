@@ -70,8 +70,7 @@ const RightContent = () => {
                           id="special-contest-image"
                         />
                         <span id="special-contest-title">
-                          {item.name?.substring(0, item?.name.indexOf(':'))}{' '}
-                          contest
+                          {item.name} contest
                         </span>
                       </div>
                     </SwiperSlide>
