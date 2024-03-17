@@ -1,0 +1,72 @@
+.report-management-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  .title {
+    font-size: 25px;
+    font-weight: 500;
+    padding: 30px 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .content-wrapper {
+    width: 100%;
+    padding: 20px 40px;
+
+    #check-icon,
+    #detail-icon,
+    #remove-icon {
+      opacity: 1;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+
+    #check-icon:hover,
+    #detail-icon:hover,
+    #remove-icon:hover {
+      opacity: 0.5;
+    }
+
+    table {
+      width: 100%;
+      text-align: center;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+      thead {
+        tr {
+          background-color: #f8ad9d;
+          font-size: 19px;
+          font-weight: 600;
+          color: white;
+
+          td {
+            padding: 5px;
+            border-collapse: collapse;
+          }
+        }
+      }
+      tbody {
+        tr {
+          td {
+            padding: 10px;
+            border-collapse: collapse;
+            img {
+              border-radius: 50%;
+            }
+          }
+        }
+        tr:nth-child(even) {
+          background-color: #fcebd7;
+        }
+        tr:hover {
+          // background-color: #FBC4AB;
+          // color: white;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

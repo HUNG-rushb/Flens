@@ -1,43 +1,104 @@
-import HashTag from './HashTag.jsx';
-import './ImageDetail.css';
+import Header from '../../../components/Header/Header.jsx';
+import './ImageDetail.scss';
 import PostComment from './PostComment';
 import PostInteraction from './PostInteraction.jsx';
-import PostTeachnicalInformation from './PostTeachnicalInformation.jsx';
+import PostTechnical from './PostTechnical.jsx';
+import { useCallback, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const ImageDetail = ({ item, showImageDetail, handleCloseImageDetail }) => {
-  return (
-    <>
-      <div className="image-detail-overlay" hidden={!showImageDetail}>
-        <div className="detail-page">
-          <div className="left-image-detail-page">
-            <img src={item.image} alt="imageDetail" width={'100%'} />
+const ImageDetail = ({ item, showDetail }) => {
+  const [zoomedIn, setZoomedIn] = useState(false);
+  const [scale, setScale] = useState(1);
+  const [cursor, setCursor] = useState('zoom-in');
+  const navigate = useNavigate();
+
+  const handleImageClick = useCallback(() => {
+    setZoomedIn(!zoomedIn);
+    if (zoomedIn) {
+      setScale(1);
+      setCursor('zoom-in');
+    } else {
+      setScale(1.4);
+      setCursor('zoom-out');
+    }
+  }, [zoomedIn]);
+
+  const handleMouseMove = useCallback(
+    (e) => {
+      if (zoomedIn) {
+        const { offsetX, offsetY, target } = e.nativeEvent;
+        const { width, height } = target;
+        const xPercentage = (offsetX / width) * 100;
+        const yPercentage = (offsetY / height) * 100;
+        target.style.transformOrigin = `${xPercentage}% ${yPercentage}%`;
+      }
+    },
+    [zoomedIn]
+  );
+
+  const handleClickTag = useCallback(
+    (tag) => {
+      navigate(`/tag/${tag}`, {
+        state: {
+          tagValue: tag,
+        },
+      });
+    },
+    [navigate]
+  );
+
+  return useMemo(
+    () => (
+      <div className="image-detail-container">
+        <div className="left-content">
+          <div
+            className={`left-content-wrapper ${zoomedIn ? 'zoomed-in' : ''}`}
+            onClick={handleImageClick}
+            onMouseMove={handleMouseMove}
+            style={{ cursor: cursor }}
+          >
+            <img
+              id="main-image"
+              src={item?.image.url}
+              style={{ transform: `scale(${scale})` }}
+              alt=""
+            />
           </div>
-          <div className="right-image-detail-page">
-            <div className="close-overlay" onClick={handleCloseImageDetail}>
-              X
+        </div>
+        <div className="right-content">
+          <Header type="post" item={item} showDetail={true} />
+          <div style={{ padding: '0 10px' }}>
+            <div className="title">{item?.title}</div>
+            <div className="caption" style={{ fontSize: 16 }}>
+              {item?.caption}
             </div>
-            <div className="right-image-detail">
-              <div className="image-detail-page-header">
-                <img src={item.avatar} alt="avatar" width={'50px'} />
-                <span>{item.name}</span>
-              </div>
-              <PostInteraction item={item}/>
-              <PostTeachnicalInformation
-                item={item}
-                showImageDetail={showImageDetail}
-              />
-              <hr style={{ border: '1px solid #F08080' }} />
-              <span>
-                <b>Published {item.time} with “hashtag1”</b>
-              </span>
-              <HashTag item={item} />
-              <PostComment item={item} showImageDetail={showImageDetail} />
+            <div className="hash-tags">
+              {item?.tag.map((tag, index) => (
+                <span id="tag" key={index} onClick={() => handleClickTag(tag)}>
+                  #{tag}
+                </span>
+              ))}
             </div>
+            {item && (
+              <PostInteraction item={item} showImageDetail={showDetail} />
+            )}
+            <PostTechnical item={item} showImageDetail={showDetail} />
+            <hr style={{ border: '1px solid #F08080', padding: '0 10px' }} />
+            <PostComment item={item} showDetail={true} />
           </div>
         </div>
       </div>
-    </>
+    ),
+    [
+      cursor,
+      handleClickTag,
+      handleImageClick,
+      handleMouseMove,
+      item,
+      scale,
+      showDetail,
+      zoomedIn,
+    ]
   );
 };
-
 export default ImageDetail;

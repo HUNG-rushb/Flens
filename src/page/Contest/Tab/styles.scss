@@ -1,0 +1,125 @@
+.contest-infor {
+  margin: 20px 0;
+
+  .contest-infor-wrapper {
+    width: 100%;
+
+    span {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .all-contest {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      width: 100%;
+      gap: 20px;
+      margin: 10px 0 30px;
+
+      .contest {
+        position: relative;
+
+        #contest-image {
+          height: 240px;
+          opacity: 0.8;
+          cursor: pointer;
+          object-fit: cover;
+          width: 100%;
+          max-height: 450px;
+          cursor: pointer;
+          border-radius: 5px;
+        }
+
+        #contest-image:hover {
+          opacity: 1;
+        }
+
+        .contest-title {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          color: white;
+          font-size: 25px;
+          font-weight: bold;
+          text-align: center;
+          text-transform: uppercase;
+          transform: translate(-50%, -50%);
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+          width: 100%;
+          padding: 0 20px;
+        }
+      }
+    }
+  }
+}
+
+.photo-entries-container {
+  margin: 40px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.previous-winner-container {
+  .previous-winner-post {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0 50px 0;
+    border-radius: 5px;
+
+    #post-image {
+      width: 600px;
+      max-height: 600px;
+      object-fit: contain;
+    }
+
+    .post-content {
+      max-width: 450px;
+
+      .post-avatar-wrapper {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+
+        #post-avatar {
+          height: 100px;
+          width: 100px;
+          border-radius: 50%;
+          position: absolute;
+        }
+      }
+
+      .post-detail {
+        margin-top: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        #winner-name {
+          margin-top: 20px;
+          font-weight: 600;
+        }
+
+        .post-title {
+          font-size: 35px;
+          font-weight: 600;
+          color: #fc0;
+          font-family: 'Abhaya Libre';
+        }
+
+        #post-comment {
+          font-size: 18px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

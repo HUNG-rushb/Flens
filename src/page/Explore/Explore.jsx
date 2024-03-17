@@ -1,142 +1,107 @@
-import SelectCustom from '../../components/Select/SelectCustom';
 import Page from '../../components/utils/Page';
-import './Explore.css';
-import React, { Suspense, useEffect, useState } from 'react';
-
-const options = [
-  { id: 1, value: 'Inspiration', isChecked: false },
-  { id: 2, value: 'Hot', isChecked: false },
-  { id: 3, value: 'Newest', isChecked: false },
-  { id: 4, value: 'stories', isChecked: false },
-];
-
-const images = [
-  {
-    id: 1,
-    image:
-      'https://images.pexels.com/photos/15976900/pexels-photo-15976900/free-photo-of-mua-xuan-la-hoa-dong-c-a.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-  },
-  {
-    id: 2,
-    image:
-      'https://images.pexels.com/photos/17005370/pexels-photo-17005370/free-photo-of-l-nh-tuy-t-g-binh-minh.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-  },
-  {
-    id: 3,
-    image:
-      'https://images.pexels.com/photos/16958120/pexels-photo-16958120/free-photo-of-thanh-ph-ngh-thu-t-d-cu-ki-n-truc.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-  },
-  {
-    id: 4,
-    image:
-      'https://images.pexels.com/photos/17211653/pexels-photo-17211653/free-photo-of-ki-n-truc-london-notting-hill-mews.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-  },
-  {
-    id: 5,
-    image:
-      'https://images.pexels.com/photos/15030610/pexels-photo-15030610/free-photo-of-mua-he-d-o-k-l-ao.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-  },
-  {
-    id: 6,
-    image:
-      'https://images.pexels.com/photos/17031087/pexels-photo-17031087/free-photo-of-g-chim-thu-v-t-m.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-  },
-  {
-    id: 7,
-    image:
-      'https://images.pexels.com/photos/16931198/pexels-photo-16931198/free-photo-of-g-thanh-ph-phong-c-nh-thien-nhien.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-  },
-  {
-    id: 8,
-    image:
-      'https://images.pexels.com/photos/16848567/pexels-photo-16848567/free-photo-of-g-phong-c-nh-n-c-nui.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-  },
-  {
-    id: 9,
-    image:
-      'https://images.pexels.com/photos/16158164/pexels-photo-16158164/free-photo-of-thien-nhien-th-i-trang-kinh-ram-nh-ng-ng-i.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-  },
-  // {
-  //   id: 10,
-  //   image:
-  //     'https://images.pexels.com/photos/7549484/pexels-photo-7549484.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-  // },
-  // {
-  //   id: 11,
-  //   image:
-  //     'https://images.pexels.com/photos/16747487/pexels-photo-16747487/free-photo-of-d-ng-ph-xe-h-i-xe-d-cu.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-  // },
-  // {
-  //   id: 12,
-  //   image:
-  //     'https://images.pexels.com/photos/16614531/pexels-photo-16614531/free-photo-of-g-ngh-thu-t-b-c-v-sang-tr-ng.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
-  // }
-];
+import StoryPage from '../Stories/StoryPage';
+import Inspiration from './ExploreTab/Inspiration';
+import './styles.scss';
+import React, {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Explore = () => {
-  const [countNumberColumn, setCountNumberColumn] = useState(images.length / 3);
-  
-  const firstColum = images
-    .slice(0, countNumberColumn)
-    .map((image) => (
-      <img
-        key={image.id}
-        src={image.image}
-        alt="item"
-        width={500}
-        height={300}
-      />
-    ));
-  const secondColumn = images
-    .slice(countNumberColumn, countNumberColumn * 2)
-    .map((image) => (
-      <img
-        key={image.id}
-        src={image.image}
-        alt="item"
-        width={500}
-        height={300}
-      />
-    ));
-  const thirdColumn = images
-    .slice(countNumberColumn * 2, countNumberColumn * 3)
-    .map((image) => (
-      <img
-        key={image.id}
-        src={image.image}
-        alt="item"
-        width={500}
-        height={300}
-      />
-    ));
+  const options = useMemo(
+    () => [
+      { name: 'All categories', id: '64ecb68380295e50c958e547' },
+      { name: 'Animal', id: '64edaf03809a20aed5684794' },
+      { name: 'Architecture', id: '64edaf2d809a20aed5684795' },
+      { name: 'Black and White', id: '64edaf3c809a20aed5684796' },
+      { name: 'Cityscapes', id: '64edaf4c809a20aed5684797' },
+      { name: 'Family', id: '64edaf62809a20aed5684798' },
+      { name: 'Fashion', id: '64edaf66809a20aed5684799' },
+      { name: 'Film', id: '64edaf72809a20aed568479a' },
+      { name: 'Food', id: '64edaf77809a20aed568479b' },
+      { name: 'Vintage', id: '64edafb5809a20aed568479c' },
+      { name: 'Vehicle', id: '64edafbb809a20aed568479d' },
+      { name: 'Urban', id: '64edafbf809a20aed568479e' },
+      { name: 'Underwater', id: '64edb08f809a20aed568479f' },
+      { name: 'Travel', id: '64edb0a5809a20aed56847a0' },
+      { name: 'Street photography', id: '64edb0ae809a20aed56847a1' },
+      { name: 'Sports', id: '64edb0c7809a20aed56847a2' },
+      { name: 'Landscape', id: '64edb0df809a20aed56847a3' },
+      { name: 'Nature', id: '64edb0e2809a20aed56847a4' },
+      { name: 'Sea', id: '64edb0f6809a20aed56847a5' },
+      { name: 'People', id: '64edb117809a20aed56847a7' },
+      { name: 'Interior', id: '64edb11c809a20aed56847a8' },
+      { name: 'Random', id: '64edb0f9809a20aed56847a6' },
+    ],
+    []
+  );
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState(0);
+  const location = useLocation();
+  const tabs = useMemo(() => ['inspiration', 'stories'], []);
+  const [selectedOption, setSelectedOption] = useState(options[0].value);
 
-    useEffect(()=>{
-      options[0].isChecked = true
-    },[])
+  const handleChangeTab = useCallback(
+    (index, tab) => {
+      setActiveTab(index);
+      navigate(`/explore/${tab}`);
+    },
+    [navigate]
+  );
 
-  return (
-    <Page title="Flens-Explore">
-      <Suspense fallback={null}>
-        <div className="explore-page">
-          <div className="options-bar">
-            <SelectCustom options={options} type="default2" />
-            <div className="options">
-              {options.map((item) => (
-                <span key={item.id}>{item.value}</span>
-              ))}
+  useEffect(() => {
+    options[0].isChecked = true;
+    if (location.pathname === '/explore/stories') {
+      setActiveTab(1);
+    }
+  }, [location, options]);
+
+  return useMemo(
+    () => (
+      <Page title="Flens-Explore">
+        <Suspense fallback={null}>
+          <div className="explore-page">
+            <div className="options-bar">
+              <div className="select-container">
+                <select
+                  id="select"
+                  value={selectedOption}
+                  onChange={(e) => setSelectedOption(e.target.value)}
+                >
+                  {options.map((option) => (
+                    <option key={option.id}>{option.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="explore-tabs">
+                {tabs.map((tab, index) => (
+                  <span
+                    key={index}
+                    className={`tab tab--${
+                      activeTab === index ? 'active' : 'inActive'
+                    }`}
+                    onClick={() => handleChangeTab(index, tab)}
+                  >
+                    {tab}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="tab-content">
+              {activeTab === 0 && (
+                <Inspiration selectedOption={selectedOption} />
+              )}
+              {activeTab === 1 && <StoryPage />}
             </div>
           </div>
-
-          <div className="images">
-            <div className="first-column-image">{firstColum}</div>
-            <div className="second-column-image">{secondColumn}</div>
-            <div className="third-column-image">{thirdColumn}</div>
-          </div>
-          <span>See More ...</span>
-          <div className="same-images"></div>
-        </div>
-      </Suspense>
-    </Page>
+        </Suspense>
+      </Page>
+    ),
+    [selectedOption, options, tabs, activeTab, handleChangeTab]
   );
 };
 

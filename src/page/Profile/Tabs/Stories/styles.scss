@@ -1,0 +1,33 @@
+.profile-stories-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+
+  .story {
+    padding: 10px 20px 20px 20px;
+    border-radius: 5px;
+    max-width: 1000px;
+    min-width: 1000px;
+    width: 100%;
+    border: 1px solid #d3d3d3;
+    margin: 20px 0;
+
+    .description {
+      margin: 10px 0;
+
+      #title {
+        font-size: 25px;
+        cursor: pointer;
+      }
+
+      #image {
+        width: 100%;
+        cursor: pointer;
+        margin-top: 10px;
+        border-radius: 10px;
+      }
+    }
+  }
+}

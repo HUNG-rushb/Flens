@@ -1,0 +1,91 @@
+.button--default {
+    width: 100%;
+    padding: 14px 30px;
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 26px;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #f4978e;
+    opacity: 1;
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    color: white;
+    border: 0;
+}
+
+.button--default2 {
+  border: 0;
+  width: 100%;
+  padding: 10px 25px;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 26px;
+  border-radius: 10px;
+  text-align: center;
+  background-color: #f4978e;
+  opacity: 1;
+  transition-duration: 0.4s;
+  text-decoration: none;
+  overflow: hidden;
+  color: white;
+}
+
+.button--default3 {
+  font-size: 14px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button--default-4 {
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 10px 15px;
+}
+
+.button--default5 {
+  border: 0;
+  width: 60%;
+  padding: 10px 25px;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 26px;
+  border-radius: 10px;
+  text-align: center;
+  background-color: #f4978e;
+  opacity: 1;
+  transition-duration: 0.4s;
+  text-decoration: none;
+  overflow: hidden;
+  color: white;
+}
+
+.button--modal-close-btn, .button--modal-save-btn{
+  border: 0;
+  color: white;
+  padding: 7px 18px;
+  border-radius: 10px;
+}
+
+.button--modal-close-btn {
+  background-color: #51585e;
+}
+
+.button--modal-save-btn {
+  background-color: #f08080;
+}
+
+.Button:hover {
+    opacity: 0.7;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: no-drop;
+}

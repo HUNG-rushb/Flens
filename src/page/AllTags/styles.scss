@@ -1,0 +1,42 @@
+.similar-container {
+    display: flex;
+    flex-direction: column;
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+  
+      #user-avatar {
+        max-width: 60px;
+        height: 100%;
+        border-radius: 50%;
+      }
+  
+      #username {
+        font-size: 20px;
+        font-weight: 600;
+      }
+    }
+  
+    .main-image {
+      display: flex;
+      justify-content: center;
+      background-color: #c5c5c5;
+  
+      img {
+        max-height: 600px;
+        max-width: 600px;
+        object-fit: cover;
+        width: 100%;
+      }
+    }
+  }
+  
+  .inspiration-container {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  

@@ -1,0 +1,23 @@
+.profile-activity-container {
+  display: flex;
+  width: 100%;
+  padding: 40px;
+
+  .statistic-posts {
+    width: 25%;
+
+    li {
+      text-decoration: none;
+      list-style-type: none;
+      font-size: 18px;
+      font-family: Abhaya Libre;
+    }
+  }
+
+  .activity-posts {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 20px;
+  }
+}

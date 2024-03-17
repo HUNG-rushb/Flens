@@ -1,0 +1,41 @@
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+
+  .content-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    #suggestion-image {
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+      opacity: 1;
+    }
+
+    #suggestion-image:hover{
+      opacity: 0.8;
+    }
+
+    #suggestion-name {
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    #suggestion-name:hover{
+      text-decoration: underline;
+    }
+  }
+
+  #add-friend-icon {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  #add-friend-icon:hover {
+    opacity: 0.7;
+  }
+}

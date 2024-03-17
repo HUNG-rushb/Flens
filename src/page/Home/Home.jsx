@@ -1,37 +1,111 @@
-import PostImage from '../../assets/images/Home/Post.svg';
-import Avatar2 from '../../assets/images/avatar2.jpg';
 import Page from '../../components/utils/Page';
-import Spinner from '../../components/utils/Spinner';
-import { useGetAllUserPost } from '../../graphql/usePost';
-import './Home.css';
-import LeftContent from './LeftContent';
-import Post from './Post';
-import UploadBar from './UploadBar';
-import { Suspense } from 'react';
+// import Spinner from '../../components/utils/Spinner';
+import { useAuthState } from '../../context/AuthContext';
+import { useGetNewFeed } from '../../graphql/usePost';
+import ErrorPopup from '../../utils/errorPopup';
+import Loading from '../../utils/useLoading';
+import './Home.scss';
+import LeftContent from './LeftContent/LeftContent';
+import Post from './Post/Post';
+import RightContent from './RightContent/RightContent';
+import { useMemo } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
+import { CameraFill, PencilSquare } from 'react-bootstrap-icons';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useNavigate } from 'react-router';
 
 const Home = () => {
-  const { isFetching, fetchedData, fetchError } = useGetAllUserPost({
-    getAllUserPostId: { userId: '6482134d9fa3fbb056c8d2fc' },
-  });
-  console.log(fetchedData);
+  const navigate = useNavigate();
+  const { id: userId } = useAuthState();
+  const [reportedPosts, setReportedPosts] = useState([]);
 
-  return (
-    <Page title={'FLens-Home'}>
-      <Suspense fallback={<div>Loading...</div>}>
-        <div className="home-page">
-          <LeftContent />
-          <div className="right-content">
-            <UploadBar />
+  const { posts, hasNextPage, isFetching, fetchError, loadNew } =
+    useGetNewFeed(userId);
 
-            {isFetching && <Spinner />}
-            {fetchedData &&
-              fetchedData.userInfo.posts.map((item) => {
-                return <Post key={item.id} item={item} />;
-              })}
+  const handleToUploadImage = useCallback(() => {
+    navigate('/upload');
+  }, [navigate]);
+
+  const handleToUploadStory = useCallback(() => {
+    navigate('/uploadStory');
+  }, [navigate]);
+
+  useEffect(() => {
+    if (posts?.length <= 1) loadNew();
+  }, [loadNew, posts]);
+
+  return useMemo(
+    () => (
+      <Page title="FLens-Home">
+        <Suspense fallback={null}>
+          <div className="home-page">
+            <LeftContent />
+            <div className="center-container">
+              <div className="center-content">
+                <div className="upload-bar">
+                  <div className="content">
+                    <div className="upload-image" onClick={handleToUploadImage}>
+                      <CameraFill size={28} color="#F08080" id="upload-icon" />
+                      Upload a photo
+                    </div>
+                    <div className="upload-story" onClick={handleToUploadStory}>
+                      <PencilSquare
+                        size={28}
+                        color="#F08080"
+                        id="upload-icon"
+                      />
+                      Publish a story
+                    </div>
+                  </div>
+                </div>
+
+                <InfiniteScroll
+                  dataLength={posts.length}
+                  next={() => {
+                    loadNew();
+                  }}
+                  hasMore={hasNextPage}
+                  loader={<h4>Loading...</h4>}
+                  endMessage={
+                    <p style={{ textAlign: 'center' }}>
+                      <b>Yay! You have seen it all</b>
+                    </p>
+                  }
+                >
+                  {posts.map((item, idx) => {
+                    if (reportedPosts.includes(item.node.id))
+                      return <div key={item.node.id}></div>;
+
+                    return (
+                      <Post
+                        key={'post_' + idx}
+                        item={item.node}
+                        setReportedList={setReportedPosts}
+                      />
+                    );
+                  })}
+                </InfiniteScroll>
+              </div>
+            </div>
+            <RightContent />
+            <Loading loading={isFetching} />
+            {fetchError?.message && (
+              <ErrorPopup message={fetchError?.message} />
+            )}
           </div>
-        </div>
-      </Suspense>
-    </Page>
+        </Suspense>
+      </Page>
+    ),
+    [
+      fetchError?.message,
+      handleToUploadImage,
+      handleToUploadStory,
+      hasNextPage,
+      isFetching,
+      loadNew,
+      posts,
+      reportedPosts,
+    ]
   );
 };
 

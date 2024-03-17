@@ -1,0 +1,106 @@
+.explore-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .options-bar {
+    height: 80px;
+    border-bottom: 2px solid #f08080;
+    display: flex;
+    width: 100%;
+    align-items: center;
+
+    .select-container {
+      margin-left: 60px;
+
+      #select {
+        width: 100%;
+        border: 2px solid #f08080;
+        padding: 5px 10px;
+        border-radius: 10px;
+      }
+
+      #select:focus {
+        outline: 1px solid #f08080;
+      }
+    }
+
+    .explore-tabs {
+      width: 100%;
+      text-align: center;
+
+      .tab {
+        padding: 2px 20px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        text-transform: uppercase;
+      }
+
+      .tab--active {
+        background-color: #f08080;
+        color: white;
+        border-radius: 5px;
+      }
+    }
+  }
+
+  .tab-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 50px;
+
+    .result-part {
+      .tags-result {
+        align-self: left;
+        width: fit-content;
+        margin: 15px 0 0 25px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid black;
+      }
+      .user-result {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-self: left;
+        width: fit-content;
+        margin: 15px 0 0 25px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid black;
+
+        .users {
+          display: flex;
+          align-items: center;
+          padding: 5px 10px;
+
+          .content {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            margin: 0 5px;
+            padding: 5px;
+            border: 1px solid #f08080;
+            border-radius: 10px;
+            opacity: 1;
+            cursor: pointer;
+            img {
+              border-radius: 50%;
+            }
+          }
+
+          .content:hover {
+            opacity: 0.7;
+          
+          }
+
+          div:hover {
+            border: 1px solid #f08080;
+          }
+        }
+      }
+    }
+  }
+}

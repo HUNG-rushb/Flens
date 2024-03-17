@@ -1,126 +1,132 @@
-import ButtonCustom from '../../components/Button/ButtonCustom';
-import InputCustom from '../../components/Input/Input';
+import Button from '../../components/Button/Button';
+import Input from '../../components/Input/Input';
 import Page from '../../components/utils/Page';
-import { useAuthState, useAuthDispatch } from '../../context/AuthContext';
+import { useAuthDispatch } from '../../context/AuthContext';
 import { loginUser } from '../../context/actions/AuthActions';
+import { useVerifyUserLazy } from '../../graphql/useUser';
 import './Login.css';
+import hash from 'hash-it';
 import React, { Suspense, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ErrorPopup from '../../utils/errorPopup';
+import Loading from '../../utils/useLoading';
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAuthDispatch();
-  const { loading, errorMessage } = useAuthState();
 
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const [passwordError, setpasswordError] = useState('');
-  const [emailError, setemailError] = useState('');
-  // const [account, setAccount] = useState({
-  //   email: "",
-  //   password: "",
-  // });
+  const [errors, setErrors] = useState([]);
 
-  const account = {
-    email: email,
-    password: password,
+  const { verifyUser, isFetching, fetchedData, fetchError } =
+    useVerifyUserLazy();
+
+  const checkValidate = () => {
+    const validationErrors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (email === '') {
+      validationErrors.email = 'Email is required.';
+    }
+    // else if(!emailRegex.test(email)){
+    //   validationErrors.email = 'Invalid email address.';
+    // }
+
+    if (password === '') {
+      validationErrors.password = 'Password is required.';
+    }
+    // else if (password.length < 6) {
+    //   validationErrors.password = 'Password must be at least 6 characters.';
+    // }
+    else if (password.length > 20) {
+      validationErrors.password = 'Password must be max 20 characters.';
+    }
+
+    return validationErrors;
   };
 
   const handleClick = async (e) => {
-    // setAccount({
-    //   email: email,
-    //   password: password,
-    // })
     e.preventDefault();
 
-    // let formIsValid = true;
+    const validationErrors = checkValidate();
 
-    // if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
-    //   formIsValid = false;
-    //   setemailError('Email Not Valid');
-    //   return false;
-    // } else {
-    //   setemailError('');
-    //   formIsValid = true;
-    // }
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+    } else {
+      setErrors({});
+      try {
+        const user = await verifyUser({
+          variables: {
+            verifyUserData: {
+              hashPassword: `${hash(password)}`,
+              email,
+            },
+          },
+        });
 
-    // if (!password.match(/^[a-zA-Z]{8,22}$/)) {
-    //   formIsValid = false;
-    //   setpasswordError('Password must in length of 8 to 22 Chracters');
-    //   return false;
-    // } else {
-    //   setpasswordError('');
-    //   formIsValid = true;
-    // }
-    // formIsValid =
-    //   email === user.email && password === user.password ? true : false;
+        loginUser(dispatch, {
+          id: user.data.verifyUser.id,
+          isAdmin: user.data.verifyUser.isAdmin,
+          profileImageURL: user.data.verifyUser.profileImageURL,
+        });
 
-    // formIsValid === true ? navigate('/') : alert('wrong email or password');
-
-    try {
-      let response = await loginUser(dispatch, account);
-
-      if (!response.user) return;
-
-      navigate('/');
-    } catch (error) {
-      console.log(error);
+        if (user.data.verifyUser.isAdmin) navigate('/report-management');
+        else navigate('/');
+      } catch (error) {
+        console.log(error);
+      }
     }
-
-    // localStorage.setItem(
-    //   'currentUser',
-    //   JSON.stringify({
-    //     name,
-    //     email,
-    //   })
-    // );
   };
 
   return (
-    <Page title={'Flens-Login'}>
+    <Page title="Flens-Login">
       <Suspense fallback={null}>
         <div className="login-page">
           <form className="Login-form">
             <div className="Login-form-content">
               <h3 className="Login-form-title">Sign In</h3>
+              {/* {fetchError && <p>Retry</p>} */}
+
               <div className="form-group mt-3">
                 <label>Email</label>
-                <InputCustom
+                <Input
                   type="text"
                   className="form-control mt-1"
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter email"
                   value={email}
                 />
-                <small id="emailError" className="text-danger form-text">
-                  {emailError}
-                </small>
+                {errors.email && (
+                  <span className="errors-signIn">{errors.email}</span>
+                )}
               </div>
+
               <div className="form-group mt-3">
                 <label>Password</label>
-                <InputCustom
+                <Input
                   type="password"
                   className="form-control mt-1"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter password"
                 />
-                <small id="passwordError" className="text-danger form-text">
-                  {passwordError}
-                </small>
+                {errors.password && (
+                  <span className="errors-signIn">{errors.password}</span>
+                )}
               </div>
+
               <div className="d-grid gap-2 mt-3 mb-4">
-                <ButtonCustom
-                  text={'Sign In'}
-                  type="default"
-                  onClick={handleClick}
-                />
+                <Button text="Sign In" type="default" onClick={handleClick} />
               </div>
+
               <p>
-                Don't have an account yet? <a href="/register">Sign up now</a>
+                Don't have an account yet? <a href="/register">Sign up now!</a>
               </p>
             </div>
           </form>
+          <Loading loading={isFetching} />
+          {fetchError?.message && <ErrorPopup message='Login fail, please try again!'/>}
         </div>
       </Suspense>
     </Page>

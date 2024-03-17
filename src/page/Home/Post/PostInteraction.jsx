@@ -1,109 +1,105 @@
-import ModalCustom from '../../../components/Modal/Modal';
-import { useState } from 'react';
-import { Heart, HeartFill, Reply, ThreeDots } from 'react-bootstrap-icons';
+import { useAuthState } from '../../../context/AuthContext';
+import { useInteractPost } from '../../../graphql/usePost';
+import { useUpdatePointPostingLazy } from '../../../graphql/usePost';
+import { successfullNoty } from '../../../utils/useNotify';
+import copy from 'clipboard-copy';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Heart, HeartFill, Reply } from 'react-bootstrap-icons';
 
 const PostInteraction = ({ item }) => {
-  const [isLiked, setIsLiked] = useState(false);
-  const [countNumberOfLikes, setCountNumberOfLikes] = useState(59);
-  const [showListOtherActions, setShowListOtherActions] = useState(true);
+  const { id: userId } = useAuthState();
+  const [isLiked, setIsLiked] = useState(item?.userLikedPost.includes(userId));
+  const [countNumberOfLikes, setCountNumberOfLikes] = useState(item?.points);
+  const [animationWhenClick, setAnimationWhenClick] = useState(false);
+  const { interactPost } = useInteractPost();
+  const { updateLevel } = useUpdatePointPostingLazy();
 
-  const [showReport, setShowReport] = useState(false);
+  const handleLikePost = useCallback(
+    async (event) => {
+      event.preventDefault();
 
-  const handleShowReport = () => {
-    setShowListOtherActions(true);
-    setShowReport(true);
-  };
+      try {
+        const a = await interactPost({
+          variables: {
+            interactPostData: {
+              postId: item?.id,
+              likedUserId: userId,
+              isLiked: !isLiked,
+            },
+          },
+        });
+        setIsLiked(!isLiked);
+        setCountNumberOfLikes(a.data.interactPost.points);
 
-  const handleShowListOtherActions = (state) => {
-    setShowListOtherActions(!state);
-  };
+        await updateLevel({
+          variables: {
+            updatePointPostingData: {
+              userId: item.userId.id,
+              xp: isLiked ? -1 : 1,
+            },
+          },
+        });
+      } catch (e) {
+        throw e;
+      }
+      setAnimationWhenClick(true);
+    },
+    [interactPost, isLiked, item?.id, item?.userId.id, updateLevel, userId]
+  );
 
-  const handleCloseReport = () => {
-    setShowReport(false);
-  };
+  const renderReplyIcon = useCallback(() => {
+    const link = `${window.location.origin}/post/${item?.id}`;
+    const handleCopyClick = async () => {
+      try {
+        await copy(link);
+        successfullNoty('Copied this link post to Clipboard!!!');
+      } catch (error) {
+        console.error('Failed to copy to clipboard:', error);
+      }
+    };
 
-  const modalReportContent = () => {
-    return (
-      <>
-        <div className="report-photo-container">
-          <img src={item.image.url} alt="" width={'50%'} />
+    return <Reply size={30} id="reply-icon" onClick={handleCopyClick} />;
+  }, [item?.id]);
 
-          <div className="left-report-photo">
-            <span>Report this photo with reason:</span>
-            <ul>
-              <li>
-                <input type="checkbox" /> <span>Copyright infringement</span>{' '}
-              </li>
-              <li>
-                <input type="checkbox" />
-                <span>Offensive content </span>
-              </li>
-              <li>
-                <input type="checkbox" />
-                <span>Spam</span>
-              </li>
-              <li>
-                <input type="checkbox" />
-                <span>Mature content</span>
-              </li>
-              <li>
-                <input type="checkbox" />
-                <span>Harmful content</span>
-              </li>
-            </ul>
+  useEffect(() => {
+    if (animationWhenClick) {
+      setTimeout(() => {
+        setAnimationWhenClick(false);
+      }, 1000);
+    }
+  }, [animationWhenClick]);
+
+  return useMemo(
+    () => (
+      <div>
+        <div className="post-interaction">
+          <div className="heart-icon-wrapper" onClick={handleLikePost}>
+            {isLiked === false ? (
+              <Heart
+                id={!animationWhenClick ? 'heart-icon' : 'heart-icon-2'}
+                size={25}
+              />
+            ) : (
+              <HeartFill
+                id={!animationWhenClick ? 'heart-icon' : 'heart-icon-2'}
+                color="red"
+                size={25}
+              />
+            )}
+            <span id="likes-number">{countNumberOfLikes}</span>
           </div>
+          {renderReplyIcon()}
         </div>
-      </>
-    );
-  };
-
-  const handleSaveReport = () => {
-    setShowReport(false);
-  };
-
-  const handleClickLikePost = () => {
-    setIsLiked(!isLiked);
-    if (isLiked === false) setCountNumberOfLikes(countNumberOfLikes + 1);
-    else setCountNumberOfLikes(countNumberOfLikes - 1);
-  };
-
-  return (
-    <>
-      <div className="post-interaction">
-        <div className="like-icon" onClick={handleClickLikePost}>
-          {isLiked === false ? (
-            <Heart size={25} />
-          ) : (
-            <HeartFill color="red" size={25} />
-          )}
-          <span>{item.points}</span>
-        </div>
-        <div className="right-action">
-          <Reply size={30} className="reply-icon" />
-          <ThreeDots
-            size={30}
-            onClick={() => handleShowListOtherActions(showListOtherActions)}
-            className="otherAction"
-          />
-
-          <div className="list-other-actions" hidden={showListOtherActions}>
-            <ul>
-              <li onClick={handleShowReport}>Report</li>
-            </ul>
-          </div>
-        </div>
-        <ModalCustom
-          show={showReport}
-          size="lg"
-          modalTitle="Report Photo"
-          modalContent={modalReportContent()}
-          handleClose={handleCloseReport}
-          confirmButtonMessage="Submit"
-          handleSavechanges={handleSaveReport}
-        />
+        <hr style={{ border: '1px solid #F08080' }} />
       </div>
-      <hr style={{ border: '1px solid #F08080' }} />
-    </>
+    ),
+    [
+      handleLikePost,
+      isLiked,
+      animationWhenClick,
+      countNumberOfLikes,
+      renderReplyIcon,
+    ]
   );
 };
 

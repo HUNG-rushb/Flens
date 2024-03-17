@@ -1,155 +1,220 @@
-import Avatar from '../../assets/images/avatar2.jpg';
-import InputCustom from '../../components/Input/Input';
-import SelectCustom from '../../components/Select/SelectCustom';
+import Input from '../../components/Input/Input';
+import Select from '../../components/Select/Select';
 import Page from '../../components/utils/Page';
-import './LeaderBoard.css';
-import Tittle from './LeaderBoard/Title';
-import React, { Suspense, useEffect, useState } from 'react';
+import { useAuthState } from '../../context/AuthContext';
+import {
+  useGetAllUserLeaderBoard,
+  useUserFollowingLeaderBoard,
+} from '../../graphql/useUser';
+import { boardData } from './LeaderBoard/data';
+import './styles.scss';
+import React, {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { TruckFlatbed } from 'react-bootstrap-icons';
+import { useNavigate } from 'react-router';
 
 const LeaderBoard = () => {
-  const options = [
-    { id: 1, value: 'All' },
-    { id: 2, value: 'Vietnam' },
-    { id: 3, value: 'USA' },
-    { id: 4, value: 'Japan' },
-    { id: 5, value: 'Korea' },
-  ];
+  const navigate = useNavigate();
+  const { id: userId } = useAuthState();
 
+  const { fetchedData: userAllLeader } = useGetAllUserLeaderBoard(true);
+  console.log(userAllLeader?.getAllUserLeaderboard, typeof userAllLeader);
+  const { fetchedData: userFollowingLeader } = useUserFollowingLeaderBoard({
+    data: { userId },
+  });
+  // console.log({ userAllLeader  });
+  console.log({ userFollowingLeader });
+
+  const options = useMemo(
+    () => [
+      { id: 1, value: 'All' },
+      { id: 2, value: 'Vietnam' },
+      { id: 3, value: 'USA' },
+      { id: 4, value: 'Japan' },
+      { id: 5, value: 'Korea' },
+    ],
+    []
+  );
   const [selected, setSelected] = useState(options[0].value);
-  const handleOnChangeSelected = (event) => {
-    setSelected(event.target.value);
-  };
-
-  const handleOnChangeSearch = (event) => {
-    setSearchValue(event.target.value);
-  };
-
-  const data = [
-    {
-      id: 1,
-      img: Avatar,
-      name: 'Tom',
-      country: 'New York, USA',
-      numberOfFollowers: 200,
-    },
-    {
-      id: 2,
-      img: Avatar,
-      name: 'John',
-      country: 'Ho Chi Minh, Vietnam',
-      numberOfFollowers: 140,
-    },
-    {
-      id: 3,
-      img: Avatar,
-      name: 'Anna',
-      country: 'Seoul, Korea',
-      numberOfFollowers: 120,
-    },
-    {
-      id: 4,
-      img: Avatar,
-      name: 'Bob',
-      country: 'Tokyo, Japan',
-      numberOfFollowers: 100,
-    },
-    {
-      id: 5,
-      img: Avatar,
-      name: 'Hank',
-      country: 'London, UK',
-      numberOfFollowers: 90,
-    },
-  ];
-
-  const [filteredData, setFilteredData] = useState(data);
+  const [filteredData, setFilteredData] = useState(boardData);
   const [seachValue, setSearchValue] = useState('');
 
-  useEffect(() => {
-    filteredSelected();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected]);
+  const handleOnChangeSelected = useCallback((event) => {
+    setSelected(event.target.value);
+  }, []);
 
-  const filteredSelected = () => {
-    if (selected === 'All') setSelected('');
-    const filteredSelected = data.filter((item) =>
-      item.country.includes(selected)
-    );
-    setFilteredData(filteredSelected);
-  };
+  const handleOnChangeSearch = useCallback((event) => {
+    setSearchValue(event.target.value);
+  }, []);
 
-  const filteredSearchValue = () => {
-    const filtedSearchValue = data.filter((item) => 
-      item.country.includes(seachValue) ||
-        item.name.includes(seachValue) ||
-        String(item.numberOfFollowers).includes(seachValue)
-        );
-        setFilteredData(filtedSearchValue);
-    
-  }
+  // const filteredSelected = useCallback(() => {
+  //   if (selected === 'All') setSelected('');
+  //   const filteredSelected = boardData.filter((item) =>
+  //     item.country.includes(selected)
+  //   );
+  //   setFilteredData(filteredSelected);
+  // }, [selected]);
 
-  useEffect(() => {
+  // const filteredSearchValue = useCallback(() => {
+  //   const filtedSearchValue = boardData.filter(
+  //     (item) =>
+  //       item.country.includes(seachValue) ||
+  //       item.name.includes(seachValue) ||
+  //       String(item.numberOfFollowers).includes(seachValue)
+  //   );
+  //   setFilteredData(filtedSearchValue);
+  // }, [seachValue]);
 
-    filteredSearchValue();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [seachValue]);
+  // useEffect(() => {
+  //   filteredSelected();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [selected]);
 
- 
+  // useEffect(() => {
+  //   filteredSearchValue();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [seachValue]);
 
-  return (
-    <Page title={'Flens-Leaderboard'}>
-      <Suspense fallback={null}>
-        <div className="leaderboard">
-          <Tittle />
-          <div className="leaderboard-body-page">
-            <div className="filter-and-search-part">
-              <SelectCustom
-                options={options}
-                className="select-bar"
-                selected={selected}
-                handleOnChange={handleOnChangeSelected}
-              />
-              <div className="search-bar">
-                <InputCustom
-                  type={'Text'}
-                  placeholder="Search"
-                  value={seachValue}
-                  onChange={handleOnChangeSearch}
-                />
+  return useMemo(
+    () => (
+      <Page title="Flens-Leaderboard">
+        <Suspense fallback={null}>
+          <div className="leader-board">
+            <div className="title-wrapper">
+              <span id="title">Flens Leaderboard</span>
+              <p>
+                Find your standings, based on your activity the past 30 days
+              </p>
+              <span id="title">Following</span>
+              <p>Photographers you are following</p>
+            </div>
+            <div style={{ display: 'flex' }}>
+              <div className="leader-board-content">
+                <div className="filter-and-search">
+                  <Select
+                    options={options}
+                    selected={selected}
+                    onChange={handleOnChangeSelected}
+                  />
+                  <div className="search-bar">
+                    <Input
+                      type="Text"
+                      placeholder="Search"
+                      value={seachValue}
+                      onChange={handleOnChangeSearch}
+                    />
+                  </div>
+                </div>
+                <div className="table-content">
+                  <table>
+                    <thead>
+                      <tr>
+                        <td>STT</td>
+                        <td>Avatar</td>
+                        <td>Name/Location</td>
+                        <td>Level</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {userAllLeader?.getAllUserLeaderboard?.map(
+                        (item, index) => (
+                          <tr key={item?.id}>
+                            <td>{index + 1}</td>
+                            <td>
+                              <img
+                                src={item?.profileImageURL}
+                                alt=""
+                                width={50}
+                                height={50}
+                                style={{
+                                  borderRadius: '50%',
+                                  objectFit: 'cover',
+                                }}
+                              />
+                            </td>
+                            <td>
+                              <span>{item?.name} </span>
+                            </td>
+                            <td>{item?.level.currentLevel}</td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div className="leader-board-content">
+                <div className="filter-and-search">
+                  <Select
+                    options={options}
+                    selected={selected}
+                    onChange={handleOnChangeSelected}
+                  />
+                  <div className="search-bar">
+                    <Input
+                      type="Text"
+                      placeholder="Search"
+                      value={seachValue}
+                      onChange={handleOnChangeSearch}
+                    />
+                  </div>
+                </div>
+                <div className="table-content">
+                  <table>
+                    <thead>
+                      <tr>
+                        <td>STT</td>
+                        <td>Avatar</td>
+                        <td>Name/Location</td>
+                        <td>Level</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {userAllLeader?.getAllUserLeaderboard?.map(
+                        (item, index) => (
+                          <tr key={item?.id}>
+                            <td>{index + 1}</td>
+                            <td>
+                              <img
+                                src={item?.profileImageURL}
+                                alt=""
+                                width={50}
+                                height={50}
+                                style={{
+                                  borderRadius: '50%',
+                                  objectFit: 'cover',
+                                }}
+                              />
+                            </td>
+                            <td>
+                              <span>{item?.name} </span>
+                            </td>
+                            <td>{item?.level.currentLevel}</td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-            <div className="table-part">
-              <table>
-                <thead>
-                  <tr>
-                    <td>STT</td>
-                    <td>Avatar</td>
-                    <td>Name/Location</td>
-                    <td>Follower</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredData.map((item) => {
-                    return (
-                      <tr key={item.id}>
-                        <td>{item.id}</td>
-                        <td>
-                          <img src={item.img} alt="" width={50} />
-                        </td>
-                        <td>
-                          <span>{item.name} </span> <div>{item.country}</div>
-                        </td>
-                        <td>{item.numberOfFollowers} Followes</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
           </div>
-        </div>
-      </Suspense>
-    </Page>
+        </Suspense>
+      </Page>
+    ),
+    [
+      options,
+      selected,
+      handleOnChangeSelected,
+      seachValue,
+      handleOnChangeSearch,
+      userAllLeader,
+    ]
   );
 };
 

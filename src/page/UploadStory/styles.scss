@@ -1,0 +1,93 @@
+.upload-story-container {
+  padding: 40px;
+
+  .story-title {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
+
+    #story-title-input {
+      width: 30%;
+    }
+  }
+
+  .ql-container {
+    .ql-editor {
+      min-height: 18em;
+      overflow-y: scroll;
+      resize: vertical;
+      p {
+        img {
+          max-width: 600px !important;
+          width: 100%;
+          object-fit: cover;
+          margin: 10px 0;
+        }
+      }
+    }
+  }
+    
+  .story-visibility {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 20px;
+  }
+
+  .story-input-tags {
+    max-width: 500px;
+    margin-bottom: 20px;
+    max-width: 290px;
+    width: 100%;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .all-tags {
+      display: flex;
+      max-width: 290px;
+      width: 100%;
+
+      div {
+        display: flex;
+        flex-direction: row;
+        width: fit-content;
+      }
+
+      input {
+        max-width: 290px;
+      }
+    }
+  }
+
+  .story-input-catrgories {
+    max-width: 500px;
+    max-width: 290px;
+    width: 100%;
+
+    .sub-categories {
+      max-width: 290px;
+      width: 100%;
+    }
+  }
+
+  .upload-button {
+    margin-top: 20px;
+
+    button {
+      background-color: #f08080;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 30px;
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: no-drop;
+    }
+  }
+}

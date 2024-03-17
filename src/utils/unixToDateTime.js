@@ -2,7 +2,7 @@ function padTo2Digits(num) {
   return num.toString().padStart(2, '0');
 }
 
-function relativeDays(timestamp) {
+export function relativeDays(timestamp) {
   const rtf = new Intl.RelativeTimeFormat('en', {
     numeric: 'auto',
   });
@@ -10,11 +10,10 @@ function relativeDays(timestamp) {
   const daysDifference = Math.round(
     (timestamp - new Date().getTime()) / oneDayInMs
   );
-
   return rtf.format(daysDifference, 'day');
 }
 
-const unixToDateTime = (unixTimestamp) => {
+const unixToDateTime = (unixTimestamp, dateAndTimeOnly = false) => {
   const monthNames = [
     'January',
     'February',
@@ -31,7 +30,6 @@ const unixToDateTime = (unixTimestamp) => {
   ];
 
   const relative = relativeDays(unixTimestamp);
-
   const date = new Date(Number(unixTimestamp));
 
   //   return date.toLocaleString('de-DE', {
@@ -48,7 +46,14 @@ const unixToDateTime = (unixTimestamp) => {
   const month = monthNames[date.getMonth()];
   const day = date.getDate();
 
-  return `${relative}, ${month} ${day}-${year} ${time}`;
+  let result = '';
+  if (relative === 'today' || relative === 'yesterday') {
+    result = `${time}, ${relative}`;
+  } else if (dateAndTimeOnly) {
+    result = `${month} ${day},${year} ${time}`;
+  } else result = `${time}, ${month} ${day}, ${year}`;
+
+  return result;
 };
 
 export default unixToDateTime;

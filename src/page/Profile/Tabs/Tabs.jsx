@@ -1,18 +1,132 @@
-import { Tab, Tabs } from 'react-bootstrap';
-import Activity from './ActivityTab';
+import {
+  useGetUserFollowing,
+  useUpdateFollowing,
+  useUnfollowUser,
+} from '../../../graphql/useUser.js';
+import { useGetAllChatCurrentUser } from '../../../graphql/useUser.js';
 import Biography from './Biography.jsx';
+import Portfoio from './Portfolio.jsx';
+import Posts from './Posts.jsx';
+import Stories from './Stories';
+import './styles.scss';
+import { useCallback, useMemo, useState } from 'react';
+import { Tab, Tabs } from 'react-bootstrap';
+import { ThreeDots } from 'react-bootstrap-icons';
+import { useNavigate } from 'react-router-dom';
 
-const TabMenu = () => {
-    return <div className="profile-tabs">
-    <Tabs defaultActiveKey="Activity">
-      <Tab eventKey="Activity" title="Activity">
-        <Activity />
-      </Tab>
-      <Tab eventKey="Biography" title="Biography">
-        <Biography />
-      </Tab>
-    </Tabs>
-  </div>
-}
+const TabMenu = ({ userId, currentUserId }) => {
+  const navigate = useNavigate();
+  const [isFollow, setIsFollow] = useState(false);
+
+  const { fetchedData: currentUserFollowings } = useGetUserFollowing(
+    {
+      userFollowingInfoData: { userId: currentUserId },
+    },
+    userId,
+    setIsFollow
+  );
+
+  const { updateFollowing } = useUpdateFollowing();
+  const { unfollowUser } = useUnfollowUser();
+
+  const { isNewChat } = useGetAllChatCurrentUser({
+    chatInfoByUserIdData: {
+      userIDs: [currentUserId, userId],
+    },
+  });
+  // console.log({ isNewChat });
+
+  const handleClickFollow = useCallback(
+    async (event) => {
+      event.preventDefault();
+      if (isFollow) {
+        // console.log('unfollow');
+
+        try {
+          await unfollowUser({
+            variables: {
+              unfollowUserData: {
+                userId: currentUserId,
+                followingId: userId,
+              },
+            },
+          });
+        } catch (e) {
+          throw e;
+        }
+
+        setIsFollow((prev) => !prev);
+      } else {
+        // console.log('follow');
+
+        try {
+          await updateFollowing({
+            variables: {
+              updateFollowingData: {
+                userId: currentUserId,
+                followingId: userId,
+              },
+            },
+          });
+        } catch (e) {
+          throw e;
+        }
+
+        setIsFollow((prev) => !prev);
+      }
+    },
+    [currentUserId, isFollow, unfollowUser, updateFollowing, userId]
+  );
+
+  const handleClickMessageIntab = useCallback(() => {
+    navigate('/message', { state: { userId, isNewChat } });
+  }, [isNewChat, navigate, userId]);
+
+  return useMemo(
+    () => (
+      <>
+        <div className="profile-tabs">
+          <Tabs defaultActiveKey="Biography">
+            <Tab eventKey="Posts" title="Posts">
+              <Posts />
+            </Tab>
+            <Tab eventKey="Stories" title="Stories">
+              <Stories />
+            </Tab>
+            <Tab eventKey="Portfolio" title="Portfolio">
+              <Portfoio />
+            </Tab>
+            <Tab eventKey="Biography" title="Biography">
+              <Biography userId={userId} />
+            </Tab>
+          </Tabs>
+        </div>
+
+        {userId !== currentUserId && (
+          <div className="follow-interactions">
+            <div id="follow-unfollow-button" onClick={handleClickFollow}>
+              {!isFollow ? '+ Follow' : 'Unfollow'}
+            </div>
+
+            <div id="message-button-intab" onClick={handleClickMessageIntab}>
+              Message
+            </div>
+
+            <div id="list-options-intab">
+              <ThreeDots color="#f08080" />
+            </div>
+          </div>
+        )}
+      </>
+    ),
+    [
+      userId,
+      currentUserId,
+      handleClickFollow,
+      isFollow,
+      handleClickMessageIntab,
+    ]
+  );
+};
 
 export default TabMenu;

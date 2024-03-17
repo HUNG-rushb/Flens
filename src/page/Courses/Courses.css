@@ -1,44 +1,105 @@
-.courses-page {
+/* .courses-detail-page {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  padding: 30px;
+}
+
+.react-quiz-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  width: 100%;
+  width: 100% !important;
+  max-width: 1000px;
+  padding: 30px;
 }
 
-.create-courses-btn {
-    display: flex;
-    align-self: end;
-    margin: 0 80px 20px 0;
-} 
+.answerBtn img {
+  max-width: 500px;
+}
 
-.courses-title {
+.card-body {
+  max-width: 800px;
+}
+
+#back-btn {
+  color: white;
+  opacity: 1;
+  padding: 3px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#back-btn:hover {
+  opacity: 0.6;
+}
+
+.video-to-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 20px;
-  display: flex;
-  font-size: 30px;
-  justify-content: space-around;
-  padding: 20px 0px;
-  width: 100%;
 }
 
-.body-page {
+#video-courses {
+  width: 70%;
+  height: auto;
+}
+
+.video-courses-detail-container {
+  margin: 10px 0;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
-.courses-upcontent {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: space-between;
-  padding-top: 10px;
-  margin-bottom: 50px;
+#courses-detail-title {
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
-.courses-upcontent > div > span {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 10px 5px;
+.video-courses-detail-content {
+  display: flex;
+  width: 100%;
+  margin: 20px 0;
+  flex-direction: column;
 }
+
+.video-courses-detail-content p {
+  line-height: 25px;
+}
+
+#courses-detail-subtitle {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.interactive-courses-detail-container {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.interactive-courses-detail-container p {
+    max-width: 1200px;
+}
+
+.interactive-courses-detail-content p, .interactive-courses-detail-container p{
+    text-indent: 20px;
+}
+
+#practice-quiz-button {
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    opacity: 1;
+}
+
+#practice-quiz-button:hover{
+    opacity: 0.7;
+} */

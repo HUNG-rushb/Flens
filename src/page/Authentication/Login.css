@@ -1,10 +1,12 @@
 .login-page {
+  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 720px;
-  background-image:linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(../../assets/images/Authentication/bg2.jpg);
+  height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url(https://bku-profile-pic.s3.ap-southeast-1.amazonaws.com/camera_bg.jpg);
   background-position: center;
   background-size: cover;
 }
@@ -13,7 +15,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
   color: white;
 }
 
@@ -31,7 +33,7 @@
 .Login-form-content > p {
   color: #000;
 }
-  
+
 .Login-form-title {
   text-align: center;
   margin-bottom: 1em;
@@ -39,10 +41,20 @@
   color: rgb(34, 34, 34);
   font-weight: 800;
 }
-  
+
 label {
   text-align: left;
   font-size: 14px;
   font-weight: 600;
   color: rgb(34, 34, 34);
+}
+
+.errors {
+  color: red;
+  font-size: 13px;
+}
+
+.errors-signIn {
+  color: red;
+  font-size: 13px;
 }

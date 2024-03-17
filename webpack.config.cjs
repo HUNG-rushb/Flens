@@ -6,40 +6,81 @@
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
+// const HashOutput = require('webpack-plugin-hash-output');
 const { ModuleFederationPlugin } = require('webpack').container;
+const path = require('path');
+// const deps = require('./package.json').dependencies;
+const packageJson = require('./package.json');
+// const Dotenv = require('dotenv-webpack');
 
 module.exports = {
-  mode: 'development',
-  entry: path.resolve(__dirname, 'src', 'index.js'),
+  // mode: 'development',
+  // uniqueName: 'images-social',
+  entry: [
+    // path.resolve(__dirname, 'src', 'index.js'),
+    './src/index.js',
+    './public/firebase-messaging-sw.js',
+  ],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].bundle.js',
   },
   devServer: {
-    static: {
-      directory: path.resolve(__dirname, 'dist'),
-    },
+    // static: {
+    //   directory: path.resolve(__dirname, 'dist'),
+    // },
+    // https://stackoverflow.com/questions/70178726/webpack-manifest-json-not-found
+    static: [
+      {
+        directory: path.join(__dirname, 'dist'),
+      },
+      {
+        directory: path.join(__dirname, 'public'),
+      },
+    ],
     open: true,
-    port: 6000,
+    port: 6100,
     historyApiFallback: true,
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'social',
+      name: 'flens',
       filename: 'remoteEntry.js',
       remotes: {
-        chatApp: 'chat@http://localhost:6001/remoteEntry.js',
-        // chatApp:
-        //   'chat@https://main.d1tavnpfnfnpjs.amplifyapp.com/remoteEntry.js',
+        // chat: 'chat@http://localhost:6120/remoteEntry.js',
+        chat: 'chat@https://develop.d1tavnpfnfnpjs.amplifyapp.com/remoteEntry.js',
+      },
+      shared: {
+        // ...packageJson.dependencies,
+        ...packageJson.peerDependencies,
+
+        react: {
+          singleton: true,
+          requiredVersion: packageJson.dependencies.react,
+        },
+        'react-dom': {
+          singleton: true,
+          requiredVersion: packageJson.dependencies['react-dom'],
+        },
+        // 'styled-components': {
+        //   singleton: true,
+        //   requiredVersion: packageJson.dependencies['styled-components'],
+        // },
       },
     }),
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
       favicon: './public/favicon.ico',
       template: './public/index.html',
-      filename: 'index.html',
+      // filename: 'index.html',
+      manifest: './public/manifest.json',
     }),
+    new CopyPlugin({
+      patterns: [{ from: 'firebase', to: '' }],
+    }),
+    // new Dotenv(),
+    // new HashOutput(),
   ],
   module: {
     rules: [
@@ -92,9 +133,27 @@ module.exports = {
       },
     ],
   },
-  optimization: {
-    splitChunks: {
-      chunks: 'async',
-    },
-  },
+  // optimization: {
+  //   splitChunks: {
+  //     chunks: 'async',
+  //   },
+
+  //   // runtimeChunk: false,
+  //   // minimize: true,
+  //   // // moduleIds: true,
+  //   // // chunkIds: true,
+
+  //   // removeAvailableModules: true,
+  //   // flagIncludedChunks: true,
+  //   // // occurrenceOrder: false,
+  //   // usedExports: true,
+  //   // concatenateModules: true,
+  //   // sideEffects: false,
+  // },
+
+  // resolve: {
+  //   alias: {
+  //     'styled-components': path.resolve('./node_modules', 'styled-components'),
+  //   },
+  // },
 };

@@ -1,23 +1,31 @@
-import TextareaCustom from '../../../components/TextArea/Textarea';
+import { useAuthState } from '../../../context/AuthContext';
 import {
   useGetAllPostComment,
   useCreateCommentLazy,
-  useGetAllPostCommentLazy,
 } from '../../../graphql/usePost';
-import { useEffect, useState } from 'react';
-import { Send } from 'react-bootstrap-icons';
+import { renderCommentHeader } from '../../../utils/renderCommentHeader';
+import renderCommentItem from '../../../utils/renderCommentItem';
+import Loading from '../../../utils/useLoading';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-const PostComment = ({ item, showImageDetail }) => {
+const PostComment = ({ item, userLevel, showDetail = false }) => {
+  const { id: userId, profileImageURL: userAvatar } = useAuthState();
+  const [allComment, setAllComment] = useState(null);
+  // console.log('allComment', allComment);
+  const [comment, setComment] = useState('');
+  const [indexComment, setIndexComment] = useState(3);
+  const postID = item?.id;
+
   const { isFetching, fetchedData, fetchError, refetch } = useGetAllPostComment(
     {
-      postInfo: { postId: item.id },
+      postInfo: { postId: item ? item.id : '' },
     }
   );
-  const [allComment, setAllComment] = useState(null);
 
-  useEffect(() => {
-    setAllComment(fetchedData?.postInfo.comments);
-  }, [fetchedData]);
+  const [commentId, setCommentId] = useState('');
+
+  const [replyToComment, setReplyToComment] = useState(null);
+  const [replyComment, setReplyComment] = useState('');
 
   const {
     createComment,
@@ -26,68 +34,125 @@ const PostComment = ({ item, showImageDetail }) => {
     fetchErrorComment,
   } = useCreateCommentLazy();
 
-  const [comment, setComment] = useState('');
+  useEffect(() => {
+    setAllComment(fetchedData?.postInfo.comments);
+  }, [fetchedData]);
 
-  const handleSubmitComment = async (e) => {
-    e.preventDefault();
+  const handleSubmitComment = useCallback(
+    async (e) => {
+      e.preventDefault();
+      try {
+        await createComment({
+          variables: {
+            createCommentData: {
+              userId,
+              postId: postID,
+              content: comment,
+            },
+          },
+        });
+      } catch (e) {
+        throw e;
+      }
+      setComment('');
+      refetch();
+    },
+    [comment, createComment, postID, refetch, userId]
+  );
 
+  const showMoreComment = () => {
+    setIndexComment((prev) => prev + 2);
+  };
+
+  const handleCommentChange = (event) => {
+    setComment(event.target.value);
+  };
+
+  const handleClickReply = (commentID) => {
+    setCommentId(commentID);
+    setReplyToComment(commentID);
+  };
+
+  const handleReplyCommentChange = (event) => {
+    setReplyComment(event.target.value);
+  };
+
+  const handleSubmitRepyComment = useCallback(async () => {
     try {
       await createComment({
         variables: {
           createCommentData: {
-            userId: '6482134d9fa3fbb056c8d2fc',
-            postId: item.id,
-            content: comment,
+            userId,
+            postId: postID,
+            content: replyComment,
+            parentCommentId: commentId,
           },
         },
       });
     } catch (e) {
       throw e;
     }
-    setComment('');
+    setReplyComment('');
     refetch();
-  };
+    setReplyToComment(null);
+  }, [refetch, createComment, userId, postID, replyComment, commentId]);
 
-  return (
-    <div className="post-comments">
-      <div className="post-comment-header">
-        <img src={item.avatar} alt="avatar-comment" width="40" />
-        <TextareaCustom
-          type={'comment'}
-          placeholder={'Add a comment'}
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        />
-
-        <button type="submit" id="btn-submit-cmt" onClick={handleSubmitComment}>
-          <Send size={25} />
-        </button>
-      </div>
-
-      <div className="list-reply-comments">
-        {allComment &&
-          allComment.map((i, index) => (
-            <div className="reply-comment" key={i.id}>
-              {/* <img
-              src={i.image}
-              alt="reply-comment"
-              width={check === 1 ? '17%' : '5%'}
-            /> */}
-              <span>{i.name}</span>
-              <div className="reply-comment-content">{i.content}</div>
-              <div className="reply-comment-date">{i.createdAt}</div>
-            </div>
-          ))}
-
-        {/* {item.comments.length > 1 ? (
-          <div className="View-more-comments">
-            View more {item.comments.length} comments ...
+  return useMemo(
+    () => (
+      <>
+        <div className="comments-wrapper">
+          {renderCommentHeader(
+            'comment',
+            userAvatar,
+            40,
+            comment,
+            postID,
+            handleCommentChange,
+            handleSubmitComment,
+            25
+          )}
+          <div className="comment-list">
+            {allComment &&
+              renderCommentItem(
+                allComment,
+                indexComment,
+                userLevel,
+                handleClickReply,
+                replyToComment,
+                userAvatar,
+                replyComment,
+                commentId,
+                handleReplyCommentChange,
+                handleSubmitRepyComment,
+                showDetail
+              )}
+            {allComment?.length > 3 && allComment?.length > indexComment ? (
+              <div className="View-more-comments" onClick={showMoreComment}>
+                More comments
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
-        ) : (
-          <></>
-        )} */}
-      </div>
-    </div>
+        </div>
+        <Loading loading={isFetchingComment} />
+      </>
+    ),
+    [
+      userAvatar,
+      comment,
+      postID,
+      handleSubmitComment,
+      allComment,
+      indexComment,
+      userLevel,
+      replyToComment,
+      replyComment,
+      commentId,
+      handleSubmitRepyComment,
+      showDetail,
+      isFetchingComment,
+    ]
   );
 };
 

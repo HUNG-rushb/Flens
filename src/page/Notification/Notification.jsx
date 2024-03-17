@@ -1,108 +1,111 @@
-import Avatar from '../../assets/images/avatar.jpg';
-import ButtonCustom from '../../components/Button/ButtonCustom';
 import Page from '../../components/utils/Page';
+import { useAuthState } from '../../context/AuthContext';
+import { useGetNotis } from '../../graphql/useNoti';
+import unixToDateTime from '../../utils/unixToDateTime.js';
 import LeftContent from './LeftContent.jsx';
-import './Notification.css';
+import './styles.scss';
+import { useCallback, useMemo } from 'react';
 import React, { Suspense } from 'react';
-import { HeartFill, ReplyFill } from 'react-bootstrap-icons';
+import { HeartFill } from 'react-bootstrap-icons';
+import { useNavigate } from 'react-router-dom';
 
 const Notification = () => {
-  const handleClick = () => {
-    console.log('click');
+  const { id: userId } = useAuthState();
+  const navigate = useNavigate();
+  const { fetchedData: notis, refetch } = useGetNotis({ data: { userId } });
+  // console.log({ notis });
+
+  const renderTypeNoty = (item) => {
+    if (item?.type === 'POST_LIKED') {
+      return (
+        <span id="noty-type">
+          {' '}
+          liked <HeartFill color="red" size={20} /> your post. "{item.postTitle}
+          "
+        </span>
+      );
+    } else
+      return (
+        <span id="noty-type">
+          {' '}
+          has uploaded a new post. "{item?.postTitle}"
+        </span>
+      );
   };
 
-  const notifi_data = [
-    {
-      id: 1,
-      avatar: Avatar,
-      name: 'Tom',
-      type: 1,
-      time: '2 minutes ago',
-    },
-    {
-      id: 2,
-      avatar: Avatar,
-      name: 'Thomas',
-      type: 2,
-      time: '3 minutes ago',
-    },
-    {
-      id: 3,
-      avatar: Avatar,
-      name: 'John',
-      type: 3,
-      time: '5 minutes ago',
-    },
-  ];
-  return (
-    <Page title={'Flens-Notification'}>
-      <Suspense fallback={null}>
-        <div className="Notifi-page">
-          <LeftContent />
-          <div className="right-content">
-            <div className="title">Notifications</div>
+  const handleViewProfile = useCallback(() => {
+    navigate(`/profile/${userId}`);
+  }, [navigate, userId]);
 
-            <div className="notifi-content">
-              {notifi_data.map((item) => {
-                return (
-                  <div className="noti-card" key={item.id}>
-                    <div className="upper-content">
-                      <img src={item.avatar} alt="images" width={80} />
-                      <div className="card-content">
-                        {item.type === 1 ? (
-                          <div className="name">
-                            <span>{item.name}</span> Followed you.
-                          </div>
-                        ) : (
-                          <div className="name">
-                            <span>{item.name}</span>{' '}
-                            {item.type === 2 ? (
-                              <>
-                                Liked <HeartFill color="red" size={25} /> your
-                                post.{' '}
-                              </>
-                            ) : (
-                              <>
-                                Shared{' '}
-                                <ReplyFill
-                                  color="blue"
-                                  size={28}
-                                  className="mb-1"
-                                />{' '}
-                                your post.
-                              </>
-                            )}
-                          </div>
-                        )}
-                        <div>{item.time}</div>
-                      </div>
-                      {item.type === 1 ? (
-                        <div className="button-follow-back">
-                          <ButtonCustom
-                            text={'Follow back'}
-                            type="default2"
-                            onClick={handleClick}
+  const handleViewDetailNoty = useCallback(
+    (postId) => {
+      navigate(`/post/${postId}`);
+    },
+    [navigate]
+  );
+
+  return useMemo(
+    () => (
+      <Page title="Flens-Notification">
+        <Suspense fallback={null}>
+          <div className="noty-page">
+            <LeftContent />
+            <div className="noty-right-content">
+              <div className="noty-title">Notifications</div>
+              <div className="noty-content">
+                {notis &&
+                  notis.userNotis.map((item) => {
+                    return (
+                      <div
+                        className="noty-card"
+                        key={item.id}
+                        onClick={() => handleViewDetailNoty(item.postId)}
+                      >
+                        <div className="upper-content">
+                          <img
+                            src={item.userTriggerId.profileImageURL}
+                            height={70}
+                            width={70}
+                            id="image-user-react"
+                            alt=""
                           />
+                          <div className="noty-card-content">
+                            <div className="noty-username">
+                              <span
+                                id="username"
+                                onClick={() => handleViewProfile}
+                              >
+                                {item.userTriggerId.name}
+                              </span>
+                              {renderTypeNoty(item)}
+                            </div>
+
+                            <div id="noty-time">
+                              {unixToDateTime(item.createdAt)}
+                            </div>
+                          </div>
                         </div>
-                      ) : (
-                        <></>
-                      )}
-                    </div>
-                    {item.type === 1 ? (
-                      <div className="below-content">
-                        Both following Jane, Bobs and 35 others
+                        <img
+                          src={item.postImage}
+                          width={70}
+                          height={70}
+                          style={{
+                            objectFit: 'cover',
+                            borderRadius: 5,
+                            marginLeft: 10,
+                          }}
+                          alt=""
+                        />
                       </div>
-                    ) : (
-                      <></>
-                    )}
-                  </div>
-                );
-              })}
+                    );
+                  })}
+              </div>
             </div>
           </div>
-        </div>
-      </Suspense>
-    </Page>
+        </Suspense>
+      </Page>
+    ),
+    [handleViewDetailNoty, handleViewProfile, notis?.userNotis]
   );
 };
 

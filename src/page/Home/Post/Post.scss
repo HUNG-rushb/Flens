@@ -1,0 +1,343 @@
+.posts-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 80%;
+  border-radius: 10px;
+  margin-bottom: 50px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+    rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+
+  .post-content-wrapper {
+    width: 90%;
+
+    .post-content {
+      padding: 20px 20px 0 20px;
+
+      .image-wrapper {
+        display: flex;
+        justify-content: center;
+        position: relative;
+
+        #image-post {
+          width: 100%;
+          object-fit: cover;
+          max-width: 800px;
+          max-height: 1000px;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+
+        .technical-container {
+          position: absolute;
+          background-color: rgba(0, 0, 0, 0.7);
+          border-radius: 4px;
+          color: #ffffff;
+          padding: 10px;
+          font-size: 16px;
+          height: 100%;
+          transform: translateX(-100%);
+          opacity: 0;
+          transition: transform 0.5s, opacity 0.5s;
+          width: 100%;
+
+          .technical-wrapper {
+            position: relative;
+            height: 100%;
+
+            .technical-content {
+              display: grid;
+              grid-template-columns: auto auto;
+              margin-bottom: 10px;
+              place-items: center;
+              width: 100%;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              position: absolute;
+              gap: 10px;
+
+              #content {
+                font-weight: 600;
+              }
+            }
+
+            .technical-content-2 {
+              display: grid;
+              grid-template-columns: auto;
+              margin-bottom: 10px;
+              gap: 5px;
+            }
+          }
+        }
+
+        .slide-in {
+          transform: translateX(0);
+          opacity: 1;
+        }
+
+        .slide-out {
+          transform: translateX(-100%);
+          opacity: 0;
+        }
+        .technical-infor-icon {
+          position: absolute;
+          bottom: 2%;
+          right: 2%;
+          background-color: white;
+          padding: 0 5px;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+      }
+      .post-title {
+        font-size: 22px;
+        max-width: 800px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        font-family: Abhaya Libre;
+        text-transform: uppercase;
+        padding-top: 10px;
+      }
+
+      .hash-tags {
+        margin-bottom: 10px;
+        display: flex;
+
+        #tag {
+          padding: 0 5px;
+          border: 2px solid #f08080;
+          margin: 5px 5px 5px 0;
+          cursor: pointer;
+          border-radius: 5px;
+          color: #f08080;
+        }
+
+        #tag:hover {
+          background-color: #f08080;
+          color: white;
+        }
+      }
+
+      .post-interaction {
+        display: flex;
+        justify-content: space-between;
+
+        .heart-icon-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          #heart-icon {
+            opacity: 1;
+            cursor: pointer;
+          }
+
+          #heart-icon:hover {
+            opacity: 0.7;
+          }
+
+          #heart-icon-2 {
+            opacity: 1;
+            cursor: pointer;
+            clip-path: url(#heartClip);
+            animation: beat 0.5s infinite;
+          }
+
+          #likes-number {
+            padding-left: 10px;
+            font-size: 25px;
+            margin-bottom: 5px;
+          }
+        }
+
+        #reply-icon {
+          opacity: 1;
+          cursor: pointer;
+        }
+
+        #reply-icon:hover {
+          opacity: 0.7;
+        }
+      }
+
+      .comments-wrapper {
+        .comment-header {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          margin: 0 10px;
+
+          #comment-avatar {
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
+          #submit-button {
+            background: none;
+            padding: 0;
+            border: none;
+
+            #send-icon {
+              opacity: 1;
+            }
+
+            #send-icon :hover {
+              opacity: 0.5;
+            }
+          }
+        }
+
+        .comment-list {
+          margin: 10px 12px;
+
+          .comment-wrapper {
+            padding-top: 10px;
+
+            #comment-avatar {
+              border-radius: 50%;
+              object-fit: cover;
+            }
+
+            #comment-username {
+              margin-left: 10px;
+              font-weight: 600;
+              position: relative;
+
+              #user-level {
+                color: white;
+                border-radius: 5px;
+                font-weight: bold;
+                background-color: #daa520;
+                height: fit-content;
+                font-size: 10px;
+                padding: 0 2px;
+                text-align: center;
+                position: absolute;
+                bottom: 6px;
+                margin-left: 3px;
+              }
+            }
+            #comment-content {
+              margin-left: 45px;
+              max-width: 330px;
+              overflow-wrap: break-word;
+            }
+
+            .comment-infor {
+              display: flex;
+              gap: 10px;
+              margin-left: 45px;
+              font-size: 12px;
+
+              #reply-text {
+                font-weight: bold;
+                cursor: pointer;
+              }
+
+              #reply-text:hover {
+                text-decoration: underline;
+              }
+            }
+
+            .reply-comment-header {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              margin-left: 46px;
+              margin-top: 5px;
+
+              #submit-button {
+                background: none;
+                padding: 0;
+                border: none;
+
+                #send-icon {
+                  opacity: 1;
+                }
+
+                #send-icon :hover {
+                  opacity: 0.5;
+                }
+              }
+            }
+
+            .reply-comment-wrapper {
+              margin: 5px 0 0 46px;
+
+              #reply-comment-avatar {
+                border-radius: 50%;
+                object-fit: cover;
+              }
+
+              #reply-comment-username {
+                margin-left: 10px;
+                font-weight: 600;
+                position: relative;
+
+                #user-level {
+                  color: white;
+                  border-radius: 5px;
+                  font-weight: bold;
+                  background-color: #daa520;
+                  height: fit-content;
+                  font-size: 10px;
+                  padding: 0 2px;
+                  text-align: center;
+                  position: absolute;
+                  bottom: 6px;
+                  margin-left: 3px;
+                }
+              }
+              #reply-comment-content {
+                margin-left: 45px;
+                max-width: 330px;
+                overflow-wrap: break-word;
+              }
+
+              .reply-comment-infor {
+                display: flex;
+                gap: 10px;
+                margin-left: 45px;
+                font-size: 12px;
+
+                #reply-text {
+                  font-weight: bold;
+                  cursor: pointer;
+                }
+
+                #reply-text:hover {
+                  text-decoration: underline;
+                }
+              }
+            }
+          }
+
+          .View-more-comments {
+            font-weight: 600;
+            margin-top: 20px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes beat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.infinite-scroll-component {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

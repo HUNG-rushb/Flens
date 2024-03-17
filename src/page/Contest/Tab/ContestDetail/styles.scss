@@ -1,0 +1,54 @@
+.contest-submition {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .box-content {
+    padding: 30px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+
+    .submition-content {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .input-fields {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+        width: 100%;
+        padding: 0 65px;
+
+        label {
+          margin-bottom: 3px;
+        }
+        input {
+          margin-bottom: 10px;
+        }
+      }
+    }
+
+    #selected-image {
+      max-width: 400px;
+      margin-top: 10px;
+      max-height: 300px;
+      object-fit: cover;
+      align-self: center;
+    }
+  }
+
+  .warning-text {
+    width: 100%;
+    padding-left: 30px;
+    font-size: 18px;
+    margin-top: 5px;
+
+    span {
+      color: red;
+      font-size: 18px;
+      margin-right: 5px;
+    }
+  }
+}

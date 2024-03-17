@@ -1,22 +1,51 @@
-import Avatar from '../../assets/images/avatar.jpg';
+import { useAuthState } from '../../context/AuthContext';
+import { useUserProfileImage } from '../../graphql/useUser';
+import ErrorPopup from '../../utils/errorPopup';
+import Loading from '../../utils/useLoading';
+import React, { useMemo } from 'react';
 
 const LeftContent = () => {
-  return (
-    <div className="left-content">
-      <img src={Avatar} alt="avatar"></img>
-      <div className="name">Nguyen Van A</div>
-      <div className="skill-content">
-        <div>
-          <span>Your Flens link:</span> flens.com/quocthanhh
-        </div>
-        <div>
-          <span>Favourites:</span> Camera, Portrait
-        </div>
-        <div>
-          <span>Skills:</span> Portrait photography
-        </div>
+  const { id: userId } = useAuthState();
+  const {
+    isFetching,
+    fetchedData: profileData,
+    fetchError,
+  } = useUserProfileImage({
+    userInfoData: { userId },
+  });
+
+  return useMemo(
+    () => (
+      <div className="noty-left-content">
+        <img
+          src={profileData?.userInfo.profileImageURL}
+          width={150}
+          height={150}
+          alt=""
+        />
+        <div className="username">{profileData?.userInfo.name}</div>
+        {/* <div className="skill">
+          <div id="userLink">
+            <span>Your Flens link:</span> flens.com/{userId}
+          </div>
+          <div>
+            <span>Favourites:</span> Camera, Portrait
+          </div>
+          <div>
+            <span>Skills:</span> Portrait photography
+          </div>
+        </div> */}
+        <Loading loading={isFetching} />
+        {fetchError?.message && <ErrorPopup message={fetchError?.message} />}
       </div>
-    </div>
+    ),
+    [
+      profileData?.userInfo.profileImageURL,
+      profileData?.userInfo.name,
+      userId,
+      isFetching,
+      fetchError?.message,
+    ]
   );
 };
 
